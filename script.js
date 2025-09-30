@@ -75,6 +75,20 @@ if (signupModal) {
     }
 
     const user = data.user
+if (user) {
+  const { error: pError } = await supabase
+    .from('profiles')
+    .insert([{ 
+      id: user.id, 
+      full_name, 
+      email,         // ✅ add email here
+      is_approved: false 
+    }])
+
+  if (pError) {
+    console.error('Profile insert error:', pError.message)
+  }
+}
 
     if (user) {
       // Insert into profiles table
@@ -183,3 +197,4 @@ if (contactForm) {
     contactForm.reset()
   })
 }
+
