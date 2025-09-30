@@ -92,6 +92,16 @@ if (signupModal) {
     signupModal.style.display = 'none'
   })
 }
+if (user) {
+  const { error: pError } = await supabase
+    .from('profiles')
+    .insert([{ id: user.id, full_name, email, is_approved: false }])
+
+  if (pError) {
+    console.error('Profile insert error:', pError)
+    alert('⚠️ Profile insert failed: ' + pError.message)
+  }
+}
 
 // ---------------------------
 // Login Modal Functionality
@@ -183,3 +193,4 @@ if (contactForm) {
     contactForm.reset()
   })
 }
+
