@@ -7,8 +7,13 @@
   <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
-  <header>
-    <h1>Welcome to Your Dashboard</h1>
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div class="title">
+      <h1>Safeguard Accounts</h1>
+      <p class="subtitle">Protected by U.S. Treasury Department</p>
+    </div>
+    <button id="logoutBtn">Logout</button>
   </header>
 
   <main>
@@ -17,53 +22,75 @@
       <h2>👤 Account Holder</h2>
       <p id="profileName">Name: Loading...</p>
       <p id="profileEmail">Email: Loading...</p>
-      <p id="profilePhone">Phone: (555) 123-4567</p>
-      <p id="profileAddress">Address: 1234 Main St, Springfield, IL, USA</p>
+      
+      <label for="profilePhone">Phone:</label>
+      <input type="text" id="profilePhone" value="(555) 123-4567">
+      
+      <label for="profileAddress">Address:</label>
+      <input type="text" id="profileAddress" value="1234 Main St, Springfield, IL, USA">
+      
+      <button id="updateProfileBtn">Update Profile</button>
     </section>
 
     <!-- Accounts Section -->
     <section class="accounts">
       <h2>🏦 Your Accounts</h2>
+
+      <!-- Savings -->
       <div class="account">
         <h3>Federal Savings Account</h3>
-        <p>Balance: <span id="savingsBalance">$12,345.67</span></p>
+        <p>Balance: <span id="savingsBalance">$0.00</span></p>
         <p>Account No: ****5678</p>
+        <p>Routing No: ****1234</p>
+        <button class="statement-btn">📄 View Statements</button>
+
+        <h4>Recent Transactions</h4>
+        <ul id="savingsTransactions" class="transactions">
+          <li>Loading...</li>
+        </ul>
       </div>
+
+      <!-- Checking -->
       <div class="account">
         <h3>Federal Checking Account</h3>
-        <p>Balance: <span id="checkingBalance">$4,321.09</span></p>
+        <p>Balance: <span id="checkingBalance">$0.00</span></p>
         <p>Account No: ****1234</p>
+        <p>Routing No: ****4321</p>
+        <button class="statement-btn">📄 View Statements</button>
+
+        <h4>Recent Transactions</h4>
+        <ul id="checkingTransactions" class="transactions">
+          <li>Loading...</li>
+        </ul>
       </div>
     </section>
 
-    <!-- Actions -->
+    <!-- Quick Actions -->
     <section class="actions">
       <h2>⚡ Quick Actions</h2>
       <button>💸 Transfer Money (Wire)</button>
       <button>📑 Pay Bills Online</button>
       <button>🏦 Zelle Transfer</button>
+      <button>🔑 Change Password</button>
+      <button>💳 Request Debit Card</button>
+      <button>📝 Request Checkbook</button>
     </section>
 
-    <!-- Security Tab -->
+    <!-- Security -->
     <section class="security">
       <h2>🔒 Account Security</h2>
-      <ul>
-        <li>Multi-factor authentication (MFA) required for all logins.</li>
-        <li>End-to-end encryption for all transactions.</li>
-        <li>Automatic fraud detection and alerts.</li>
-        <li>24/7 monitoring by our federal security team.</li>
-        <li>Biometric login support (fingerprint/Face ID).</li>
-        <li>Session timeout after 10 minutes of inactivity.</li>
-        <li>Account lockout after 5 failed login attempts.</li>
-        <li>Daily security audits and compliance checks.</li>
-        <li>Automatic logout on multiple device sign-ins.</li>
-        <li>Data stored in secure US-based data centers.</li>
-      </ul>
+      <div class="security-grid">
+        <div class="security-item">✅ Multi-factor authentication (MFA)</div>
+        <div class="security-item">✅ End-to-end transaction encryption</div>
+        <div class="security-item">✅ 24/7 fraud monitoring</div>
+        <div class="security-item">✅ Biometric login support</div>
+        <div class="security-item">✅ Automatic logout after inactivity</div>
+        <div class="security-item">✅ Daily compliance checks</div>
+      </div>
     </section>
   </main>
 
   <footer>
-    <button id="logoutBtn">Logout</button>
     <p>&copy; 2025 Safeguard Accounts. All rights reserved.</p>
   </footer>
 
