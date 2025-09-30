@@ -75,26 +75,12 @@ if (signupModal) {
     }
 
     const user = data.user
-if (user) {
-  const { error: pError } = await supabase
-    .from('profiles')
-    .insert([{ 
-      id: user.id, 
-      full_name, 
-      email,         // ✅ add email here
-      is_approved: false 
-    }])
-
-  if (pError) {
-    console.error('Profile insert error:', pError.message)
-  }
-}
 
     if (user) {
-      // Insert into profiles table
+      // Insert into profiles table including email
       const { error: pError } = await supabase
         .from('profiles')
-        .insert([{ id: user.id, full_name, is_approved: false }])
+        .insert([{ id: user.id, full_name, email, is_approved: false }])
 
       if (pError) {
         console.error('Profile insert error:', pError.message)
@@ -155,9 +141,9 @@ if (loginModal) {
 
     const { data: profile, error: pError } = await supabase
       .from('profiles')
-      .select('full_name, is_approved')
+      .select('full_name, email, is_approved')
       .eq('id', user.id)
-      .maybeSingle() // safer than .single()
+      .maybeSingle() // avoids JSON coercion error
 
     if (pError) {
       alert('⚠️ Could not fetch profile: ' + pError.message)
@@ -197,4 +183,3 @@ if (contactForm) {
     contactForm.reset()
   })
 }
-
