@@ -1,170 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Federal Reserve Accounts</title>
-  <link rel="stylesheet" href="styles.css">
-  <script type="module" src="main.js" defer></script>
+  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
 
-  <!-- Top banner -->
+  <!-- Top Banner -->
   <div class="top-banner">
-    An official website of the United States government
+    <img src="images/flag.png" alt="US Flag"/>
+    <span>An official website of the United States government</span>
   </div>
 
-  <!-- Navigation -->
+  <!-- Header -->
   <header>
-    <nav class="navbar">
-      <div class="nav-left">
-        <h1>Federal Reserve Accounts</h1>
-      </div>
-      <div class="nav-right">
-        <span id="current-date"></span>
-        <button id="logoutBtn" class="logout-btn">Logout</button>
-      </div>
-    </nav>
+    <img src="images/header-ftc.png" alt="Federal Reserve Header"/>
   </header>
 
-  <!-- Hero -->
-  <section class="hero">
-    <h2>Welcome to Federal Reserve Accounts</h2>
-    <p>
-      Federal Reserve Accounts provide secure, reliable, and trusted solutions
-      for American citizens and institutions. Backed directly by the
-      <strong>U.S. Treasury</strong>, our accounts ensure that your funds are
-      safeguarded at the highest level of financial oversight.  
-    </p>
-    <p>
-      With decades of trust and oversight from the United States government,
-      Federal Reserve Accounts are designed to protect your savings, improve
-      financial security, and ensure that your transactions remain fully
-      compliant with federal standards. Our mission is to give every account
-      holder peace of mind knowing their money is protected by the Treasury’s
-      infrastructure.  
-    </p>
-  </section>
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <div class="date" id="current-date"></div>
+      <div class="menu-toggle" id="menu-toggle">☰</div>
+      <ul id="nav-links">
+        <li><a href="policies.html">Policies</a></li>
+        <li><a href="report-fraud.html">Report Fraud</a></li>
+        <li><a href="#about-ftc">About the FTC</a></li>
+        <li><a href="#" id="login-link">Login</a></li>
+        <li><a href="#" id="signup-link">Sign Up</a></li>
+        <li><a href="#contact">Contact Us</a></li>
+      </ul>
+    </div>
+  </nav>
 
-  <!-- Mission -->
-  <section class="content-section">
-    <h3>Our Mission</h3>
-    <p>
-      Our mission is to strengthen financial security for individuals and
-      businesses across the nation. We are committed to ensuring stability,
-      transparency, and the protection of financial data. By working closely
-      with the U.S. Treasury Department, we make sure every Federal Reserve
-      Account follows rigorous compliance measures.  
-    </p>
-    <p>
-      We believe financial confidence is the foundation of economic growth,
-      and our mission extends to empowering communities by protecting their
-      assets and fostering trust in our financial systems.
-    </p>
-  </section>
+  <!-- Main Content -->
+  <main>
+    <section>
+      <h2>Welcome to Federal Reserve Accounts</h2>
+      <p>
+        Federal Reserve Accounts are designed to safeguard your financial assets 
+        and ensure your transactions are protected by the full faith of the 
+        United States Treasury. With advanced monitoring, fraud prevention, and 
+        compliance measures, we are committed to providing the safest banking 
+        experience in the nation.
+      </p>
+      <p>
+        By holding your funds in Federal Reserve Accounts, you gain access to 
+        oversight and protection that goes beyond commercial banking standards. 
+        Our systems ensure transparency, security, and accountability at every 
+        step, giving you confidence in your financial future.
+      </p>
+    </section>
 
-  <!-- About -->
-  <section class="content-section">
-    <h3>About the Federal Reserve Accounts</h3>
-    <p>
-      Federal Reserve Accounts are created to ensure that the American people
-      have access to accounts that are fully protected by the U.S. Treasury
-      Department. Unlike traditional banking accounts, these accounts are
-      monitored, regulated, and supported by federal oversight.  
-    </p>
-    <p>
-      Our accounts serve as a cornerstone of financial security, offering
-      transparency, stability, and reliability. They reflect the commitment of
-      the federal government to safeguard consumer finances while reinforcing
-      economic resilience.
-    </p>
-  </section>
+    <section>
+      <h2>Our Mission</h2>
+      <p>
+        Our mission is to protect consumers across the United States by 
+        providing secure, federally backed accounts. We work to uphold the 
+        highest standards of fairness, financial integrity, and oversight. 
+        With accountability to the U.S. Treasury, our services go beyond 
+        traditional safeguards to ensure long-term trust and stability.
+      </p>
+      <p>
+        By maintaining strict compliance, working with regulatory authorities, 
+        and monitoring financial activity, we aim to create a safer financial 
+        system for all account holders.
+      </p>
+    </section>
 
-  <!-- Security -->
-  <section class="content-section">
-    <h3>Security You Can Trust</h3>
-    <p>
-      Security is at the heart of every Federal Reserve Account. Each account
-      is protected by layers of federal-grade security protocols, ensuring
-      your funds are never at risk from unauthorized access or fraudulent
-      activities.  
-    </p>
-    <p>
-      With monitoring systems that work 24/7, your accounts remain safe under
-      constant watch. Multi-layer authentication and data encryption are built
-      into the infrastructure. Additionally, the full backing of the
-      <strong>U.S. Treasury Department</strong> means that your account has
-      the ultimate guarantee — support and protection from the federal
-      government itself.  
-    </p>
-    <p>
-      Whether you are managing savings, checking, or business accounts, our
-      promise is to provide security that adapts to the evolving digital
-      landscape. Federal Reserve Accounts go beyond traditional banking by
-      delivering unmatched levels of trust and assurance.
-    </p>
-  </section>
+    <!-- Take Action Section -->
+    <section id="take-action">
+      <h2>Take Action</h2>
+      <div class="action-grid">
+        <a href="report-fraud.html" class="action-btn">
+          <span class="icon">⚠️</span>
+          <p>Report Fraud</p>
+        </a>
+        <a href="#" class="action-btn" id="public-comment-btn">
+          <span class="icon">✍️</span>
+          <p>Submit a Public Comment</p>
+        </a>
+        <a href="#" class="action-btn" id="merger-comment-btn">
+          <span class="icon">📄</span>
+          <p>Merger/Antitrust Comment</p>
+        </a>
+        <a href="#" class="action-btn" id="credit-report-btn">
+          <span class="icon">💲</span>
+          <p>Get Your Free Credit Report</p>
+        </a>
+        <a href="report-fraud.html" class="action-btn">
+          <span class="icon">🪪</span>
+          <p>Report Identity Theft</p>
+        </a>
+        <a href="#" class="action-btn" id="donotcall-btn">
+          <span class="icon">🚫</span>
+          <p>Register for Do Not Call</p>
+        </a>
+      </div>
+    </section>
 
-  <!-- Take Action -->
-  <section class="content-section">
-    <h3>Take Action</h3>
-    <ul class="action-list">
-      <li><a href="#" data-action="public-comment">Submit a Public Comment</a></li>
-      <li><a href="#" data-action="merger">Merger or Antitrust Comment</a></li>
-      <li><a href="#" data-action="credit-report">Get Free Credit Report</a></li>
-      <li><a href="#" data-action="report-id-theft">Report Identity Theft</a></li>
-      <li><a href="#" data-action="do-not-call">Do Not Call Registry</a></li>
-    </ul>
-  </section>
+    <section>
+      <h2>Security You Can Trust</h2>
+      <p>
+        Federal Reserve Accounts are backed by the U.S. Treasury, ensuring 
+        unmatched protection and oversight. We use state-of-the-art encryption, 
+        multi-factor authentication, and real-time monitoring to secure your 
+        information. Every transaction is tracked for unusual activity, with 
+        rapid response mechanisms in place to safeguard account holders.
+      </p>
+      <p>
+        Unlike private institutions, your accounts here are federally 
+        safeguarded, ensuring a higher level of accountability and trust. 
+        From fraud prevention to compliance reviews, we provide a financial 
+        safety net designed to protect every citizen.
+      </p>
+    </section>
 
-  <!-- Contact Form -->
-  <section class="content-section">
-    <h3>Contact Us</h3>
+    <!-- About FTC -->
+    <section id="about-ftc">
+      <h2>About the FTC</h2>
+      <p>
+        The Federal Trade Commission (FTC) protects consumers and promotes 
+        competition across the U.S. economy. By investigating fraud, stopping 
+        scams, and enforcing fair practices, the FTC works to create a secure 
+        environment for both businesses and individuals.
+      </p>
+      <p>
+        The FTC plays a vital role in consumer protection, recovering millions 
+        in funds for victims each year and ensuring that deceptive practices 
+        are stopped. Through education, enforcement, and oversight, the FTC 
+        strengthens the trust Americans place in their financial systems.
+      </p>
+    </section>
+  </main>
+
+  <!-- Contact -->
+  <footer id="contact">
+    <h2>Contact Us</h2>
     <form id="contactForm">
-      <input type="text" id="fullName" placeholder="Your Name" required>
-      <input type="email" id="emailAddress" placeholder="Your Email" required>
-      <textarea id="message" placeholder="Your Message" required></textarea>
-      <button type="submit">Submit</button>
+      <textarea id="contactQuery" placeholder="Type your query here..." required></textarea><br>
+      <button type="submit">Click here to submit</button>
+      <p id="contactMessage"></p>
     </form>
-    <p id="contactMessage"></p>
-  </section>
+    <p>&copy; 2025 Federal Reserve Accounts. All rights reserved.</p>
+  </footer>
 
-  <!-- Modals (Signup & Login) -->
-  <div id="signup-modal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h3>Sign Up</h3>
-      <form>
-        <input type="text" id="name" placeholder="Full Name" required>
-        <input type="email" id="email" placeholder="Email" required>
-        <input type="password" id="password" placeholder="Password" required>
-        <button type="submit">Sign Up</button>
-      </form>
-    </div>
-  </div>
-
-  <div id="login-modal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h3>Login</h3>
-      <form>
-        <input type="email" id="userId" placeholder="Email" required>
-        <input type="password" id="loginPassword" placeholder="Password" required>
-        <button type="submit">Login</button>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    // Set current date
-    document.getElementById("current-date").textContent =
-      new Date().toLocaleDateString("en-US", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric"
-      });
-  </script>
-
+  <!-- JS -->
+  <script type="module" src="main.js"></script>
 </body>
 </html>
