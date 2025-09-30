@@ -1,90 +1,151 @@
-/* General Reset */
+/* ---------- Global Reset ---------- */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f7fa;
-    color: #333;
-    line-height: 1.6;
-  }
-  
-  /* Header */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  background: #fff;
+  color: #222;
+  line-height: 1.6;
+}
+
+/* ---------- Header ---------- */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  border-bottom: 1px solid #ddd;
+  padding: 12px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #003366;
+}
+
+.logo-img {
+  height: 40px;
+  width: auto;
+}
+
+/* ---------- Navigation ---------- */
+.nav {
+  display: flex;
+  gap: 20px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #003366;
+  font-weight: 600;
+  padding: 6px 8px;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.nav a:hover {
+  color: #0055a4;
+  border-bottom: 2px solid #0055a4;
+}
+
+.nav a.active {
+  border-bottom: 2px solid #003366;
+}
+
+/* ---------- Hero Section ---------- */
+.hero {
+  background: #f7f9fc;
+  text-align: center;
+  padding: 50px 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.hero h1 {
+  font-size: 36px;
+  color: #003366;
+  margin-bottom: 16px;
+}
+
+.hero p {
+  font-size: 18px;
+  max-width: 800px;
+  margin: 0 auto;
+  color: #444;
+}
+
+/* ---------- Policies Container ---------- */
+.policies-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.policy {
+  margin-bottom: 40px;
+}
+
+.policy h2 {
+  font-size: 26px;
+  margin-bottom: 12px;
+  color: #003366;
+}
+
+.policy p {
+  margin-bottom: 12px;
+  font-size: 17px;
+}
+
+.policy ul {
+  margin: 10px 0 20px 20px;
+  list-style: disc;
+  font-size: 16px;
+  color: #333;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  background: #f8f8f8;
+  text-align: center;
+  padding: 20px;
+  border-top: 1px solid #ddd;
+  color: #555;
+  font-size: 15px;
+  margin-top: 50px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
   .header {
-    background-color: #0a2a5e;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
+    flex-direction: column;
+    align-items: flex-start;
   }
-  .header .logo {
-    display: flex;
-    align-items: center;
-    font-weight: bold;
-    font-size: 1.2rem;
+
+  .nav {
+    flex-direction: column;
+    width: 100%;
+    margin-top: 10px;
+    gap: 10px;
   }
-  .logo-img {
-    width: 40px;
-    margin-right: 10px;
-  }
-  .nav a {
-    color: white;
-    margin-left: 20px;
-    text-decoration: none;
-    font-weight: 500;
-  }
-  .nav a.active,
-  .nav a:hover {
-    text-decoration: underline;
-  }
-  
-  /* Hero */
-  .hero {
-    background: #e6ecf5;
-    padding: 40px 20px;
-    text-align: center;
-  }
+
   .hero h1 {
-    font-size: 2rem;
-    margin-bottom: 10px;
-    color: #0a2a5e;
+    font-size: 28px;
   }
+
   .hero p {
-    font-size: 1.1rem;
+    font-size: 16px;
   }
-  
-  /* Policies Container */
-  .policies-container {
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 0 20px;
-  }
-  .policy {
-    background: white;
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-  }
+
   .policy h2 {
-    margin-bottom: 10px;
-    color: #0a2a5e;
+    font-size: 22px;
   }
-  .policy p {
-    font-size: 1rem;
-    color: #555;
-  }
-  
-  /* Footer */
-  .footer {
-    background: #0a2a5e;
-    color: white;
-    text-align: center;
-    padding: 15px;
-    margin-top: 30px;
-  }
-  
+}
