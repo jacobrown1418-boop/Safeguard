@@ -1,255 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Federal Reserve Accounts</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <!-- Top Banner -->
   <div class="top-banner">
-    <img src="images/flag.png" alt="US Flag" />
-    <span class="banner-text">An official website of the United States government</span>
+    <img src="images/us-flag.png" alt="US Flag" />
+    <span>An official website of the United States government</span>
   </div>
 
-  <!-- Header -->
-  <header class="site-header">
-    <img src="images/header-ftc.png" alt="FTC Header" class="header-logo" />
-  </header>
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <div class="logo">
+        <a href="index.html">Federal Reserve Accounts</a>
+      </div>
 
-  <!-- NAV: left shows date, right has links/buttons -->
-  <nav class="nav-bar">
-    <div class="nav-left">
-      <span id="currentDate"></span>
-    </div>
-    <div class="nav-right">
       <ul id="nav-links">
-        <li><a href="policies.html">Policies</a></li>
-        <li><a href="report-fraud.html">Report Fraud</a></li>
-        <li><a href="#about-ftc">About the FTC</a></li>
-        <li><a href="#" id="login-link">Login</a></li>
-        <li><a href="#" id="signup-link">Sign Up</a></li>
+        <li><a href="#welcome">Home</a></li>
+        <li><a href="#mission">Our Mission</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#security">Security</a></li>
         <li><a href="#take-action">Take Action</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-      <div class="menu-toggle" id="menu-toggle">☰</div>
+
+      <button class="logout-btn" id="logoutBtn">Logout</button>
     </div>
   </nav>
 
+  <!-- Welcome Section -->
   <main>
-    <!-- Welcome -->
-    <section class="hero">
-      <h1>Welcome to Federal Reserve Accounts</h1>
-      <div class="hero-content">
-        <p>
-          Federal Reserve Accounts provide secure, government-backed financial
-          accounts for eligible consumers. Our platform combines federal oversight,
-          robust fraud prevention, and transparent account policies to protect your
-          money and identity. Whether you're checking balances, viewing statements,
-          or reporting suspicious activity, our systems are designed to keep your
-          finances safe and accessible.
-        </p>
-        <p>
-          We provide easy-to-use online tools for day-to-day banking, proactive
-          security alerts that notify you of suspicious activity, and dedicated
-          support specialists who can assist with recovery and dispute resolution.
-          Our approach is to combine modern security technology with clear
-          consumer protections to ensure every user understands their rights and
-          options.
-        </p>
-        <p>
-          Through continuous audits, encrypted data storage, and real-time monitoring,
-          Federal Reserve Accounts aim to deliver the reliability and trust you expect
-          from a government-backed financial service.
-        </p>
-      </div>
+    <section id="welcome">
+      <h2>Welcome to Federal Reserve Accounts</h2>
+      <p>
+        Federal Reserve Accounts provide a secure and reliable financial backbone for individuals
+        and organizations across the United States. Backed by the full support of the U.S. Treasury,
+        these accounts ensure safety, transparency, and confidence for all account holders.  
+      </p>
+      <p>
+        Unlike traditional accounts, Federal Reserve Accounts are built to safeguard your assets 
+        while providing strong measures against fraud, misuse, and cyber threats. Our commitment is 
+        not only to protect your money, but also to uphold public trust by ensuring the highest 
+        standards of financial integrity.  
+      </p>
+      <p>
+        By banking with the Federal Reserve, you are joining a trusted system that has been the 
+        cornerstone of America’s economy for over a century. Our goal is to ensure that your savings, 
+        transactions, and information remain secure under the most advanced protection frameworks.
+      </p>
     </section>
 
     <!-- Mission -->
-    <section class="mission">
+    <section id="mission">
       <h2>Our Mission</h2>
       <p>
-        At Federal Reserve Accounts, our mission is to provide secure and equitable
-        access to basic federal financial services. We work to ensure that all
-        account holders receive protections against fraud, clear disclosures about
-        fees and terms, and access to dispute and recovery processes when problems
-        arise.
+        Our mission is to safeguard the financial wellbeing of every American by offering accounts 
+        that are transparent, secure, and reliable. We ensure that citizens have a dependable 
+        place for their money — free from manipulation, fraud, or unauthorized access.  
       </p>
       <p>
-        We partner with federal regulators and consumer protection agencies to keep
-        rules up-to-date and enforceable. We emphasize proactive monitoring,
-        easy reporting of suspicious activity, and rapid response teams to help you
-        restore accounts and correct records.
-      </p>
-      <p>
-        Our services support financial inclusion by providing secure onboarding,
-        identity verification, and recovery assistance for vulnerable consumers.
-      </p>
-      <p>
-        We maintain strict privacy controls and only share data under legal processes
-        or to protect account safety. Education and transparency are core to how we
-        operate—showing users how to safeguard themselves and how we keep their funds secure.
+        With strong backing from the U.S. Treasury Department, our mission extends to protecting 
+        not only your finances but also the nation’s broader financial infrastructure. We stand 
+        as guardians of consumer trust, strengthening America’s financial resilience.
       </p>
     </section>
 
-    <!-- Take Action -->
-    <section id="take-action" class="take-action">
-      <h2>Take Action</h2>
-      <div class="action-grid">
-        <button class="action-btn" id="btn-report-fraud">⚠️ Report Fraud</button>
-        <button class="action-btn" id="btn-public-comment">✍️ Submit a Public Comment</button>
-        <button class="action-btn" id="btn-merger-comment">📄 Merger / Antitrust Comment</button>
-        <button class="action-btn" id="btn-free-credit">💲 Get Your Free Credit Report</button>
-        <button class="action-btn" id="btn-report-identity">🪪 Report Identity Theft</button>
-        <button class="action-btn" id="btn-dnc">🚫 Register for Do Not Call</button>
-      </div>
+    <!-- About -->
+    <section id="about">
+      <h2>About the Federal Reserve Accounts</h2>
+      <p>
+        Federal Reserve Accounts are the foundation of secure banking in the United States. They are 
+        maintained with the highest security standards, ensuring every account is protected by 
+        advanced monitoring, fraud detection, and identity verification systems.  
+      </p>
+      <p>
+        Unlike commercial banks, our focus is not profit-driven. Instead, it is to serve the American 
+        people by maintaining stability and providing an uncompromising level of financial protection.  
+      </p>
+      <p>
+        We coordinate with agencies like the U.S. Treasury and federal law enforcement to ensure 
+        maximum protection. Every account is safeguarded by federal regulations, making them among 
+        the most secure in the world.
+      </p>
     </section>
 
-    <!-- Why Choose -->
-    <section class="why-choose">
-      <h2>Why Choose Federal Reserve Accounts?</h2>
+    <!-- Security -->
+    <section id="security">
+      <h2>Security You Can Trust</h2>
+      <p>
+        Security is at the heart of Federal Reserve Accounts. Every transaction is monitored and 
+        encrypted to protect against fraud, cyber threats, and unauthorized activity. Our systems 
+        are continuously updated to adapt to evolving risks, ensuring that your financial assets 
+        remain safe at all times.
+      </p>
       <ul>
-        <li>Comprehensive fraud monitoring and prevention systems.</li>
-        <li>User-friendly account management and statement access.</li>
-        <li>Backed by federal consumer protection standards and oversight.</li>
-        <li>Transparent policies and rapid dispute resolution.</li>
-        <li>24/7 customer support and recovery assistance.</li>
+        <li>Backed by the U.S. Treasury Department</li>
+        <li>Advanced fraud detection & prevention tools</li>
+        <li>24/7 monitoring of suspicious activity</li>
+        <li>Federal-level identity protection standards</li>
+        <li>Secure encryption for all transactions</li>
+        <li>Continuous compliance with U.S. regulations</li>
+        <li>Regular audits for transparency</li>
+        <li>Direct coordination with federal agencies</li>
+        <li>Emergency response protocols</li>
+        <li>Trusted by millions of Americans</li>
       </ul>
     </section>
 
-    <!-- Security You Can Trust -->
-    <section class="security">
-      <h2>Security You Can Trust</h2>
-      <p>
-        Federal Reserve Accounts are protected by industry-leading encryption,
-        enforced access controls, and continuous monitoring. The U.S. Treasury
-        Department provides institutional backing and oversight for the program,
-        ensuring that security standards are aligned with federal guidelines.
-      </p>
-      <p>
-        We use multi-factor authentication, behavior-based fraud detection,
-        and anomaly alerts to stop suspicious transactions before they become
-        problems. Our data centers are hosted within secure US-based facilities
-        with strict physical and network security controls.
-      </p>
-      <p>
-        Every transaction is logged and audited—this helps with fast forensic
-        investigations if an incident occurs. Additionally, independent compliance
-        reviews and third-party audits occur regularly to validate controls.
-      </p>
-      <p>
-        Account recovery includes step-by-step support from our specialists,
-        identity restoration services, and partners that help repair credit when
-        fraud occurs. Users receive clear guidance about steps to take and how
-        we coordinate with federal agencies on their behalf.
-      </p>
-      <p>
-        Your privacy is a priority. We collect only necessary data, limit access,
-        and follow strict retention rules. Data transfers (if any) comply with
-        U.S. federal requirements and are documented for transparency.
-      </p>
-      <p>
-        To summarize: Federal Reserve Accounts combine advanced technical safeguards,
-        professional support, and U.S. Treasury backing to deliver a secure,
-        reliable, government-supported financial option for consumers.
-      </p>
+    <!-- Take Action -->
+    <section id="take-action">
+      <h2>Take Action</h2>
+      <div class="action-grid">
+        <a href="#" class="action-btn" id="publicCommentBtn">Submit a Public Comment</a>
+        <a href="#" class="action-btn" id="mergerBtn">Merger or Antitrust Comment</a>
+        <a href="#" class="action-btn" id="creditReportBtn">Get Free Credit Report</a>
+        <a href="#" class="action-btn" id="theftBtn">Report Identity Theft</a>
+        <a href="#" class="action-btn" id="callRegistryBtn">Do Not Call Registry</a>
+      </div>
     </section>
 
-    <!-- About FTC (expanded) -->
-    <section id="about-ftc" class="about-ftc">
-      <h2>About the FTC</h2>
-      <p>
-        The Federal Trade Commission (FTC) enforces consumer protection laws,
-        investigates unfair business practices, and educates Americans about
-        financial scams and consumer rights. The FTC works across the federal
-        government to ensure markets remain competitive and consumers are not
-        misled or defrauded.
-      </p>
-      <p>
-        The FTC handles complaints, conducts investigations, and when necessary,
-        pursues enforcement actions to stop deceptive business behavior. They
-        also provide resources to help victims of identity theft and financial
-        fraud recover.
-      </p>
-      <p>
-        The Commission publishes guidance, policy statements, and educational
-        resources designed to help consumers spot scams, secure their accounts,
-        and understand legal protections available to them.
-      </p>
-      <p>
-        The FTC collaborates with law enforcement partners, state regulators,
-        and industry groups to develop best practices and improve consumer
-        protections nationwide.
-      </p>
-      <p>
-        If there are systemic issues observed across many consumers—like a large
-        scale data breach or a deceptive practice—the FTC can pursue broad
-        corrective actions and restitution for affected individuals.
-      </p>
-      <p>
-        The FTC is a resource for both individuals and organizations seeking to
-        understand compliance responsibilities and how to protect consumers in
-        the digital economy.
-      </p>
-    </section>
-
-    <!-- Contact / Footer -->
-    <footer id="contact">
+    <!-- Contact -->
+    <section id="contact">
       <h2>Contact Us</h2>
       <form id="contactForm">
-        <textarea id="contactQuery" placeholder="Type your query here..." required></textarea><br />
-        <button type="submit">Click here to submit</button>
-        <p id="contactMessage"></p>
+        <textarea id="contactMessageBox" placeholder="Enter your message..."></textarea>
+        <br>
+        <button type="submit">Submit</button>
       </form>
-      <p>Contact Us: support@federalreserveaccounts.gov | Phone: (123) 456-7890</p>
-      <p>&copy; 2025 Federal Reserve Accounts. All rights reserved.</p>
-    </footer>
+      <div id="contactMessage"></div>
+    </section>
   </main>
 
-  <!-- Modals -->
   <!-- Public Comment Modal -->
-  <div id="publicCommentModal" class="modal">
-    <div class="modal-content small">
-      <span class="close" data-close="publicCommentModal">&times;</span>
-      <h3>Submit a Public Comment</h3>
-      <form id="publicCommentForm">
-        <textarea id="publicCommentText" placeholder="Type your comment here..." required></textarea>
-        <button type="submit">Submit Comment</button>
-        <p id="publicCommentMessage" class="modal-success"></p>
-      </form>
-    </div>
-  </div>
-
-  <!-- Sign Up Modal -->
-  <div id="signup-modal" class="modal">
+  <div class="modal" id="commentModal">
     <div class="modal-content">
-      <span class="close" data-close="signup-modal">&times;</span>
-      <h2>Create Your Account</h2>
-      <form id="signupForm">
-        <input id="name" placeholder="Full name" required />
-        <input id="email" type="email" placeholder="Email" required />
-        <input id="password" type="password" placeholder="Password" required />
-        <button type="submit">Sign Up</button>
-      </form>
+      <span class="close">&times;</span>
+      <h2>Submit a Public Comment</h2>
+      <textarea id="publicCommentText" placeholder="Write your comment here..."></textarea>
+      <button id="submitCommentBtn">Submit</button>
     </div>
   </div>
 
-  <!-- Login Modal -->
-  <div id="login-modal" class="modal">
-    <div class="modal-content">
-      <span id="close-login" class="close" data-close="login-modal">&times;</span>
-      <h2>Login</h2>
-      <form id="loginForm">
-        <input id="userId" type="email" placeholder="Email" required />
-        <input id="loginPassword" type="password" placeholder="Password" required />
-        <label><input id="keepSignedIn" type="checkbox" /> Keep me signed in</label>
-        <button type="submit">Login</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Script -->
-  <script type="module" src="script.js"></script>
+  <script src="script.js" type="module"></script>
 </body>
 </html>
