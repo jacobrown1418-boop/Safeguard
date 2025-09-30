@@ -3,12 +3,12 @@
 // ---------------------------
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-// Supabase project credentials (anon key is safe client-side)
+// Supabase project credentials
 const SUPABASE_URL = 'https://hafzffbdqlojkuhgfsvy.supabase.co'
 const SUPABASE_ANON_KEY =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk'
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 console.log('✅ Supabase client initialized')
 
@@ -20,17 +20,14 @@ const navLinks = document.getElementById('nav-links')
 
 if (menuToggle && navLinks) {
   menuToggle.addEventListener('click', () => {
-    if (navLinks.style.display === 'flex') {
-      navLinks.style.display = 'none'
-    } else {
-      navLinks.style.display = 'flex'
-      navLinks.style.flexDirection = 'column'
-    }
+    navLinks.style.display =
+      navLinks.style.display === 'flex' ? 'none' : 'flex'
+    navLinks.style.flexDirection = 'column'
   })
 }
 
 // ---------------------------
-// Sign Up Modal Functionality
+// Sign Up Modal
 // ---------------------------
 const signupLink = document.getElementById('signup-link')
 const signupModal = document.getElementById('signup-modal')
@@ -67,44 +64,25 @@ if (signupModal) {
     const email = document.getElementById('email').value
     const password = document.getElementById('password').value
 
-    const { data, error } = await supabase.auth.signUp({ email, password })
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { full_name } } // ✅ goes into raw_user_meta_data
+    })
 
     if (error) {
       alert('❌ Signup failed: ' + error.message)
       return
     }
 
-    const user = data.user
-
-    if (user) {
-      // Insert into profiles table including email
-      const { error: pError } = await supabase
-        .from('profiles')
-        .insert([{ id: user.id, full_name, email, is_approved: false }])
-
-      if (pError) {
-        console.error('Profile insert error:', pError.message)
-      }
-    }
-
-    alert('✅ Signup successful. Please wait for admin approval.')
+    alert('✅ Signup successful! Please wait for admin approval.')
     form.reset()
     signupModal.style.display = 'none'
   })
 }
-if (user) {
-  const { error: pError } = await supabase
-    .from('profiles')
-    .insert([{ id: user.id, full_name, email, is_approved: false }])
-
-  if (pError) {
-    console.error('Profile insert error:', pError)
-    alert('⚠️ Profile insert failed: ' + pError.message)
-  }
-}
 
 // ---------------------------
-// Login Modal Functionality
+// Login Modal
 // ---------------------------
 const loginLink = document.getElementById('login-link')
 const loginModal = document.getElementById('login-modal')
@@ -140,7 +118,10 @@ if (loginModal) {
     const email = document.getElementById('userId').value
     const password = document.getElementById('loginPassword').value
 
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    })
 
     if (error) {
       alert('❌ Login failed: ' + error.message)
@@ -149,14 +130,15 @@ if (loginModal) {
 
     const user = data.user
 
+    // fetch profile
     const { data: profile, error: pError } = await supabase
       .from('profiles')
       .select('full_name, email, is_approved')
       .eq('id', user.id)
-      .maybeSingle() // avoids JSON coercion error
+      .maybeSingle()
 
     if (pError) {
-      alert('⚠️ Could not fetch profile: ' + pError.message)
+      alert('⚠️ Profile fetch failed: ' + pError.message)
       return
     }
 
@@ -166,17 +148,17 @@ if (loginModal) {
     }
 
     if (!profile.is_approved) {
-      alert('⏳ Your account is awaiting approval by an admin.')
+      alert('⏳ Your account is awaiting approval.')
       return
     }
 
-    // Approved → redirect
+    // Approved → go to dashboard
     window.location.href = '/dashboard.html'
   })
 }
 
 // ---------------------------
-// Contact Form Functionality
+// Contact Form
 // ---------------------------
 const contactForm = document.getElementById('contactForm')
 const contactMessage = document.getElementById('contactMessage')
@@ -193,4 +175,3 @@ if (contactForm) {
     contactForm.reset()
   })
 }
-
