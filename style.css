@@ -1,134 +1,72 @@
-/* Reset + base */
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: #f4f6f9;
-  color: #222;
-  -webkit-font-smoothing: antialiased;
-}
+// ---------------------------
+// Public Comment Modal
+// ---------------------------
+const commentModal = document.getElementById("commentModal")
+const publicCommentBtn = document.getElementById("publicCommentBtn")
+const closeBtn = commentModal.querySelector(".close")
+const submitCommentBtn = document.getElementById("submitCommentBtn")
 
-/* Top Banner: white thin text */
-.top-banner {
-  background: #00274d;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 6px 12px;
-}
-.top-banner img {
-  height: 14px;
-  width: auto;
-  display: inline-block;
-}
-.top-banner .banner-text {
-  color: #ffffff;         /* white */
-  font-weight: 300;       /* thinner */
-  font-size: 13px;
-  letter-spacing: 0.2px;
-}
+publicCommentBtn.addEventListener("click", (e) => {
+  e.preventDefault()
+  commentModal.style.display = "flex"
+})
 
-/* Header */
-.site-header { background: #0d2a4d; text-align: center; }
-.header-logo { width: 100%; height: auto; display: block; }
+closeBtn.addEventListener("click", () => {
+  commentModal.style.display = "none"
+})
 
-/* NAV */
-.nav-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #003366;
-  color: white;
-  padding: 12px 20px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  position: sticky;
-  top: 0;
-  z-index: 50;
-}
-.nav-left { color: white; font-weight: 600; font-size: 15px; }
-.nav-right { display: flex; align-items: center; gap: 18px; }
-#nav-links { list-style: none; display: flex; gap: 18px; margin: 0; padding: 0; }
-#nav-links li a {
-  color: white; text-decoration: none; font-weight: 600; padding: 6px 8px; border-radius: 6px;
-}
-#nav-links li a:hover { background: #0055aa; color: #ffcc00; }
-.menu-toggle { display: none; cursor: pointer; color: white; font-size: 20px; }
+submitCommentBtn.addEventListener("click", () => {
+  const text = document.getElementById("publicCommentText").value.trim()
+  if (!text) {
+    alert("⚠️ Please enter a comment before submitting.")
+    return
+  }
+  alert("✅ Your comment has been submitted. Thank you.")
+  document.getElementById("publicCommentText").value = ""
+  commentModal.style.display = "none"
+})
 
-/* Main layout */
-main { max-width: 1100px; margin: 28px auto; padding: 0 18px; }
+window.addEventListener("click", (e) => {
+  if (e.target === commentModal) commentModal.style.display = "none"
+})
 
-/* Hero / Welcome */
-.hero h1 { font-size: 28px; color: #003366; margin-bottom: 12px; }
-.hero-content p { font-size: 16px; color: #2b2b2b; margin-bottom: 12px; line-height: 1.7; }
+// ---------------------------
+// Coming Soon Actions
+// ---------------------------
+document.getElementById("mergerBtn").addEventListener("click", (e) => {
+  e.preventDefault()
+  alert("⏳ Feature coming soon.")
+})
+document.getElementById("creditReportBtn").addEventListener("click", (e) => {
+  e.preventDefault()
+  alert("⏳ Feature coming soon.")
+})
+document.getElementById("callRegistryBtn").addEventListener("click", (e) => {
+  e.preventDefault()
+  alert("⏳ Feature coming soon.")
+})
 
-/* Sections */
-section { margin-bottom: 26px; }
-.mission h2, .why-choose h2, .security h2, .about-ftc h2, .take-action h2 {
-  color: #004080; margin-bottom: 12px; font-size: 22px;
-}
+// ---------------------------
+// Report Identity Theft
+// ---------------------------
+document.getElementById("theftBtn").addEventListener("click", (e) => {
+  e.preventDefault()
+  window.location.href = "report-fraud.html" // reuse fraud page
+})
 
-/* Take Action grid */
-.take-action .action-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 14px;
-}
-.action-btn {
-  background: white;
-  border: 2px solid #004080;
-  color: #004080;
-  padding: 18px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  justify-content: center;
-  transition: transform .18s, box-shadow .18s, background .18s;
-}
-.action-btn:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); background:#004080; color: #fff; }
+// ---------------------------
+// Contact Form
+// ---------------------------
+const contactForm = document.getElementById("contactForm")
+const contactMessage = document.getElementById("contactMessage")
 
-/* Why choose / lists */
-.why-choose ul { list-style: disc; padding-left: 20px; color: #222; }
-
-/* Security section */
-.security p { margin-bottom: 12px; line-height: 1.65; }
-
-/* Contact footer */
-footer#contact {
-  background:#00274d; color: #fff; padding: 28px 16px; border-radius: 8px; text-align: center;
-}
-#contact textarea { width: 80%; max-width: 700px; min-height: 110px; padding: 10px; border-radius:8px; border:1px solid #ccc; }
-#contact button { margin-top: 12px; background:#ffcc00; color:#00274d; border:none; padding:10px 18px; border-radius:8px; font-weight:700; cursor:pointer; }
-#contactMessage { margin-top: 12px; font-weight:700; color: #b0ffbf; }
-
-/* Modal */
-.modal {
-  display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 200;
-}
-.modal-content {
-  background: #fff; border-radius: 10px; padding: 18px; width: 480px; max-width: 92%;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-align: left;
-}
-.modal-content.small { width: 420px; }
-.modal-content h3, .modal-content h2 { margin-top: 0; color: #004080; }
-.modal-content textarea, .modal-content input {
-  width: 100%; min-height: 120px; padding: 10px; margin-bottom: 10px; border-radius: 6px; border:1px solid #ddd;
-}
-.modal-content button {
-  background: #004080; color: white; padding: 10px 14px; border-radius: 8px; border: none; cursor: pointer; font-weight:700;
-}
-.modal-content .close { float: right; font-size: 20px; cursor: pointer; color: #333; }
-
-/* small responsive */
-@media (max-width: 900px) {
-  .menu-toggle { display: block; }
-  #nav-links { display: none; position: absolute; right: 12px; top: 64px; background: #003366; padding: 12px; border-radius: 8px; flex-direction: column; gap:8px; }
-  #nav-links li a { font-size: 16px; }
-  main { padding: 0 14px; }
-  .modal-content { padding: 14px; }
-  .top-banner .banner-text { font-size: 12px; }
-}
+contactForm.addEventListener("submit", (e) => {
+  e.preventDefault()
+  const refNum = "FRB-" + Math.floor(10000 + Math.random() * 90000)
+  contactMessage.innerHTML = `
+    ✅ Your query has been submitted.<br>
+    📌 Reference Number: <strong>${refNum}</strong><br>
+    👮 You will be contacted shortly by an officer from the Federal Reserve.
+  `
+  contactForm.reset()
+})
