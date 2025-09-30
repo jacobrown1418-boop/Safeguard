@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Safeguard Accounts - Report Fraud</title>
+  <link rel="stylesheet" href="report-fraud.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/US-FederalTradeCommission-Seal.svg" alt="FTC Seal" class="logo-img">
+      <span>Safeguard Accounts</span>
+    </div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="policies.html">Policies</a>
+      <a href="report-fraud.html" class="active">Report Fraud</a>
+      <a href="#">About the FTC</a>
+      <a href="#">Login</a>
+      <a href="#">Sign Up</a>
+      <a href="#">Contact Us</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Report Fraud</h1>
+    <p>If you believe you’ve been a victim of fraud, please fill out this form so we can investigate and provide support.</p>
+  </section>
+
+  <!-- Fraud Report Form -->
+  <main class="form-container">
+    <form id="fraudForm" class="fraud-form">
+      <div class="form-group">
+        <label for="fraudDetails">How did the fraud happen?</label>
+        <textarea id="fraudDetails" name="fraudDetails" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Did someone contact you to commit fraud?</label>
+        <select name="contacted" id="contacted" required>
+          <option value="">--Select an option--</option>
+          <option value="phone">Yes, by phone</option>
+          <option value="email">Yes, by email</option>
+          <option value="text">Yes, by text</option>
+          <option value="inPerson">Yes, in person</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Did you lose any credentials (passwords, PINs, etc.)?</label>
+        <select name="credentialsLost" id="credentialsLost" required>
+          <option value="">--Select an option--</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Did you lose any personal belongings?</label>
+        <div class="checkboxes">
+          <label><input type="checkbox" name="belongings" value="creditCard"> Credit Card</label>
+          <label><input type="checkbox" name="belongings" value="debitCard"> Debit Card</label>
+          <label><input type="checkbox" name="belongings" value="ssn"> Social Security Card</label>
+          <label><input type="checkbox" name="belongings" value="license"> Driver's License</label>
+          <label><input type="checkbox" name="belongings" value="passport"> Passport</label>
+          <label><input type="checkbox" name="belongings" value="other"> Other</label>
+        </div>
+      </div>
+
+      <!-- New Question: Sensitive Info -->
+      <div class="form-group">
+        <label>Did you share any sensitive information (OTP, security codes, bank details)?</label>
+        <select name="sensitiveInfo" id="sensitiveInfo" required>
+          <option value="">--Select an option--</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+
+      <!-- New Question: Date of Fraud -->
+      <div class="form-group">
+        <label for="fraudDate">What was the approximate date of the fraud?</label>
+        <input type="date" id="fraudDate" name="fraudDate" required>
+      </div>
+
+      <div class="form-group">
+        <label for="additionalInfo">Additional Information</label>
+        <textarea id="additionalInfo" name="additionalInfo"></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">Submit Report</button>
+      <p id="formMessage" class="form-message"></p>
+    </form>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2025 Safeguard Accounts | Backed by the U.S. Treasury Department</p>
+  </footer>
+
+  <script src="report-fraud.js"></script>
+</body>
+</html>

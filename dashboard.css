@@ -1,0 +1,187 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Body */
+body {
+  background-color: #f4f6f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Header */
+.header {
+  background-color: #1f3b73;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.signoff-btn {
+  background: #e63946;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.signoff-btn:hover {
+  background: #c72535;
+}
+
+/* Main Layout */
+.layout {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Profile Card (Smaller Sidebar) */
+.profile-card {
+  flex: 0 0 260px; /* fixed smaller width */
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  height: fit-content;
+}
+.profile-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin-bottom: 12px;
+  object-fit: cover;
+}
+.profile-info h2 {
+  color: #1f3b73;
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+.profile-info p {
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  line-height: 1.3;
+}
+
+/* Dashboard Layout */
+.dashboard {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+/* Account Card */
+.account-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+.account-card:hover {
+  transform: translateY(-5px);
+}
+
+.account-card h2 {
+  color: #1f3b73;
+  margin-bottom: 10px;
+}
+
+.account-card p {
+  margin-bottom: 8px;
+}
+
+/* Actions */
+.actions {
+  margin: 15px 0;
+}
+.action-btn {
+  background: #1f3b73;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.action-btn:hover {
+  background: #16305a;
+}
+
+/* Transactions */
+.transactions {
+  list-style: none;
+  margin-top: 10px;
+}
+.transactions li {
+  background: #f4f6f9;
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 6px;
+}
+/* Security Card */
+.security-card {
+  background: white;
+  color: #333;
+  border-radius: 12px;
+  padding: 20px 25px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  line-height: 1.6;
+  max-width: 700px;     /* not full page */
+  margin: 0 auto 30px;  /* centered with bottom space */
+}
+.security-card h2 {
+  color: #1f3b73;
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+  text-align: center;
+}
+.security-card p {
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+}
+/* Services & Support */
+.services-card {
+  flex: 0 0 260px;
+  background: white;
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  height: fit-content;
+}
+.services-card h2 {
+  color: #1f3b73;
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.services-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+.service-btn {
+  background: #1f3b73;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 0.9rem;
+}
+.service-btn:hover {
+  background: #16305a;
+}

