@@ -3,144 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Safeguard Accounts - Dashboard</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>User Dashboard</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Header -->
-  <header class="header">
-    <div class="logo">🔒 Safeguard Accounts</div>
-    <button id="signOffBtn" class="signoff-btn">Sign Off</button>
+  <header>
+    <h1>Welcome to Your Dashboard</h1>
   </header>
 
-  <!-- Main Layout -->
-  <div class="layout">
-    <!-- Left Sidebar -->
-    <aside class="sidebar">
-      <!-- Profile Card -->
-      <section class="profile-card">
-        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Customer Photo" class="profile-img">
-        <div class="profile-info">
-          <h2>John A. Doe</h2>
-          <p><strong>SSN:</strong> ***-**-6789</p>
-          <p><strong>Phone:</strong> (202) 555-0187</p>
-          <p><strong>Address:</strong><br>1234 Elm Street<br>Apt 5B<br>Washington, DC 20001</p>
-        </div>
-      </section>
+  <main>
+    <p id="welcomeMessage">Loading your info...</p>
+    <button id="logoutBtn">Logout</button>
+  </main>
 
-      <!-- Services & Support -->
-      <section class="services-card">
-        <h2>Services & Support</h2>
-        <div class="services-grid">
-          <button class="service-btn">Request Checkbook</button>
-          <button class="service-btn">Request New Debit Card</button>
-          <button class="service-btn">Change Password</button>
-          <button class="service-btn">Connect with Agent</button>
-          <button class="service-btn">Contact Us</button>
-          <button class="service-btn">Ongoing Cases</button>
-        </div>
-      </section>
-    </aside>
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-    <!-- Main Dashboard -->
-    <main class="dashboard">
-      <!-- Checking Account -->
-      <section class="account-card">
-        <h2>Checking Account</h2>
-        <p><strong>Account Number:</strong> **** **** **** 1234</p>
-        <p><strong>Routing Number:</strong> 021000021</p>
-        <p><strong>Balance:</strong> $5,672.88</p>
+    // Supabase project credentials
+    const SUPABASE_URL = 'https://hafzffbdqlojkuhgfsvy.supabase.co'
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk'
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
-        <div class="actions">
-          <button class="action-btn">View Statements</button>
-          <button class="action-btn">Send Money (Wire)</button>
-          <button class="action-btn">Pay Bills Online</button>
-        </div>
+    const welcomeMessage = document.getElementById("welcomeMessage")
+    const logoutBtn = document.getElementById("logoutBtn")
 
-        <h3>Recent Transactions</h3>
-        <ul class="transactions">
-          <li>Amazon Purchase - $120.45</li>
-          <li>Salary Deposit - $2,500.00</li>
-          <li>ATM Withdrawal - $200.00</li>
-        </ul>
-      </section>
+    async function checkUser() {
+      // Get the currently logged-in user
+      const { data: { user } } = await supabase.auth.getUser()
 
-      <!-- Savings Account -->
-      <section class="account-card">
-        <h2>Savings Account</h2>
-        <p><strong>Account Number:</strong> **** **** **** 9876</p>
-        <p><strong>Routing Number:</strong> 021000021</p>
-        <p><strong>Balance:</strong> $12,450.55</p>
+      if (!user) {
+        // Not logged in → send back to homepage
+        window.location.href = "/index.html"
+      } else {
+        // Fetch extra profile data from "profiles" table
+        const { data: profile, error } = await supabase
+          .from("profiles")
+          .select("full_name")
+          .eq("id", user.id)
+          .single()
 
-        <div class="actions">
-          <button class="action-btn">View Statements</button>
-          <button class="action-btn">Send Money (Wire)</button>
-          <button class="action-btn">Pay Bills Online</button>
-        </div>
+        if (error) {
+          console.error("Profile fetch error:", error.message)
+          welcomeMessage.textContent = `✅ Logged in as: ${user.email}`
+        } else {
+          welcomeMessage.textContent = `👋 Welcome, ${profile.full_name} (${user.email})`
+        }
+      }
+    }
 
-        <h3>Recent Transactions</h3>
-        <ul class="transactions">
-          <li>Transfer to Checking - $1,000.00</li>
-          <li>Interest Credit - $15.25</li>
-          <li>Utility Payment - $90.00</li>
-        </ul>
-      </section>
+    // Logout handler
+    logoutBtn.addEventListener("click", async () => {
+      await supabase.auth.signOut()
+      window.location.href = "/index.html"
+    })
 
-      <!-- Account Security -->
-      <section class="security-card">
-        <h2>Account Security</h2>
-        <p>
-          At Safeguard Accounts, the security of your financial assets is our highest priority. 
-          Your funds are safeguarded with industry-leading technology and round-the-clock monitoring.
-        </p>
-        <p>
-          Every transaction is tracked and verified through secure channels to prevent fraud, 
-          unauthorized access, or misuse of your personal and financial information.
-        </p>
-        <p>
-          Our systems are continuously monitored with 24/7 security coverage to ensure 
-          uninterrupted protection of your balances and account activity.
-        </p>
-        <p>
-          We operate in compliance with strict federal standards and all activities are 
-          backed by the <strong>U.S. Treasury Department</strong>, ensuring that your deposits remain safe.
-        </p>
-        <p>
-          Data encryption and multi-layered authentication protocols are used across every 
-          service, from account login to bill payments and wire transfers.
-        </p>
-        <p>
-          In addition, dedicated teams of specialists review account activity and monitor 
-          for suspicious behavior to provide early detection and intervention.
-        </p>
-        <p>
-          Your personal information, including Social Security details and contact 
-          information, is stored securely and handled with the highest level of confidentiality.
-        </p>
-        <p>
-          Compliance with federal banking regulations guarantees that your assets are 
-          protected in accordance with U.S. law and Treasury standards.
-        </p>
-        <p>
-          Safeguard Accounts employs regular audits and system checks to maintain the 
-          reliability and resilience of all services offered.
-        </p>
-        <p>
-          We also provide real-time alerts and notifications, giving you control and 
-          visibility over your account activity at all times.
-        </p>
-        <p>
-          By maintaining these standards, we provide a foundation of trust so you can 
-          confidently manage your finances online.
-        </p>
-        <p>
-          With the full support and management of the <strong>U.S. Treasury Department</strong>, 
-          you can rest assured that your money remains protected and secure.
-        </p>
-      </section>
-    </main>
-  </div>
-
-  <script src="script.js"></script>
+    checkUser()
+  </script>
 </body>
 </html>
