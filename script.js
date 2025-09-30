@@ -172,4 +172,14 @@ const contactForm = document.getElementById('contactForm')
 const contactMessage = document.getElementById('contactMessage')
 
 if (contactForm) {
-  contactForm.addEventListener('submit',
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const refNum = 'FTC-2025-' + Math.floor(10000 + Math.random() * 90000)
+    contactMessage.innerHTML = `
+      ✅ Your query has been submitted.<br>
+      📌 Reference Number: <strong>${refNum}</strong><br>
+      👮 You will be contacted shortly by an officer from the FTC.
+    `
+    contactForm.reset()
+  })
+}
