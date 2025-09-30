@@ -2,153 +2,131 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Federal Reserve Accounts</title>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js" type="module"></script>
 </head>
 <body>
-
   <!-- Top Banner -->
-  <div class="top-banner">
-    <img src="images/flag.png" alt="US Flag"/>
-    <span>An official website of the United States government</span>
+  <div class="gov-banner">
+    An official website of the United States government
   </div>
 
-  <!-- Header -->
-  <header>
-    <img src="images/header-ftc.png" alt="Federal Reserve Header"/>
+  <!-- Navigation Bar -->
+  <header class="main-header">
+    <div class="left">
+      <span id="today-date"></span>
+    </div>
+    <nav>
+      <ul id="nav-links">
+        <li><a href="#" id="signup-link">Sign Up</a></li>
+        <li><a href="#" id="login-link">Login</a></li>
+        <li><a href="#mission">Mission</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#security">Security</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <!-- Navigation -->
-  <nav>
-    <div class="nav-container">
-      <div class="date" id="current-date"></div>
-      <div class="menu-toggle" id="menu-toggle">☰</div>
-      <ul id="nav-links">
-        <li><a href="policies.html">Policies</a></li>
-        <li><a href="report-fraud.html">Report Fraud</a></li>
-        <li><a href="#about-ftc">About the FTC</a></li>
-        <li><a href="#" id="login-link">Login</a></li>
-        <li><a href="#" id="signup-link">Sign Up</a></li>
-        <li><a href="#contact">Contact Us</a></li>
-      </ul>
-    </div>
-  </nav>
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Welcome to Federal Reserve Accounts</h1>
+    <p>
+      Federal Reserve Accounts are designed to safeguard your finances while ensuring 
+      the highest level of trust and transparency. Our accounts are backed by the 
+      U.S. Treasury Department, giving you confidence that your money is secure. 
+      We are committed to providing citizens with safe, reliable, and federally 
+      protected financial services. With decades of institutional integrity, the 
+      Federal Reserve ensures stability in the nation’s economy and your future. 
+    </p>
+  </section>
 
-  <!-- Main Content -->
-  <main>
-    <section>
-      <h2>Welcome to Federal Reserve Accounts</h2>
-      <p>
-        Federal Reserve Accounts are designed to safeguard your financial assets 
-        and ensure your transactions are protected by the full faith of the 
-        United States Treasury. With advanced monitoring, fraud prevention, and 
-        compliance measures, we are committed to providing the safest banking 
-        experience in the nation.
-      </p>
-      <p>
-        By holding your funds in Federal Reserve Accounts, you gain access to 
-        oversight and protection that goes beyond commercial banking standards. 
-        Our systems ensure transparency, security, and accountability at every 
-        step, giving you confidence in your financial future.
-      </p>
-    </section>
+  <!-- Mission -->
+  <section id="mission">
+    <h2>Our Mission</h2>
+    <p>
+      The mission of Federal Reserve Accounts is to provide safe, secure, and 
+      transparent financial services to the public. We ensure that account 
+      holders’ funds are protected, monitored, and supported by the U.S. 
+      Treasury. Our ongoing efforts focus on promoting stability, fighting fraud, 
+      and maintaining the trust of every citizen. Through innovation and oversight, 
+      we deliver services that strengthen America’s financial backbone.
+    </p>
+  </section>
 
-    <section>
-      <h2>Our Mission</h2>
-      <p>
-        Our mission is to protect consumers across the United States by 
-        providing secure, federally backed accounts. We work to uphold the 
-        highest standards of fairness, financial integrity, and oversight. 
-        With accountability to the U.S. Treasury, our services go beyond 
-        traditional safeguards to ensure long-term trust and stability.
-      </p>
-      <p>
-        By maintaining strict compliance, working with regulatory authorities, 
-        and monitoring financial activity, we aim to create a safer financial 
-        system for all account holders.
-      </p>
-    </section>
+  <!-- About -->
+  <section id="about">
+    <h2>About the FTC</h2>
+    <p>
+      The Federal Trade Commission (FTC) works alongside the Federal Reserve 
+      to ensure consumer protection and fair financial practices. The FTC’s role 
+      is to enforce laws against deceptive practices and fraud while empowering 
+      individuals with knowledge and resources. Together, these institutions 
+      safeguard the financial security of the nation and uphold the trust 
+      of the American people. Our joint goal is to prevent exploitation 
+      and build a transparent, safe environment for all citizens. 
+    </p>
+  </section>
 
-    <!-- Take Action Section -->
-    <section id="take-action">
-      <h2>Take Action</h2>
-      <div class="action-grid">
-        <a href="report-fraud.html" class="action-btn">
-          <span class="icon">⚠️</span>
-          <p>Report Fraud</p>
-        </a>
-        <a href="#" class="action-btn" id="public-comment-btn">
-          <span class="icon">✍️</span>
-          <p>Submit a Public Comment</p>
-        </a>
-        <a href="#" class="action-btn" id="merger-comment-btn">
-          <span class="icon">📄</span>
-          <p>Merger/Antitrust Comment</p>
-        </a>
-        <a href="#" class="action-btn" id="credit-report-btn">
-          <span class="icon">💲</span>
-          <p>Get Your Free Credit Report</p>
-        </a>
-        <a href="report-fraud.html" class="action-btn">
-          <span class="icon">🪪</span>
-          <p>Report Identity Theft</p>
-        </a>
-        <a href="#" class="action-btn" id="donotcall-btn">
-          <span class="icon">🚫</span>
-          <p>Register for Do Not Call</p>
-        </a>
-      </div>
-    </section>
-
-    <section>
-      <h2>Security You Can Trust</h2>
-      <p>
-        Federal Reserve Accounts are backed by the U.S. Treasury, ensuring 
-        unmatched protection and oversight. We use state-of-the-art encryption, 
-        multi-factor authentication, and real-time monitoring to secure your 
-        information. Every transaction is tracked for unusual activity, with 
-        rapid response mechanisms in place to safeguard account holders.
-      </p>
-      <p>
-        Unlike private institutions, your accounts here are federally 
-        safeguarded, ensuring a higher level of accountability and trust. 
-        From fraud prevention to compliance reviews, we provide a financial 
-        safety net designed to protect every citizen.
-      </p>
-    </section>
-
-    <!-- About FTC -->
-    <section id="about-ftc">
-      <h2>About the FTC</h2>
-      <p>
-        The Federal Trade Commission (FTC) protects consumers and promotes 
-        competition across the U.S. economy. By investigating fraud, stopping 
-        scams, and enforcing fair practices, the FTC works to create a secure 
-        environment for both businesses and individuals.
-      </p>
-      <p>
-        The FTC plays a vital role in consumer protection, recovering millions 
-        in funds for victims each year and ensuring that deceptive practices 
-        are stopped. Through education, enforcement, and oversight, the FTC 
-        strengthens the trust Americans place in their financial systems.
-      </p>
-    </section>
-  </main>
+  <!-- Security -->
+  <section id="security">
+    <h2>Security You Can Trust</h2>
+    <p>
+      Your security is our highest priority. All accounts are federally insured 
+      and backed by the U.S. Treasury Department. Advanced fraud detection systems 
+      and encrypted communication channels ensure that your financial data is 
+      always protected. From identity theft prevention to secure online transactions, 
+      every measure is taken to protect your personal and financial information. 
+      The U.S. Treasury’s backing guarantees that your money is secure, and our 
+      comprehensive monitoring systems ensure early detection of suspicious activity. 
+      You can trust the Federal Reserve to maintain the highest standards in 
+      safeguarding America’s financial system.
+    </p>
+  </section>
 
   <!-- Contact -->
-  <footer id="contact">
+  <section id="contact">
     <h2>Contact Us</h2>
     <form id="contactForm">
-      <textarea id="contactQuery" placeholder="Type your query here..." required></textarea><br>
-      <button type="submit">Click here to submit</button>
-      <p id="contactMessage"></p>
+      <label for="message">Your Message:</label>
+      <textarea id="message" required></textarea>
+      <button type="submit">Submit</button>
     </form>
-    <p>&copy; 2025 Federal Reserve Accounts. All rights reserved.</p>
-  </footer>
+    <div id="contactMessage"></div>
+  </section>
 
-  <!-- JS -->
-  <script type="module" src="main.js"></script>
+  <!-- Signup Modal -->
+  <div id="signup-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Create Account</h2>
+      <form>
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" required />
+        <label for="email">Email:</label>
+        <input type="email" id="email" required />
+        <label for="password">Password:</label>
+        <input type="password" id="password" required />
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal">
+    <div class="modal-content">
+      <span id="close-login" class="close">&times;</span>
+      <h2>Login</h2>
+      <form>
+        <label for="userId">Email:</label>
+        <input type="email" id="userId" required />
+        <label for="loginPassword">Password:</label>
+        <input type="password" id="loginPassword" required />
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
 </body>
 </html>
-
