@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Dashboard</title>
-  <link rel="stylesheet" href="dashboard.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Dashboard - Federal Reserve Accounts</title>
+  <link rel="stylesheet" href="dashboard.css" />
 </head>
 <body>
-  <!-- Header -->
-  <header class="dashboard-header">
-    <div class="title">
-      <h1>Safeguard Accounts</h1>
-      <p class="subtitle">Protected by U.S. Treasury Department</p>
-    </div>
+
+  <!-- Top Bar -->
+  <div class="topbar">
+    <h1>Federal Reserve Accounts</h1>
     <button id="logoutBtn">Logout</button>
-  </header>
+  </div>
+
+  <!-- Navigation Bar (Quick Actions) -->
+  <nav class="navbar">
+    <button>💸 Transfer Money</button>
+    <button>📑 Pay Bills</button>
+    <button>🏦 Zelle Transfer</button>
+    <button>📝 Request Checkbook</button>
+    <button>💳 Request Debit Card</button>
+    <button>🔑 Change Password</button>
+  </nav>
 
   <main>
     <!-- Profile Card -->
@@ -22,76 +30,80 @@
       <h2>👤 Account Holder</h2>
       <p id="profileName">Name: Loading...</p>
       <p id="profileEmail">Email: Loading...</p>
-      
-      <label for="profilePhone">Phone:</label>
-      <input type="text" id="profilePhone" value="(555) 123-4567">
-      
-      <label for="profileAddress">Address:</label>
-      <input type="text" id="profileAddress" value="1234 Main St, Springfield, IL, USA">
-      
-      <button id="updateProfileBtn">Update Profile</button>
+
+      <!-- Editable Info -->
+      <label for="profilePhone">Phone</label>
+      <input type="text" id="profilePhone" value="(555) 123-4567"/>
+
+      <label for="profileAddress">Address</label>
+      <input type="text" id="profileAddress" value="1234 Main St, Springfield, IL, USA"/>
+
+      <button id="updateProfileBtn">Update Info</button>
+      <p class="update-message" id="updateMessage">✔️ Your information has been updated.</p>
     </section>
 
     <!-- Accounts Section -->
     <section class="accounts">
-      <h2>🏦 Your Accounts</h2>
-
-      <!-- Savings -->
       <div class="account">
         <h3>Federal Savings Account</h3>
-        <p>Balance: <span id="savingsBalance">$0.00</span></p>
+        <p>Balance: <span id="savingsBalance">$12,345.67</span></p>
         <p>Account No: ****5678</p>
-        <p>Routing No: ****1234</p>
-        <button class="statement-btn">📄 View Statements</button>
-
-        <h4>Recent Transactions</h4>
-        <ul id="savingsTransactions" class="transactions">
-          <li>Loading...</li>
+        <p>Routing No: ****4321</p>
+        <button class="statement-btn" data-account="savings">View Statements</button>
+        <ul class="transactions" id="savingsTransactions">
+          <li>+$500.00 (Deposit)</li>
+          <li>-$200.00 (ATM Withdrawal)</li>
+          <li>-$75.00 (Bill Payment)</li>
         </ul>
       </div>
 
-      <!-- Checking -->
       <div class="account">
         <h3>Federal Checking Account</h3>
-        <p>Balance: <span id="checkingBalance">$0.00</span></p>
+        <p>Balance: <span id="checkingBalance">$4,321.09</span></p>
         <p>Account No: ****1234</p>
-        <p>Routing No: ****4321</p>
-        <button class="statement-btn">📄 View Statements</button>
-
-        <h4>Recent Transactions</h4>
-        <ul id="checkingTransactions" class="transactions">
-          <li>Loading...</li>
+        <p>Routing No: ****8765</p>
+        <button class="statement-btn" data-account="checking">View Statements</button>
+        <ul class="transactions" id="checkingTransactions">
+          <li>-$150.00 (Grocery Store)</li>
+          <li>+$1,200.00 (Salary Deposit)</li>
+          <li>-$60.00 (Utility Bill)</li>
         </ul>
       </div>
     </section>
 
-    <!-- Quick Actions -->
-    <section class="actions">
-      <h2>⚡ Quick Actions</h2>
-      <button>💸 Transfer Money (Wire)</button>
-      <button>📑 Pay Bills Online</button>
-      <button>🏦 Zelle Transfer</button>
-      <button>🔑 Change Password</button>
-      <button>💳 Request Debit Card</button>
-      <button>📝 Request Checkbook</button>
-    </section>
-
-    <!-- Security -->
+    <!-- Account Security -->
     <section class="security">
       <h2>🔒 Account Security</h2>
-      <div class="security-grid">
-        <div class="security-item">✅ Multi-factor authentication (MFA)</div>
-        <div class="security-item">✅ End-to-end transaction encryption</div>
-        <div class="security-item">✅ 24/7 fraud monitoring</div>
-        <div class="security-item">✅ Biometric login support</div>
-        <div class="security-item">✅ Automatic logout after inactivity</div>
-        <div class="security-item">✅ Daily compliance checks</div>
+      <div class="security-list">
+        <div class="security-item">Multi-factor authentication required for all logins.</div>
+        <div class="security-item">End-to-end encryption for all transactions.</div>
+        <div class="security-item">Automatic fraud detection and real-time alerts.</div>
+        <div class="security-item">Protected by the US Treasury Department.</div>
+        <div class="security-item">Biometric login support (fingerprint/Face ID).</div>
+        <div class="security-item">24/7 monitoring by our federal security team.</div>
+        <div class="security-item">Session timeout after inactivity.</div>
+        <div class="security-item">Daily security audits and compliance checks.</div>
       </div>
     </section>
   </main>
 
+  <!-- Modal Popup for Statements -->
+  <div id="statementModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" id="closeStatement">&times;</span>
+      <h3>Account Statements</h3>
+      <p>Showing recent statements...</p>
+      <ul id="statementList">
+        <li>Statement - August 2025</li>
+        <li>Statement - July 2025</li>
+        <li>Statement - June 2025</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Footer -->
   <footer>
-    <p>&copy; 2025 Safeguard Accounts. All rights reserved.</p>
+    <p>&copy; 2025 Federal Reserve Accounts. All rights reserved.</p>
   </footer>
 
   <script type="module" src="dashboard.js"></script>
