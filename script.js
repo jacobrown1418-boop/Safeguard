@@ -9,54 +9,60 @@ const SUPABASE_ANON_KEY =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk'
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
-
-console.log('✅ Supabase client initialized')
-
-// ---------------------------
-// Responsive Navigation Menu
-// ---------------------------
-const menuToggle = document.getElementById('menu-toggle')
-const navLinks = document.getElementById('nav-links')
-
-if (menuToggle && navLinks) {
-  menuToggle.addEventListener('click', () => {
-    navLinks.style.display =
-      navLinks.style.display === 'flex' ? 'none' : 'flex'
-    navLinks.style.flexDirection = 'column'
-  })
-}
+console.log('✅ Supabase initialized')
 
 // ---------------------------
-// Sign Up Modal
+// Responsive Navigation
 // ---------------------------
-const signupLink = document.getElementById('signup-link')
-const signupModal = document.getElementById('signup-modal')
-const closeSignup = signupModal ? signupModal.querySelector('.close') : null
+function setupNavigation() {
+  const menuToggle = document.getElementById('menu-toggle')
+  const navLinks = document.getElementById('nav-links')
 
-if (signupLink && signupModal) {
-  signupLink.addEventListener('click', (e) => {
-    e.preventDefault()
-    signupModal.style.display = 'block'
-  })
-}
-
-if (closeSignup) {
-  closeSignup.addEventListener('click', () => {
-    signupModal.style.display = 'none'
-  })
-}
-
-window.addEventListener('click', (e) => {
-  if (signupModal && e.target === signupModal) {
-    signupModal.style.display = 'none'
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener('click', () => {
+      const isOpen = navLinks.style.display === 'flex'
+      navLinks.style.display = isOpen ? 'none' : 'flex'
+      navLinks.style.flexDirection = 'column'
+    })
   }
-})
+}
+
+// ---------------------------
+// Modal Utility Functions
+// ---------------------------
+function setupModal(triggerId, modalId, closeClass) {
+  const trigger = document.getElementById(triggerId)
+  const modal = document.getElementById(modalId)
+  const closeBtn = modal ? modal.querySelector(closeClass) : null
+
+  if (trigger && modal) {
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault()
+      modal.style.display = 'block'
+    })
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      modal.style.display = 'none'
+    })
+  }
+
+  window.addEventListener('click', (e) => {
+    if (modal && e.target === modal) {
+      modal.style.display = 'none'
+    }
+  })
+}
 
 // ---------------------------
 // Sign Up Handler
 // ---------------------------
-if (signupModal) {
-  const form = signupModal.querySelector('form')
+function setupSignup() {
+  const modal = document.getElementById('signup-modal')
+  if (!modal) return
+
+  const form = modal.querySelector('form')
   form.addEventListener('submit', async (e) => {
     e.preventDefault()
 
@@ -67,7 +73,7 @@ if (signupModal) {
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { full_name } } // ✅ goes into raw_user_meta_data
+      options: { data: { full_name } }
     })
 
     if (error) {
@@ -77,41 +83,18 @@ if (signupModal) {
 
     alert('✅ Signup successful! Please wait for admin approval.')
     form.reset()
-    signupModal.style.display = 'none'
+    modal.style.display = 'none'
   })
 }
-
-// ---------------------------
-// Login Modal
-// ---------------------------
-const loginLink = document.getElementById('login-link')
-const loginModal = document.getElementById('login-modal')
-const closeLogin = document.getElementById('close-login')
-
-if (loginLink && loginModal) {
-  loginLink.addEventListener('click', (e) => {
-    e.preventDefault()
-    loginModal.style.display = 'block'
-  })
-}
-
-if (closeLogin) {
-  closeLogin.addEventListener('click', () => {
-    loginModal.style.display = 'none'
-  })
-}
-
-window.addEventListener('click', (e) => {
-  if (loginModal && e.target === loginModal) {
-    loginModal.style.display = 'none'
-  }
-})
 
 // ---------------------------
 // Login Handler
 // ---------------------------
-if (loginModal) {
-  const form = loginModal.querySelector('form')
+function setupLogin() {
+  const modal = document.getElementById('login-modal')
+  if (!modal) return
+
+  const form = modal.querySelector('form')
   form.addEventListener('submit', async (e) => {
     e.preventDefault()
 
@@ -130,7 +113,7 @@ if (loginModal) {
 
     const user = data.user
 
-    // fetch profile
+    // Fetch profile info
     const { data: profile, error: pError } = await supabase
       .from('profiles')
       .select('full_name, email, is_approved')
@@ -160,18 +143,32 @@ if (loginModal) {
 // ---------------------------
 // Contact Form
 // ---------------------------
-const contactForm = document.getElementById('contactForm')
-const contactMessage = document.getElementById('contactMessage')
+function setupContactForm() {
+  const form = document.getElementById('contactForm')
+  const message = document.getElementById('contactMessage')
 
-if (contactForm) {
-  contactForm.addEventListener('submit', (e) => {
+  if (!form || !message) return
+
+  form.addEventListener('submit', (e) => {
     e.preventDefault()
     const refNum = 'FTC-2025-' + Math.floor(10000 + Math.random() * 90000)
-    contactMessage.innerHTML = `
+    message.innerHTML = `
       ✅ Your query has been submitted.<br>
       📌 Reference Number: <strong>${refNum}</strong><br>
       👮 You will be contacted shortly by an officer from the FTC.
     `
-    contactForm.reset()
+    form.reset()
   })
 }
+
+// ---------------------------
+// Initialize Everything
+// ---------------------------
+document.addEventListener('DOMContentLoaded', () => {
+  setupNavigation()
+  setupModal('signup-link', 'signup-modal', '.close')
+  setupModal('login-link', 'login-modal', '#close-login')
+  setupSignup()
+  setupLogin()
+  setupContactForm()
+})
