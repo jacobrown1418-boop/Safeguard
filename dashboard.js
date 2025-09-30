@@ -10,6 +10,33 @@ const profileName = document.getElementById('profileName')
 const profileEmail = document.getElementById('profileEmail')
 const logoutBtn = document.getElementById('logoutBtn')
 
+async function loadAccounts(userId) {
+  const { data: accounts, error } = await supabase
+    .from('accounts')
+    .select('account_type, account_number, balance')
+    .eq('user_id', userId)
+
+  if (error) {
+    console.error("Account fetch error:", error.message)
+    return
+  }
+
+  const savingsAcc = accounts.find(acc => acc.account_type === 'savings')
+  const checkingAcc = accounts.find(acc => acc.account_type === 'checking')
+
+  if (savingsAcc) {
+    document.getElementById('savingsBalance').textContent = `$${savingsAcc.balance.toFixed(2)}`
+    document.querySelector('.accounts .account:nth-child(2) p:nth-child(3)').textContent =
+      `Account No: ****${savingsAcc.account_number.slice(-4)}`
+  }
+
+  if (checkingAcc) {
+    document.getElementById('checkingBalance').textContent = `$${checkingAcc.balance.toFixed(2)}`
+    document.querySelector('.accounts .account:nth-child(3) p:nth-child(3)').textContent =
+      `Account No: ****${checkingAcc.account_number.slice(-4)}`
+  }
+}
+
 async function loadProfile() {
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -17,6 +44,25 @@ async function loadProfile() {
     window.location.href = '/index.html'
     return
   }
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('full_name, email')
+    .eq('id', user.id)
+    .maybeSingle()
+
+  if (profile) {
+    profileName.textContent = `Name: ${profile.full_name}`
+    profileEmail.textContent = `Email: ${profile.email}`
+  } else {
+    profileName.textContent = `Name: Unknown`
+    profileEmail.textContent = `Email: ${user.email}`
+  }
+
+  // ✅ Load accounts after profile
+  loadAccounts(user.id)
+}
+
 
   // Fetch profile details
   const { data: profile } = await supabase
@@ -40,3 +86,4 @@ logoutBtn.addEventListener('click', async () => {
 })
 
 loadProfile()
+
