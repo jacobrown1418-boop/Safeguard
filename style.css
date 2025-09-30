@@ -1,191 +1,249 @@
-/* Base Styles */
-body {
+/* Reset */
+* {
   margin: 0;
-  font-family: "Helvetica Neue", Arial, sans-serif;
-  background-color: #fff;
-  color: #222;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Arial", sans-serif;
   line-height: 1.6;
+  color: #222;
+  background-color: #fff;
 }
 
-h1, h2, h3 {
-  font-weight: 600;
-  color: #003366; /* Federal look */
-  margin-bottom: 0.5rem;
+/* -----------------------------
+   GOV BANNER
+----------------------------- */
+.gov-banner {
+  background: #ffffff;
+  color: #222;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400; /* thinner */
+  padding: 5px 10px;
+  border-bottom: 1px solid #e1e1e1;
 }
 
-p {
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  color: #333;
-}
-
-/* Top Banner */
-.top-banner {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background-color: #ffffff;
-  color: #000;
-  padding: 4px 12px;
-  font-size: 0.9rem;
-  font-weight: 400;
-  border-bottom: 1px solid #ddd;
-}
-
-.top-banner img {
-  height: 18px;
-}
-
-/* Header Image */
-header img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-bottom: 2px solid #003366;
-}
-
-/* Navigation Bar */
-nav {
-  background-color: #ffffff;
-  border-bottom: 2px solid #003366;
-}
-
-.nav-container {
+/* -----------------------------
+   HEADER + NAVIGATION
+----------------------------- */
+.main-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 1.5rem;
+  background: #ffffff;
+  border-bottom: 2px solid #004080;
+  padding: 10px 20px;
 }
 
-#nav-links {
-  list-style: none;
+.main-header .left {
+  font-size: 14px;
+  color: #555;
+}
+
+nav ul {
   display: flex;
-  gap: 1.5rem;
-  margin: 0;
-  padding: 0;
+  list-style: none;
+  gap: 20px;
 }
 
-#nav-links li a {
+nav ul li a {
   text-decoration: none;
+  color: #004080;
+  font-weight: 600;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: #ff6600;
+}
+
+/* -----------------------------
+   HERO SECTION
+----------------------------- */
+.hero {
+  padding: 40px 20px;
+  background: #f8f9fc;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.hero h1 {
+  font-size: 32px;
   color: #003366;
-  font-weight: 500;
-  transition: color 0.2s;
+  margin-bottom: 20px;
 }
 
-#nav-links li a:hover {
-  color: #0066cc;
-  text-decoration: underline;
+.hero p {
+  font-size: 18px;
+  max-width: 900px;
+  margin: 0 auto;
+  line-height: 1.7;
+  color: #444;
 }
 
-/* Mobile Toggle */
-.menu-toggle {
-  display: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: block;
-  }
-  #nav-links {
-    display: none;
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-  #nav-links.active {
-    display: flex;
-  }
-}
-
-/* Sections */
-main {
-  padding: 2rem 1.5rem;
-  max-width: 1200px;
+/* -----------------------------
+   SECTIONS
+----------------------------- */
+section {
+  padding: 40px 20px;
+  max-width: 1000px;
   margin: auto;
 }
 
-section {
-  margin-bottom: 2.5rem;
-}
-
 section h2 {
-  border-bottom: 2px solid #003366;
-  padding-bottom: 0.25rem;
-  margin-bottom: 1rem;
-}
-
-/* Take Action Buttons */
-.action-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.25rem;
-  margin-top: 1.25rem;
-}
-
-.action-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1.25rem;
-  background-color: #f5f8fa;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  text-decoration: none;
+  font-size: 26px;
   color: #003366;
-  font-weight: 500;
-  transition: all 0.2s ease;
+  margin-bottom: 15px;
+  border-left: 5px solid #004080;
+  padding-left: 10px;
 }
 
-.action-btn:hover {
-  background-color: #e6f0ff;
-  border-color: #0066cc;
-  transform: translateY(-2px);
+section p {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #333;
+  line-height: 1.8;
 }
 
-.action-btn .icon {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-/* Contact Form */
-footer {
-  background-color: #f5f8fa;
-  padding: 2rem 1.5rem;
-  border-top: 2px solid #003366;
+/* -----------------------------
+   CONTACT SECTION
+----------------------------- */
+#contact {
+  background: #f4f6f9;
   text-align: center;
+  border-top: 2px solid #004080;
 }
 
-footer form textarea {
-  width: 100%;
-  max-width: 600px;
+#contact h2 {
+  color: #003366;
+}
+
+#contact textarea {
+  width: 80%;
+  max-width: 500px;
   height: 120px;
-  padding: 0.75rem;
-  border-radius: 6px;
+  margin: 15px 0;
+  padding: 10px;
   border: 1px solid #ccc;
-  font-family: inherit;
-  margin-bottom: 1rem;
+  border-radius: 6px;
+  font-size: 16px;
 }
 
-footer form button {
-  background-color: #003366;
+#contact button {
+  background: #004080;
   color: #fff;
-  padding: 0.6rem 1.2rem;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#contact button:hover {
+  background: #003366;
+}
+
+#contactMessage {
+  margin-top: 15px;
+  font-weight: 600;
+  color: green;
+}
+
+/* -----------------------------
+   MODALS
+----------------------------- */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.modal-content h2 {
+  margin-bottom: 20px;
+  color: #004080;
+}
+
+.modal-content label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: 600;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 15px;
+}
+
+.modal-content button {
+  width: 100%;
+  padding: 10px;
+  background: #004080;
+  color: #fff;
+  font-size: 16px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 1rem;
-  font-weight: 500;
-  transition: background-color 0.2s;
 }
 
-footer form button:hover {
-  background-color: #0055aa;
+.modal-content button:hover {
+  background: #003366;
 }
 
-footer p {
-  margin-top: 1.5rem;
-  font-size: 0.9rem;
+.close {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 22px;
+  cursor: pointer;
   color: #555;
+}
+
+.close:hover {
+  color: #000;
+}
+
+/* -----------------------------
+   RESPONSIVE
+----------------------------- */
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    background: #fff;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 220px;
+    padding: 20px;
+    display: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+
+  nav ul.show {
+    display: flex;
+  }
 }
