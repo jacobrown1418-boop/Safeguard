@@ -4,8 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Federal Reserve Accounts</title>
-
-  <!-- make sure this filename matches the CSS file you save -->
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -31,6 +29,7 @@
       <li><a href="#mission">Our Mission</a></li>
       <li><a href="#about-ftc">About</a></li>
       <li><a href="#security">Security</a></li>
+      <li><a href="policies.html">Policies</a></li>
       <li><a href="#take-action">Take Action</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -38,12 +37,13 @@
     <div class="nav-right">
       <a href="#" id="signup-link" class="nav-btn">Sign up</a>
       <a href="#" id="login-link" class="nav-btn">Log in</a>
-      <button id="logoutBtn" class="logout-btn" title="Log out" style="display:none">Logout</button>
+      <button id="logoutBtn" class="logout-btn" style="display:none">Logout</button>
     </div>
   </nav>
 
   <!-- Main content -->
   <main>
+    <!-- Welcome -->
     <section id="welcome" class="hero">
       <h1>Welcome to Federal Reserve Accounts</h1>
       <p>
@@ -62,6 +62,7 @@
       </p>
     </section>
 
+    <!-- Mission -->
     <section id="mission" class="content">
       <h2>Our Mission</h2>
       <p>
@@ -78,6 +79,7 @@
       </p>
     </section>
 
+    <!-- About -->
     <section id="about-ftc" class="content">
       <h2>About the FTC</h2>
       <p>
@@ -95,6 +97,7 @@
       </p>
     </section>
 
+    <!-- Security -->
     <section id="security" class="content">
       <h2>Security You Can Trust</h2>
       <p>
@@ -112,6 +115,7 @@
       </p>
     </section>
 
+    <!-- Take Action -->
     <section id="take-action" class="content">
       <h2>Take Action</h2>
       <div class="action-grid">
@@ -124,6 +128,7 @@
       </div>
     </section>
 
+    <!-- Contact -->
     <section id="contact" class="content">
       <h2>Contact Us</h2>
       <form id="contactForm">
@@ -162,7 +167,7 @@
     </div>
   </div>
 
-  <!-- Public comment modal -->
+  <!-- Public Comment modal -->
   <div id="publicCommentModal" class="modal" aria-hidden="true">
     <div class="modal-content">
       <button class="close" data-close="publicCommentModal">&times;</button>
@@ -175,7 +180,11 @@
     </div>
   </div>
 
-  <!-- script (module because we use Supabase ESM client) -->
+  <footer class="footer">
+    <p>© 2025 Federal Reserve Accounts | Backed by the U.S. Treasury Department</p>
+  </footer>
+
+  <!-- Scripts -->
   <script type="module" src="script.js" defer></script>
 </body>
 </html>
