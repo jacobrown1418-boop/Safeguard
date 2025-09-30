@@ -1,272 +1,134 @@
+/* Reset + base */
+* { box-sizing: border-box; }
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f4f6f9;
-  color: #333;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f4f6f9;
+  color: #222;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Top Banner */
+/* Top Banner: white thin text */
 .top-banner {
   background: #00274d;
-  text-align: center;
-  padding: 5px;
-  font-size: 14px;
-  font-weight: bold;
-  color: #ffcc00;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
+  padding: 6px 12px;
 }
 .top-banner img {
   height: 14px;
   width: auto;
+  display: inline-block;
+}
+.top-banner .banner-text {
+  color: #ffffff;         /* white */
+  font-weight: 300;       /* thinner */
+  font-size: 13px;
+  letter-spacing: 0.2px;
 }
 
 /* Header */
-header {
-  width: 100%;
-  background: #0d2a4d;
-  text-align: center;
-}
-header img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
+.site-header { background: #0d2a4d; text-align: center; }
+.header-logo { width: 100%; height: auto; display: block; }
 
-/* NAVIGATION BAR */
-nav {
+/* NAV */
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background: #003366;
   color: white;
   padding: 12px 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 50;
 }
-.nav-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
+.nav-left { color: white; font-weight: 600; font-size: 15px; }
+.nav-right { display: flex; align-items: center; gap: 18px; }
+#nav-links { list-style: none; display: flex; gap: 18px; margin: 0; padding: 0; }
+#nav-links li a {
+  color: white; text-decoration: none; font-weight: 600; padding: 6px 8px; border-radius: 6px;
 }
-.logo a {
-  color: white;
-  font-size: 22px;
-  font-weight: bold;
-  text-decoration: none;
-}
-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 25px;
-  margin: 0;
-  padding: 0;
-}
-nav ul li a {
-  color: white;
-  text-decoration: none;
-  font-size: 18px;
-  font-weight: 600;
-  padding: 8px 12px;
-  transition: background 0.3s ease, color 0.3s ease;
-}
-nav ul li a:hover {
-  background: #0055aa;
-  border-radius: 5px;
-  color: #ffcc00;
+#nav-links li a:hover { background: #0055aa; color: #ffcc00; }
+.menu-toggle { display: none; cursor: pointer; color: white; font-size: 20px; }
+
+/* Main layout */
+main { max-width: 1100px; margin: 28px auto; padding: 0 18px; }
+
+/* Hero / Welcome */
+.hero h1 { font-size: 28px; color: #003366; margin-bottom: 12px; }
+.hero-content p { font-size: 16px; color: #2b2b2b; margin-bottom: 12px; line-height: 1.7; }
+
+/* Sections */
+section { margin-bottom: 26px; }
+.mission h2, .why-choose h2, .security h2, .about-ftc h2, .take-action h2 {
+  color: #004080; margin-bottom: 12px; font-size: 22px;
 }
 
-/* Hamburger menu */
-.menu-toggle {
-  display: none;
-  font-size: 26px;
-  cursor: pointer;
-  color: white;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  nav ul {
-    flex-direction: column;
-    background: #002244;
-    position: absolute;
-    top: 70px;
-    right: 0;
-    width: 220px;
-    padding: 15px;
-    display: none;
-    border-radius: 0 0 8px 8px;
-  }
-  nav ul li {
-    margin: 12px 0;
-  }
-  .menu-toggle {
-    display: block;
-  }
-}
-
-/* Main Content */
-main {
-  max-width: 1000px;
-  margin: 40px auto;
-  padding: 0 20px;
-  color: #222;
-  line-height: 1.7;
-}
-main h2 {
-  font-size: 28px;
-  color: #004080;
-  margin-top: 40px;
-  margin-bottom: 15px;
-  font-family: "Georgia", serif;
-}
-main p {
-  font-size: 18px;
-  margin-bottom: 20px;
-}
-main ul {
-  margin-top: 15px;
-  padding-left: 20px;
-  font-size: 17px;
-  line-height: 1.8;
-}
-main ul li {
-  margin-bottom: 8px;
-}
-
-/* Highlight Identity Theft section */
-main section:nth-of-type(5) {
-  background: #f9f9f9;
-  padding: 20px;
-  border-left: 5px solid #cc0000;
-  border-radius: 8px;
-}
-
-/* Take Action Section */
-#take-action {
-  margin: 60px auto;
-  max-width: 1100px;
-  text-align: center;
-}
-#take-action h2 {
-  font-size: 32px;
-  color: #004080;
-  margin-bottom: 30px;
-  font-family: "Georgia", serif;
-}
-.action-grid {
+/* Take Action grid */
+.take-action .action-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
+  gap: 14px;
 }
 .action-btn {
-  background: #f5f5f5;
+  background: white;
   border: 2px solid #004080;
-  border-radius: 10px;
-  padding: 25px 15px;
-  text-decoration: none;
   color: #004080;
-  font-size: 18px;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  padding: 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
   display: flex;
-  flex-direction: column;
   align-items: center;
+  gap: 12px;
+  justify-content: center;
+  transition: transform .18s, box-shadow .18s, background .18s;
 }
-.action-btn .icon {
-  font-size: 28px;
-  margin-bottom: 10px;
+.action-btn:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); background:#004080; color: #fff; }
+
+/* Why choose / lists */
+.why-choose ul { list-style: disc; padding-left: 20px; color: #222; }
+
+/* Security section */
+.security p { margin-bottom: 12px; line-height: 1.65; }
+
+/* Contact footer */
+footer#contact {
+  background:#00274d; color: #fff; padding: 28px 16px; border-radius: 8px; text-align: center;
 }
-.action-btn:hover {
-  background: #004080;
-  color: white;
-  transform: translateY(-5px);
-}
+#contact textarea { width: 80%; max-width: 700px; min-height: 110px; padding: 10px; border-radius:8px; border:1px solid #ccc; }
+#contact button { margin-top: 12px; background:#ffcc00; color:#00274d; border:none; padding:10px 18px; border-radius:8px; font-weight:700; cursor:pointer; }
+#contactMessage { margin-top: 12px; font-weight:700; color: #b0ffbf; }
 
 /* Modal */
 .modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background: rgba(0,0,0,0.6);
-  align-items: center;
-  justify-content: center;
+  display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 200;
 }
 .modal-content {
-  background: #fff;
-  padding: 30px;
-  border-radius: 10px;
-  width: 400px;
-  max-width: 90%;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  background: #fff; border-radius: 10px; padding: 18px; width: 480px; max-width: 92%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-align: left;
 }
-.modal-content h2 {
-  color: #004080;
-}
-.modal-content input {
-  width: 90%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.modal-content.small { width: 420px; }
+.modal-content h3, .modal-content h2 { margin-top: 0; color: #004080; }
+.modal-content textarea, .modal-content input {
+  width: 100%; min-height: 120px; padding: 10px; margin-bottom: 10px; border-radius: 6px; border:1px solid #ddd;
 }
 .modal-content button {
-  background: #004080;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  background: #004080; color: white; padding: 10px 14px; border-radius: 8px; border: none; cursor: pointer; font-weight:700;
 }
-.modal-content button:hover {
-  background: #003366;
-}
-.close-btn, .close {
-  float: right;
-  font-size: 20px;
-  font-weight: bold;
-  color: #333;
-  cursor: pointer;
-}
+.modal-content .close { float: right; font-size: 20px; cursor: pointer; color: #333; }
 
-/* Contact Section */
-#contact {
-  background: #00274d;
-  color: white;
-  padding: 40px 20px;
-  text-align: center;
-}
-#contact h2 {
-  color: #ffcc00;
-  margin-bottom: 15px;
-}
-#contact textarea {
-  width: 80%;
-  height: 100px;
-  margin: 10px 0;
-  border-radius: 5px;
-  padding: 10px;
-  font-size: 16px;
-}
-#contact button {
-  background: #ffcc00;
-  color: #00274d;
-  border: none;
-  padding: 10px 20px;
-  font-size: 18px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-#contact button:hover {
-  background: #ffaa00;
-}
-#contactMessage {
-  margin-top: 15px;
-  font-weight: bold;
-  color: #90ee90;
+/* small responsive */
+@media (max-width: 900px) {
+  .menu-toggle { display: block; }
+  #nav-links { display: none; position: absolute; right: 12px; top: 64px; background: #003366; padding: 12px; border-radius: 8px; flex-direction: column; gap:8px; }
+  #nav-links li a { font-size: 16px; }
+  main { padding: 0 14px; }
+  .modal-content { padding: 14px; }
+  .top-banner .banner-text { font-size: 12px; }
 }
