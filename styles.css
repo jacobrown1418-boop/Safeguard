@@ -1,0 +1,68 @@
+/* Basic reset */
+* { box-sizing: border-box; margin:0; padding:0; }
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  color:#222; background:#fff; line-height:1.6;
+}
+
+/* Top banner */
+.top-banner {
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  padding:6px 12px; background:#fff; border-bottom:1px solid #e6e6e6;
+  color:#333; font-weight:300; font-size:14px;
+}
+.flag-img { height:16px; }
+
+/* header image */
+.site-header .header-img { width:100%; display:block; border-bottom:2px solid #003366; }
+
+/* Nav */
+.nav-bar {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 16px; background:#fff; border-bottom:2px solid #003366;
+  position:sticky; top:0; z-index:200;
+}
+.nav-left { font-size:14px; color:#333; font-weight:600; }
+.nav-links { list-style:none; display:flex; gap:18px; align-items:center; margin-left:16px; }
+.nav-links li a { text-decoration:none; color:#003366; font-weight:600; }
+.nav-right { display:flex; gap:10px; align-items:center; }
+.nav-btn { color:#003366; text-decoration:none; padding:6px 10px; border-radius:6px; }
+.logout-btn { background:none; border:1px solid #003366; color:#003366; padding:6px 10px; border-radius:6px; cursor:pointer; }
+
+/* Mobile menu toggle */
+.menu-toggle { display:none; font-size:20px; background:none; border:none; }
+
+/* Hero & content */
+.hero { background:#f7f9fc; text-align:center; padding:36px 16px; border-bottom:1px solid #eee; }
+.hero h1 { color:#003366; font-size:30px; margin-bottom:14px; }
+.hero p { max-width:960px; margin:0 auto 14px; color:#444; font-size:16px; line-height:1.7; }
+
+.content { padding:32px 16px; max-width:1000px; margin: 0 auto 30px; }
+.content h2 { font-size:22px; color:#003366; margin-bottom:12px; border-left:4px solid #003366; padding-left:10px; }
+.content p { margin-bottom:12px; color:#333; font-size:16px; line-height:1.7; }
+
+/* Action grid */
+.action-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-top:12px; }
+.action-btn { padding:16px; border-radius:8px; border:1px solid #ddd; background:#f8fbff; cursor:pointer; color:#003366; font-weight:700; }
+.action-btn:hover { background:#e8f2ff; transform:translateY(-3px); }
+
+/* Contact */
+#contact textarea { width:100%; max-width:720px; height:120px; margin:12px 0; padding:12px; border:1px solid #ccc; border-radius:6px; }
+#contact button { background:#003366; color:#fff; padding:10px 16px; border:none; border-radius:6px; cursor:pointer; }
+.success-message { color:green; margin-top:8px; }
+
+/* Modals */
+.modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); align-items:center; justify-content:center; z-index:500; }
+.modal-content { background:#fff; padding:22px; border-radius:10px; width:420px; max-width:92%; position:relative; box-shadow:0 10px 30px rgba(0,0,0,.2); }
+.modal-content input, .modal-content textarea { width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; margin-bottom:10px; }
+.modal-content button { background:#003366; color:#fff; padding:10px 12px; border:none; border-radius:6px; cursor:pointer; width:100%; }
+.modal .close { position:absolute; right:12px; top:10px; font-size:20px; background:none; border:none; cursor:pointer; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .nav-links { display:none; position:absolute; right:12px; top:62px; flex-direction:column; background:#fff; padding:14px; border-radius:8px; box-shadow:0 8px 20px rgba(0,0,0,.12); }
+  .nav-links.show { display:flex; }
+  .menu-toggle { display:block; }
+  .hero h1 { font-size:24px; }
+  .modal-content { width:92%; }
+}
