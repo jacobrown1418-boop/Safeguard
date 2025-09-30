@@ -1,3 +1,24 @@
+/* General Layout */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f7fa;
+  color: #222;
+}
+
+main {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+}
+
+h1, h2, h3, h4 {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+
+/* Header */
 .dashboard-header {
   display: flex;
   justify-content: space-between;
@@ -8,8 +29,8 @@
 }
 
 .dashboard-header h1 {
-  margin: 0;
   font-size: 1.8rem;
+  margin-bottom: 0.2rem;
 }
 
 .dashboard-header .subtitle {
@@ -24,53 +45,132 @@
   padding: 0.6rem 1.2rem;
   border-radius: 8px;
   color: white;
+  font-size: 0.9rem;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 
 #logoutBtn:hover {
   background: #ff3333;
 }
 
+/* Profile Card */
+.profile-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  margin-bottom: 2rem;
+}
+
+.profile-card label {
+  display: block;
+  margin: 0.5rem 0 0.3rem;
+  font-weight: 500;
+}
+
 .profile-card input {
   width: 100%;
-  margin: 0.3rem 0 1rem;
-  padding: 0.5rem;
+  padding: 0.6rem;
   border: 1px solid #ccc;
   border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
 }
 
 #updateProfileBtn {
   background: #003366;
   color: white;
   border: none;
-  padding: 0.6rem 1rem;
+  padding: 0.7rem 1.2rem;
   border-radius: 8px;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 
 #updateProfileBtn:hover {
   background: #0055aa;
 }
 
+/* Accounts Section */
+.accounts {
+  margin-bottom: 2rem;
+}
+
+.account {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  margin-bottom: 1.5rem;
+}
+
+.account h3 {
+  color: #003366;
+  margin-bottom: 0.5rem;
+}
+
 .statement-btn {
+  display: inline-block;
+  margin: 0.8rem 0;
   background: #0055aa;
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  margin: 0.5rem 0;
+  padding: 0.5rem 1.2rem;
   border-radius: 6px;
   cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.statement-btn:hover {
+  background: #0077dd;
 }
 
 .transactions {
   list-style: none;
   padding: 0;
+  margin-top: 0.5rem;
 }
 
 .transactions li {
+  padding: 0.5rem 0;
   border-bottom: 1px solid #eee;
-  padding: 0.3rem 0;
   font-size: 0.9rem;
+}
+
+/* Quick Actions */
+.actions {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  margin-bottom: 2rem;
+}
+
+.actions button {
+  display: block;
+  width: 100%;
+  margin: 0.6rem 0;
+  background: #003366;
+  color: white;
+  border: none;
+  padding: 0.7rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s ease;
+}
+
+.actions button:hover {
+  background: #0055aa;
+}
+
+/* Security Section */
+.security {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 .security-grid {
@@ -81,8 +181,34 @@
 
 .security-item {
   background: #f4f7fa;
-  padding: 0.8rem;
+  padding: 0.9rem;
   border-left: 4px solid #003366;
   border-radius: 6px;
   font-size: 0.95rem;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 1.2rem;
+  margin-top: 2rem;
+  background: #003366;
+  color: white;
+  font-size: 0.85rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .security-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .actions button {
+    font-size: 0.9rem;
+  }
 }
