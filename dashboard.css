@@ -1,81 +1,88 @@
-body {
-  font-family: Arial, sans-serif;
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #003366;
+  color: white;
+  padding: 1rem 2rem;
+}
+
+.dashboard-header h1 {
   margin: 0;
-  padding: 0;
-  background: #f4f7fa;
-  color: #333;
+  font-size: 1.8rem;
 }
 
-header {
-  background: #003366;
-  color: white;
-  padding: 1rem;
-  text-align: center;
-}
-
-main {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  padding: 2rem;
-}
-
-section {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-h2 {
-  margin-top: 0;
-  color: #003366;
-}
-
-.account {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-}
-
-.actions button {
-  display: block;
-  margin: 0.5rem 0;
-  padding: 0.8rem;
-  width: 100%;
-  border: none;
-  border-radius: 8px;
-  background: #003366;
-  color: white;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: 0.3s;
-}
-
-.actions button:hover {
-  background: #0055aa;
-}
-
-footer {
-  text-align: center;
-  padding: 1rem;
-  margin-top: 2rem;
-  background: #003366;
-  color: white;
+.dashboard-header .subtitle {
+  font-size: 0.9rem;
+  font-weight: 300;
+  margin: 0;
 }
 
 #logoutBtn {
   background: #cc0000;
-  padding: 0.6rem 1.2rem;
-  margin-bottom: 0.5rem;
   border: none;
+  padding: 0.6rem 1.2rem;
   border-radius: 8px;
   color: white;
   cursor: pointer;
-  transition: 0.3s;
 }
 
 #logoutBtn:hover {
   background: #ff3333;
+}
+
+.profile-card input {
+  width: 100%;
+  margin: 0.3rem 0 1rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+#updateProfileBtn {
+  background: #003366;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#updateProfileBtn:hover {
+  background: #0055aa;
+}
+
+.statement-btn {
+  background: #0055aa;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.transactions {
+  list-style: none;
+  padding: 0;
+}
+
+.transactions li {
+  border-bottom: 1px solid #eee;
+  padding: 0.3rem 0;
+  font-size: 0.9rem;
+}
+
+.security-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.security-item {
+  background: #f4f7fa;
+  padding: 0.8rem;
+  border-left: 4px solid #003366;
+  border-radius: 6px;
+  font-size: 0.95rem;
 }
