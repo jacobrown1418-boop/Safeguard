@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
   <header>
@@ -12,52 +12,61 @@
   </header>
 
   <main>
-    <p id="welcomeMessage">Loading your info...</p>
-    <button id="logoutBtn">Logout</button>
+    <!-- Profile Card -->
+    <section class="profile-card">
+      <h2>👤 Account Holder</h2>
+      <p id="profileName">Name: Loading...</p>
+      <p id="profileEmail">Email: Loading...</p>
+      <p id="profilePhone">Phone: (555) 123-4567</p>
+      <p id="profileAddress">Address: 1234 Main St, Springfield, IL, USA</p>
+    </section>
+
+    <!-- Accounts Section -->
+    <section class="accounts">
+      <h2>🏦 Your Accounts</h2>
+      <div class="account">
+        <h3>Federal Savings Account</h3>
+        <p>Balance: <span id="savingsBalance">$12,345.67</span></p>
+        <p>Account No: ****5678</p>
+      </div>
+      <div class="account">
+        <h3>Federal Checking Account</h3>
+        <p>Balance: <span id="checkingBalance">$4,321.09</span></p>
+        <p>Account No: ****1234</p>
+      </div>
+    </section>
+
+    <!-- Actions -->
+    <section class="actions">
+      <h2>⚡ Quick Actions</h2>
+      <button>💸 Transfer Money (Wire)</button>
+      <button>📑 Pay Bills Online</button>
+      <button>🏦 Zelle Transfer</button>
+    </section>
+
+    <!-- Security Tab -->
+    <section class="security">
+      <h2>🔒 Account Security</h2>
+      <ul>
+        <li>Multi-factor authentication (MFA) required for all logins.</li>
+        <li>End-to-end encryption for all transactions.</li>
+        <li>Automatic fraud detection and alerts.</li>
+        <li>24/7 monitoring by our federal security team.</li>
+        <li>Biometric login support (fingerprint/Face ID).</li>
+        <li>Session timeout after 10 minutes of inactivity.</li>
+        <li>Account lockout after 5 failed login attempts.</li>
+        <li>Daily security audits and compliance checks.</li>
+        <li>Automatic logout on multiple device sign-ins.</li>
+        <li>Data stored in secure US-based data centers.</li>
+      </ul>
+    </section>
   </main>
 
-  <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+  <footer>
+    <button id="logoutBtn">Logout</button>
+    <p>&copy; 2025 Safeguard Accounts. All rights reserved.</p>
+  </footer>
 
-    // Supabase project credentials
-    const SUPABASE_URL = 'https://hafzffbdqlojkuhgfsvy.supabase.co'
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk'
-    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
-
-    const welcomeMessage = document.getElementById("welcomeMessage")
-    const logoutBtn = document.getElementById("logoutBtn")
-
-    async function checkUser() {
-      // Get the currently logged-in user
-      const { data: { user } } = await supabase.auth.getUser()
-
-      if (!user) {
-        // Not logged in → send back to homepage
-        window.location.href = "/index.html"
-      } else {
-        // Fetch extra profile data from "profiles" table
-        const { data: profile, error } = await supabase
-          .from("profiles")
-          .select("full_name")
-          .eq("id", user.id)
-          .single()
-
-        if (error) {
-          console.error("Profile fetch error:", error.message)
-          welcomeMessage.textContent = `✅ Logged in as: ${user.email}`
-        } else {
-          welcomeMessage.textContent = `👋 Welcome, ${profile.full_name} (${user.email})`
-        }
-      }
-    }
-
-    // Logout handler
-    logoutBtn.addEventListener("click", async () => {
-      await supabase.auth.signOut()
-      window.location.href = "/index.html"
-    })
-
-    checkUser()
-  </script>
+  <script type="module" src="dashboard.js"></script>
 </body>
 </html>
