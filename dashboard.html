@@ -4,82 +4,77 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Federal Reserved Accounts – Secure user dashboard to manage activity, monitor alerts, and maintain accountability." />
-  <title>Federal Reserved Accounts – Dashboard</title>
-<link rel="stylesheet" href="styles.css">
-  <script type="module" src="dashboard.js" defer></script>
+  <meta name="description" content="Federal Reserved Accounts – Secure dashboard for managing your official account information and reports." />
+  <title>Federal Reserved Accounts – User Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" href="ftclogo.jpg" />
 </head>
-
 <body>
-  <!-- Official Notice -->
+  <!-- Official Government Notice -->
   <div class="us-notice">
-    <p>🇺🇸 An official website of the United States Government</p>
+    An official website of the United States Government
   </div>
 
-  <!-- Header / Navigation -->
+  <!-- Header -->
 
   <header class="site-header">
     <div class="nav-container">
       <a href="index.html" class="logo">
-        <img src="images/ftclogo.jpg" alt="Federal Reserved Accounts Logo" />
-        <span>Federal Reserved Accounts</span>
+        <img src="header-ftc.png" alt="Federal Reserved Accounts Logo" />
+        Federal Reserved Accounts
       </a>
-      <button id="menu-toggle" aria-label="Menu">&#9776;</button>
+      <button id="menu-toggle">☰</button>
       <nav id="nav-links" class="nav-links">
         <a href="index.html">Home</a>
         <a href="report-fraud.html">Report Fraud</a>
         <a href="policies.html">Policies</a>
-        <a href="#" id="logoutBtn" class="signup-btn">Logout</a>
+        <a href="#" id="logout-link" class="signup-btn">Logout</a>
       </nav>
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Hero Banner -->
 
-  <section class="hero-home" style="background-image:
-    linear-gradient(rgba(11, 29, 58, 0.65), rgba(11, 29, 58, 0.65)),
-    url('images/hero-flag.jpg');">
+  <section class="hero-dashboard">
     <div class="hero-content">
-      <h1>Your Secure FRA Dashboard</h1>
-      <p class="tagline">Monitor account activity, manage alerts, and maintain compliance with Federal Reserved Accounts security standards.</p>
-      <p id="today-date" class="today-date"></p>
+      <h1>Welcome to Your Federal Reserved Accounts Dashboard</h1>
+      <p class="tagline">
+        Manage your secure data, monitor activity, and access important updates.
+      </p>
       <div class="hero-buttons">
-        <a href="#dashboard-section" class="btn">View Activity</a>
-        <button id="logoutBtn2" class="btn ghost">Sign Out</button>
+        <a href="#overview" class="btn">View Activity</a>
+        <a href="index.html" class="btn ghost">Return Home</a>
       </div>
     </div>
   </section>
 
-  <!-- Dashboard Content -->
+  <!-- Main Dashboard Content -->
 
-  <main class="container" id="dashboard-section">
-    <section class="content-section">
+  <main class="container">
+    <section id="overview" class="content-section">
       <h2>Account Overview</h2>
-      <div class="dashboard-grid">
-        <div class="dashboard-card">
-          <h3>Current Balance</h3>
-          <p id="account-balance" class="data">$0.00</p>
-        </div>
+      <p>
+        This dashboard provides access to your secure account records, notifications, and submitted fraud reports. Use this area to stay up-to-date with any activity related to your Federal Reserved Accounts.
+      </p>
+      <ul>
+        <li>✅ View current account security status</li>
+        <li>📄 Access your submitted reports</li>
+        <li>🔔 Manage communication preferences</li>
+      </ul>
+    </section>
 
 ```
-    <div class="dashboard-card">
-      <h3>Recent Transactions</h3>
-      <ul id="recent-transactions"></ul>
-    </div>
-
-    <div class="dashboard-card">
-      <h3>Security Status</h3>
-      <p id="security-status">Loading...</p>
-    </div>
-  </div>
+<section id="reports" class="content-section">
+  <h2>Your Submitted Reports</h2>
+  <p>No new reports have been submitted yet.</p>
 </section>
 
-<section class="content-section">
-  <h2>Quick Actions</h2>
-  <div class="action-grid">
-    <button class="action-btn">Request Account Review</button>
-    <button class="action-btn ghost">Update Profile</button>
-  </div>
+<section id="settings" class="content-section">
+  <h2>Security Settings</h2>
+  <p>
+    You can review or update your account’s security options here. For privacy protection, some settings require additional verification.
+  </p>
+  <button id="logoutButton" class="btn">Logout</button>
 </section>
 ```
 
@@ -88,34 +83,78 @@
   <!-- Footer -->
 
   <footer class="site-footer">
-    <div class="footer-container">
-      <p>&copy; <span id="year"></span> Federal Reserved Accounts. All rights reserved.</p>
-      <p>
-        <a href="index.html">Home</a> |
-        <a href="report-fraud.html">Report Fraud</a>
-      </p>
-    </div>
+    <p>
+      &copy; 2025 Federal Reserved Accounts. All rights reserved. |
+      <a href="policies.html">Policies</a> |
+      <a href="report-fraud.html">Report Fraud</a>
+    </p>
   </footer>
 
-  <!-- Redirect if not logged in -->
+  <!-- Login Modal -->
 
-  <script type="module">
-    import { supabase } from "./script.js";
+  <div id="login-modal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Login to Your Account</h2>
+      <form id="loginForm">
+        <label for="loginEmail">Email Address</label>
+        <input type="email" id="loginEmail" required />
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" required />
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
 
-    async function checkAuth() {
+  <!-- Signup Modal -->
+
+  <div id="signup-modal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Create Your Account</h2>
+      <form id="signupForm">
+        <label for="signupEmail">Email Address</label>
+        <input type="email" id="signupEmail" required />
+        <label for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" required />
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+
+  <script src="script.js" defer></script>
+
+  <script>
+    // Dashboard protection and logout
+    const { createClient } = window.supabase;
+    const supabase = createClient("https://qvwgvpywjqqycxemgrpl.supabase.co", "YOUR_EXISTING_SUPABASE_ANON_KEY");
+
+    async function checkSession() {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
         alert("Please log in to access your dashboard.");
         window.location.href = "index.html";
       }
     }
+    checkSession();
 
-    document.addEventListener("DOMContentLoaded", checkAuth);
+    document.getElementById("logoutButton").addEventListener("click", async () => {
+      await supabase.auth.signOut();
+      alert("You have been logged out.");
+      window.location.href = "index.html";
+    });
 
-    // Footer year
-    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById("logout-link").addEventListener("click", async (e) => {
+      e.preventDefault();
+      await supabase.auth.signOut();
+      alert("You have been logged out.");
+      window.location.href = "index.html";
+    });
   </script>
 
 </body>
 </html>
-
