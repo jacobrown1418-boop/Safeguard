@@ -149,15 +149,15 @@ const email = document.getElementById("forgotEmail").value.trim();
 
 /* ------------------- Spinner Helpers ------------------- */
 function showSpinner(btn, text) {
-if (!btn) return;
-btn.disabled = true;
-btn.innerHTML = '<span class="spinner" aria-hidden="true"></span>' + text;
+  if (!btn) return;
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner" aria-hidden="true"></span>' + text;
 }
 
 function hideSpinner(btn, text) {
-if (!btn) return;
-btn.disabled = false;
-btn.textContent = text;
+  if (!btn) return;
+  btn.disabled = false;
+  btn.textContent = text;
 }
 
 /* ------------------- Modal Utility ------------------- */
@@ -165,4 +165,5 @@ function closeAllModals() {
 document.querySelectorAll(".modal").forEach(m => m.setAttribute("aria-hidden", "true"));
 document.body.classList.remove("modal-open");
 }
+
 
