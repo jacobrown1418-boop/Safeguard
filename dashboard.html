@@ -1,111 +1,133 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>User Dashboard - Federal Reserve Accounts</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Federal Reserved Accounts Dashboard – Manage and Monitor Securely</title>
+  <meta name="description" content="Access your official Federal Reserved Accounts dashboard to securely monitor, manage, and protect your federally backed account activity." />
+  <link rel="icon" href="images/ftclogo.jpg" type="image/x-icon" />
+  <link rel="stylesheet" href="policies.css" />
   <link rel="stylesheet" href="dashboard.css" />
 </head>
-<body>
 
-  <!-- Top Bar -->
-  <div class="topbar">
-    <h1>Federal Reserve Accounts</h1>
-    <button id="logoutBtn">Logout</button>
+<body>
+  <!-- U.S. banner -->
+  <div class="top-banner">
+    <img src="images/us_flag_small.png" alt="U.S. Flag" class="flag-img" />
+    <span class="banner-text">An official website of the United States government</span>
   </div>
 
-  <!-- Navigation Bar (Quick Actions) -->
-  <nav class="navbar">
-    <button>💸 Transfer Money</button>
-    <button>📑 Pay Bills</button>
-    <button>🏦 Zelle Transfer</button>
-    <button>📝 Request Checkbook</button>
-    <button>💳 Request Debit Card</button>
-    <button>🔑 Change Password</button>
-  </nav>
+  <!-- Header -->
 
-  <main>
-    <!-- Profile Card -->
-    <section class="profile-card">
-      <h2>👤 Account Holder</h2>
-      <p id="profileName">Name: Loading...</p>
-      <p id="profileEmail">Email: Loading...</p>
+  <header class="header">
+    <div class="logo">
+      <img src="images/ftclogo.jpg" alt="Federal Reserved Accounts Logo" class="logo-img" />
+      <span>Federal Reserved Accounts</span>
+    </div>
+    <nav class="nav" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="policies.html">Policies</a>
+      <a href="report-fraud.html">Report Fraud</a>
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="#" id="login-link">Login</a>
+      <a href="#" id="signup-link">Sign Up</a>
+    </nav>
+    <button id="menu-toggle" class="menu-toggle" aria-label="Toggle navigation">☰</button>
+  </header>
 
-      <!-- Editable Info -->
-      <label for="profilePhone">Phone</label>
-      <input type="text" id="profilePhone" value="(555) 123-4567"/>
+  <!-- Hero -->
 
-      <label for="profileAddress">Address</label>
-      <input type="text" id="profileAddress" value="1234 Main St, Springfield, IL, USA"/>
+  <section class="hero hero-home">
+    <div class="hero-content">
+      <h1>Welcome to Your Federal Reserved Accounts Dashboard</h1>
+      <p class="tagline">Manage and Monitor Securely — Backed by the U.S. Treasury Department</p>
+      <p id="today-date" class="today-date"></p>
+    </div>
+  </section>
 
-      <button id="updateProfileBtn">Update Info</button>
-      <p class="update-message" id="updateMessage">✔️ Your information has been updated.</p>
-    </section>
+  <!-- Main Dashboard -->
 
-    <!-- Accounts Section -->
-    <section class="accounts">
-      <div class="account">
-        <h3>Federal Savings Account</h3>
-        <p>Balance: <span id="savingsBalance">$12,345.67</span></p>
-        <p>Account No: ****5678</p>
-        <p>Routing No: ****4321</p>
-        <button class="statement-btn" data-account="savings">View Statements</button>
-        <ul class="transactions" id="savingsTransactions">
-          <li>+$500.00 (Deposit)</li>
-          <li>-$200.00 (ATM Withdrawal)</li>
-          <li>-$75.00 (Bill Payment)</li>
-        </ul>
-      </div>
+  <main class="container">
+    <section class="content-section">
+      <h2>Your Account Overview</h2>
+      <p>
+        View and manage your official Federal Reserved Account data securely through this dashboard.
+        Monitor activity, update account settings, and review important security alerts in real time.
+      </p>
 
-      <div class="account">
-        <h3>Federal Checking Account</h3>
-        <p>Balance: <span id="checkingBalance">$4,321.09</span></p>
-        <p>Account No: ****1234</p>
-        <p>Routing No: ****8765</p>
-        <button class="statement-btn" data-account="checking">View Statements</button>
-        <ul class="transactions" id="checkingTransactions">
-          <li>-$150.00 (Grocery Store)</li>
-          <li>+$1,200.00 (Salary Deposit)</li>
-          <li>-$60.00 (Utility Bill)</li>
-        </ul>
-      </div>
-    </section>
+```
+  <div class="dashboard-grid">
+    <div class="dashboard-card">
+      <h3>Current Balance</h3>
+      <p class="data" id="account-balance">$0.00</p>
+    </div>
 
-    <!-- Account Security -->
-    <section class="security">
-      <h2>🔒 Account Security</h2>
-      <div class="security-list">
-        <div class="security-item">Multi-factor authentication required for all logins.</div>
-        <div class="security-item">End-to-end encryption for all transactions.</div>
-        <div class="security-item">Automatic fraud detection and real-time alerts.</div>
-        <div class="security-item">Protected by the US Treasury Department.</div>
-        <div class="security-item">Biometric login support (fingerprint/Face ID).</div>
-        <div class="security-item">24/7 monitoring by our federal security team.</div>
-        <div class="security-item">Session timeout after inactivity.</div>
-        <div class="security-item">Daily security audits and compliance checks.</div>
-      </div>
-    </section>
+    <div class="dashboard-card">
+      <h3>Recent Activity</h3>
+      <ul id="recent-transactions">
+        <li>No recent transactions found.</li>
+      </ul>
+    </div>
+
+    <div class="dashboard-card">
+      <h3>Security Status</h3>
+      <p id="security-status">All systems operational and protected.</p>
+    </div>
+  </div>
+</section>
+
+<section class="content-section">
+  <h2>Manage Account</h2>
+  <p>Use the tools below to update your account preferences or report an issue.</p>
+
+  <div class="action-grid">
+    <button class="action-btn" id="update-profile-btn">Update Profile</button>
+    <button class="action-btn" id="security-alerts-btn">View Security Alerts</button>
+    <button class="action-btn" id="report-issue-btn">Report an Issue</button>
+    <button class="action-btn ghost" id="logoutBtn">Logout</button>
+  </div>
+</section>
+```
+
   </main>
 
-  <!-- Modal Popup for Statements -->
-  <div id="statementModal" class="modal">
+  <!-- Modals (Supabase Auth) -->
+
+  <div id="signup-modal" class="modal" aria-hidden="true">
     <div class="modal-content">
-      <span class="close-modal" id="closeStatement">&times;</span>
-      <h3>Account Statements</h3>
-      <p>Showing recent statements...</p>
-      <ul id="statementList">
-        <li>Statement - August 2025</li>
-        <li>Statement - July 2025</li>
-        <li>Statement - June 2025</li>
-      </ul>
+      <button class="close" data-close="signup-modal">&times;</button>
+      <h3>Create Your Federal Reserved Account</h3>
+      <form id="signupForm">
+        <input id="signupName" type="text" placeholder="Full Name" required />
+        <input id="signupEmail" type="email" placeholder="Email" required />
+        <input id="signupPassword" type="password" placeholder="Password" required />
+        <button type="submit" class="btn">Sign Up</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="login-modal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <button class="close" data-close="login-modal">&times;</button>
+      <h3>Login to Federal Reserved Accounts</h3>
+      <form id="loginForm">
+        <input id="loginEmail" type="email" placeholder="Email" required />
+        <input id="loginPassword" type="password" placeholder="Password" required />
+        <button type="submit" class="btn">Login</button>
+      </form>
     </div>
   </div>
 
   <!-- Footer -->
-  <footer>
-    <p>&copy; 2025 Federal Reserve Accounts. All rights reserved.</p>
+
+  <footer class="footer">
+    <p>© 2025 Federal Reserved Accounts | Backed by the U.S. Treasury Department</p>
   </footer>
 
-  <script type="module" src="dashboard.js"></script>
+  <script src="policies.js" defer></script>
+
+  <script type="module" src="dashboard.js" defer></script>
+
 </body>
 </html>
