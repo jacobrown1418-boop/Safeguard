@@ -1,76 +1,66 @@
-// ---------------------------
-// DOM Ready
-// ---------------------------
-document.addEventListener("DOMContentLoaded", () => {
-  initResponsiveNav();
-  highlightActiveNav();
+/* ==========================================================================
+Federal Reserved Accounts – Policies Page Script
+Handles Eastern Time display, navigation, and Supabase authentication state
+========================================================================== */
+
+import { supabase } from "./script.js";
+
+/* ---------------------- EASTERN TIME DISPLAY ---------------------- */
+function updateEasternTime() {
+const el = document.getElementById("today-date");
+if (!el) return;
+const now = new Date();
+const options = {
+timeZone: "America/New_York",
+weekday: "long",
+year: "numeric",
+month: "long",
+day: "numeric",
+};
+el.textContent = new Intl.DateTimeFormat("en-US", options).format(now);
+}
+
+/* ---------------------- NAVIGATION TOGGLE ---------------------- */
+function setupNav() {
+const menuToggle = document.getElementById("menu-toggle");
+const navLinks = document.getElementById("nav-links");
+if (menuToggle && navLinks) {
+menuToggle.addEventListener("click", () => {
+navLinks.classList.toggle("show");
 });
-
-// ---------------------------
-// Responsive Navigation Toggle
-// ---------------------------
-function initResponsiveNav() {
-  const nav = document.querySelector(".nav");
-  if (!nav) return;
-
-  // Create toggle button
-  const toggleBtn = document.createElement("button");
-  toggleBtn.innerHTML = "☰ Menu";
-  toggleBtn.classList.add("nav-toggle");
-
-  // Insert toggle before nav
-  document.querySelector(".header").insertBefore(toggleBtn, nav);
-
-  // Initial state for mobile
-  function checkScreen() {
-    if (window.innerWidth <= 768) {
-      nav.style.display = "none";
-      toggleBtn.style.display = "block";
-    } else {
-      nav.style.display = "flex";
-      toggleBtn.style.display = "none";
-    }
-  }
-  checkScreen();
-
-  // Toggle nav on button click
-  toggleBtn.addEventListener("click", () => {
-    if (nav.style.display === "none" || nav.style.display === "") {
-      nav.style.display = "flex";
-      nav.style.flexDirection = "column";
-    } else {
-      nav.style.display = "none";
-    }
-  });
-
-  // Update on resize
-  window.addEventListener("resize", checkScreen);
+}
 }
 
-// ---------------------------
-// Highlight Active Nav Link
-// ---------------------------
-function highlightActiveNav() {
-  const currentPage = window.location.pathname.split("/").pop();
-  document.querySelectorAll(".nav a").forEach(link => {
-    if (link.getAttribute("href") === currentPage) {
-      link.classList.add("active");
-    }
-  });
+/* ---------------------- SUPABASE SESSION CHECK ---------------------- */
+async function checkSession() {
+const {
+data: { session },
+} = await supabase.auth.getSession();
+
+const logoutBtn = document.getElementById("logoutBtn");
+if (session && logoutBtn) {
+logoutBtn.style.display = "inline-block";
+} else if (logoutBtn) {
+logoutBtn.style.display = "none";
+}
 }
 
-// ---------------------------
-// Optional: Expandable Policy Sections
-// ---------------------------
-const policySections = document.querySelectorAll(".policy h2");
-policySections.forEach(heading => {
-  heading.style.cursor = "pointer";
-  heading.addEventListener("click", () => {
-    const content = heading.nextElementSibling;
-    if (content.style.display === "none") {
-      content.style.display = "block";
-    } else {
-      content.style.display = "none";
-    }
-  });
+/* ---------------------- LOGOUT FUNCTION ---------------------- */
+async function setupLogout() {
+const logoutBtn = document.getElementById("logoutBtn");
+if (logoutBtn) {
+logoutBtn.addEventListener("click", async () => {
+await supabase.auth.signOut();
+alert("You have been logged out securely.");
+window.location.href = "index.html";
+});
+}
+}
+
+/* ---------------------- INITIALIZE POLICIES PAGE ---------------------- */
+document.addEventListener("DOMContentLoaded", () => {
+updateEasternTime();
+setupNav();
+checkSession();
+setupLogout();
 });
