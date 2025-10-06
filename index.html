@@ -1,190 +1,164 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Federal Reserve Accounts</title>
+  <title>Federal Reserved Accounts – Official U.S. Platform</title>
+  <meta name="description" content="Federal Reserved Accounts (FRA) is the official U.S. platform ensuring secure, transparent, and fair financial services for all citizens." />
+  <link rel="icon" href="images/ftclogo.jpg" type="image/x-icon" />
+  <link rel="stylesheet" href="policies.css" />
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
   <!-- Top banner -->
   <div class="top-banner">
-    <img src="images/flag.png" alt="US Flag" class="flag-img" />
+    <img src="images/us_flag_small.png" alt="U.S. Flag" class="flag-img" />
     <span class="banner-text">An official website of the United States government</span>
   </div>
 
-  <!-- Header image -->
-  <header class="site-header">
-    <img src="images/header-ftc.png" alt="Federal Reserve Header" class="header-img" />
+  <!-- Header -->
+
+  <header class="header">
+    <div class="logo">
+      <img src="images/ftclogo.jpg" alt="Federal Reserved Accounts Logo" class="logo-img" />
+      <span>Federal Reserved Accounts</span>
+    </div>
+    <nav class="nav" id="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="policies.html">Policies</a>
+      <a href="report-fraud.html">Report Fraud</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="#mission">Mission</a>
+      <a href="#contact">Contact</a>
+      <a href="#" id="login-link">Login</a>
+      <a href="#" id="signup-link">Sign Up</a>
+    </nav>
+    <button id="menu-toggle" class="menu-toggle" aria-label="Toggle navigation">☰</button>
   </header>
 
-  <!-- Navigation bar -->
-  <nav class="nav-bar">
-    <div class="nav-left" id="today-date">Loading date...</div>
+  <!-- Hero Section -->
 
-    <button id="menu-toggle" class="menu-toggle" aria-label="Open menu">☰</button>
-
-    <ul id="nav-links" class="nav-links">
-      <li><a href="#welcome">Home</a></li>
-      <li><a href="#mission">Our Mission</a></li>
-      <li><a href="#about-ftc">About</a></li>
-      <li><a href="#security">Security</a></li>
-      <li><a href="policies.html">Policies</a></li>
-      <li><a href="#take-action">Take Action</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-
-    <div class="nav-right">
-      <a href="#" id="signup-link" class="nav-btn">Sign up</a>
-      <a href="#" id="login-link" class="nav-btn">Log in</a>
-      <button id="logoutBtn" class="logout-btn" style="display:none">Logout</button>
+  <section class="hero hero-home">
+    <div class="hero-content">
+      <h1>Welcome to Federal Reserved Accounts</h1>
+      <p class="tagline">
+        Backed by the U.S. Treasury Department — protecting consumers and ensuring financial integrity.
+      </p>
+      <p id="today-date" class="today-date"></p>
+      <div class="hero-buttons">
+        <a href="dashboard.html" class="btn">View Dashboard</a>
+        <a href="report-fraud.html" class="btn ghost">Report Fraud</a>
+      </div>
     </div>
-  </nav>
+  </section>
 
-  <!-- Main content -->
+  <!-- Main Content -->
+
   <main>
-    <!-- Welcome -->
-    <section id="welcome" class="hero">
-      <h1>Welcome to Federal Reserve Accounts</h1>
-      <p>
-        Federal Reserve Accounts provide secure, government-backed financial accounts for eligible consumers.
-        Backed by the U.S. Treasury Department, these accounts combine strong federal oversight with modern
-        fraud-prevention technology to keep your money and identity safe.
-      </p>
-      <p>
-        Our platform provides easy access to balances, statements, and account management tools while prioritizing
-        privacy and regulatory compliance. We continually monitor for suspicious activity, perform regular audits,
-        and offer clear steps to help you recover in case of identity theft or fraud.
-      </p>
-      <p>
-        Federal Reserve Accounts are designed for stability and long-term trust — giving you the confidence to manage
-        your finances with the highest standard of governmental protection and operational excellence.
-      </p>
-    </section>
-
-    <!-- Mission -->
-    <section id="mission" class="content">
+    <section id="mission" class="content-section">
       <h2>Our Mission</h2>
       <p>
-        Our mission is to ensure safe, transparent, and accessible federal financial services to protect consumers
-        across the United States. We prioritize financial stability, fraud prevention, and rapid dispute resolution.
+        The mission of Federal Reserved Accounts (FRA) is to ensure safe, transparent, and accessible financial
+        services for individuals and organizations across the United States. Our agency prioritizes consumer
+        protection, fraud prevention, and federal accountability to maintain trust in every transaction.
       </p>
       <p>
-        Working closely with the U.S. Treasury Department and other federal partners, we maintain rigorous compliance
-        and oversight so that account holders have confidence and clear recourse when something goes wrong.
-      </p>
-      <p>
-        We believe in empowering consumers with education, strong protections, and easy reporting tools to keep their
-        finances secure.
+        FRA works directly with the U.S. Treasury Department and partner institutions to maintain oversight,
+        enforce compliance, and provide citizens with secure digital and physical financial access.
       </p>
     </section>
 
-    <!-- About -->
-    <section id="about-ftc" class="content">
-      <h2>About the FTC</h2>
-      <p>
-        The Federal Trade Commission (FTC) enforces consumer protection laws, investigates deceptive practices, and
-        helps victims of fraud recover. The FTC works with other federal agencies to ensure market fairness and protect
-        consumers from scams and identity theft.
-      </p>
-      <p>
-        Through enforcement, policy guidance, and public education, the FTC assists with investigations and pursues
-        corrective actions when businesses violate consumer rights.
-      </p>
-      <p>
-        The FTC also publishes resources to help consumers spot phishing and scams, and it provides steps to restore
-        credit and identity following fraud.
-      </p>
-    </section>
+```
+<section id="about" class="content-section">
+  <h2>About Federal Reserved Accounts</h2>
+  <p>
+    Federal Reserved Accounts serve as an officially regulated platform under the oversight of the U.S. Treasury
+    Department. Every account and transaction handled through FRA is backed by federal security standards and
+    operational transparency.
+  </p>
+  <p>
+    The FRA system leverages modern financial technology to deliver real-time fraud detection, encrypted data
+    protection, and transparent account management to ensure every citizen’s financial rights are protected.
+  </p>
+</section>
 
-    <!-- Security -->
-    <section id="security" class="content">
-      <h2>Security You Can Trust</h2>
-      <p>
-        Federal Reserve Accounts are protected by multi-layered security measures, including strong encryption,
-        multi-factor authentication, and continuous transaction monitoring. These systems are regularly audited
-        and maintained to match federal standards.
-      </p>
-      <p>
-        Importantly, this program is backed by the U.S. Treasury Department — providing institutional support and
-        oversight that raises the security bar above typical commercial offerings.
-      </p>
-      <p>
-        Our security program includes rapid incident response, identity recovery assistance, and coordination with
-        federal law enforcement where necessary to protect account holders.
-      </p>
-    </section>
+<section id="security" class="content-section">
+  <h2>Security and Oversight</h2>
+  <p>
+    Security is the foundation of Federal Reserved Accounts. Through multi-layer encryption, continuous
+    transaction monitoring, and cross-agency coordination, FRA ensures that no unauthorized access or
+    manipulation occurs within our system.
+  </p>
+  <ul>
+    <li>24/7 fraud prevention and activity tracking</li>
+    <li>Identity verification and multi-factor authentication</li>
+    <li>Federal compliance and routine audits</li>
+    <li>Dedicated fraud response coordination with federal agencies</li>
+  </ul>
+</section>
 
-    <!-- Take Action -->
-    <section id="take-action" class="content">
-      <h2>Take Action</h2>
-      <div class="action-grid">
-        <button class="action-btn" id="report-fraud-btn">Report Fraud</button>
-        <button class="action-btn" id="public-comment-btn">Submit a Public Comment</button>
-        <button class="action-btn coming-soon" id="merger-btn">Merger / Antitrust Comment</button>
-        <button class="action-btn coming-soon" id="credit-report-btn">Get Free Credit Report</button>
-        <button class="action-btn" id="report-identity-btn">Report Identity Theft</button>
-        <button class="action-btn coming-soon" id="dnc-btn">Register for Do Not Call</button>
-      </div>
-    </section>
+<section id="take-action" class="content-section">
+  <h2>Take Action</h2>
+  <div class="action-grid">
+    <button class="action-btn" id="report-fraud-btn">Report Fraud</button>
+    <button class="action-btn" id="public-comment-btn">Submit a Public Comment</button>
+    <button class="action-btn coming-soon" id="merger-btn">Merger / Antitrust Comment</button>
+    <button class="action-btn coming-soon" id="credit-report-btn">Get Free Credit Report</button>
+    <button class="action-btn" id="report-identity-btn">Report Identity Theft</button>
+    <button class="action-btn coming-soon" id="dnc-btn">Register for Do Not Call</button>
+  </div>
+</section>
 
-    <!-- Contact -->
-    <section id="contact" class="content">
-      <h2>Contact Us</h2>
-      <form id="contactForm">
-        <textarea id="contactQuery" placeholder="Type your query here..." required></textarea>
-        <br />
-        <button type="submit">Click here to submit</button>
-        <p id="contactMessage" class="success-message"></p>
-      </form>
-    </section>
+<section id="contact" class="content-section">
+  <h2>Contact Us</h2>
+  <p>
+    For questions, assistance, or reports, please reach out using the form below. Our team at Federal Reserved
+    Accounts is available to respond to inquiries and support citizens with financial protection services.
+  </p>
+
+  <form id="contactForm">
+    <textarea id="contactQuery" placeholder="Type your query here..." required></textarea>
+    <button type="submit" class="btn">Submit</button>
+    <p id="contactMessage" class="success-message"></p>
+  </form>
+</section>
+```
+
   </main>
 
-  <!-- Signup modal -->
+  <!-- Signup Modal -->
+
   <div id="signup-modal" class="modal" aria-hidden="true">
     <div class="modal-content">
       <button class="close" data-close="signup-modal">&times;</button>
-      <h3>Create Your Account</h3>
+      <h3>Create Your Federal Reserved Account</h3>
       <form id="signupForm">
-        <input id="signupName" type="text" placeholder="Full name" required />
+        <input id="signupName" type="text" placeholder="Full Name" required />
         <input id="signupEmail" type="email" placeholder="Email" required />
         <input id="signupPassword" type="password" placeholder="Password" required />
-        <button type="submit">Sign Up</button>
+        <button type="submit" class="btn">Sign Up</button>
       </form>
     </div>
   </div>
 
-  <!-- Login modal -->
+  <!-- Login Modal -->
+
   <div id="login-modal" class="modal" aria-hidden="true">
     <div class="modal-content">
       <button class="close" data-close="login-modal">&times;</button>
-      <h3>Login</h3>
+      <h3>Login to Your Federal Reserved Account</h3>
       <form id="loginForm">
         <input id="loginEmail" type="email" placeholder="Email" required />
         <input id="loginPassword" type="password" placeholder="Password" required />
-        <button type="submit">Login</button>
+        <button type="submit" class="btn">Login</button>
       </form>
     </div>
   </div>
 
-  <!-- Public Comment modal -->
+  <!-- Public Comment Modal -->
+
   <div id="publicCommentModal" class="modal" aria-hidden="true">
     <div class="modal-content">
-      <button class="close" data-close="publicCommentModal">&times;</button>
-      <h3>Submit a Public Comment</h3>
-      <form id="publicCommentForm">
-        <textarea id="publicCommentText" placeholder="Type your comment..." required></textarea>
-        <button type="submit">Submit</button>
-        <p id="publicCommentMessage" class="success-message"></p>
-      </form>
-    </div>
-  </div>
-
-  <footer class="footer">
-    <p>© 2025 Federal Reserve Accounts | Backed by the U.S. Treasury Department</p>
-  </footer>
-
-  <!-- Scripts -->
-  <script type="module" src="script.js" defer></script>
-</body>
-</html>
+      <button class="close" data-close="p
