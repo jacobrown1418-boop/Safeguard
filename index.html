@@ -2,29 +2,28 @@
 
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Federal Reserved Accounts – Official U.S. Platform for secure federal accountability and public transparency.">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Federal Reserved Accounts – Official U.S. Platform for secure account information, fraud reporting, and consumer protection." />
   <title>Federal Reserved Accounts – Official U.S. Platform</title>
-<link rel="stylesheet" href="styles.css">
-<script type="module" src="script.js" defer></script>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" href="ftclogo.jpg" />
 </head>
-
 <body>
-  <!-- Official Notice -->
+  <!-- Official Government Notice -->
   <div class="us-notice">
-    <p>🇺🇸 An official website of the United States Government</p>
+    An official website of the United States Government
   </div>
 
-  <!-- Header / Navigation -->
+  <!-- Header & Navigation -->
 
   <header class="site-header">
     <div class="nav-container">
       <a href="index.html" class="logo">
-        <img src="images/ftclogo.jpg" alt="Federal Reserved Accounts Logo">
-        <span>Federal Reserved Accounts</span>
+        <img src="header-ftc.png" alt="Federal Reserved Accounts Logo" />
+        Federal Reserved Accounts
       </a>
-      <button id="menu-toggle" aria-label="Menu">&#9776;</button>
+      <button id="menu-toggle">☰</button>
       <nav id="nav-links" class="nav-links">
         <a href="index.html" class="active">Home</a>
         <a href="report-fraud.html">Report Fraud</a>
@@ -35,13 +34,12 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Hero Banner -->
 
-  <section class="hero-home">
+  <section class="hero-home" style="background-image: linear-gradient(rgba(11,29,58,0.6), rgba(11,29,58,0.6)), url('hero-flag.jpg');">
     <div class="hero-content">
       <h1>Welcome to Federal Reserved Accounts</h1>
-      <p class="tagline">Secure federal accountability and public transparency for every citizen.</p>
-      <p id="today-date" class="today-date"></p>
+      <p class="tagline">Your official U.S. platform for secure account information, fraud prevention, and transparency.</p>
       <div class="hero-buttons">
         <a href="report-fraud.html" class="btn">Report Fraud</a>
         <a href="policies.html" class="btn ghost">View Policies</a>
@@ -55,36 +53,33 @@
     <section class="content-section">
       <h2>About Federal Reserved Accounts</h2>
       <p>
-        The Federal Reserved Accounts platform provides verified, transparent, and secure access to information about
-        federal programs and consumer protection initiatives. We ensure citizens can stay informed and protected through
-        reliable digital resources and proactive fraud prevention systems.
+        Federal Reserved Accounts is the trusted U.S. platform ensuring citizens have secure access to verified account information, fraud prevention resources, and guidance on financial protection.
+      </p>
+      <p>
+        We collaborate with government agencies, financial institutions, and consumers to safeguard your accounts and promote transparency in all official communications.
       </p>
     </section>
 
 ```
 <section class="content-section">
-  <h2>Our Mission</h2>
+  <h2>Stay Informed</h2>
   <p>
-    Federal Reserved Accounts is committed to ensuring financial clarity and accountability across all U.S. federal
-    systems. Our platform integrates official data sources and continuously works to prevent financial crimes,
-    protect consumers, and build public trust.
+    We regularly update citizens on potential fraudulent activities, ongoing investigations, and safe practices for maintaining account integrity. Stay vigilant, stay informed, and always verify official sources.
   </p>
 </section>
 
 <section class="content-section">
-  <h2>Contact Us</h2>
+  <h2>Today's Date</h2>
+  <p id="today-date">Loading U.S. Eastern Time...</p>
+</section>
+
+<section class="content-section">
+  <h2>Submit a Public Comment</h2>
   <form id="contactForm" class="form">
-    <label for="name">Full Name</label>
-    <input type="text" id="name" required>
-
-    <label for="email">Email Address</label>
-    <input type="email" id="email" required>
-
-    <label for="message">Message</label>
-    <textarea id="message" rows="5" required></textarea>
-
-    <button type="submit" class="btn">Submit</button>
-    <p id="publicCommentMessage" class="success-message"></p>
+    <label for="publicComment">Your Message</label>
+    <textarea id="publicComment" required></textarea>
+    <button type="submit">Submit</button>
+    <p id="publicCommentMessage" style="margin-top: 10px; font-weight: 600;"></p>
   </form>
 </section>
 ```
@@ -94,13 +89,11 @@
   <!-- Footer -->
 
   <footer class="site-footer">
-    <div class="footer-container">
-      <p>&copy; <span id="year"></span> Federal Reserved Accounts. All rights reserved.</p>
-      <p>
-        <a href="policies.html">Privacy Policy</a> |
-        <a href="report-fraud.html">Report Fraud</a>
-      </p>
-    </div>
+    <p>
+      &copy; 2025 Federal Reserved Accounts. All rights reserved. |
+      <a href="policies.html">Policies</a> |
+      <a href="report-fraud.html">Report Fraud</a>
+    </p>
   </footer>
 
   <!-- Login Modal -->
@@ -110,11 +103,11 @@
       <span class="close">&times;</span>
       <h2>Login to Your Account</h2>
       <form id="loginForm">
-        <label for="loginEmail">Email</label>
-        <input type="email" id="loginEmail" required>
+        <label for="loginEmail">Email Address</label>
+        <input type="email" id="loginEmail" required />
         <label for="loginPassword">Password</label>
-        <input type="password" id="loginPassword" required>
-        <button type="submit" class="btn">Login</button>
+        <input type="password" id="loginPassword" required />
+        <button type="submit">Login</button>
       </form>
     </div>
   </div>
@@ -124,23 +117,22 @@
   <div id="signup-modal" class="modal" aria-hidden="true">
     <div class="modal-content">
       <span class="close">&times;</span>
-      <h2>Create an Account</h2>
+      <h2>Create Your Account</h2>
       <form id="signupForm">
-        <label for="signupEmail">Email</label>
-        <input type="email" id="signupEmail" required>
+        <label for="signupEmail">Email Address</label>
+        <input type="email" id="signupEmail" required />
         <label for="signupPassword">Password</label>
-        <input type="password" id="signupPassword" required>
-        <button type="submit" class="btn">Sign Up</button>
+        <input type="password" id="signupPassword" required />
+        <button type="submit">Sign Up</button>
       </form>
     </div>
   </div>
 
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+  <!-- Scripts -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+
+  <script src="script.js" defer></script>
 
 </body>
 </html>
-
-
-
