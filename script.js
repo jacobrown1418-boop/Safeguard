@@ -1,204 +1,134 @@
-// script.js (type="module")
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+/* ==========================================================================
+Federal Reserved Accounts – Main Site Script
+Controls navigation, Supabase authentication, Eastern Time clock, and forms
+========================================================================== */
 
-/* ---------- Supabase setup (same keys you provided earlier) ---------- */
-const SUPABASE_URL = 'https://hafzffbdqlojkuhgfsvy.supabase.co'
-const SUPABASE_ANON_KEY =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk'
+import { createClient } from "[https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm](https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm)";
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
-console.log('Supabase ready')
+/* Replace with your actual Supabase project URL and anon key */
+const SUPABASE_URL = "[https://qvwgvpywjqqycxemgrpl.supabase.co](https://qvwgvpywjqqycxemgrpl.supabase.co)";
+const SUPABASE_ANON_KEY = "YOUR_EXISTING_SUPABASE_ANON_KEY"; // keep your key here safely
 
-/* ---------- DOM helpers ---------- */
-const qs = (sel) => document.querySelector(sel)
-const qsa = (sel) => Array.from(document.querySelectorAll(sel))
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-/* ---------- date in top-left ---------- */
-function injectDate() {
-  const dateEl = qs('#today-date')
-  if (!dateEl) return
-  const now = new Date()
-  const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
-  dateEl.textContent = now.toLocaleDateString(undefined, opts)
-}
-injectDate()
-
-/* ---------- mobile nav toggle ---------- */
-const menuToggle = qs('#menu-toggle')
-const navLinks = qs('#nav-links')
+/* ---------------------- NAVIGATION TOGGLE ---------------------- */
+document.addEventListener("DOMContentLoaded", () => {
+const menuToggle = document.getElementById("menu-toggle");
+const navLinks = document.getElementById("nav-links");
 if (menuToggle && navLinks) {
-  menuToggle.addEventListener('click', () => navLinks.classList.toggle('show'))
+menuToggle.addEventListener("click", () => {
+navLinks.classList.toggle("show");
+});
 }
+});
 
-/* ---------- modal open/close helpers ---------- */
-function openModal(id) {
-  const m = qs(`#${id}`)
-  if (!m) { console.warn('openModal: missing', id); return }
-  m.style.display = 'flex'
-  m.setAttribute('aria-hidden', 'false')
+/* ---------------------- EASTERN TIME DISPLAY ---------------------- */
+function updateEasternTime() {
+const el = document.getElementById("today-date");
+if (!el) return;
+const now = new Date();
+const options = {
+timeZone: "America/New_York",
+weekday: "long",
+year: "numeric",
+month: "long",
+day: "numeric",
+};
+el.textContent = new Intl.DateTimeFormat("en-US", options).format(now);
 }
-function closeModal(id) {
-  const m = qs(`#${id}`)
-  if (!m) return
-  m.style.display = 'none'
-  m.setAttribute('aria-hidden', 'true')
+document.addEventListener("DOMContentLoaded", updateEasternTime);
+
+/* ---------------------- MODAL HANDLERS ---------------------- */
+function setupModals() {
+const openButtons = document.querySelectorAll("#login-link, #signup-link");
+const closeButtons = document.querySelectorAll(".close");
+const modals = document.querySelectorAll(".modal");
+
+openButtons.forEach((btn) => {
+btn.addEventListener("click", (e) => {
+e.preventDefault();
+const target = btn.id === "login-link" ? "login-modal" : "signup-modal";
+document.getElementById(target)?.setAttribute("aria-hidden", "false");
+});
+});
+
+closeButtons.forEach((btn) => {
+btn.addEventListener("click", () => {
+const modal = btn.closest(".modal");
+modal?.setAttribute("aria-hidden", "true");
+});
+});
+
+window.addEventListener("click", (e) => {
+modals.forEach((modal) => {
+if (e.target === modal) modal.setAttribute("aria-hidden", "true");
+});
+});
 }
+document.addEventListener("DOMContentLoaded", setupModals);
 
-/* close buttons (data-close attr) */
-qsa('[data-close]').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    const id = btn.getAttribute('data-close')
-    if (id) closeModal(id)
-  })
-})
-/* generic close icons inside modals */
-qsa('.modal .close').forEach(btn => btn.addEventListener('click', e => {
-  const modal = btn.closest('.modal')
-  if (modal) { modal.style.display = 'none' }
-}))
+/* ---------------------- CONTACT FORM ---------------------- */
+function setupContactForm() {
+const form = document.getElementById("contactForm");
+if (!form) return;
 
-/* close when clicking outside modal */
-window.addEventListener('click', (e) => {
-  qsa('.modal').forEach(modal => {
-    if (e.target === modal) modal.style.display = 'none'
-  })
-})
-
-/* ---------- signup modal open ---------- */
-const signupLink = qs('#signup-link')
-if (signupLink) signupLink.addEventListener('click', (e) => {
-  e.preventDefault(); openModal('signup-modal')
-})
-
-/* ---------- login modal open ---------- */
-const loginLink = qs('#login-link')
-if (loginLink) loginLink.addEventListener('click', (e) => {
-  e.preventDefault(); openModal('login-modal')
-})
-
-/* ---------- logout button ---------- */
-const logoutBtn = qs('#logoutBtn')
-async function updateAuthStateUI() {
-  const { data: { user } } = await supabase.auth.getUser()
-  if (user) {
-    logoutBtn.style.display = 'inline-block'
-    qs('#login-link').style.display = 'none'
-    qs('#signup-link').style.display = 'none'
-  } else {
-    logoutBtn.style.display = 'none'
-    qs('#login-link').style.display = ''
-    qs('#signup-link').style.display = ''
-  }
+form.addEventListener("submit", async (e) => {
+e.preventDefault();
+const message = document.getElementById("publicCommentMessage");
+if (message) {
+const ref = Math.floor(10000 + Math.random() * 90000);
+message.textContent = `✅ Your message has been received. Reference ID: FRA-${ref}`;
 }
-updateAuthStateUI()
-if (logoutBtn) {
-  logoutBtn.addEventListener('click', async () => {
-    await supabase.auth.signOut()
-    alert('You are signed out.')
-    updateAuthStateUI()
-  })
+form.reset();
+});
 }
+document.addEventListener("DOMContentLoaded", setupContactForm);
 
-/* ---------- Signup form (Supabase) ---------- */
-const signupForm = qs('#signupForm')
+/* ---------------------- SUPABASE AUTH ---------------------- */
+async function setupAuth() {
+const signupForm = document.getElementById("signupForm");
+const loginForm = document.getElementById("loginForm");
+const logoutBtn = document.getElementById("logoutBtn");
+
+// Signup
 if (signupForm) {
-  signupForm.addEventListener('submit', async (e) => {
-    e.preventDefault()
-    const name = qs('#signupName').value.trim()
-    const email = qs('#signupEmail').value.trim()
-    const password = qs('#signupPassword').value.trim()
-
-    if (!name || !email || !password) { alert('Please fill all fields'); return }
-
-    try {
-      const { error } = await supabase.auth.signUp({
-        email, password,
-        options: { data: { full_name: name } }
-      })
-      if (error) throw error
-      alert('Signup successful — check your email for confirmation (if required).')
-      signupForm.reset()
-      closeModal('signup-modal')
-    } catch (err) {
-      console.error('Signup error', err)
-      alert('Signup failed: ' + (err.message || err))
-    }
-  })
+signupForm.addEventListener("submit", async (e) => {
+e.preventDefault();
+const email = document.getElementById("signupEmail").value;
+const password = document.getElementById("signupPassword").value;
+const { error } = await supabase.auth.signUp({ email, password });
+if (error) {
+alert(`Signup failed: ${error.message}`);
+} else {
+alert("Signup successful! Please check your email for confirmation.");
+signupForm.reset();
+}
+});
 }
 
-/* ---------- Login form (Supabase) ---------- */
-const loginForm = qs('#loginForm')
+// Login
 if (loginForm) {
-  loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault()
-    const email = qs('#loginEmail').value.trim()
-    const password = qs('#loginPassword').value.trim()
-
-    if (!email || !password) { alert('Please enter email and password'); return }
-
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
-      if (error) throw error
-      // logged in
-      alert('Login successful — redirecting to dashboard...')
-      updateAuthStateUI()
-      closeModal('login-modal')
-      // optional: redirect to dashboard
-      window.location.href = 'dashboard.html'
-    } catch (err) {
-      console.error('Login error', err)
-      alert('Login failed: ' + (err.message || err))
-    }
-  })
+loginForm.addEventListener("submit", async (e) => {
+e.preventDefault();
+const email = document.getElementById("loginEmail").value;
+const password = document.getElementById("loginPassword").value;
+const { error } = await supabase.auth.signInWithPassword({ email, password });
+if (error) {
+alert(`Login failed: ${error.message}`);
+} else {
+alert("Login successful!");
+document.getElementById("login-modal")?.setAttribute("aria-hidden", "true");
+loginForm.reset();
+}
+});
 }
 
-/* ---------- Public comment modal & submit ---------- */
-const publicCommentBtn = qs('#public-comment-btn')
-if (publicCommentBtn) {
-  publicCommentBtn.addEventListener('click', (e) => { e.preventDefault(); openModal('publicCommentModal') })
+// Logout
+if (logoutBtn) {
+logoutBtn.addEventListener("click", async () => {
+await supabase.auth.signOut();
+alert("You’ve been logged out securely.");
+});
 }
-const publicCommentForm = qs('#publicCommentForm')
-if (publicCommentForm) {
-  publicCommentForm.addEventListener('submit', async (e) => {
-    e.preventDefault()
-    const text = qs('#publicCommentText').value.trim()
-    if (!text) { alert('Please enter a comment'); return }
-    // If you want to save to Supabase, uncomment the block and create `comments` table
-    /*
-    const { error } = await supabase.from('comments').insert({ user_id: user?.id, comment: text })
-    if (error) { console.error(error); alert('Save failed'); return }
-    */
-    qs('#publicCommentMessage').textContent = '✔️ Your comment has been submitted. Thank you.'
-    publicCommentForm.reset()
-    setTimeout(() => { closeModal('publicCommentModal'); qs('#publicCommentMessage').textContent = '' }, 1600)
-  })
 }
-
-/* ---------- Take-action buttons ---------- */
-qs('#report-fraud-btn')?.addEventListener('click', () => window.location.href = 'report-fraud.html')
-qs('#report-identity-btn')?.addEventListener('click', () => window.location.href = 'report-fraud.html')
-
-// coming soon buttons
-qsa('.coming-soon').forEach(b => b.addEventListener('click', (e) => {
-  e.preventDefault(); alert('Feature coming soon.')
-}))
-
-/* ---------- Contact form ---------- */
-const contactForm = qs('#contactForm')
-if (contactForm) {
-  contactForm.addEventListener('submit', (e) => {
-    e.preventDefault()
-    const ref = 'FRA-' + Math.floor(10000 + Math.random() * 90000)
-    qs('#contactMessage').innerHTML = `✅ Your query has been submitted.<br>Reference: <strong>${ref}</strong>`
-    contactForm.reset()
-  })
-}
-
-/* ---------- Image debug helper (optional) ---------- */
-qsa('img').forEach(img => {
-  img.addEventListener('error', () => {
-    console.warn('Image failed to load:', img.src)
-    // give a simple visual placeholder so layout doesn't break
-    img.style.display = 'none'
-  })
-})
+document.addEventListener("DOMContentLoaded", setupAuth);
