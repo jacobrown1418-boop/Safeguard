@@ -1,20 +1,49 @@
 /* ==========================================================================
-Federal Reserved Accounts – Unified Header, Footer, and Global Layout
-Modern lighter variation of the policies theme
+Federal Reserved Accounts – Unified Global Theme
+Includes header, footer, hero banner, modals, forms & responsive layout
 ========================================================================== */
 
-/* Official Notice (Top Banner) */
+/* ---------- GLOBAL LAYOUT ---------- */
+body {
+font-family: "Inter", Arial, sans-serif;
+margin: 0;
+padding: 0;
+color: #0b1d3a;
+background-color: #f7f9fc;
+line-height: 1.6;
+}
+
+.container {
+max-width: 1100px;
+margin: 0 auto;
+padding: 40px 20px;
+}
+
+h1, h2, h3 {
+font-weight: 700;
+color: #0b1d3a;
+}
+
+a {
+color: #0b4f6c;
+text-decoration: none;
+}
+a:hover {
+text-decoration: underline;
+}
+
+/* ---------- OFFICIAL US NOTICE ---------- */
 .us-notice {
 background-color: #e9eff7;
 text-align: center;
-padding: 6px 0;
+padding: 8px 0;
 font-size: 0.95rem;
 color: #0b1d3a;
 font-weight: 600;
 border-bottom: 1px solid #c7d3e0;
 }
 
-/* Header / Navigation */
+/* ---------- HEADER & NAV ---------- */
 .site-header {
 background-color: #f7f9fc;
 border-bottom: 1px solid #d8e3ee;
@@ -42,9 +71,9 @@ text-decoration: none;
 }
 
 .logo img {
-width: 38px;
+width: 40px;
 height: auto;
-margin-right: 10px;
+margin-right: 8px;
 border-radius: 4px;
 }
 
@@ -56,11 +85,10 @@ align-items: center;
 
 .nav-links a {
 color: #0b1d3a;
-text-decoration: none;
 font-weight: 600;
 padding: 6px 10px;
-border-radius: 5px;
-transition: background-color 0.2s, color 0.2s;
+border-radius: 6px;
+transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .nav-links a:hover,
@@ -76,12 +104,11 @@ padding: 8px 14px;
 border-radius: 6px;
 transition: background-color 0.2s ease;
 }
-
 .signup-btn:hover {
 background-color: #0a6288;
 }
 
-/* Menu Toggle for Mobile */
+/* ---------- MOBILE NAV ---------- */
 #menu-toggle {
 display: none;
 background: none;
@@ -94,7 +121,6 @@ cursor: pointer;
 #menu-toggle {
 display: block;
 }
-
 .nav-links {
 display: none;
 flex-direction: column;
@@ -106,11 +132,9 @@ border: 1px solid #d8e3ee;
 border-radius: 6px;
 padding: 12px;
 }
-
 .nav-links.show {
 display: flex;
 }
-
 .nav-links a {
 padding: 8px 0;
 width: 100%;
@@ -118,15 +142,26 @@ text-align: right;
 }
 }
 
-/* Hero Section (shared styles for all pages) */
-.hero-home {
+/* ---------- HERO SECTIONS ---------- */
+.hero-home,
+.hero-page {
+background-image: linear-gradient(rgba(11, 29, 58, 0.6), rgba(11, 29, 58, 0.6)), url("hero-flag.jpg");
 background-size: cover;
 background-position: center;
 background-repeat: no-repeat;
-color: #fff;
 text-align: center;
+color: #fff;
 padding: 110px 20px;
 position: relative;
+}
+
+.hero-dashboard {
+background-image: linear-gradient(rgba(11, 29, 58, 0.4), rgba(11, 29, 58, 0.4)), url("hero-flag.jpg");
+background-size: cover;
+background-position: center;
+text-align: center;
+color: #fff;
+padding: 90px 20px;
 }
 
 .hero-content {
@@ -134,16 +169,16 @@ max-width: 900px;
 margin: 0 auto;
 }
 
-.hero-home h1 {
+.hero-content h1 {
 font-size: 2.6rem;
-margin-bottom: 10px;
+margin-bottom: 12px;
 text-shadow: 1px 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 .tagline {
 font-size: 1.15rem;
-margin-bottom: 15px;
 color: #e7f2f7;
+margin-bottom: 20px;
 }
 
 .hero-buttons {
@@ -151,64 +186,56 @@ display: flex;
 justify-content: center;
 gap: 15px;
 flex-wrap: wrap;
-margin-top: 15px;
 }
 
-/* Footer */
-.site-footer {
-background-color: #f1f5fa;
-text-align: center;
-padding: 20px 10px;
-border-top: 1px solid #d8e3ee;
-margin-top: 60px;
-}
-
-.site-footer a {
-color: #0b4f6c;
+.btn {
+background-color: #0b4f6c;
+color: #fff;
+padding: 10px 18px;
+border-radius: 6px;
+font-weight: 600;
 text-decoration: none;
+border: none;
+cursor: pointer;
+transition: background-color 0.2s ease;
+}
+.btn:hover {
+background-color: #0a6288;
+}
+.btn.ghost {
+background: transparent;
+border: 1px solid rgba(255, 255, 255, 0.7);
+}
+.btn.ghost:hover {
+background-color: rgba(255, 255, 255, 0.15);
 }
 
-.site-footer a:hover {
-text-decoration: underline;
-}
-
-/* Layout + Content */
-.container {
-max-width: 1000px;
-margin: 50px auto;
-padding: 0 20px;
-}
-
+/* ---------- CONTENT SECTIONS ---------- */
 .content-section {
 margin-bottom: 50px;
-line-height: 1.7;
 }
-
 .content-section h2 {
-color: #0b1d3a;
 border-bottom: 2px solid #dbe9f5;
 padding-bottom: 8px;
-margin-bottom: 16px;
+margin-bottom: 20px;
+color: #0b1d3a;
 }
 
-/* Form Elements */
+/* ---------- FORM STYLES ---------- */
 .form {
 background: #fff;
 padding: 25px;
 border-radius: 8px;
 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
-
 .form label {
 display: block;
 margin-top: 14px;
 font-weight: 600;
-color: #0b1d3a;
 }
-
 .form input,
-.form select,
-.form textarea {
+.form textarea,
+.form select {
 width: 100%;
 padding: 10px;
 margin-top: 6px;
@@ -216,7 +243,6 @@ border: 1px solid #c7d3e0;
 border-radius: 5px;
 font-size: 1rem;
 }
-
 .form button {
 margin-top: 20px;
 background-color: #0b4f6c;
@@ -228,177 +254,89 @@ font-weight: 600;
 cursor: pointer;
 transition: background-color 0.2s ease;
 }
-
 .form button:hover {
 background-color: #0a6288;
 }
 
-/* Buttons */
-.btn {
-background-color: #0b4f6c;
-color: #fff;
-padding: 10px 18px;
-border-radius: 6px;
-text-decoration: none;
-font-weight: 600;
-border: none;
-cursor: pointer;
-}
-
-.btn:hover {
-background-color: #0a6288;
-}
-
-.btn.ghost {
-background: transparent;
-border: 1px solid rgba(255, 255, 255, 0.7);
-color: #fff;
-}
-
-.btn.ghost:hover {
-background-color: rgba(255, 255, 255, 0.15);
-}
-
-/* Responsive Typography */
-@media (max-width: 768px) {
-.hero-home {
-padding: 80px 15px;
-}
-
-.hero-home h1 {
-font-size: 2.2rem;
-}
-
-.tagline {
-font-size: 1rem;
-}
-}
-/* ==========================================================================
-Federal Reserved Accounts – Homepage Styles
-Extends the base design from policies.css
-========================================================================== */
-
-/* Hero Section with faint U.S. flag overlay */
-.hero-home {
-background-image:
-linear-gradient(rgba(11, 29, 58, 0.75), rgba(11, 29, 58, 0.85)),
-url("images/hero-flag.jpg");
-background-size: cover;
-background-position: center;
-background-repeat: no-repeat;
-color: #fff;
-padding: 110px 20px;
-text-align: left;
-}
-
-.hero-content {
-max-width: 960px;
-margin: 0 auto;
-}
-
-.hero-home h1 {
-font-size: 2.8rem;
-margin-bottom: 12px;
-text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.5);
-}
-
-.tagline {
-font-size: 1.25rem;
-margin-bottom: 15px;
-color: #e7f2f7;
-}
-
-.today-date {
-font-size: 1rem;
-color: #d4e4f1;
-margin-bottom: 20px;
-}
-
-.hero-buttons {
-display: flex;
-gap: 12px;
-flex-wrap: wrap;
-margin-top: 15px;
-}
-
-/* Buttons */
-.btn {
-background-color: #0b4f6c;
-color: #fff;
-padding: 10px 18px;
-border-radius: 6px;
-text-decoration: none;
-font-weight: 600;
-border: none;
-cursor: pointer;
-}
-
-.btn:hover {
-background-color: #0a5e83;
-}
-
-.btn.ghost {
-background: transparent;
-border: 1px solid rgba(255, 255, 255, 0.5);
-}
-
-/* Main content container */
-.container {
-max-width: 1000px;
-margin: 50px auto;
-padding: 0 20px;
-}
-
-.content-section {
-margin-bottom: 50px;
-}
-
-.content-section h2 {
-color: #0b1d3a;
-border-bottom: 2px solid #dce6f2;
-padding-bottom: 8px;
-margin-bottom: 16px;
-}
-
-.form label {
-display: block;
-margin-top: 12px;
-font-weight: 600;
-}
-
-.form input,
-.form textarea,
-.form select {
+/* ---------- MODALS ---------- */
+.modal {
+display: none;
+position: fixed;
+z-index: 1000;
+left: 0;
+top: 0;
 width: 100%;
-padding: 10px;
-border: 1px solid #c7d3e0;
-border-radius: 4px;
-margin-top: 6px;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.5);
+backdrop-filter: blur(2px);
 }
-
-.form button {
-margin-top: 16px;
-}
-
-.success-message {
-margin-top: 12px;
-color: #0a8047;
-font-weight: 600;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-.hero-home {
-text-align: center;
-padding: 80px 15px;
-}
-
-.hero-home h1 {
-font-size: 2.1rem;
-}
-
-.hero-buttons {
+.modal[aria-hidden="false"] {
+display: flex;
+align-items: center;
 justify-content: center;
 }
+.modal-content {
+background-color: #fff;
+padding: 25px 30px;
+border-radius: 10px;
+max-width: 420px;
+width: 100%;
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+position: relative;
+animation: modalFadeIn 0.25s ease-in;
+}
+.close {
+color: #777;
+position: absolute;
+top: 12px;
+right: 16px;
+font-size: 1.5rem;
+font-weight: bold;
+cursor: pointer;
+}
+.close:hover { color: #000; }
+
+/* Animations */
+@keyframes modalFadeIn {
+from { opacity: 0; transform: scale(0.95); }
+to { opacity: 1; transform: scale(1); }
 }
 
+/* ---------- FOOTER ---------- */
+.site-footer {
+background-color: #f1f5fa;
+text-align: center;
+padding: 25px 10px;
+border-top: 1px solid #d8e3ee;
+margin-top: 60px;
+}
+.site-footer a {
+color: #0b4f6c;
+}
+.site-footer a:hover {
+text-decoration: underline;
+}
+
+/* ---------- SPINNER ---------- */
+.spinner {
+display: inline-block;
+width: 16px;
+height: 16px;
+border: 2px solid rgba(255, 255, 255, 0.5);
+border-top: 2px solid #fff;
+border-radius: 50%;
+animation: spin 0.8s linear infinite;
+margin-right: 6px;
+vertical-align: middle;
+}
+@keyframes spin {
+from { transform: rotate(0deg); }
+to { transform: rotate(360deg); }
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+.hero-home { padding: 90px 15px; }
+.hero-home h1 { font-size: 2.2rem; }
+.tagline { font-size: 1rem; }
+}
