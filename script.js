@@ -151,7 +151,7 @@ const email = document.getElementById("forgotEmail").value.trim();
 function showSpinner(btn, text) {
 if (!btn) return;
 btn.disabled = true;
-btn.innerHTML = `<span class="spinner" aria-hidden="true"></span>${text}`;
+btn.innerHTML = '<span class="spinner" aria-hidden="true"></span>' + text;
 }
 
 function hideSpinner(btn, text) {
@@ -165,3 +165,4 @@ function closeAllModals() {
 document.querySelectorAll(".modal").forEach(m => m.setAttribute("aria-hidden", "true"));
 document.body.classList.remove("modal-open");
 }
+
