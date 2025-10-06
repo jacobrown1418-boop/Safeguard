@@ -4,27 +4,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Federal Reserved Accounts – Read our official privacy and security policies for transparency and accountability." />
-  <title>Federal Reserved Accounts – Policies</title>
-<link rel="stylesheet" href="styles.css">
-  <script type="module" src="policies.js" defer></script>
+  <meta name="description" content="Federal Reserved Accounts – Policies, consumer protection, and transparency guidelines for secure account use." />
+  <title>Federal Reserved Accounts – Policies & Consumer Protection</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" href="ftclogo.jpg" />
 </head>
-
 <body>
-  <!-- Official Notice -->
+  <!-- Official Government Notice -->
   <div class="us-notice">
-    <p>🇺🇸 An official website of the United States Government</p>
+    An official website of the United States Government
   </div>
 
-  <!-- Header / Navigation -->
+  <!-- Header -->
 
   <header class="site-header">
     <div class="nav-container">
       <a href="index.html" class="logo">
-        <img src="images/ftclogo.jpg" alt="Federal Reserved Accounts Logo" />
-        <span>Federal Reserved Accounts</span>
+        <img src="header-ftc.png" alt="Federal Reserved Accounts Logo" />
+        Federal Reserved Accounts
       </a>
-      <button id="menu-toggle" aria-label="Menu">&#9776;</button>
+      <button id="menu-toggle">☰</button>
       <nav id="nav-links" class="nav-links">
         <a href="index.html">Home</a>
         <a href="report-fraud.html">Report Fraud</a>
@@ -35,16 +34,15 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Hero Banner -->
 
-  <section class="hero-home">
+  <section class="hero-page">
     <div class="hero-content">
-      <h1>Our Federal Reserved Accounts Policies</h1>
-      <p class="tagline">Learn about your rights, responsibilities, and secure access standards.</p>
-      <p id="today-date" class="today-date"></p>
+      <h1>Policies & Transparency</h1>
+      <p class="tagline">Understand your rights and responsibilities when accessing Federal Reserved Accounts.</p>
       <div class="hero-buttons">
-        <a href="#policies-section" class="btn">Read Full Policy</a>
-        <a href="index.html" class="btn ghost">Return Home</a>
+        <a href="#privacy" class="btn">Privacy Policy</a>
+        <a href="#terms" class="btn ghost">Terms of Use</a>
       </div>
     </div>
   </section>
@@ -52,44 +50,38 @@
   <!-- Main Content -->
 
   <main class="container">
-    <section id="policies-section" class="content-section">
-      <h2>Privacy & Data Protection</h2>
+    <section id="overview" class="content-section">
+      <h2>Overview</h2>
       <p>
-        Federal Reserved Accounts ensures that your personal and financial information remains confidential and secure.
-        We comply with all U.S. data privacy regulations, employing advanced encryption, restricted data access, and
-        independent oversight to safeguard your information.
+        Federal Reserved Accounts operates under strict privacy, security, and transparency guidelines to ensure that all U.S. citizens and verified users can safely manage their account information. Our framework aligns with federal data-handling standards and consumer protection mandates.
       </p>
-      <ul>
-        <li>Your data will never be sold or disclosed without legal authorization.</li>
-        <li>We utilize 256-bit SSL encryption across all platform connections.</li>
-        <li>Users have full transparency and control over account activity logs.</li>
-      </ul>
     </section>
 
 ```
-<section class="content-section">
-  <h2>Transparency & Accountability</h2>
+<section id="privacy" class="content-section">
+  <h2>Privacy Policy</h2>
   <p>
-    All operations under Federal Reserved Accounts are monitored for compliance and integrity. We maintain public
-    accountability through transparent reporting, independent auditing, and secure digital verification systems.
+    Your personal and financial information is protected under the Privacy Act and maintained in compliance with all applicable U.S. data security laws. Federal Reserved Accounts does not share or sell user information and only uses collected data to improve secure platform functionality.
+  </p>
+  <p>
+    All user communications are encrypted and stored securely in accordance with federal information management protocols.
   </p>
 </section>
 
-<section class="content-section">
-  <h2>Information Collection</h2>
+<section id="terms" class="content-section">
+  <h2>Terms of Use</h2>
   <p>
-    We collect minimal personal information necessary to verify identity and support secure user authentication. 
-    Data retention follows federal standards, ensuring all information is stored only as long as necessary to 
-    maintain security and compliance.
+    By accessing and using this platform, you acknowledge and agree to comply with the official use guidelines and that all actions performed through your account are subject to verification. Unauthorized use or misrepresentation is strictly prohibited under U.S. law.
+  </p>
+  <p>
+    Federal Reserved Accounts reserves the right to suspend or restrict access to maintain platform security and integrity.
   </p>
 </section>
 
-<section class="content-section">
-  <h2>Security Practices</h2>
+<section id="security" class="content-section">
+  <h2>Security and Compliance</h2>
   <p>
-    FRA employs advanced network monitoring, intrusion prevention, and multi-factor authentication to ensure 
-    continuous protection. Regular audits by certified federal IT teams reinforce our commitment to maintaining 
-    the highest standards of cybersecurity.
+    Federal Reserved Accounts employs multi-layer encryption, real-time monitoring, and verified identity authentication to ensure data integrity. Users are advised to never share login credentials and to report suspicious activity immediately using our Report Fraud portal.
   </p>
 </section>
 ```
@@ -99,13 +91,11 @@
   <!-- Footer -->
 
   <footer class="site-footer">
-    <div class="footer-container">
-      <p>&copy; <span id="year"></span> Federal Reserved Accounts. All rights reserved.</p>
-      <p>
-        <a href="index.html">Home</a> |
-        <a href="report-fraud.html">Report Fraud</a>
-      </p>
-    </div>
+    <p>
+      &copy; 2025 Federal Reserved Accounts. All rights reserved. |
+      <a href="policies.html">Policies</a> |
+      <a href="report-fraud.html">Report Fraud</a>
+    </p>
   </footer>
 
   <!-- Login Modal -->
@@ -115,11 +105,11 @@
       <span class="close">&times;</span>
       <h2>Login to Your Account</h2>
       <form id="loginForm">
-        <label for="loginEmail">Email</label>
+        <label for="loginEmail">Email Address</label>
         <input type="email" id="loginEmail" required />
         <label for="loginPassword">Password</label>
         <input type="password" id="loginPassword" required />
-        <button type="submit" class="btn">Login</button>
+        <button type="submit">Login</button>
       </form>
     </div>
   </div>
@@ -129,21 +119,22 @@
   <div id="signup-modal" class="modal" aria-hidden="true">
     <div class="modal-content">
       <span class="close">&times;</span>
-      <h2>Create an Account</h2>
+      <h2>Create Your Account</h2>
       <form id="signupForm">
-        <label for="signupEmail">Email</label>
+        <label for="signupEmail">Email Address</label>
         <input type="email" id="signupEmail" required />
         <label for="signupPassword">Password</label>
         <input type="password" id="signupPassword" required />
-        <button type="submit" class="btn">Sign Up</button>
+        <button type="submit">Sign Up</button>
       </form>
     </div>
   </div>
 
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+  <!-- Scripts -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+
+  <script src="script.js" defer></script>
 
 </body>
 </html>
-
