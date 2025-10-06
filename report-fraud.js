@@ -1,43 +1,77 @@
+/* ==========================================================================
+Federal Reserved Accounts – Report Fraud Page Script
+Handles fraud reporting, confirmation messages, and Eastern Time display
+========================================================================== */
+
+import { supabase } from "./script.js";
+
+/* ---------------------- EASTERN TIME DISPLAY ---------------------- */
+function updateEasternTime() {
+const el = document.getElementById("today-date");
+if (!el) return;
+const now = new Date();
+const options = {
+timeZone: "America/New_York",
+weekday: "long",
+year: "numeric",
+month: "long",
+day: "numeric",
+};
+el.textContent = new Intl.DateTimeFormat("en-US", options).format(now);
+}
+document.addEventListener("DOMContentLoaded", updateEasternTime);
+
+/* ---------------------- FRAUD REPORT FORM ---------------------- */
+function setupFraudReportForm() {
+const form = document.getElementById("fraudReportForm");
+if (!form) return;
+
+form.addEventListener("submit", async (e) => {
+e.preventDefault();
+const name = document.getElementById("fullName").value.trim();
+const email = document.getElementById("email").value.trim();
+const fraudType = document.getElementById("fraudType").value;
+const description = document.getElementById("description").value.trim();
+const messageEl = document.getElementById("fraudReportMessage");
+
+```
+try {
+  // You could later connect this to Supabase if you want to store reports
+  console.log("Fraud Report Submitted:", { name, email, fraudType, description });
+
+  if (messageEl) {
+    const ref = Math.floor(10000 + Math.random() * 90000);
+    messageEl.textContent = `✅ Thank you, ${name}. Your report has been received. Reference ID: FRA-${ref}`;
+  }
+  form.reset();
+} catch (error) {
+  console.error("Error submitting report:", error);
+  if (messageEl) {
+    messageEl.textContent = "⚠️ There was an issue submitting your report. Please try again later.";
+  }
+}
+```
+
+});
+}
+
+/* ---------------------- SUPABASE SESSION CHECK ---------------------- */
+async function checkSession() {
+const {
+data: { session },
+} = await supabase.auth.getSession();
+
+const logoutBtn = document.getElementById("logoutBtn");
+if (session && logoutBtn) {
+logoutBtn.style.display = "inline-block";
+} else if (logoutBtn) {
+logoutBtn.style.display = "none";
+}
+}
+
+/* ---------------------- INITIALIZE PAGE ---------------------- */
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("fraudForm");
-    const message = document.getElementById("formMessage");
-  
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-  
-      // Collect form data
-      const formData = new FormData(form);
-      const entries = {};
-      formData.forEach((value, key) => {
-        if (entries[key]) {
-          if (Array.isArray(entries[key])) {
-            entries[key].push(value);
-          } else {
-            entries[key] = [entries[key], value];
-          }
-        } else {
-          entries[key] = value;
-        }
-      });
-  
-      console.log("Fraud report submitted:", entries);
-  
-      // Generate a random reference number
-      const referenceNum = "FRAUD-2025-" + Math.floor(10000 + Math.random() * 90000);
-  
-      // Show confirmation with reference number
-      message.innerHTML = `
-        ✅ Your fraud report has been submitted successfully.<br>
-        📌 Reference Number: <strong>${referenceNum}</strong><br>
-        👮 You will be contacted shortly by a federal officer regarding your complaint.
-      `;
-  
-      form.reset();
-  
-      // Clear message after 50 seconds
-      setTimeout(() => {
-        message.textContent = "";
-      }, 10000);
-    });
-  });
-  
+updateEasternTime();
+setupFraudReportForm();
+checkSession();
+});
