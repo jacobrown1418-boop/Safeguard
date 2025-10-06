@@ -10,10 +10,13 @@ script.js — GitHub Pages compatible (non-module) Supabase + UI
 
 ========================================================================== */
 
-/* ------------------- Supabase config (KEEP URL; paste anon key below) ------------------- */
-const SUPABASE_URL = "[https://qvwgvpywjqqycxemgrpl.supabase.co](https://qvwgvpywjqqycxemgrpl.supabase.co)";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk"; // <-- replace with your real anon key
+
+/* Supabase config */
+const SUPABASE_URL = "https://qvwgvpywjqqycxemgrpl.supabase.co";   // must start with https://
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk";       // paste your actual anon key here
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+console.log("✅ script.js loaded");
+
 
 /* Debug: confirm script loaded */
 console.log("✅ script.js loaded");
@@ -180,3 +183,4 @@ if (msg) msg.textContent = `✅ Thank you. Reference ID: FRA-${ref}`;
 form.reset();
 });
 }
+
