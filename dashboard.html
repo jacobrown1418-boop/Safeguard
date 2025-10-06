@@ -7,34 +7,54 @@
   <title>Federal Reserved Accounts – Dashboard</title>
   <meta name="description" content="Federal Reserved Accounts – Secure dashboard for managing your account" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="images/ftclogo.jpg" />
+  <link rel="icon" href="images/fra-logo.png" />
 </head>
 <body>
-  <div class="us-notice">An official website of the United States Government</div>
+  <!-- Official Notice -->
+  <div class="us-notice">
+    <img src="images/us_flag_small.png" alt="U.S. flag" style="height:16px; vertical-align:middle; margin-right:8px;">
+    An official website of the United States Government
+  </div>
+
+  <!-- Header -->
 
   <header class="site-header">
     <div class="nav-container">
-      <a href="index.html" class="logo"><img src="images/header-ftc.png" alt="logo"> Federal Reserved Accounts</a>
-      <button id="menu-toggle" aria-label="Open menu">☰</button>
-      <nav id="nav-links" class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="report-fraud.html">Report Fraud</a>
-        <a href="policies.html">Policies</a>
-        <a href="#" id="logout-link" class="signup-btn">Logout</a>
-      </nav>
-    </div>
+      <a href="index.html" class="logo">
+        <img src="images/fra-full-logo.png" alt="Federal Reserved Accounts Logo" />
+        Federal Reserved Accounts
+      </a>
+
+```
+  <button id="menu-toggle" aria-label="Open menu">☰</button>
+
+  <nav id="nav-links" class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="report-fraud.html">Report Fraud</a>
+    <a href="policies.html">Policies</a>
+    <a href="#" id="logout-link" class="signup-btn">Logout</a>
+  </nav>
+</div>
+```
+
   </header>
 
+  <!-- Hero (lighter overlay) -->
+
   <section class="hero-dashboard" style="background-image: linear-gradient(rgba(11,29,58,0.38), rgba(11,29,58,0.38)), url('images/hero-flag.jpg');">
+    <div class="hero-overlay" style="background-image:url('images/hero-emblem.png');"></div>
     <div class="hero-content">
-      <h1>Your Secure Dashboard</h1>
-      <p class="tagline">Manage your account, view submitted reports, and monitor security.</p>
+      <h1>Welcome to Your Federal Reserved Accounts Dashboard — Manage and Monitor Securely</h1>
+      <p class="tagline">Monitor account activity, manage alerts, and access secure resources for protecting your information.</p>
       <div class="hero-buttons">
         <a href="#overview" class="btn">View Activity</a>
         <a href="index.html" class="btn ghost">Return Home</a>
       </div>
+      <p id="today-date" style="margin-top:14px; font-weight:600;"></p>
     </div>
   </section>
+
+  <!-- Main dashboard content -->
 
   <main class="container">
     <section id="overview" class="content-section">
@@ -44,79 +64,122 @@
           <h3>Current Balance</h3>
           <p class="data" id="account-balance">$0.00</p>
         </div>
-        <div class="dashboard-card">
-          <h3>Recent Activity</h3>
-          <ul id="recent-transactions"><li>No recent transactions.</li></ul>
-        </div>
-        <div class="dashboard-card">
-          <h3>Security Status</h3>
-          <p id="security-status">All good.</p>
-        </div>
-      </div>
-    </section>
 
 ```
+    <div class="dashboard-card">
+      <h3>Recent Activity</h3>
+      <ul id="recent-transactions">
+        <li>No recent transactions available.</li>
+      </ul>
+    </div>
+
+    <div class="dashboard-card">
+      <h3>Security Status</h3>
+      <p id="security-status">Secure — no alerts.</p>
+    </div>
+  </div>
+</section>
+
 <section class="content-section">
-  <h2>Actions</h2>
-  <button id="logoutButton" class="btn">Logout</button>
+  <h2>Quick Actions</h2>
+  <p>Use the quick actions below to request reviews, update preferences, or view detailed reports related to your account activity.</p>
+  <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;">
+    <button class="btn">Request Account Review</button>
+    <button class="btn ghost" id="updateProfileBtn">Update Profile</button>
+    <button class="btn" id="logoutButton">Logout</button>
+  </div>
+</section>
+
+<section class="content-section">
+  <h2>Your Submitted Reports</h2>
+  <p id="reports-list">No submitted reports found.</p>
 </section>
 ```
 
   </main>
 
+  <!-- Footer -->
+
   <footer class="site-footer">
-    <p>&copy; 2025 Federal Reserved Accounts. <a href="policies.html">Policies</a></p>
+    <p>&copy; 2025 Federal Reserved Accounts. <a href="policies.html">Policies</a> | <a href="report-fraud.html">Report Fraud</a></p>
   </footer>
 
-  <!-- Login/Signup Modals in case session expires -->
+  <!-- Login Modal (in case session expires) -->
 
   <div id="login-modal" class="modal" aria-hidden="true">
-    <div class="modal-content"><span class="close">&times;</span>
-      <h2>Login</h2>
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Login to Your Account</h2>
       <form id="loginForm">
-        <label>Email</label><input type="email" id="loginEmail" required />
-        <label>Password</label><input type="password" id="loginPassword" required />
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" required />
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" required />
         <button type="submit" class="btn">Login</button>
       </form>
     </div>
   </div>
 
+  <!-- Signup Modal -->
+
   <div id="signup-modal" class="modal" aria-hidden="true">
-    <div class="modal-content"><span class="close">&times;</span>
-      <h2>Sign Up</h2>
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Create Account</h2>
       <form id="signupForm">
-        <label>Email</label><input type="email" id="signupEmail" required />
-        <label>Password</label><input type="password" id="signupPassword" required />
+        <label for="signupEmail">Email</label>
+        <input type="email" id="signupEmail" required />
+        <label for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" required />
         <button type="submit" class="btn">Sign Up</button>
       </form>
     </div>
   </div>
 
-  <!-- Supabase + script -->
+  <!-- Supabase UMD + main script (non-module) -->
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
 
   <script src="script.js" defer></script>
 
+  <!-- Logout wiring (uses UMD client) -->
+
   <script>
-    // Logout wiring (safe fallback)
-    document.addEventListener('DOMContentLoaded', () => {
-      const logoutBtn = document.getElementById('logoutButton');
-      const logoutLink = document.getElementById('logout-link');
+    // Replace with the same URL + anon key used in script.js if you duplicate here.
+    const SUPABASE_URL = "https://qvwgvpywjqqycxemgrpl.supabase.co";
+    const SUPABASE_ANON_KEY = "YOUR_EXISTING_SUPABASE_ANON_KEY"; // placeholder - script.js holds the real key
+    const supabaseClient = window.supabase?.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-      logoutBtn?.addEventListener('click', async () => {
-        await window.supabase.createClient("https://qvwgvpywjqqycxemgrpl.supabase.co", "YOUR_EXISTING_SUPABASE_ANON_KEY").auth.signOut();
-        alert('Logged out');
-        window.location.href = 'index.html';
-      });
+    async function doLogout() {
+      try {
+        if (!supabaseClient) {
+          // fallback attempt using global if available
+          if (window.supabase) {
+            const fallback = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            await fallback.auth.signOut();
+          }
+        } else {
+          await supabaseClient.auth.signOut();
+        }
+      } catch (err) {
+        console.error("Logout error:", err);
+      }
+      alert("You have been logged out.");
+      window.location.href = "index.html";
+    }
 
-      logoutLink?.addEventListener('click', async (e) => {
-        e.preventDefault();
-        await window.supabase.createClient("https://qvwgvpywjqqycxemgrpl.supabase.co", "YOUR_EXISTING_SUPABASE_ANON_KEY").auth.signOut();
-        alert('Logged out');
-        window.location.href = 'index.html';
-      });
-    });
+    document.getElementById("logoutButton")?.addEventListener("click", doLogout);
+    document.getElementById("logout-link")?.addEventListener("click", (e) => { e.preventDefault(); doLogout(); });
+
+    // show Eastern date (fallback if script.js ran earlier)
+    (function updateDateOnce(){
+      const el = document.getElementById('today-date');
+      if (!el) return;
+      try {
+        const now = new Date();
+        el.textContent = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'long', year:'numeric', month:'long', day:'numeric'}).format(now);
+      } catch(e){}
+    })();
   </script>
 
 </body>
