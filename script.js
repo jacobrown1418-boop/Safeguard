@@ -1,241 +1,167 @@
 /* ==========================================================================
-script.js — Enhanced Supabase + UI (updated for username fields + forgot password)
+script.js — Federal Reserved Accounts UI + Supabase Auth (non-module build)
 ========================================================================== */
 
-/* --- Supabase config --- */
-const SUPABASE_URL = "https://qvwgvpywjqqycxemgrpl.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk";
+/* ------------------- Supabase Configuration ------------------- */
+const SUPABASE_URL = "[https://qvwgvpywjqqycxemgrpl.supabase.co]";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF2d2d2cHl3anFxeWN4ZW1ncnBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.C_3YpYy84Tq-AcOvK9R5T7b5ZgbJvX6I0_1sbp1Qd3g";
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-console.log("✅ Enhanced script.js loaded");
 
-/* ---------- Utility: Spinner ---------- */
-function showSpinnerOnButton(btn, textDuring = "Processing...") {
-  if (!btn) return;
-  btn.disabled = true;
-  btn.innerHTML = `<span class="spinner" aria-hidden="true"></span>${textDuring}`;
-}
-function hideSpinnerOnButton(btn, normalText) {
-  if (!btn) return;
-  btn.disabled = false;
-  btn.textContent = normalText;
-}
-
-/* ---------- DOM Ready ---------- */
+/* ------------------- DOM Ready ------------------- */
 document.addEventListener("DOMContentLoaded", () => {
-  setupNav();
-  setupModals();
-  setupAuth();
-  setupContactForm();
-  setupFraudForm();
-  updateEasternDate();
-  protectDashboardIfNeeded();
-  console.log("✅ DOM Ready — All listeners active.");
+setupMenu();
+setupModals();
+setupAuthForms();
+console.log("✅ All UI handlers active.");
 });
 
-/* ---------- Mobile Nav ---------- */
-function setupNav() {
-  const toggle = document.getElementById("menu-toggle");
-  const nav = document.getElementById("nav-links");
-  toggle?.addEventListener("click", () => nav?.classList.toggle("show"));
+/* ------------------- Mobile Nav ------------------- */
+function setupMenu() {
+const toggle = document.getElementById("menu-toggle");
+const nav = document.getElementById("nav-links");
+if (toggle && nav) {
+toggle.addEventListener("click", () => nav.classList.toggle("show"));
+}
 }
 
-/* ---------- Eastern Time ---------- */
-function updateEasternDate() {
-  const el = document.getElementById("today-date");
-  if (!el) return;
-  const now = new Date();
-  const opts = {
-    timeZone: "America/New_York",
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
-  el.textContent = new Intl.DateTimeFormat("en-US", opts).format(now);
-}
-
-/* ---------- Modals ---------- */
+/* ------------------- Modal Logic ------------------- */
 function setupModals() {
-  const loginLink = document.getElementById("login-link");
-  const signupLink = document.getElementById("signup-link");
-  const loginModal = document.getElementById("login-modal");
-  const signupModal = document.getElementById("signup-modal");
-  const forgotModal = document.getElementById("forgot-modal");
-  const forgotBtn = document.getElementById("forgotPasswordBtn");
-  const closeBtns = document.querySelectorAll(".close");
+const modals = document.querySelectorAll(".modal");
+const closeBtns = document.querySelectorAll(".close");
 
-  // open modals
-  loginLink?.addEventListener("click", (e) => {
-    e.preventDefault();
-    loginModal?.setAttribute("aria-hidden", "false");
-    signupModal?.setAttribute("aria-hidden", "true");
-    document.body.classList.add("modal-open");
-  });
-  signupLink?.addEventListener("click", (e) => {
-    e.preventDefault();
-    signupModal?.setAttribute("aria-hidden", "false");
-    loginModal?.setAttribute("aria-hidden", "true");
-    document.body.classList.add("modal-open");
-  });
-  forgotBtn?.addEventListener("click", (e) => {
-    e.preventDefault();
-    forgotModal?.setAttribute("aria-hidden", "false");
-    loginModal?.setAttribute("aria-hidden", "true");
-    document.body.classList.add("modal-open");
-  });
+const loginLink = document.getElementById("login-link");
+const signupLink = document.getElementById("signup-link");
+const loginModal = document.getElementById("login-modal");
+const signupModal = document.getElementById("signup-modal");
+const forgotModal = document.getElementById("forgot-modal");
+const forgotBtn = document.getElementById("forgotPasswordBtn");
 
-  // close buttons
-  closeBtns.forEach((btn) =>
-    btn.addEventListener("click", () => {
-      btn.closest(".modal")?.setAttribute("aria-hidden", "true");
-      document.body.classList.remove("modal-open");
-    })
-  );
+// Open Modals
+if (loginLink) loginLink.addEventListener("click", e => { e.preventDefault(); openModal(loginModal); });
+if (signupLink) signupLink.addEventListener("click", e => { e.preventDefault(); openModal(signupModal); });
+if (forgotBtn) forgotBtn.addEventListener("click", e => { e.preventDefault(); closeAllModals(); openModal(forgotModal); });
 
-  // backdrop click
-  window.addEventListener("click", (e) => {
-    if (e.target.classList?.contains("modal")) {
-      e.target.setAttribute("aria-hidden", "true");
-      document.body.classList.remove("modal-open");
-    }
-  });
+// Close Modals (button)
+closeBtns.forEach(btn => btn.addEventListener("click", () => closeAllModals()));
+
+// Close Modals (outside click)
+window.addEventListener("click", e => {
+if (e.target.classList.contains("modal")) closeAllModals();
+});
+
+function openModal(modal) {
+closeAllModals();
+if (modal) modal.setAttribute("aria-hidden", "false");
+document.body.classList.add("modal-open");
 }
 
-/* ---------- Auth Handlers ---------- */
-function setupAuth() {
-  const loginForm = document.getElementById("loginForm");
-  const signupForm = document.getElementById("signupForm");
-  const forgotForm = document.getElementById("forgotForm");
-
-  /* --- Login --- */
-  if (loginForm) {
-    loginForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const btn = loginForm.querySelector("button");
-      showSpinnerOnButton(btn, "Logging in...");
-      const username = document.getElementById("loginUsername").value.trim();
-      const password = document.getElementById("loginPassword").value.trim();
-
-      // Note: Supabase login still requires an email internally.
-      // This uses the username as an identifier, so you can map usernames to emails later if needed.
-      try {
-        const { error } = await supabase.auth.signInWithPassword({
-          email: username,
-          password,
-        });
-        hideSpinnerOnButton(btn, "Login");
-        if (error) return alert("Login failed: " + error.message);
-
-        alert("✅ Login successful — redirecting...");
-        loginForm.reset();
-        document.getElementById("login-modal")?.setAttribute("aria-hidden", "true");
-        document.body.classList.remove("modal-open");
-        window.location.href = "dashboard.html";
-      } catch (err) {
-        hideSpinnerOnButton(btn, "Login");
-        alert("Login error: " + (err.message || err));
-      }
-    });
-  }
-
-  /* --- Signup --- */
-  if (signupForm) {
-    signupForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const btn = signupForm.querySelector("button");
-      showSpinnerOnButton(btn, "Creating account...");
-
-      const firstName = document.getElementById("firstName").value.trim();
-      const lastName = document.getElementById("lastName").value.trim();
-      const dob = document.getElementById("dob").value;
-      const email = document.getElementById("signupEmail").value.trim();
-      const username = document.getElementById("signupUsername").value.trim();
-      const password = document.getElementById("signupPassword").value.trim();
-
-      try {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: { data: { firstName, lastName, dob, username } },
-        });
-        hideSpinnerOnButton(btn, "Sign Up");
-        if (error) return alert("Signup failed: " + error.message);
-
-        alert("✅ Signup successful — please check your email for confirmation.");
-        signupForm.reset();
-        document.getElementById("signup-modal")?.setAttribute("aria-hidden", "true");
-        document.body.classList.remove("modal-open");
-      } catch (err) {
-        hideSpinnerOnButton(btn, "Sign Up");
-        alert("Signup error: " + (err.message || err));
-      }
-    });
-  }
-
-  /* --- Forgot Password --- */
-  if (forgotForm) {
-    forgotForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const btn = forgotForm.querySelector("button");
-      showSpinnerOnButton(btn, "Sending...");
-      const email = document.getElementById("forgotEmail").value.trim();
-
-      try {
-        const { error } = await supabase.auth.resetPasswordForEmail(email);
-        hideSpinnerOnButton(btn, "Send Reset Link");
-        if (error) return alert("Password reset failed: " + error.message);
-
-        alert("📩 Password reset email sent successfully.");
-        forgotForm.reset();
-        document.getElementById("forgot-modal")?.setAttribute("aria-hidden", "true");
-        document.body.classList.remove("modal-open");
-      } catch (err) {
-        hideSpinnerOnButton(btn, "Send Reset Link");
-        alert("Error: " + (err.message || err));
-      }
-    });
-  }
+function closeAllModals() {
+modals.forEach(m => m.setAttribute("aria-hidden", "true"));
+document.body.classList.remove("modal-open");
+}
 }
 
-/* ---------- Dashboard Protection ---------- */
-async function protectDashboardIfNeeded() {
-  if (!window.location.pathname.includes("dashboard.html")) return;
+/* ------------------- Auth Logic ------------------- */
+function setupAuthForms() {
+const loginForm = document.getElementById("loginForm");
+const signupForm = document.getElementById("signupForm");
+const forgotForm = document.getElementById("forgotForm");
+
+if (loginForm) {
+loginForm.addEventListener("submit", async e => {
+e.preventDefault();
+const btn = loginForm.querySelector("button[type='submit']");
+showSpinner(btn, "Logging in...");
+const username = document.getElementById("loginUsername").value.trim();
+const password = document.getElementById("loginPassword").value.trim();
+
+```
   try {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      alert("Please log in to access the dashboard.");
-      window.location.href = "index.html";
-    }
+    // demo: treat username as email for Supabase
+    const { data, error } = await supabase.auth.signInWithPassword({ email: username, password });
+    hideSpinner(btn, "Login");
+    if (error) return alert("❌ " + error.message);
+    alert("✅ Login successful — redirecting...");
+    closeAllModals();
+    loginForm.reset();
+    window.location.href = "dashboard.html";
   } catch (err) {
-    console.error("Auth session check error:", err);
-    window.location.href = "index.html";
+    hideSpinner(btn, "Login");
+    alert("⚠️ Login error: " + err.message);
   }
-}
-
-/* ---------- Contact Form ---------- */
-function setupContactForm() {
-  const form = document.getElementById("contactForm");
-  if (!form) return;
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const msg = document.getElementById("publicCommentMessage");
-    const ref = Math.floor(10000 + Math.random() * 90000);
-    if (msg) msg.textContent = `✅ Received — Reference ID: FRA-${ref}`;
-    form.reset();
-  });
-}
-
-/* ---------- Fraud Form ---------- */
-function setupFraudForm() {
-  const form = document.getElementById("fraudForm") || document.getElementById("fraudReportForm");
-  if (!form) return;
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const msg = document.getElementById("fraudMessage") || document.getElementById("fraudReportMessage");
-    const ref = Math.floor(10000 + Math.random() * 90000);
-    if (msg) msg.textContent = `✅ Thank you. Reference ID: FRA-${ref}`;
-    form.reset();
-  });
-}
+});
 ```
 
+}
+
+if (signupForm) {
+signupForm.addEventListener("submit", async e => {
+e.preventDefault();
+const btn = signupForm.querySelector("button[type='submit']");
+showSpinner(btn, "Signing up...");
+
+```
+  const email = document.getElementById("signupEmail").value.trim();
+  const password = document.getElementById("signupPassword").value.trim();
+
+  try {
+    const { error } = await supabase.auth.signUp({ email, password });
+    hideSpinner(btn, "Sign Up");
+    if (error) return alert("❌ " + error.message);
+    alert("✅ Signup successful — check your email for verification.");
+    closeAllModals();
+    signupForm.reset();
+  } catch (err) {
+    hideSpinner(btn, "Sign Up");
+    alert("⚠️ Signup error: " + err.message);
+  }
+});
+```
+
+}
+
+if (forgotForm) {
+forgotForm.addEventListener("submit", async e => {
+e.preventDefault();
+const btn = forgotForm.querySelector("button");
+showSpinner(btn, "Sending...");
+const email = document.getElementById("forgotEmail").value.trim();
+
+```
+  try {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + "/reset.html"
+    });
+    hideSpinner(btn, "Send Reset Link");
+    if (error) return alert("❌ " + error.message);
+    alert("✅ Reset link sent. Check your email.");
+    closeAllModals();
+    forgotForm.reset();
+  } catch (err) {
+    hideSpinner(btn, "Send Reset Link");
+    alert("⚠️ Reset error: " + err.message);
+  }
+});
+```
+
+}
+}
+
+/* ------------------- Spinner Helpers ------------------- */
+function showSpinner(btn, text) {
+if (!btn) return;
+btn.disabled = true;
+btn.innerHTML = `<span class="spinner" aria-hidden="true"></span>${text}`;
+}
+
+function hideSpinner(btn, text) {
+if (!btn) return;
+btn.disabled = false;
+btn.textContent = text;
+}
+
+/* ------------------- Modal Utility ------------------- */
+function closeAllModals() {
+document.querySelectorAll(".modal").forEach(m => m.setAttribute("aria-hidden", "true"));
+document.body.classList.remove("modal-open");
+}
