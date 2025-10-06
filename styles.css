@@ -148,3 +148,42 @@ p, li{ color:#22313a; }
 .container{ padding:20px; }
 }
 
+/* ==========================================================================
+Enhancements for Expanded Sections (index.html)
+========================================================================== */
+
+.content-section {
+  background: #ffffff;
+  padding: 28px 26px;
+  border-radius: 10px;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+}
+
+.content-section h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: var(--text);
+}
+
+.content-section p {
+  margin-bottom: 14px;
+  font-size: 1rem;
+  color: #233b52;
+}
+
+.content-section:last-child {
+  margin-bottom: 0;
+}
+
+.container > .content-section + .content-section {
+  margin-top: 36px;
+}
+
+/* Improved typography for readability */
+.content-section p,
+.content-section li {
+  line-height: 1.7;
+  letter-spacing: 0.2px;
+}
+```
