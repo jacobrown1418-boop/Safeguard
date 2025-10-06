@@ -1,81 +1,94 @@
 /* ==========================================================================
-Federal Reserved Accounts – GitHub Pages Compatible Script
-Working modals + Supabase auth + visual spinners
+script.js — GitHub Pages compatible (non-module) Supabase + UI
+
+* Place this file at project root
+* Ensure you include the Supabase UMD script BEFORE this file in HTML:
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+
+  <script src="script.js" defer></script>
+
 ========================================================================== */
 
-/* Load Supabase client (from CDN in HTML) */
-const { createClient } = window.supabase;
+/* ------------------- Supabase config (KEEP URL; paste anon key below) ------------------- */
 const SUPABASE_URL = "[https://qvwgvpywjqqycxemgrpl.supabase.co](https://qvwgvpywjqqycxemgrpl.supabase.co)";
-const SUPABASE_ANON_KEY = "YOUR_EXISTING_SUPABASE_ANON_KEY";
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk"; // <-- replace with your real anon key
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-/* ---------------------- MENU ---------------------- */
+/* Debug: confirm script loaded */
+console.log("✅ script.js loaded");
+
+/* ------------------- Utility: show / hide spinner on a button ------------------- */
+function showSpinnerOnButton(btn, textDuring = "Processing...") {
+if (!btn) return;
+btn.disabled = true;
+btn.innerHTML = `<span class="spinner" aria-hidden="true"></span>${textDuring}`;
+}
+function hideSpinnerOnButton(btn, normalText) {
+if (!btn) return;
+btn.disabled = false;
+btn.textContent = normalText;
+}
+
+/* ------------------- DOM Ready: menu + modals + time ------------------- */
 document.addEventListener("DOMContentLoaded", () => {
-const menuToggle = document.getElementById("menu-toggle");
-const navLinks = document.getElementById("nav-links");
-if (menuToggle && navLinks)
-menuToggle.addEventListener("click", () => navLinks.classList.toggle("show"));
+// mobile nav toggle
+const toggle = document.getElementById("menu-toggle");
+const nav = document.getElementById("nav-links");
+toggle?.addEventListener("click", () => nav?.classList.toggle("show"));
+
+// modals
+setupModals();
+
+// auth forms
+setupAuth();
+
+// local forms
+setupContactForm();
+setupFraudForm();
+
+// time
+updateEasternDate();
+
+// small diagnostics (console)
+console.log("DOM ready — event handlers attached where elements exist.");
 });
 
-/* ---------------------- TIME ---------------------- */
-function updateEasternTime() {
+/* ------------------- Eastern date (US Eastern) ------------------- */
+function updateEasternDate() {
 const el = document.getElementById("today-date");
 if (!el) return;
 const now = new Date();
-el.textContent = new Intl.DateTimeFormat("en-US", {
-timeZone: "America/New_York",
-weekday: "long",
-year: "numeric",
-month: "long",
-day: "numeric",
-}).format(now);
+const opts = { timeZone: "America/New_York", weekday: "long", year: "numeric", month: "long", day: "numeric" };
+el.textContent = new Intl.DateTimeFormat("en-US", opts).format(now);
 }
-document.addEventListener("DOMContentLoaded", updateEasternTime);
 
-/* ---------------------- MODALS ---------------------- */
+/* ------------------- Modals: open/close logic ------------------- */
 function setupModals() {
 const loginLink = document.getElementById("login-link");
 const signupLink = document.getElementById("signup-link");
 const loginModal = document.getElementById("login-modal");
 const signupModal = document.getElementById("signup-modal");
-const closeButtons = document.querySelectorAll(".close");
+const closeBtns = document.querySelectorAll(".close");
 
-loginLink?.addEventListener("click", (e) => {
-e.preventDefault();
-loginModal.setAttribute("aria-hidden", "false");
-signupModal?.setAttribute("aria-hidden", "true");
-});
+// open
+loginLink?.addEventListener("click", (e) => { e.preventDefault(); loginModal?.setAttribute("aria-hidden","false"); signupModal?.setAttribute("aria-hidden","true"); document.body.classList.add("modal-open"); });
+signupLink?.addEventListener("click", (e) => { e.preventDefault(); signupModal?.setAttribute("aria-hidden","false"); loginModal?.setAttribute("aria-hidden","true"); document.body.classList.add("modal-open"); });
 
-signupLink?.addEventListener("click", (e) => {
-e.preventDefault();
-signupModal.setAttribute("aria-hidden", "false");
-loginModal?.setAttribute("aria-hidden", "true");
-});
+// close by close button
+closeBtns.forEach(b => b.addEventListener("click", () => { b.closest(".modal")?.setAttribute("aria-hidden","true"); document.body.classList.remove("modal-open"); }));
 
-closeButtons.forEach((btn) =>
-btn.addEventListener("click", () =>
-btn.closest(".modal").setAttribute("aria-hidden", "true")
-)
-);
-
+// close by backdrop click
 window.addEventListener("click", (e) => {
-if (e.target.classList.contains("modal"))
-e.target.setAttribute("aria-hidden", "true");
+if (e.target.classList && e.target.classList.contains("modal")) {
+e.target.setAttribute("aria-hidden","true");
+document.body.classList.remove("modal-open");
+}
 });
 }
-document.addEventListener("DOMContentLoaded", setupModals);
 
-/* ---------------------- AUTH ---------------------- */
-function showSpinner(btn) {
-btn.disabled = true;
-btn.innerHTML = `<span class="spinner"></span> Processing...`;
-}
-function hideSpinner(btn, text) {
-btn.disabled = false;
-btn.textContent = text;
-}
-
-async function setupAuth() {
+/* ------------------- Auth: login & signup handlers ------------------- */
+function setupAuth() {
 const signupForm = document.getElementById("signupForm");
 const loginForm = document.getElementById("loginForm");
 
@@ -83,16 +96,20 @@ if (signupForm) {
 signupForm.addEventListener("submit", async (e) => {
 e.preventDefault();
 const btn = signupForm.querySelector("button");
-showSpinner(btn);
+showSpinnerOnButton(btn, "Signing up...");
 const email = document.getElementById("signupEmail").value.trim();
 const password = document.getElementById("signupPassword").value.trim();
+try {
 const { error } = await supabase.auth.signUp({ email, password });
-hideSpinner(btn, "Sign Up");
-if (error) alert(`Signup failed: ${error.message}`);
-else {
-alert("Signup successful! Check your email for confirmation.");
+hideSpinnerOnButton(btn, "Sign Up");
+if (error) { alert("Signup failed: " + error.message); return; }
+alert("Signup successful — check your email for confirmation.");
 signupForm.reset();
-document.getElementById("signup-modal").setAttribute("aria-hidden", "true");
+document.getElementById("signup-modal")?.setAttribute("aria-hidden","true");
+document.body.classList.remove("modal-open");
+} catch (err) {
+hideSpinnerOnButton(btn, "Sign Up");
+alert("Signup error: " + (err.message || err));
 }
 });
 }
@@ -101,47 +118,65 @@ if (loginForm) {
 loginForm.addEventListener("submit", async (e) => {
 e.preventDefault();
 const btn = loginForm.querySelector("button");
-showSpinner(btn);
+showSpinnerOnButton(btn, "Logging in...");
 const email = document.getElementById("loginEmail").value.trim();
 const password = document.getElementById("loginPassword").value.trim();
+try {
 const { error } = await supabase.auth.signInWithPassword({ email, password });
-hideSpinner(btn, "Login");
-if (error) alert(`Login failed: ${error.message}`);
-else {
-alert("Login successful!");
+hideSpinnerOnButton(btn, "Login");
+if (error) { alert("Login failed: " + error.message); return; }
+// success
+alert("Login successful — redirecting to dashboard.");
 loginForm.reset();
-document.getElementById("login-modal").setAttribute("aria-hidden", "true");
+document.getElementById("login-modal")?.setAttribute("aria-hidden","true");
+document.body.classList.remove("modal-open");
 window.location.href = "dashboard.html";
+} catch (err) {
+hideSpinnerOnButton(btn, "Login");
+alert("Login error: " + (err.message || err));
 }
 });
 }
 }
-document.addEventListener("DOMContentLoaded", setupAuth);
 
-/* ---------------------- DASHBOARD ---------------------- */
-async function protectDashboard() {
-const isDashboard = window.location.pathname.includes("dashboard.html");
-if (!isDashboard) return;
+/* ------------------- Dashboard protection (call on dashboard load) ------------------- */
+async function protectDashboardIfNeeded() {
+if (!window.location.pathname.includes("dashboard.html")) return;
+try {
 const { data: { session } } = await supabase.auth.getSession();
 if (!session) {
-alert("Please log in to access your dashboard.");
+alert("Please log in to access the dashboard.");
+window.location.href = "index.html";
+}
+} catch (err) {
+console.error("Auth session check error:", err);
 window.location.href = "index.html";
 }
 }
-document.addEventListener("DOMContentLoaded", protectDashboard);
+document.addEventListener("DOMContentLoaded", protectDashboardIfNeeded);
 
-/* ---------------------- CONTACT FORM ---------------------- */
+/* ------------------- Contact form handler (homepage) ------------------- */
 function setupContactForm() {
 const form = document.getElementById("contactForm");
 if (!form) return;
 form.addEventListener("submit", (e) => {
 e.preventDefault();
 const msg = document.getElementById("publicCommentMessage");
-if (msg) {
 const ref = Math.floor(10000 + Math.random() * 90000);
-msg.textContent = `✅ Your message has been received. Reference ID: FRA-${ref}`;
-}
+if (msg) msg.textContent = `✅ Received — Reference ID: FRA-${ref}`;
 form.reset();
 });
 }
-document.addEventListener("DOMContentLoaded", setupContactForm);
+
+/* ------------------- Fraud form handler ------------------- */
+function setupFraudForm() {
+const form = document.getElementById("fraudForm") || document.getElementById("fraudReportForm");
+if (!form) return;
+form.addEventListener("submit", (e) => {
+e.preventDefault();
+const msg = document.getElementById("fraudMessage") || document.getElementById("fraudReportMessage");
+const ref = Math.floor(10000 + Math.random() * 90000);
+if (msg) msg.textContent = `✅ Thank you. Reference ID: FRA-${ref}`;
+form.reset();
+});
+}
