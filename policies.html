@@ -1,169 +1,151 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Federal Reserve Accounts – Policies</title>
+  <title>Policies – Federal Reserved Accounts</title>
+  <meta name="description" content="Review the official policies and compliance standards of Federal Reserved Accounts. Learn how FRA protects consumers through secure, transparent regulations." />
+  <link rel="icon" href="images/ftclogo.jpg" type="image/x-icon" />
   <link rel="stylesheet" href="policies.css" />
 </head>
+
 <body>
-  <!-- Header / Nav -->
+  <!-- U.S. government banner -->
+  <div class="top-banner">
+    <img src="images/us_flag_small.png" alt="U.S. Flag" class="flag-img" />
+    <span class="banner-text">An official website of the United States government</span>
+  </div>
+
+  <!-- Header -->
+
   <header class="header">
     <div class="logo">
-      <img src="images/ftclogo.jpg" alt="FTC Seal" class="logo-img" />
-      <span>Federal Reserve Accounts</span>
+      <img src="images/ftclogo.jpg" alt="Federal Reserved Accounts Logo" class="logo-img" />
+      <span>Federal Reserved Accounts</span>
     </div>
-    <nav class="nav">
+    <nav class="nav" id="nav-links">
       <a href="index.html">Home</a>
       <a href="policies.html" class="active">Policies</a>
       <a href="report-fraud.html">Report Fraud</a>
-      <a href="#about-ftc">About FTC</a>
+      <a href="dashboard.html">Dashboard</a>
       <a href="#" id="login-link">Login</a>
       <a href="#" id="signup-link">Sign Up</a>
-      <a href="#contact">Contact Us</a>
     </nav>
+    <button id="menu-toggle" class="menu-toggle" aria-label="Toggle navigation">☰</button>
   </header>
 
-  <!-- Hero -->
-  <section class="hero">
-    <h1>Policies & Consumer Protections</h1>
-    <p>
-      At Federal Reserve Accounts, we commit to transparency, consumer rights, and regulatory compliance. 
-      Below are the policies, standards, and practices that guide how we manage accounts, data, and service integrity.
-    </p>
+  <!-- Hero Banner -->
+
+  <section class="hero hero-home">
+    <div class="hero-content">
+      <h1>Federal Reserved Accounts Policies</h1>
+      <p class="tagline">Ensuring security, privacy, and transparency for all account holders.</p>
+      <p id="today-date" class="today-date"></p>
+    </div>
   </section>
 
-  <main class="policies-container">
-    <!-- Privacy & Data Protection -->
-    <section class="policy">
-      <h2>Privacy & Data Protection</h2>
+  <!-- Policies Content -->
+
+  <main class="container">
+    <section class="content-section">
+      <h2>Our Policy Overview</h2>
       <p>
-        We collect only the information necessary to provide services, such as name, contact, transaction data, 
-        and verification details. We never sell or rent your personal data. Disclosure only occurs:
-      </p>
-      <ul>
-        <li>When required by federal law, legal process, court order, or government agencies.</li>
-        <li>To prevent fraud or security violations affecting accounts.</li>
-        <li>When you expressly consent to a specific data share.</li>
-      </ul>
-      <p>
-        We use strong encryption in transit and at rest. Access controls, regular audits, and monitoring reduce risk.  
-        In case of a data breach, we will notify affected users and authorities in full compliance with applicable laws.
+        Federal Reserved Accounts (FRA) maintains strict standards for financial transparency, consumer protection,
+        and data integrity. These policies are established under the guidance of the U.S. Treasury Department to
+        ensure compliance, security, and fairness in every account interaction.
       </p>
       <p>
-        We also adhere to standards such as the Privacy Shield / Data Privacy Framework (for EU–U.S. data transfers).  
-        :contentReference[oaicite:0]{index=0}  
+        Our framework aligns with federal data protection laws and ensures accountability for all systems and
+        financial service providers participating under the FRA platform.
       </p>
     </section>
 
-    <!-- Account Security & Fraud Protection -->
-    <section class="policy">
-      <h2>Account Security & Fraud Protection</h2>
-      <p>
-        Security is central to our operations. We maintain multi-layered systems that flag unusual behavior, require
-        multi-factor authentication, and monitor transactions in real time.
-      </p>
-      <p>
-        If suspicious or fraudulent activity is detected, we may suspend account access temporarily until verification
-        is completed. You’ll be notified, and you retain the right to dispute actions.
-      </p>
-      <p>
-        All account actions (logins, transfers, setting changes) are logged. For higher-risk transactions, we may
-        require additional identity checks.
-      </p>
-    </section>
+```
+<section class="content-section">
+  <h2>Privacy and Data Protection</h2>
+  <p>
+    Protecting your personal and financial data is our top priority. FRA employs multiple layers of encryption,
+    strict authentication protocols, and continuous monitoring to prevent unauthorized access to sensitive
+    information.
+  </p>
+  <ul>
+    <li>Personal data is never sold or shared with third parties without authorization.</li>
+    <li>All information is stored on secure, encrypted servers.</li>
+    <li>Access to personal records requires multi-factor verification.</li>
+    <li>Regular audits ensure compliance with federal data protection standards.</li>
+  </ul>
+</section>
 
-    <!-- Consumer Rights & Transparency -->
-    <section class="policy">
-      <h2>Consumer Rights & Transparency</h2>
-      <p>
-        As a federally managed service, you have the following rights:
-      </p>
-      <ul>
-        <li>Access to clear, readable disclosures of fees, terms, and conditions.</li>
-        <li>Advance notice (when feasible) of policy changes or updates.</li>
-        <li>Right to review your account statements and transaction history.</li>
-        <li>Ability to dispute errors or unauthorized transactions.</li>
-        <li>Right to opt out of certain data-sharing (where allowed by law).</li>
-      </ul>
-      <p>
-        We aim for full transparency. If we update these policies, we’ll provide notice via email or dashboard alerts ahead
-        of implementation.
-      </p>
-    </section>
+<section class="content-section">
+  <h2>Account Compliance and Integrity</h2>
+  <p>
+    FRA enforces compliance with all applicable U.S. financial regulations and federal security standards.
+    Account activity is continuously monitored for fraud detection and policy violations. Noncompliance or
+    misuse of the FRA system may result in investigation or suspension.
+  </p>
+</section>
 
-    <!-- Use of Services & Responsibilities -->
-    <section class="policy">
-      <h2>Use of Services & Responsibilities</h2>
-      <p>
-        You agree to use your account and our services lawfully, honestly, and in compliance with all applicable U.S.
-        federal laws. You are responsible for maintaining strong passwords and safeguarding your login credentials.
-      </p>
-      <p>
-        Prohibited activities include:
-      </p>
-      <ul>
-        <li>Unauthorized access or sharing of your credentials.</li>
-        <li>Using accounts for fraudulent or illegal actions.</li>
-        <li>Attempting to manipulate or exploit system vulnerabilities.</li>
-      </ul>
-      <p>
-        We reserve the right to suspend or close accounts for violations or repeated abuse.
-      </p>
-    </section>
+<section class="content-section">
+  <h2>Fraud Response and Enforcement</h2>
+  <p>
+    Federal Reserved Accounts operates in coordination with federal law enforcement and regulatory agencies
+    to prevent and respond to financial fraud. When fraudulent activity is detected, the FRA system takes
+    immediate steps to freeze suspicious transactions and notify affected users.
+  </p>
+  <p>
+    Victims of financial crimes are provided with guidance and assistance in restoring their accounts through
+    our secure dispute resolution process.
+  </p>
+</section>
 
-    <!-- Policy & Enforcement / FTC Policy Work -->
-    <section class="policy">
-      <h2>Policy & Enforcement Framework</h2>
-      <p>
-        We model our policies on strong federal principles, similar to the FTC’s policy work which includes advocacy,
-        research, public comment rules, and issuing reports. :contentReference[oaicite:1]{index=1}
-      </p>
-      <p>
-        Examples of FTC policy functions include:
-      </p>
-      <ul>
-        <li>Filing “amicus briefs” to inform court decisions.</li>
-        <li>Publishing reports on industry practices and privacy risks. :contentReference[oaicite:2]{index=2}</li>
-        <li>Soliciting public comments when creating new rules. :contentReference[oaicite:3]{index=3}</li>
-        <li>Advisory opinions and policy statements to guide enforcement. :contentReference[oaicite:4]{index=4}</li>
-      </ul>
-    </section>
+<section class="content-section">
+  <h2>Public Transparency</h2>
+  <p>
+    Transparency is central to Federal Reserved Accounts operations. All system updates, reports, and policy
+    changes are published publicly to ensure trust and open access to important compliance information.
+  </p>
+</section>
+```
 
-    <!-- Compliance & Dispute Resolution -->
-    <section class="policy">
-      <h2>Compliance & Dispute Resolution</h2>
-      <p>
-        If you find an error or unauthorized activity, you may submit a dispute within 60 days of the statement date.  
-        We’ll investigate and respond within a reasonable timeframe.
-      </p>
-      <p>
-        If you believe a policy has been violated, you may file a complaint with our support or with regulatory bodies,
-        such as the FTC.
-      </p>
-    </section>
-
-    <!-- Contact & Support -->
-    <section class="policy">
-      <h2>Contact & Support</h2>
-      <p>
-        For questions, policy clarifications, or concerns, you can reach our policy support team at:
-      </p>
-      <p>
-        **Email:** policy@federalreserveaccounts.gov <br>
-        **Mail:** Federal Reserve Accounts, 1234 Policy Avenue, Washington, DC 20001<br>
-        **Phone:** (800) 123-4567
-      </p>
-      <p>
-        We aim to respond to all policy inquiries within 5 business days.
-      </p>
-    </section>
   </main>
 
+  <!-- Signup Modal -->
+
+  <div id="signup-modal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <button class="close" data-close="signup-modal">&times;</button>
+      <h3>Create Your Federal Reserved Account</h3>
+      <form id="signupForm">
+        <input id="signupName" type="text" placeholder="Full Name" required />
+        <input id="signupEmail" type="email" placeholder="Email" required />
+        <input id="signupPassword" type="password" placeholder="Password" required />
+        <button type="submit" class="btn">Sign Up</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+
+  <div id="login-modal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <button class="close" data-close="login-modal">&times;</button>
+      <h3>Login to Federal Reserved Accounts</h3>
+      <form id="loginForm">
+        <input id="loginEmail" type="email" placeholder="Email" required />
+        <input id="loginPassword" type="password" placeholder="Password" required />
+        <button type="submit" class="btn">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+
   <footer class="footer">
-    <p>© 2025 Federal Reserve Accounts | Backed by the U.S. Treasury Department</p>
+    <p>© 2025 Federal Reserved Accounts | Backed by the U.S. Treasury Department</p>
   </footer>
 
-  <script src="policies.js"></script>
+  <script src="policies.js" defer></script>
+
 </body>
 </html>
