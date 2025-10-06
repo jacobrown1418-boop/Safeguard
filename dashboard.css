@@ -1,4 +1,279 @@
 /* ==========================================================================
+Federal Reserved Accounts – Unified Header, Footer, and Global Layout
+Modern lighter variation of the policies theme
+========================================================================== */
+
+/* Official Notice (Top Banner) */
+.us-notice {
+background-color: #e9eff7;
+text-align: center;
+padding: 6px 0;
+font-size: 0.95rem;
+color: #0b1d3a;
+font-weight: 600;
+border-bottom: 1px solid #c7d3e0;
+}
+
+/* Header / Navigation */
+.site-header {
+background-color: #f7f9fc;
+border-bottom: 1px solid #d8e3ee;
+position: sticky;
+top: 0;
+z-index: 100;
+}
+
+.nav-container {
+max-width: 1200px;
+margin: 0 auto;
+padding: 10px 20px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.logo {
+display: flex;
+align-items: center;
+font-weight: 700;
+font-size: 1.1rem;
+color: #0b1d3a;
+text-decoration: none;
+}
+
+.logo img {
+width: 38px;
+height: auto;
+margin-right: 10px;
+border-radius: 4px;
+}
+
+.nav-links {
+display: flex;
+gap: 18px;
+align-items: center;
+}
+
+.nav-links a {
+color: #0b1d3a;
+text-decoration: none;
+font-weight: 600;
+padding: 6px 10px;
+border-radius: 5px;
+transition: background-color 0.2s, color 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+background-color: #dbe9f5;
+color: #083d63;
+}
+
+.signup-btn {
+background-color: #0b4f6c;
+color: #fff !important;
+padding: 8px 14px;
+border-radius: 6px;
+transition: background-color 0.2s ease;
+}
+
+.signup-btn:hover {
+background-color: #0a6288;
+}
+
+/* Menu Toggle for Mobile */
+#menu-toggle {
+display: none;
+background: none;
+border: none;
+font-size: 1.5rem;
+cursor: pointer;
+}
+
+@media (max-width: 768px) {
+#menu-toggle {
+display: block;
+}
+
+.nav-links {
+display: none;
+flex-direction: column;
+background-color: #f7f9fc;
+position: absolute;
+top: 60px;
+right: 10px;
+border: 1px solid #d8e3ee;
+border-radius: 6px;
+padding: 12px;
+}
+
+.nav-links.show {
+display: flex;
+}
+
+.nav-links a {
+padding: 8px 0;
+width: 100%;
+text-align: right;
+}
+}
+
+/* Hero Section (shared styles for all pages) */
+.hero-home {
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+color: #fff;
+text-align: center;
+padding: 110px 20px;
+position: relative;
+}
+
+.hero-content {
+max-width: 900px;
+margin: 0 auto;
+}
+
+.hero-home h1 {
+font-size: 2.6rem;
+margin-bottom: 10px;
+text-shadow: 1px 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.tagline {
+font-size: 1.15rem;
+margin-bottom: 15px;
+color: #e7f2f7;
+}
+
+.hero-buttons {
+display: flex;
+justify-content: center;
+gap: 15px;
+flex-wrap: wrap;
+margin-top: 15px;
+}
+
+/* Footer */
+.site-footer {
+background-color: #f1f5fa;
+text-align: center;
+padding: 20px 10px;
+border-top: 1px solid #d8e3ee;
+margin-top: 60px;
+}
+
+.site-footer a {
+color: #0b4f6c;
+text-decoration: none;
+}
+
+.site-footer a:hover {
+text-decoration: underline;
+}
+
+/* Layout + Content */
+.container {
+max-width: 1000px;
+margin: 50px auto;
+padding: 0 20px;
+}
+
+.content-section {
+margin-bottom: 50px;
+line-height: 1.7;
+}
+
+.content-section h2 {
+color: #0b1d3a;
+border-bottom: 2px solid #dbe9f5;
+padding-bottom: 8px;
+margin-bottom: 16px;
+}
+
+/* Form Elements */
+.form {
+background: #fff;
+padding: 25px;
+border-radius: 8px;
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.form label {
+display: block;
+margin-top: 14px;
+font-weight: 600;
+color: #0b1d3a;
+}
+
+.form input,
+.form select,
+.form textarea {
+width: 100%;
+padding: 10px;
+margin-top: 6px;
+border: 1px solid #c7d3e0;
+border-radius: 5px;
+font-size: 1rem;
+}
+
+.form button {
+margin-top: 20px;
+background-color: #0b4f6c;
+color: #fff;
+padding: 10px 18px;
+border: none;
+border-radius: 6px;
+font-weight: 600;
+cursor: pointer;
+transition: background-color 0.2s ease;
+}
+
+.form button:hover {
+background-color: #0a6288;
+}
+
+/* Buttons */
+.btn {
+background-color: #0b4f6c;
+color: #fff;
+padding: 10px 18px;
+border-radius: 6px;
+text-decoration: none;
+font-weight: 600;
+border: none;
+cursor: pointer;
+}
+
+.btn:hover {
+background-color: #0a6288;
+}
+
+.btn.ghost {
+background: transparent;
+border: 1px solid rgba(255, 255, 255, 0.7);
+color: #fff;
+}
+
+.btn.ghost:hover {
+background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+.hero-home {
+padding: 80px 15px;
+}
+
+.hero-home h1 {
+font-size: 2.2rem;
+}
+
+.tagline {
+font-size: 1rem;
+}
+}
+/* ==========================================================================
 Federal Reserved Accounts – Dashboard Styles
 Extends base styling from policies.css for the dashboard page
 ========================================================================== */
@@ -132,3 +407,4 @@ grid-template-columns: 1fr;
 justify-content: center;
 }
 }
+
