@@ -1,4 +1,3 @@
-```javascript
 /* ==========================================================================
 script.js — Enhanced Supabase + UI (updated for username fields + forgot password)
 ========================================================================== */
@@ -239,3 +238,4 @@ function setupFraudForm() {
   });
 }
 ```
+
