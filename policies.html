@@ -2,28 +2,20 @@
 
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Federal Reserved Accounts – Policies, consumer protection, and transparency guidelines for secure account use." />
-  <title>Federal Reserved Accounts – Policies & Consumer Protection</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Federal Reserved Accounts – Policies</title>
+  <meta name="description" content="Federal Reserved Accounts – Policies, privacy, and compliance information." />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" type="image/png" href="ftclogo.jpg" />
+  <link rel="icon" href="images/ftclogo.jpg" />
 </head>
 <body>
-  <!-- Official Government Notice -->
-  <div class="us-notice">
-    An official website of the United States Government
-  </div>
-
-  <!-- Header -->
+  <div class="us-notice">An official website of the United States Government</div>
 
   <header class="site-header">
     <div class="nav-container">
-      <a href="index.html" class="logo">
-        <img src="header-ftc.png" alt="Federal Reserved Accounts Logo" />
-        Federal Reserved Accounts
-      </a>
-      <button id="menu-toggle">☰</button>
+      <a href="index.html" class="logo"><img src="images/header-ftc.png" alt="logo"> Federal Reserved Accounts</a>
+      <button id="menu-toggle" aria-label="Open menu">☰</button>
       <nav id="nav-links" class="nav-links">
         <a href="index.html">Home</a>
         <a href="report-fraud.html">Report Fraud</a>
@@ -34,12 +26,10 @@
     </div>
   </header>
 
-  <!-- Hero Banner -->
-
-  <section class="hero-page">
+  <section class="hero-page" style="background-image: linear-gradient(rgba(11,29,58,0.6), rgba(11,29,58,0.6)), url('images/hero-flag.jpg');">
     <div class="hero-content">
       <h1>Policies & Transparency</h1>
-      <p class="tagline">Understand your rights and responsibilities when accessing Federal Reserved Accounts.</p>
+      <p class="tagline">Learn about your rights, data protection, and our security practices.</p>
       <div class="hero-buttons">
         <a href="#privacy" class="btn">Privacy Policy</a>
         <a href="#terms" class="btn ghost">Terms of Use</a>
@@ -47,90 +37,48 @@
     </div>
   </section>
 
-  <!-- Main Content -->
-
   <main class="container">
-    <section id="overview" class="content-section">
-      <h2>Overview</h2>
-      <p>
-        Federal Reserved Accounts operates under strict privacy, security, and transparency guidelines to ensure that all U.S. citizens and verified users can safely manage their account information. Our framework aligns with federal data-handling standards and consumer protection mandates.
-      </p>
+    <section id="privacy" class="content-section">
+      <h2>Privacy</h2>
+      <p>We protect user data in accordance with applicable U.S. laws and federal guidelines.</p>
     </section>
 
 ```
-<section id="privacy" class="content-section">
-  <h2>Privacy Policy</h2>
-  <p>
-    Your personal and financial information is protected under the Privacy Act and maintained in compliance with all applicable U.S. data security laws. Federal Reserved Accounts does not share or sell user information and only uses collected data to improve secure platform functionality.
-  </p>
-  <p>
-    All user communications are encrypted and stored securely in accordance with federal information management protocols.
-  </p>
-</section>
-
 <section id="terms" class="content-section">
-  <h2>Terms of Use</h2>
-  <p>
-    By accessing and using this platform, you acknowledge and agree to comply with the official use guidelines and that all actions performed through your account are subject to verification. Unauthorized use or misrepresentation is strictly prohibited under U.S. law.
-  </p>
-  <p>
-    Federal Reserved Accounts reserves the right to suspend or restrict access to maintain platform security and integrity.
-  </p>
-</section>
-
-<section id="security" class="content-section">
-  <h2>Security and Compliance</h2>
-  <p>
-    Federal Reserved Accounts employs multi-layer encryption, real-time monitoring, and verified identity authentication to ensure data integrity. Users are advised to never share login credentials and to report suspicious activity immediately using our Report Fraud portal.
-  </p>
+  <h2>Terms</h2>
+  <p>By using this platform you agree to our terms — access may be audited and reviewed for security.</p>
 </section>
 ```
 
   </main>
 
-  <!-- Footer -->
-
   <footer class="site-footer">
-    <p>
-      &copy; 2025 Federal Reserved Accounts. All rights reserved. |
-      <a href="policies.html">Policies</a> |
-      <a href="report-fraud.html">Report Fraud</a>
-    </p>
+    <p>&copy; 2025 Federal Reserved Accounts. <a href="index.html">Home</a> | <a href="report-fraud.html">Report Fraud</a></p>
   </footer>
 
-  <!-- Login Modal -->
+  <!-- Modals -->
 
   <div id="login-modal" class="modal" aria-hidden="true">
-    <div class="modal-content">
-      <span class="close">&times;</span>
+    <div class="modal-content"><span class="close">&times;</span>
       <h2>Login to Your Account</h2>
       <form id="loginForm">
-        <label for="loginEmail">Email Address</label>
-        <input type="email" id="loginEmail" required />
-        <label for="loginPassword">Password</label>
-        <input type="password" id="loginPassword" required />
-        <button type="submit">Login</button>
+        <label>Email</label><input type="email" id="loginEmail" required />
+        <label>Password</label><input type="password" id="loginPassword" required />
+        <button type="submit" class="btn">Login</button>
       </form>
     </div>
   </div>
-
-  <!-- Signup Modal -->
 
   <div id="signup-modal" class="modal" aria-hidden="true">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Create Your Account</h2>
+    <div class="modal-content"><span class="close">&times;</span>
+      <h2>Create Account</h2>
       <form id="signupForm">
-        <label for="signupEmail">Email Address</label>
-        <input type="email" id="signupEmail" required />
-        <label for="signupPassword">Password</label>
-        <input type="password" id="signupPassword" required />
-        <button type="submit">Sign Up</button>
+        <label>Email</label><input type="email" id="signupEmail" required />
+        <label>Password</label><input type="password" id="signupPassword" required />
+        <button type="submit" class="btn">Sign Up</button>
       </form>
     </div>
   </div>
-
-  <!-- Scripts -->
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
 
