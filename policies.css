@@ -544,5 +544,54 @@ padding: 20px;
 font-size: 1.3rem;
 }
 }
+/* ==========================================================================
+Federal Reserved Accounts – Enhanced Modal Animations & Overlay Effects
+Works with fixed modals and Supabase auth
+========================================================================== */
+
+/* Smooth fade + scale animation for modal popups */
+@keyframes modalFadeIn {
+from {
+opacity: 0;
+transform: scale(0.95);
+}
+to {
+opacity: 1;
+transform: scale(1);
+}
+}
+
+@keyframes modalFadeOut {
+from {
+opacity: 1;
+transform: scale(1);
+}
+to {
+opacity: 0;
+transform: scale(0.95);
+}
+}
+
+/* Active modal display */
+.modal[aria-hidden="false"] .modal-content {
+animation: modalFadeIn 0.25s ease forwards;
+}
+
+/* Backdrop fade-in */
+.modal {
+transition: background-color 0.25s ease, backdrop-filter 0.25s ease;
+}
+
+/* Fade out when closing */
+.modal[aria-hidden="true"] .modal-content {
+animation: modalFadeOut 0.25s ease forwards;
+}
+
+/* Prevent scroll when modal is active */
+body.modal-open {
+overflow: hidden;
+}
+
+
 
 
