@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,83 +53,13 @@
 
   <!-- Main -->
   <main class="container">
-
     <section class="content-section">
       <h2>About Federal Reserved Accounts</h2>
       <p>
-        Federal Reserved Accounts provides trusted resources to help individuals and institutions manage and secure their account information responsibly. 
-        We promote transparency, awareness, and consumer empowerment in all financial interactions, ensuring that citizens understand the safeguards protecting their accounts.
+        Federal Reserved Accounts provides trusted resources to help individuals and institutions manage and secure their account information responsibly.
+        We promote transparency, awareness, and consumer empowerment in all financial interactions.
       </p>
     </section>
-
-    <section class="content-section">
-      <h2>Account Security and Privacy</h2>
-      <p>
-        Protecting account information is our highest priority. Our guidance focuses on responsible data handling, multi-factor authentication, and real-time monitoring tools. 
-        Users are encouraged to review account activities regularly, use complex passwords, and update their credentials periodically. 
-        Educational materials outline modern cybersecurity measures such as encryption, secure session management, and fraud alerts.
-      </p>
-      <p>
-        Our system encourages compliance with federal cybersecurity standards and promotes user awareness of phishing, identity theft, and digital threats. 
-        By following best practices, users can strengthen their financial security and reduce vulnerability to fraud.
-      </p>
-    </section>
-
-    <section class="content-section">
-      <h2>Consumer Protection and Compliance</h2>
-      <p>
-        Federal Reserved Accounts follows ethical practices inspired by federal consumer protection principles. 
-        We emphasize fair treatment, data transparency, and protection from deceptive or unauthorized activities. 
-        Our policies align with established U.S. consumer rights and promote clear, accessible information for all account holders.
-      </p>
-      <p>
-        Users can find dedicated resources explaining fraud-prevention strategies, complaint procedures, and how to safely report suspicious activity through official channels.
-      </p>
-    </section>
-
-    <section class="content-section">
-      <h2>Fraud Awareness and Reporting</h2>
-      <p>
-        Financial scams are an evolving threat. Federal Reserved Accounts educates users on recognizing fraudulent patterns, social engineering attempts, and digital exploitation. 
-        We support transparent reporting mechanisms and provide direct links to relevant investigative authorities for prompt response.
-      </p>
-      <p>
-        Users should document suspicious messages, report unusual transactions immediately, and verify correspondence authenticity before sharing personal information.
-      </p>
-    </section>
-
-    <section class="content-section">
-      <h2>Transparency and Accountability</h2>
-      <p>
-        Our commitment to integrity ensures all communications and published resources remain factual, current, and accessible. 
-        We maintain internal auditing processes to monitor information accuracy, ensuring users can depend on the reliability of our educational tools and policies.
-      </p>
-      <p>
-        We continue to improve digital accessibility and ensure that all individuals, including those with disabilities, can benefit from our resources equally.
-      </p>
-    </section>
-
-    <section class="content-section">
-      <h2>Commitment to Education and Empowerment</h2>
-      <p>
-        Empowering consumers through education remains central to our mission. 
-        Our team produces informative articles, webinars, and step-by-step tutorials to help users understand account management, online safety, and secure transactions.
-      </p>
-      <p>
-        These resources are designed to foster long-term awareness about digital finance and promote responsible usage aligned with national cybersecurity initiatives.
-      </p>
-    </section>
-
-    <section class="content-section">
-      <h2>Submit a Public Comment</h2>
-      <form id="contactForm" class="form">
-        <label for="publicComment">Your Message</label>
-        <textarea id="publicComment" required></textarea>
-        <button type="submit" class="btn">Submit</button>
-        <p id="publicCommentMessage" style="margin-top:10px; font-weight:600;"></p>
-      </form>
-    </section>
-
   </main>
 
   <!-- Footer -->
@@ -138,39 +69,70 @@
 
   <!-- Login Modal -->
   <div id="login-modal" class="modal" aria-hidden="true">
-    <div class="modal-content">
+    <div class="modal-content enhanced-modal">
       <span class="close">&times;</span>
-      <h2>Login to Your Account</h2>
-      <form id="loginForm">
-        <label for="loginEmail">Email</label>
-        <input type="email" id="loginEmail" required />
+      <h2>Login</h2>
+      <form id="loginForm" class="styled-form">
+        <label for="loginUsername">Username</label>
+        <input type="text" id="loginUsername" required placeholder="Enter your username" />
         <label for="loginPassword">Password</label>
-        <input type="password" id="loginPassword" required />
+        <input type="password" id="loginPassword" required placeholder="Enter your password" />
         <button type="submit" class="btn">Login</button>
+        <button type="button" id="forgotPasswordBtn" class="btn ghost small">Forgot Password?</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Forgot Password Modal -->
+  <div id="forgot-modal" class="modal" aria-hidden="true">
+    <div class="modal-content enhanced-modal">
+      <span class="close">&times;</span>
+      <h2>Reset Password</h2>
+      <form id="forgotForm" class="styled-form">
+        <label for="forgotEmail">Enter your account email</label>
+        <input type="email" id="forgotEmail" required placeholder="you@example.com" />
+        <button type="submit" class="btn">Send Reset Link</button>
       </form>
     </div>
   </div>
 
   <!-- Signup Modal -->
   <div id="signup-modal" class="modal" aria-hidden="true">
-    <div class="modal-content">
+    <div class="modal-content enhanced-modal">
       <span class="close">&times;</span>
-      <h2>Create Account</h2>
-      <form id="signupForm">
+      <h2>Create Your Account</h2>
+      <form id="signupForm" class="styled-form">
+        <div class="name-fields">
+          <div>
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" required />
+          </div>
+          <div>
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" required />
+          </div>
+        </div>
+
+        <label for="dob">Date of Birth</label>
+        <input type="date" id="dob" required />
+
         <label for="signupEmail">Email</label>
-        <input type="email" id="signupEmail" required />
+        <input type="email" id="signupEmail" required placeholder="you@example.com" />
+
+        <label for="signupUsername">Username</label>
+        <input type="text" id="signupUsername" required placeholder="Choose a username" />
+
         <label for="signupPassword">Password</label>
-        <input type="password" id="signupPassword" required />
+        <input type="password" id="signupPassword" required placeholder="Create a password" />
+
         <button type="submit" class="btn">Sign Up</button>
       </form>
     </div>
   </div>
 
-  <!-- Scripts -->
+  <!-- Supabase & Script -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
   <script src="script.js" defer></script>
-
 </body>
 </html>
 ```
-
