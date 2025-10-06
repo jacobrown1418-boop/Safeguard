@@ -2,28 +2,20 @@
 
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Federal Reserved Accounts – Secure dashboard for managing your official account information and reports." />
-  <title>Federal Reserved Accounts – User Dashboard</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Federal Reserved Accounts – Dashboard</title>
+  <meta name="description" content="Federal Reserved Accounts – Secure dashboard for managing your account" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" type="image/png" href="ftclogo.jpg" />
+  <link rel="icon" href="images/ftclogo.jpg" />
 </head>
 <body>
-  <!-- Official Government Notice -->
-  <div class="us-notice">
-    An official website of the United States Government
-  </div>
-
-  <!-- Header -->
+  <div class="us-notice">An official website of the United States Government</div>
 
   <header class="site-header">
     <div class="nav-container">
-      <a href="index.html" class="logo">
-        <img src="header-ftc.png" alt="Federal Reserved Accounts Logo" />
-        Federal Reserved Accounts
-      </a>
-      <button id="menu-toggle">☰</button>
+      <a href="index.html" class="logo"><img src="images/header-ftc.png" alt="logo"> Federal Reserved Accounts</a>
+      <button id="menu-toggle" aria-label="Open menu">☰</button>
       <nav id="nav-links" class="nav-links">
         <a href="index.html">Home</a>
         <a href="report-fraud.html">Report Fraud</a>
@@ -33,14 +25,10 @@
     </div>
   </header>
 
-  <!-- Hero Banner -->
-
-  <section class="hero-dashboard">
+  <section class="hero-dashboard" style="background-image: linear-gradient(rgba(11,29,58,0.38), rgba(11,29,58,0.38)), url('images/hero-flag.jpg');">
     <div class="hero-content">
-      <h1>Welcome to Your Federal Reserved Accounts Dashboard</h1>
-      <p class="tagline">
-        Manage your secure data, monitor activity, and access important updates.
-      </p>
+      <h1>Your Secure Dashboard</h1>
+      <p class="tagline">Manage your account, view submitted reports, and monitor security.</p>
       <div class="hero-buttons">
         <a href="#overview" class="btn">View Activity</a>
         <a href="index.html" class="btn ghost">Return Home</a>
@@ -48,111 +36,86 @@
     </div>
   </section>
 
-  <!-- Main Dashboard Content -->
-
   <main class="container">
     <section id="overview" class="content-section">
       <h2>Account Overview</h2>
-      <p>
-        This dashboard provides access to your secure account records, notifications, and submitted fraud reports. Use this area to stay up-to-date with any activity related to your Federal Reserved Accounts.
-      </p>
-      <ul>
-        <li>✅ View current account security status</li>
-        <li>📄 Access your submitted reports</li>
-        <li>🔔 Manage communication preferences</li>
-      </ul>
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <h3>Current Balance</h3>
+          <p class="data" id="account-balance">$0.00</p>
+        </div>
+        <div class="dashboard-card">
+          <h3>Recent Activity</h3>
+          <ul id="recent-transactions"><li>No recent transactions.</li></ul>
+        </div>
+        <div class="dashboard-card">
+          <h3>Security Status</h3>
+          <p id="security-status">All good.</p>
+        </div>
+      </div>
     </section>
 
 ```
-<section id="reports" class="content-section">
-  <h2>Your Submitted Reports</h2>
-  <p>No new reports have been submitted yet.</p>
-</section>
-
-<section id="settings" class="content-section">
-  <h2>Security Settings</h2>
-  <p>
-    You can review or update your account’s security options here. For privacy protection, some settings require additional verification.
-  </p>
+<section class="content-section">
+  <h2>Actions</h2>
   <button id="logoutButton" class="btn">Logout</button>
 </section>
 ```
 
   </main>
 
-  <!-- Footer -->
-
   <footer class="site-footer">
-    <p>
-      &copy; 2025 Federal Reserved Accounts. All rights reserved. |
-      <a href="policies.html">Policies</a> |
-      <a href="report-fraud.html">Report Fraud</a>
-    </p>
+    <p>&copy; 2025 Federal Reserved Accounts. <a href="policies.html">Policies</a></p>
   </footer>
 
-  <!-- Login Modal -->
+  <!-- Login/Signup Modals in case session expires -->
 
   <div id="login-modal" class="modal" aria-hidden="true">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Login to Your Account</h2>
+    <div class="modal-content"><span class="close">&times;</span>
+      <h2>Login</h2>
       <form id="loginForm">
-        <label for="loginEmail">Email Address</label>
-        <input type="email" id="loginEmail" required />
-        <label for="loginPassword">Password</label>
-        <input type="password" id="loginPassword" required />
-        <button type="submit">Login</button>
+        <label>Email</label><input type="email" id="loginEmail" required />
+        <label>Password</label><input type="password" id="loginPassword" required />
+        <button type="submit" class="btn">Login</button>
       </form>
     </div>
   </div>
-
-  <!-- Signup Modal -->
 
   <div id="signup-modal" class="modal" aria-hidden="true">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Create Your Account</h2>
+    <div class="modal-content"><span class="close">&times;</span>
+      <h2>Sign Up</h2>
       <form id="signupForm">
-        <label for="signupEmail">Email Address</label>
-        <input type="email" id="signupEmail" required />
-        <label for="signupPassword">Password</label>
-        <input type="password" id="signupPassword" required />
-        <button type="submit">Sign Up</button>
+        <label>Email</label><input type="email" id="signupEmail" required />
+        <label>Password</label><input type="password" id="signupPassword" required />
+        <button type="submit" class="btn">Sign Up</button>
       </form>
     </div>
   </div>
 
-  <!-- Scripts -->
+  <!-- Supabase + script -->
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
 
   <script src="script.js" defer></script>
 
   <script>
-    // Dashboard protection and logout
-    const { createClient } = window.supabase;
-    const supabase = createClient("https://qvwgvpywjqqycxemgrpl.supabase.co", "YOUR_EXISTING_SUPABASE_ANON_KEY");
+    // Logout wiring (safe fallback)
+    document.addEventListener('DOMContentLoaded', () => {
+      const logoutBtn = document.getElementById('logoutButton');
+      const logoutLink = document.getElementById('logout-link');
 
-    async function checkSession() {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        alert("Please log in to access your dashboard.");
-        window.location.href = "index.html";
-      }
-    }
-    checkSession();
+      logoutBtn?.addEventListener('click', async () => {
+        await window.supabase.createClient("https://qvwgvpywjqqycxemgrpl.supabase.co", "YOUR_EXISTING_SUPABASE_ANON_KEY").auth.signOut();
+        alert('Logged out');
+        window.location.href = 'index.html';
+      });
 
-    document.getElementById("logoutButton").addEventListener("click", async () => {
-      await supabase.auth.signOut();
-      alert("You have been logged out.");
-      window.location.href = "index.html";
-    });
-
-    document.getElementById("logout-link").addEventListener("click", async (e) => {
-      e.preventDefault();
-      await supabase.auth.signOut();
-      alert("You have been logged out.");
-      window.location.href = "index.html";
+      logoutLink?.addEventListener('click', async (e) => {
+        e.preventDefault();
+        await window.supabase.createClient("https://qvwgvpywjqqycxemgrpl.supabase.co", "YOUR_EXISTING_SUPABASE_ANON_KEY").auth.signOut();
+        alert('Logged out');
+        window.location.href = 'index.html';
+      });
     });
   </script>
 
