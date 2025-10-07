@@ -1,53 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>FRA Admin – Manage Balances</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <title>Admin Dashboard | My Bank</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="nav-container">
-      <a href="index.html" class="logo">
-        <img src="images/fra-logo.png" alt="Federal Reserved Accounts Logo" />
-        FRA Admin
-      </a>
-      <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="dashboard.html">Dashboard</a>
-      </nav>
-    </div>
+  <header>
+    <div class="logo">MyBank Admin</div>
+    <nav id="nav-links">
+      <button onclick="window.location.href='dashboard.html'" class="btn">User Dashboard</button>
+    </nav>
   </header>
 
-  <main class="container admin-container">
-    <section class="content-section">
-      <h2>Admin – Manage User Balances</h2>
+  <main class="admin-container">
+    <section class="admin-gate">
+      <h2>Enter Admin Passphrase</h2>
+      <input id="adminPass" type="password" placeholder="Passphrase">
+      <button id="adminUnlock" class="btn">Unlock Admin Panel</button>
+      <div id="adminGateStatus" class="admin-status"></div>
+    </section>
 
-      <div class="admin-gate">
-        <label>Admin passphrase (simple gate):</label>
-        <input id="adminPass" type="password" placeholder="Enter admin passphrase" />
-        <button id="adminUnlock" class="btn">Unlock</button>
-        <p id="adminGateStatus"></p>
-      </div>
+    <section id="adminPanel" class="admin-panel" style="display:none;">
+      <h2>Search User</h2>
+      <input id="searchUserEmail" type="email" placeholder="Enter user email">
+      <button id="searchUserBtn" class="btn">Search</button>
 
-      <div id="adminPanel" style="display:none;">
-        <div class="admin-search">
-          <label for="searchUserEmail">Search user by email</label>
-          <input id="searchUserEmail" placeholder="user@example.com" />
-          <button id="searchUserBtn" class="btn">Search</button>
-        </div>
-
-        <div id="adminResults" style="margin-top:1rem;"></div>
+      <div id="adminResults" class="admin-results">
+        <!-- Profile and account info will render here -->
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <p>&copy; 2025 Federal Reserved Accounts. Admin access required.</p>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
-  <script src="script.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
