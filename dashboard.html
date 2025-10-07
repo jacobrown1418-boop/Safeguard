@@ -1,138 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Federal Reserved Accounts – Dashboard</title>
-  <meta name="description" content="Federal Reserved Accounts – Secure dashboard for managing your account" />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="images/fra-logo.png" />
+  <meta charset="UTF-8">
+  <title>Dashboard | My Bank</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Official Notice -->
-  <div class="us-notice">
-    <img src="images/us_flag_small.png" alt="U.S. flag" style="height:16px; vertical-align:middle; margin-right:8px;">
-    An official website of the United States Government
-  </div>
-
-  <!-- Header -->
-  <header class="site-header">
-    <div class="nav-container">
-      <a href="index.html" class="logo">
-        <img src="images/fra-logo.png" alt="Federal Reserved Accounts Logo" />
-        Federal Reserved Accounts
-      </a>
-
-      <button id="menu-toggle" aria-label="Open menu">☰</button>
-
-      <nav id="nav-links" class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="report-fraud.html">Report Fraud</a>
-        <a href="policies.html">Policies</a>
-        <a href="#" id="logout-link" class="signup-btn">Logout</a>
-      </nav>
-    </div>
+  <header>
+    <div class="logo">MyBank</div>
+    <nav id="nav-links">
+      <button id="logoutBtn" class="btn">Log Out</button>
+    </nav>
+    <button id="menu-toggle" class="menu-toggle">☰</button>
   </header>
 
-  <!-- Hero -->
-  <section class="hero-dashboard refined-hero">
-    <div class="hero-overlay" style="background-image:url('images/hero-flag.jpg');"></div>
-    <div class="hero-content">
-      <h1>Welcome to Your Dashboard</h1>
-      <p class="tagline">Manage your accounts securely — view balances, request services, and update your profile.</p>
-      <p id="today-date" style="margin-top:14px; font-weight:600;"></p>
-    </div>
-  </section>
+  <main class="dashboard-container">
+    <section class="profile-card">
+      <h2>Profile</h2>
+      <div><strong>Name:</strong> <span id="pf-name">—</span></div>
+      <div><strong>DOB:</strong> <span id="pf-dob">—</span></div>
+      <div><strong>Phone:</strong> <span id="pf-phone">—</span></div>
+      <div><strong>Address:</strong> <span id="pf-address">—</span></div>
+      <button id="editProfileBtn" class="btn small">Edit Profile</button>
+    </section>
 
-  <!-- Main dashboard content -->
-  <main class="container dashboard-container">
-    <section class="dashboard-top">
-      <div class="profile-card" id="profileCard">
-        <h3>Profile</h3>
-        <div class="profile-row"><strong>Name:</strong> <span id="pf-name">—</span></div>
-        <div class="profile-row"><strong>Date of Birth:</strong> <span id="pf-dob">—</span></div>
-        <div class="profile-row"><strong>Phone:</strong> <span id="pf-phone">—</span></div>
-        <div class="profile-row"><strong>Address:</strong> <span id="pf-address">—</span></div>
-        <div style="margin-top:10px;">
-          <button class="btn ghost small" id="editProfileBtn">Update Profile</button>
-        </div>
-      </div>
-
-      <div class="accounts-summary" id="accountsSummary">
-        <h3>Accounts</h3>
-        <div class="account-cards" id="accountCards">
-          <!-- account cards injected here -->
-        </div>
+    <section class="accounts-section">
+      <h2>Your Accounts</h2>
+      <div id="accountCards" class="account-cards">
+        <!-- Accounts will be rendered here -->
       </div>
     </section>
 
-    <section class="content-section quick-actions">
+    <section class="quick-actions">
       <h2>Quick Actions</h2>
-      <div class="quick-actions-grid">
-        <button class="btn" id="reqReviewBtn">Request Account Review</button>
-        <button class="btn ghost" id="updateProfileBtn">Update Profile</button>
-        <button class="btn" id="requestDebitBtn">Request New Debit Card</button>
-        <button class="btn" id="requestCheckBtn">Request Checkbook</button>
-        <button class="btn ghost" id="changePasswordBtn">Change Password</button>
-        <button class="btn" id="logoutButton">Logout</button>
-      </div>
-    </section>
-
-    <section class="content-section">
-      <h2>Recent Activity</h2>
-      <div id="recentTransactions" class="transactions">
-        <p>No recent transactions.</p>
-      </div>
-    </section>
-
-    <section class="content-section">
-      <h2>Your Submitted Reports</h2>
-      <p id="reports-list">No submitted reports found.</p>
+      <button id="reqReviewBtn" class="btn">Request Account Review</button>
+      <button id="updateProfileBtn" class="btn">Update Profile</button>
+      <button id="requestDebitBtn" class="btn">Request Debit Card</button>
+      <button id="requestCheckBtn" class="btn">Request Checkbook</button>
+      <button id="changePasswordBtn" class="btn">Change Password</button>
     </section>
   </main>
 
-  <!-- Footer -->
-  <footer class="site-footer">
-    <p>&copy; 2025 Federal Reserved Accounts. <a href="policies.html">Policies</a> | <a href="report-fraud.html">Report Fraud</a></p>
-  </footer>
-
-  <!-- Modals (profile edit) -->
-  <div id="profile-modal" class="modal" aria-hidden="true">
+  <!-- Profile Modal -->
+  <div id="profile-modal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
-      <h2>Edit Profile</h2>
+      <h3>Edit Profile</h3>
       <form id="profileForm">
-        <label for="p_full_name">Full name</label>
-        <input id="p_full_name" required />
-        <label for="p_dob">Date of birth</label>
-        <input id="p_dob" type="date" required />
-        <label for="p_phone">Phone</label>
-        <input id="p_phone" required />
-        <label for="p_address">Address</label>
-        <textarea id="p_address" rows="3"></textarea>
+        <label>Full Name: <input id="p_full_name" type="text" required></label>
+        <label>DOB: <input id="p_dob" type="date"></label>
+        <label>Phone: <input id="p_phone" type="text"></label>
+        <label>Address: <input id="p_address" type="text"></label>
         <button type="submit" class="btn">Save</button>
       </form>
     </div>
   </div>
 
-  <!-- Supabase UMD + main script -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
-  <script src="script.js" defer></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="script.js"></script>
   <script>
-    // Logout wiring
-    document.getElementById("logoutButton")?.addEventListener("click", () => doLogout());
-    document.getElementById("logout-link")?.addEventListener("click", (e) => { e.preventDefault(); doLogout(); });
-
-    // show Eastern date
-    (function updateDateOnce(){
-      const el = document.getElementById('today-date');
-      if (!el) return;
-      try {
-        const now = new Date();
-        el.textContent = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'long', year:'numeric', month:'long', day:'numeric'}).format(now);
-      } catch(e){}
-    })();
+    document.getElementById('logoutBtn')?.addEventListener('click', doLogout);
   </script>
 </body>
 </html>
