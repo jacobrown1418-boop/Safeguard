@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FRA Admin – Manage Balances</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <img src="images/fra-logo.png" alt="Federal Reserved Accounts Logo" />
+        FRA Admin
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container admin-container">
+    <section class="content-section">
+      <h2>Admin – Manage User Balances</h2>
+
+      <div class="admin-gate">
+        <label>Admin passphrase (simple gate):</label>
+        <input id="adminPass" type="password" placeholder="Enter admin passphrase" />
+        <button id="adminUnlock" class="btn">Unlock</button>
+        <p id="adminGateStatus"></p>
+      </div>
+
+      <div id="adminPanel" style="display:none;">
+        <div class="admin-search">
+          <label for="searchUserEmail">Search user by email</label>
+          <input id="searchUserEmail" placeholder="user@example.com" />
+          <button id="searchUserBtn" class="btn">Search</button>
+        </div>
+
+        <div id="adminResults" style="margin-top:1rem;"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 Federal Reserved Accounts. Admin access required.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+  <script src="script.js" defer></script>
+</body>
+</html>
