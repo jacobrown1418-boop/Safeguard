@@ -1,38 +1,277 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Admin Dashboard | My Bank</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header>
-    <div class="logo">MyBank Admin</div>
-    <nav id="nav-links">
-      <button onclick="window.location.href='dashboard.html'" class="btn">User Dashboard</button>
-    </nav>
-  </header>
+/* =========================================
+   Global Styles
+========================================= */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f5f7fa;
+  color: #333;
+}
 
-  <main class="admin-container">
-    <section class="admin-gate">
-      <h2>Enter Admin Passphrase</h2>
-      <input id="adminPass" type="password" placeholder="Passphrase">
-      <button id="adminUnlock" class="btn">Unlock Admin Panel</button>
-      <div id="adminGateStatus" class="admin-status"></div>
-    </section>
+header {
+  background-color: #004080;
+  color: white;
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    <section id="adminPanel" class="admin-panel" style="display:none;">
-      <h2>Search User</h2>
-      <input id="searchUserEmail" type="email" placeholder="Enter user email">
-      <button id="searchUserBtn" class="btn">Search</button>
+header .logo {
+  font-size: 1.5em;
+  font-weight: bold;
+}
 
-      <div id="adminResults" class="admin-results">
-        <!-- Profile and account info will render here -->
-      </div>
-    </section>
-  </main>
+nav button {
+  background-color: #0066cc;
+  border: none;
+  padding: 8px 16px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 8px;
+}
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="script.js"></script>
-</body>
-</html>
+nav button:hover {
+  background-color: #0052a3;
+}
+
+/* =========================================
+   Containers
+========================================= */
+.main-container, .dashboard-container, .admin-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 16px;
+}
+
+/* =========================================
+   Modals
+========================================= */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/* =========================================
+   Dashboard Cards
+========================================= */
+#accountCards, .admin-accounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.account-card, .admin-account-row {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.account-card .ac-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.ac-balance {
+  font-size: 1.2em;
+  margin-bottom: 12px;
+  color: #004080;
+}
+
+.ac-actions button {
+  background-color: #0066cc;
+  border: none;
+  padding: 6px 12px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.ac-actions button:hover {
+  background-color: #0052a3;
+}
+
+/* =========================================
+   Profile Card
+========================================= */
+.profile-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 24px;
+  width: 300px;
+}
+
+.profile-card h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #004080;
+}
+
+.profile-card div {
+  margin-bottom: 6px;
+}
+
+/* =========================================
+   Quick Actions
+========================================= */
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.quick-actions button {
+  background-color: #0080ff;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.quick-actions button:hover {
+  background-color: #005db3;
+}
+
+/* =========================================
+   Forms
+========================================= */
+input, select, textarea, button {
+  font-family: inherit;
+  font-size: 1em;
+}
+
+input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="date"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
+
+button.btn {
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+button.btn:hover {
+  background-color: #0052a3;
+}
+
+button.small {
+  padding: 4px 8px;
+  font-size: 0.85em;
+}
+
+/* =========================================
+   Admin Panel
+========================================= */
+.admin-panel {
+  background: #f9f9f9;
+  padding: 16px;
+  border-radius: 12px;
+  margin-top: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.admin-status {
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+.admin-user h3 {
+  margin-top: 16px;
+  color: #004080;
+}
+
+.admin-account-row {
+  margin-bottom: 12px;
+  padding: 12px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.admin-account-row input {
+  width: 100px;
+  margin-left: 6px;
+}
+
+.admin-accounts button {
+  margin-left: 8px;
+}
+
+/* =========================================
+   Spinner
+========================================= */
+.spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #004080;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  animation: spin 1s linear infinite;
+  margin-right: 6px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
+}
+
+/* =========================================
+   Responsive
+========================================= */
+@media (max-width: 768px) {
+  #accountCards, .admin-accounts {
+    flex-direction: column;
+    align-items: center;
+  }
+  .account-card, .admin-account-row {
+    width: 90%;
+  }
+}
