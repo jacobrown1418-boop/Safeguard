@@ -2,37 +2,57 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Dashboard | My Bank</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel — Federal Reserved Accounts</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <div class="logo">MyBank Admin</div>
-    <nav id="nav-links">
-      <button onclick="window.location.href='dashboard.html'" class="btn">User Dashboard</button>
-    </nav>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="nav-container">
+      <div class="logo">
+        <img src="images/logo.png" alt="FRA Logo">
+        Federal Reserved Accounts
+      </div>
+    </div>
   </header>
 
-  <main class="admin-container">
-    <section class="admin-gate">
-      <h2>Enter Admin Passphrase</h2>
-      <input id="adminPass" type="password" placeholder="Passphrase">
+  <main class="container" style="margin-top:2rem;">
+
+    <h1>Admin Panel</h1>
+    <p>Enter the admin passphrase to unlock admin tools.</p>
+
+    <!-- Admin Gate -->
+    <div id="adminGate">
+      <input type="password" id="adminPass" placeholder="Enter admin passphrase">
       <button id="adminUnlock" class="btn">Unlock Admin Panel</button>
-      <div id="adminGateStatus" class="admin-status"></div>
-    </section>
+      <div id="adminGateStatus" style="margin-top:0.5rem;color:red;"></div>
+    </div>
 
-    <section id="adminPanel" class="admin-panel" style="display:none;">
-      <h2>Search User</h2>
-      <input id="searchUserEmail" type="email" placeholder="Enter user email">
-      <button id="searchUserBtn" class="btn">Search</button>
+    <!-- Admin Tools -->
+    <div id="adminPanel" style="display:none; margin-top:2rem;">
 
-      <div id="adminResults" class="admin-results">
-        <!-- Profile and account info will render here -->
+      <!-- Search User -->
+      <div style="margin-bottom:1rem;">
+        <input type="text" id="searchUserEmail" placeholder="Search user by email" style="padding:0.5rem; width:250px;">
+        <button id="searchUserBtn" class="btn small">Search</button>
       </div>
-    </section>
+
+      <!-- Results -->
+      <div id="adminResults"></div>
+
+    </div>
+
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <!-- Footer -->
+  <footer class="site-footer">
+    &copy; 2025 Federal Reserved Accounts. All rights reserved.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
   <script src="script.js"></script>
+
 </body>
 </html>
