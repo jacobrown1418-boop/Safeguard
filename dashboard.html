@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -17,7 +16,6 @@
   </div>
 
   <!-- Header -->
-
   <header class="site-header">
     <div class="nav-container">
       <a href="index.html" class="logo">
@@ -25,153 +23,108 @@
         Federal Reserved Accounts
       </a>
 
-```
-  <button id="menu-toggle" aria-label="Open menu">☰</button>
+      <button id="menu-toggle" aria-label="Open menu">☰</button>
 
-  <nav id="nav-links" class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="report-fraud.html">Report Fraud</a>
-    <a href="policies.html">Policies</a>
-    <a href="#" id="logout-link" class="signup-btn">Logout</a>
-  </nav>
-</div>
-```
-
+      <nav id="nav-links" class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="report-fraud.html">Report Fraud</a>
+        <a href="policies.html">Policies</a>
+        <a href="#" id="logout-link" class="signup-btn">Logout</a>
+      </nav>
+    </div>
   </header>
 
-  <!-- Hero (lighter overlay) -->
-
-  <section class="hero-dashboard" style="background-image: linear-gradient(rgba(11,29,58,0.38), rgba(11,29,58,0.38)), url('images/hero-flag.jpg');">
-    <div class="hero-overlay" style="background-image:url('images/hero-emblem.png');"></div>
+  <!-- Hero -->
+  <section class="hero-dashboard refined-hero">
+    <div class="hero-overlay" style="background-image:url('images/hero-flag.jpg');"></div>
     <div class="hero-content">
-      <h1>Welcome to Your Federal Reserved Accounts Dashboard — Manage and Monitor Securely</h1>
-      <p class="tagline">Monitor account activity, manage alerts, and access secure resources for protecting your information.</p>
-      <div class="hero-buttons">
-        <a href="#overview" class="btn">View Activity</a>
-        <a href="index.html" class="btn ghost">Return Home</a>
-      </div>
+      <h1>Welcome to Your Dashboard</h1>
+      <p class="tagline">Manage your accounts securely — view balances, request services, and update your profile.</p>
       <p id="today-date" style="margin-top:14px; font-weight:600;"></p>
     </div>
   </section>
 
   <!-- Main dashboard content -->
-
-  <main class="container">
-    <section id="overview" class="content-section">
-      <h2>Account Overview</h2>
-      <div class="dashboard-grid">
-        <div class="dashboard-card">
-          <h3>Current Balance</h3>
-          <p class="data" id="account-balance">$0.00</p>
+  <main class="container dashboard-container">
+    <section class="dashboard-top">
+      <div class="profile-card" id="profileCard">
+        <h3>Profile</h3>
+        <div class="profile-row"><strong>Name:</strong> <span id="pf-name">—</span></div>
+        <div class="profile-row"><strong>Date of Birth:</strong> <span id="pf-dob">—</span></div>
+        <div class="profile-row"><strong>Phone:</strong> <span id="pf-phone">—</span></div>
+        <div class="profile-row"><strong>Address:</strong> <span id="pf-address">—</span></div>
+        <div style="margin-top:10px;">
+          <button class="btn ghost small" id="editProfileBtn">Update Profile</button>
         </div>
+      </div>
 
-```
-    <div class="dashboard-card">
-      <h3>Recent Activity</h3>
-      <ul id="recent-transactions">
-        <li>No recent transactions available.</li>
-      </ul>
-    </div>
+      <div class="accounts-summary" id="accountsSummary">
+        <h3>Accounts</h3>
+        <div class="account-cards" id="accountCards">
+          <!-- account cards injected here -->
+        </div>
+      </div>
+    </section>
 
-    <div class="dashboard-card">
-      <h3>Security Status</h3>
-      <p id="security-status">Secure — no alerts.</p>
-    </div>
-  </div>
-</section>
+    <section class="content-section quick-actions">
+      <h2>Quick Actions</h2>
+      <div class="quick-actions-grid">
+        <button class="btn" id="reqReviewBtn">Request Account Review</button>
+        <button class="btn ghost" id="updateProfileBtn">Update Profile</button>
+        <button class="btn" id="requestDebitBtn">Request New Debit Card</button>
+        <button class="btn" id="requestCheckBtn">Request Checkbook</button>
+        <button class="btn ghost" id="changePasswordBtn">Change Password</button>
+        <button class="btn" id="logoutButton">Logout</button>
+      </div>
+    </section>
 
-<section class="content-section">
-  <h2>Quick Actions</h2>
-  <p>Use the quick actions below to request reviews, update preferences, or view detailed reports related to your account activity.</p>
-  <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;">
-    <button class="btn">Request Account Review</button>
-    <button class="btn ghost" id="updateProfileBtn">Update Profile</button>
-    <button class="btn" id="logoutButton">Logout</button>
-  </div>
-</section>
+    <section class="content-section">
+      <h2>Recent Activity</h2>
+      <div id="recentTransactions" class="transactions">
+        <p>No recent transactions.</p>
+      </div>
+    </section>
 
-<section class="content-section">
-  <h2>Your Submitted Reports</h2>
-  <p id="reports-list">No submitted reports found.</p>
-</section>
-```
-
+    <section class="content-section">
+      <h2>Your Submitted Reports</h2>
+      <p id="reports-list">No submitted reports found.</p>
+    </section>
   </main>
 
   <!-- Footer -->
-
   <footer class="site-footer">
     <p>&copy; 2025 Federal Reserved Accounts. <a href="policies.html">Policies</a> | <a href="report-fraud.html">Report Fraud</a></p>
   </footer>
 
-  <!-- Login Modal (in case session expires) -->
-
-  <div id="login-modal" class="modal" aria-hidden="true">
+  <!-- Modals (profile edit) -->
+  <div id="profile-modal" class="modal" aria-hidden="true">
     <div class="modal-content">
       <span class="close">&times;</span>
-      <h2>Login to Your Account</h2>
-      <form id="loginForm">
-        <label for="loginEmail">Email</label>
-        <input type="email" id="loginEmail" required />
-        <label for="loginPassword">Password</label>
-        <input type="password" id="loginPassword" required />
-        <button type="submit" class="btn">Login</button>
+      <h2>Edit Profile</h2>
+      <form id="profileForm">
+        <label for="p_full_name">Full name</label>
+        <input id="p_full_name" required />
+        <label for="p_dob">Date of birth</label>
+        <input id="p_dob" type="date" required />
+        <label for="p_phone">Phone</label>
+        <input id="p_phone" required />
+        <label for="p_address">Address</label>
+        <textarea id="p_address" rows="3"></textarea>
+        <button type="submit" class="btn">Save</button>
       </form>
     </div>
   </div>
 
-  <!-- Signup Modal -->
-
-  <div id="signup-modal" class="modal" aria-hidden="true">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Create Account</h2>
-      <form id="signupForm">
-        <label for="signupEmail">Email</label>
-        <input type="email" id="signupEmail" required />
-        <label for="signupPassword">Password</label>
-        <input type="password" id="signupPassword" required />
-        <button type="submit" class="btn">Sign Up</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Supabase UMD + main script (non-module) -->
-
+  <!-- Supabase UMD + main script -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
-
   <script src="script.js" defer></script>
 
-  <!-- Logout wiring (uses UMD client) -->
-
   <script>
-    // Replace with the same URL + anon key used in script.js if you duplicate here.
-    const SUPABASE_URL = "https://qvwgvpywjqqycxemgrpl.supabase.co";
-    const SUPABASE_ANON_KEY = "YOUR_EXISTING_SUPABASE_ANON_KEY"; // placeholder - script.js holds the real key
-    const supabaseClient = window.supabase?.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    async function doLogout() {
-      try {
-        if (!supabaseClient) {
-          // fallback attempt using global if available
-          if (window.supabase) {
-            const fallback = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            await fallback.auth.signOut();
-          }
-        } else {
-          await supabaseClient.auth.signOut();
-        }
-      } catch (err) {
-        console.error("Logout error:", err);
-      }
-      alert("You have been logged out.");
-      window.location.href = "index.html";
-    }
-
-    document.getElementById("logoutButton")?.addEventListener("click", doLogout);
+    // Logout wiring
+    document.getElementById("logoutButton")?.addEventListener("click", () => doLogout());
     document.getElementById("logout-link")?.addEventListener("click", (e) => { e.preventDefault(); doLogout(); });
 
-    // show Eastern date (fallback if script.js ran earlier)
+    // show Eastern date
     (function updateDateOnce(){
       const el = document.getElementById('today-date');
       if (!el) return;
@@ -181,6 +134,5 @@
       } catch(e){}
     })();
   </script>
-
 </body>
 </html>
