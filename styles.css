@@ -1,85 +1,459 @@
-/* =========================================
-   Global Styles
-========================================= */
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* ========================================================================== 
+   styles.css — Federal Reserved Accounts (Professional Build)
+   Theme: Navy Blue + White + Light Gray
+   Includes dashboard, profile card, account cards, admin panel
+   ========================================================================== */
+
+/* ---------- Global ---------- */
+* {
   margin: 0;
   padding: 0;
-  background: #f5f7fa;
-  color: #333;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-header {
-  background-color: #004080;
-  color: white;
-  padding: 12px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+body {
+  background-color: #f5f6f8;
+  color: #1a1a1a;
+  line-height: 1.6;
+  font-size: 16px;
 }
 
-header .logo {
-  font-size: 1.5em;
-  font-weight: bold;
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-nav button {
-  background-color: #0066cc;
-  border: none;
-  padding: 8px 16px;
-  color: white;
-  border-radius: 6px;
+ul {
+  list-style: none;
+}
+
+button {
   cursor: pointer;
-  margin-left: 8px;
+  border: none;
+  outline: none;
+  font-family: inherit;
 }
 
-nav button:hover {
-  background-color: #0052a3;
+img {
+  max-width: 100%;
+  height: auto;
 }
 
-/* =========================================
-   Containers
-========================================= */
-.main-container, .dashboard-container, .admin-container {
+/* ---------- Official Notice ---------- */
+.us-notice {
+  background-color: #e6ecf0;
+  color: #1a1a1a;
+  text-align: center;
+  padding: 0.4rem 0;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.us-notice .flag-icon {
+  width: 24px;
+  margin-right: 0.5rem;
+}
+
+/* ---------- Header / Navigation ---------- */
+.site-header {
+  background-color: #0a2342;
+  color: white;
+  padding: 0.8rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.site-header .logo {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.3rem;
+  color: white;
+}
+
+.site-header .logo img {
+  height: 55px;
+  width: auto;
+  margin-right: 0.5rem;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-links a {
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+  background-color: #1f3d70;
+}
+
+.signup-btn {
+  background-color: #ffcd00;
+  color: #0a2342;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+}
+
+.signup-btn:hover {
+  background-color: #e6b800;
+}
+
+#menu-toggle {
+  display: none;
+  background: none;
+  font-size: 1.5rem;
+  color: white;
+}
+
+/* ---------- Responsive Menu ---------- */
+@media (max-width: 768px) {
+  #menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #0a2342;
+    flex-direction: column;
+    width: 200px;
+    padding: 1rem 0;
+    display: none;
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+
+  .nav-links a {
+    margin: 0.2rem 1rem;
+  }
+}
+
+/* ---------- Time Bar ---------- */
+.time-bar {
+  background-color: #dce3ed;
+  color: #0a2342;
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+/* ---------- Hero Section ---------- */
+.hero-home {
+  position: relative;
+  color: white;
+  text-align: center;
+  padding: 5rem 1rem;
+  overflow: hidden;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-image:
+    linear-gradient(to bottom, rgba(10, 35, 66, 0.75) 0%, rgba(10, 35, 66, 0.3) 50%, rgba(10, 35, 66, 0.75) 100%),
+    url('images/hero-flag.jpg');
+  background-blend-mode: overlay;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero-buttons {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.hero-buttons .btn {
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  font-weight: bold;
+  background-color: #1f3d70;
+  color: white;
+  transition: 0.2s;
+}
+
+.hero-buttons .btn.ghost {
+  background-color: transparent;
+  border: 2px solid white;
+}
+
+.hero-buttons .btn:hover {
+  background-color: #16325b;
+}
+
+.hero-buttons .btn.ghost:hover {
+  background-color: white;
+  color: #0a2342;
+}
+
+/* ---------- Main Content ---------- */
+.container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.content-section {
+  margin-bottom: 2.5rem;
+}
+
+.content-section h2 {
+  color: #0a2342;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #1f3d70;
+  display: inline-block;
+  padding-bottom: 0.2rem;
+}
+
+.content-section p {
+  margin-bottom: 1rem;
+}
+
+/* ---------- Contact Section ---------- */
+.contact-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  background-color: #e6ecf0;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.contact-info {
+  flex: 1 1 250px;
+}
+
+.contact-form {
+  flex: 1 1 300px;
+}
+
+.contact-form .form label {
+  display: block;
+  margin-top: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.contact-form .form input,
+.contact-form .form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.contact-form .form button {
+  margin-top: 0.8rem;
+  background-color: #1f3d70;
+  color: white;
+  width: 100%;
+}
+
+.contact-form .form button:hover {
+  background-color: #16325b;
+}
+
+/* ---------- Report Fraud Form ---------- */
+#fraudForm {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  max-width: 700px;
+  margin: 1rem auto;
+}
+
+#fraudForm h3 {
+  color: #0a2342;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+#fraudForm label {
+  display: block;
+  margin-top: 0.5rem;
+  margin-bottom: 0.2rem;
+  font-weight: 500;
+}
+
+#fraudForm input,
+#fraudForm textarea,
+#fraudForm select {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+#fraudForm button {
+  background-color: #1f3d70;
+  color: white;
+  font-weight: bold;
+  padding: 0.8rem 1.2rem;
+  border-radius: 5px;
+  width: 100%;
+  margin-top: 0.5rem;
+  transition: 0.2s;
+}
+
+#fraudForm button:hover {
+  background-color: #16325b;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  background-color: #0a2342;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+}
+
+.site-footer a {
+  color: #ffcd00;
+}
+
+/* ---------- Modal Styles ---------- */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0,0,0,0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+  z-index: 2000;
+}
+
+.modal[aria-hidden="false"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+}
+
+.modal-content h2 {
+  margin-bottom: 1rem;
+  color: #0a2342;
+}
+
+.modal-content .close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.8rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #0a2342;
+}
+
+.styled-form label {
+  display: block;
+  margin-top: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.styled-form input,
+.styled-form select,
+.styled-form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.styled-form button {
+  background-color: #1f3d70;
+  color: white;
+  padding: 0.6rem;
+  border-radius: 4px;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.styled-form button:hover {
+  background-color: #16325b;
+}
+
+/* ---------- Spinner ---------- */
+.spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #1f3d70;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ---------- Dashboard & Account Cards ---------- */
+.dashboard-container,
+.main-container,
+.admin-container {
   max-width: 1200px;
   margin: 20px auto;
   padding: 0 16px;
 }
 
-/* =========================================
-   Modals
-========================================= */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0,0,0,0.6);
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background: white;
-  border-radius: 8px;
-  padding: 24px;
-  width: 90%;
-  max-width: 500px;
-  position: relative;
-}
-
-.close {
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  cursor: pointer;
-  font-size: 20px;
-}
-
-/* =========================================
-   Dashboard Cards
-========================================= */
 #accountCards, .admin-accounts {
   display: flex;
   flex-wrap: wrap;
@@ -125,9 +499,7 @@ nav button:hover {
   background-color: #0052a3;
 }
 
-/* =========================================
-   Profile Card
-========================================= */
+/* ---------- Profile Card ---------- */
 .profile-card {
   background: #ffffff;
   border-radius: 12px;
@@ -147,9 +519,7 @@ nav button:hover {
   margin-bottom: 6px;
 }
 
-/* =========================================
-   Quick Actions
-========================================= */
+/* ---------- Quick Actions ---------- */
 .quick-actions {
   display: flex;
   flex-wrap: wrap;
@@ -171,44 +541,7 @@ nav button:hover {
   background-color: #005db3;
 }
 
-/* =========================================
-   Forms
-========================================= */
-input, select, textarea, button {
-  font-family: inherit;
-  font-size: 1em;
-}
-
-input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="date"] {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  width: 100%;
-  margin-bottom: 12px;
-  box-sizing: border-box;
-}
-
-button.btn {
-  background-color: #0066cc;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 16px;
-  cursor: pointer;
-}
-
-button.btn:hover {
-  background-color: #0052a3;
-}
-
-button.small {
-  padding: 4px 8px;
-  font-size: 0.85em;
-}
-
-/* =========================================
-   Admin Panel
-========================================= */
+/* ---------- Admin Panel ---------- */
 .admin-panel {
   background: #f9f9f9;
   padding: 16px;
@@ -244,34 +577,16 @@ button.small {
   margin-left: 8px;
 }
 
-/* =========================================
-   Spinner
-========================================= */
-.spinner {
-  border: 3px solid #f3f3f3;
-  border-top: 3px solid #004080;
-  border-radius: 50%;
-  width: 16px;
-  height: 16px;
-  display: inline-block;
-  animation: spin 1s linear infinite;
-  margin-right: 6px;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg);}
-  100% { transform: rotate(360deg);}
-}
-
-/* =========================================
-   Responsive
-========================================= */
+/* ---------- Responsive ---------- */
 @media (max-width: 768px) {
   #accountCards, .admin-accounts {
     flex-direction: column;
     align-items: center;
   }
   .account-card, .admin-account-row {
+    width: 90%;
+  }
+  .profile-card {
     width: 90%;
   }
 }
