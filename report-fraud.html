@@ -1,63 +1,273 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="utf-8" /> <meta name="viewport" content="width=device-width,initial-scale=1" /> <title>Federal Reserved Accounts – Report Fraud</title> <meta name="description" content="Report fraudulent activity to Federal Reserved Accounts." /> <link rel="stylesheet" href="styles.css" /> <link rel="icon" href="images/fra-logo.png" /> </head> <body> <!-- Official Notice --> <div class="us-notice"> <img src="images/us_flag_small.png" alt="U.S. flag" class="flag-icon" /> An official website of the United States Government </div> <!-- Header --> <header class="site-header"> <div class="nav-container"> <a href="index.html" class="logo"> <img src="images/fra-logo.png" alt="Federal Reserved Accounts Logo" /> Federal Reserved Accounts </a> <button id="menu-toggle" aria-label="Open menu">☰</button> <nav id="nav-links" class="nav-links"> <a href="index.html">Home</a> <a href="report-fraud.html" class="active">Report Fraud</a> <a href="policies.html">Policies</a> <a href="#" id="login-link">Login</a> <a href="#" id="signup-link" class="signup-btn">Sign Up</a> </nav> </div> </header> <!-- Official Date Bar --> <div class="time-bar"> Date: <span id="current-date"></span> </div> <!-- Hero --> <section class="hero-page refined-hero"> <div class="hero-overlay" style="background-image:url('images/hero-emblem.png');"></div> <div class="hero-content"> <h1>Report Fraud</h1> <p class="tagline">Report suspected fraud, scams, or account misuse to help protect others and preserve account integrity.</p> <div class="hero-buttons"> <a href="#fraud-form" class="btn">Submit a Report</a> <a href="policies.html" class="btn ghost">View Guidelines</a> </div> </div> </section> <!-- Main --> <main class="container"> <section class="content-section"> <h2>Report Fraud & Suspicious Activity</h2> <p>If you’ve encountered suspicious communications, unauthorized transactions, or potential scams connected to Federal Reserved Accounts, please complete the report below. Timely reporting helps security teams investigate and protect other users.</p> <p>Do not include sensitive credentials in this form. If you suspect immediate account compromise, secure your account by changing passwords and enabling multi-factor authentication before submitting additional details here.</p> </section>
-<section id="fraud-form" class="content-section">
-  <h2>Submit a Fraud Report</h2>
-  <form id="fraudForm" class="form">
-    <label for="fullName">Full Name</label>
-    <input id="fullName" type="text" placeholder="Jane Doe" required />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Federal Reserved Accounts – Report Fraud</title>
+  <meta name="description" content="Report fraudulent activity to Federal Reserved Accounts." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="images/fra-logo.png" />
+</head>
 
-    <label for="reportEmail">Email Address</label>
-    <input id="reportEmail" type="email" placeholder="you@example.com" required />
+<body>
+  <!-- Official Notice -->
+  <div class="us-notice">
+    <img src="images/us_flag_small.png" alt="U.S. flag" class="flag-icon" />
+    An official website of the United States Government
+  </div>
 
-    <label for="incidentType">Type of Incident</label>
-    <select id="incidentType" required>
-      <option value="">Select...</option>
-      <option value="identity">Identity Theft</option>
-      <option value="phishing">Phishing / Scam</option>
-      <option value="unauthorized">Unauthorized Access</option>
-      <option value="other">Other</option>
-    </select>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <img src="images/fra-logo.png" alt="Federal Reserved Accounts Logo" />
+        Federal Reserved Accounts
+      </a>
 
-    <label for="incidentDescription">Description</label>
-    <textarea id="incidentDescription" rows="6" placeholder="Provide details (do not include passwords)..." required></textarea>
+      <button id="menu-toggle" aria-label="Open menu">☰</button>
 
-    <button type="submit" class="btn">Submit Report</button>
-    <p id="fraudMessage" style="margin-top:10px; font-weight:600;"></p>
-  </form>
-</section>
-
-<section class="content-section">
-  <h2>What Happens Next</h2>
-  <p>After you submit a report, our security review team will assess the information. If follow-up is required, you may receive a secure request for additional information. We may also provide guidance on steps to secure affected accounts.</p>
-</section>
-
-<!-- Contact Section -->
-<section class="content-section">
-  <h2>Contact Federal Reserved Accounts</h2>
-  <div class="contact-wrapper">
-    <div class="contact-info">
-      <h3>Contact Us</h3>
-      <p><strong>Phone:</strong> +1 (380) 225-0409</p>
-      <p><strong>Email:</strong> contact@federalreservedaccounts.com</p>
-      <p>For urgent fraud or identity theft issues, please use the “Report Fraud” page for immediate action.</p>
+      <nav id="nav-links" class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="report-fraud.html" class="active">Report Fraud</a>
+        <a href="policies.html">Policies</a>
+        <a href="#" id="login-link">Login</a>
+        <a href="#" id="signup-link" class="signup-btn">Sign Up</a>
+      </nav>
     </div>
+  </header>
 
-    <div class="contact-form">
-      <h3>Send Us a Message</h3>
-      <form id="contactForm" class="form">
-        <label for="contactName">Full Name</label>
-        <input type="text" id="contactName" required placeholder="Your full name" />
+  <!-- Official Date Bar -->
+  <div class="time-bar">
+  <p>Current Date (Eastern Time): <span id="current-time"></span></p>
+</div>
 
-        <label for="contactEmail">Email Address</label>
-        <input type="email" id="contactEmail" required placeholder="you@example.com" />
 
-        <label for="contactMessage">Message</label>
-        <textarea id="contactMessage" required placeholder="Write your message here..." rows="5"></textarea>
+  <!-- Hero -->
+  <section class="hero-page refined-hero">
+    <div class="hero-overlay" style="background-image:url('images/hero-emblem.png');"></div>
+    <div class="hero-content">
+      <h1>Report Fraud</h1>
+      <p class="tagline">Help us protect citizens by reporting fraudulent or suspicious financial activity.</p>
+      <div class="hero-buttons">
+        <a href="#fraud-form" class="btn">Submit a Report</a>
+        <a href="policies.html" class="btn ghost">View Policies</a>
+      </div>
+    </div>
+  </section>
 
-        <button type="submit" class="btn">Send Message</button>
-        <p id="contactMessageResponse" class="response"></p>
+  <!-- Main -->
+  <main class="container">
+    <section class="content-section">
+      <h2>Submit a Fraud Report</h2>
+      <p>Please complete the form below to report any suspected fraud, unauthorized transactions, or misleading communications. This information is reviewed by our investigation team and may be referred to appropriate authorities for follow-up.</p>
+      <form id="fraudForm" class="form">
+        <label for="fullName">Full Name</label>
+        <input id="fullName" type="text" placeholder="Jane Doe" required />
+
+        <label for="reportEmail">Email Address</label>
+        <input id="reportEmail" type="email" placeholder="you@example.com" required />
+
+        <label for="phone">Phone Number</label>
+        <input id="phone" type="tel" placeholder="+1 (555) 123-4567" required />
+
+        <label for="incidentType">Type of Incident</label>
+        <select id="incidentType" required>
+          <option value="">Select...</option>
+          <option value="identity">Identity Theft</option>
+          <option value="phishing">Phishing or Scam</option>
+          <option value="unauthorized">Unauthorized Access</option>
+          <option value="payment">Payment Fraud</option>
+          <option value="account">Account Misuse</option>
+          <option value="other">Other</option>
+        </select>
+
+        <label for="incidentDate">Date of Incident</label>
+        <input id="incidentDate" type="date" required />
+
+        <label for="incidentLocation">Location (City, State)</label>
+        <input id="incidentLocation" type="text" placeholder="Washington, D.C." />
+
+        <label for="amountInvolved">Amount Involved (if applicable)</label>
+        <input id="amountInvolved" type="number" placeholder="0.00" step="0.01" />
+
+        <label>Were you contacted by someone?</label>
+        <div style="display:flex; gap:10px;">
+          <label><input type="radio" name="contacted" value="yes" required /> Yes</label>
+          <label><input type="radio" name="contacted" value="no" /> No</label>
+        </div>
+
+        <label for="contactMethod">If yes, how were you contacted?</label>
+        <select id="contactMethod">
+          <option value="">Select...</option>
+          <option value="email">Email</option>
+          <option value="phone">Phone Call</option>
+          <option value="sms">Text Message</option>
+          <option value="social">Social Media</option>
+          <option value="other">Other</option>
+        </select>
+
+        <label for="incidentDescription">Describe the Incident</label>
+        <textarea id="incidentDescription" rows="6" placeholder="Describe the situation in detail..." required></textarea>
+
+        <label for="additionalInfo">Additional Information or References</label>
+        <textarea id="additionalInfo" rows="4" placeholder="Provide any related case numbers, reference IDs, or URLs."></textarea>
+
+        <button type="submit" class="btn">Submit Report</button>
+        <p id="fraudMessage" style="margin-top:10px; font-weight:600;"></p>
+      </form>
+    </section>
+
+    <!-- Expanded Informational Sections -->
+    <section class="content-section">
+      <h2>How We Review Your Report</h2>
+      <p>Each submitted fraud report undergoes a multi-stage review process by authorized analysts. Upon submission, you will receive a Case ID number, which allows our system to track your submission securely. Reports are examined for authenticity, impact, and potential connection to broader incidents affecting multiple users.</p>
+      <p>Analysts prioritize cases based on urgency and the type of fraud reported. Incidents involving compromised financial information, government impersonation, or ongoing scams receive immediate attention. Data shared is strictly handled under confidentiality and is accessible only to investigative staff.</p>
+      <p>Federal Reserved Accounts works in collaboration with federal agencies including the U.S. Treasury, the Office of the Comptroller of the Currency (OCC), and the Federal Trade Commission (FTC) to ensure cross-agency coordination in fraud prevention.</p>
+    </section>
+
+    <section class="content-section">
+      <h2>Recognizing Common Fraud Schemes</h2>
+      <p>Fraud schemes may take several forms — from digital phishing campaigns to identity impersonation or false claims of financial authority. Recognizing these schemes early is key to prevention:</p>
+      <ul>
+        <li><strong>Phishing Emails:</strong> Messages that mimic official correspondence but contain suspicious links or attachments.</li>
+        <li><strong>Unauthorized Transactions:</strong> Withdrawals or payments from accounts without prior consent.</li>
+        <li><strong>Government Impersonation:</strong> Calls or messages falsely claiming to represent federal institutions.</li>
+        <li><strong>Fake Investment Offers:</strong> High-return “guaranteed” investment proposals requesting personal data.</li>
+      </ul>
+      <p>Always verify contact sources and report questionable communication to the proper authorities through our secure channel.</p>
+    </section>
+
+    <section class="content-section">
+      <h2>Your Privacy and Data Security</h2>
+      <p>Every report you submit is stored in a protected Supabase database following encryption and limited-access protocols. No report is ever shared with third parties outside the scope of investigation. We use encrypted connections for all data transmission and enforce role-based access controls.</p>
+      <p>By submitting this form, you consent to the secure storage of your information for investigation and record-keeping purposes in compliance with the Privacy Act of 1974.</p>
+    </section>
+
+    <section class="content-section">
+      <h2>Follow-Up and Case Tracking</h2>
+      <p>Once a case is assigned an ID, it enters our internal tracking system. If additional information is needed, you may receive an official communication from a verified federalreservedaccounts.com email address. Be cautious of any entity requesting private account credentials — legitimate investigators will never ask for your passwords or banking PINs.</p>
+      <p>Reports remain active until resolved, and you can use your Case ID when contacting us for updates. This ensures accuracy and continuity of your investigation record.</p>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="content-section">
+      <h2>Contact Federal Reserved Accounts</h2>
+      <div class="contact-wrapper">
+        <div class="contact-info">
+          <h3>Contact Us</h3>
+          <p><strong>Phone:</strong> +1 (380) 225-0409</p>
+          <p><strong>Email:</strong> contact@federalreservedaccounts.com</p>
+          <p>For urgent fraud or identity theft issues, please use the “Report Fraud” feature for immediate attention.</p>
+        </div>
+
+        <div class="contact-form">
+          <h3>Send Us a Message</h3>
+          <form id="contactForm" class="form">
+            <label for="contactName">Full Name</label>
+            <input type="text" id="contactName" required placeholder="Your full name" />
+
+            <label for="contactEmail">Email Address</label>
+            <input type="email" id="contactEmail" required placeholder="you@example.com" />
+
+            <label for="contactMessage">Message</label>
+            <textarea id="contactMessage" required placeholder="Write your message here..." rows="5"></textarea>
+
+            <button type="submit" class="btn">Send Message</button>
+            <p id="contactMessageResponse" class="response"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>&copy; 2025 Federal Reserved Accounts. <a href="policies.html">Policies</a> | <a href="index.html">Home</a></p>
+  </footer>
+
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal" aria-hidden="true">
+    <div class="modal-content enhanced-modal">
+      <span class="close">&times;</span>
+      <h2>Login</h2>
+      <form id="loginForm" class="styled-form">
+        <label for="loginUsername">Username</label>
+        <input type="text" id="loginUsername" required placeholder="Enter your username" />
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" required placeholder="Enter your password" />
+        <button type="submit" class="btn">Login</button>
+        <button type="button" id="forgotPasswordBtn" class="btn ghost small">Forgot Password?</button>
       </form>
     </div>
   </div>
-</section>
 
-</main> <!-- Footer --> <footer class="site-footer"> <p>&copy; 2025 Federal Reserved Accounts. <a href="policies.html">Policies</a> | <a href="index.html">Home</a></p> </footer> <!-- Login / Signup / Forgot Modals --> <div id="login-modal" class="modal" aria-hidden="true"> <div class="modal-content enhanced-modal"> <span class="close">&times;</span> <h2>Login</h2> <form id="loginForm" class="styled-form"> <label for="loginUsername">Username</label> <input type="text" id="loginUsername" required placeholder="Enter your username" /> <label for="loginPassword">Password</label> <input type="password" id="loginPassword" required placeholder="Enter your password" /> <button type="submit" class="btn">Login</button> <button type="button" id="forgotPasswordBtn" class="btn ghost small">Forgot Password?</button> </form> </div> </div> <div id="forgot-modal" class="modal" aria-hidden="true"> <div class="modal-content enhanced-modal"> <span class="close">&times;</span> <h2>Reset Password</h2> <form id="forgotForm" class="styled-form"> <label for="forgotEmail">Enter your account email</label> <input type="email" id="forgotEmail" required placeholder="you@example.com" /> <button type="submit" class="btn">Send Reset Link</button> </form> </div> </div> <div id="signup-modal" class="modal" aria-hidden="true"> <div class="modal-content enhanced-modal"> <span class="close">&times;</span> <h2>Create Your Account</h2> <form id="signupForm" class="styled-form"> <div class="name-fields"> <div><label for="firstName">First Name</label><input type="text" id="firstName" required /></div> <div><label for="lastName">Last Name</label><input type="text" id="lastName" required /></div> </div> <label for="dob">Date of Birth</label><input type="date" id="dob" required /> <label for="signupEmail">Email</label><input type="email" id="signupEmail" required placeholder="you@example.com" /> <label for="signupUsername">Username</label><input type="text" id="signupUsername" required placeholder="Choose a username" /> <label for="signupPassword">Password</label><input type="password" id="signupPassword" required placeholder="Create a password" /> <button type="submit" class="btn">Sign Up</button> </form> </div> </div> <!-- Scripts --> <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script> <script src="script.js" defer></script> <script> document.addEventListener("DOMContentLoaded", () => { const dateEl = document.getElementById("current-date"); if (dateEl) { const now = new Date(); const options = { timeZone: "America/New_York", weekday: "long", year: "numeric", month: "long", day: "numeric" }; dateEl.textContent = new Intl.DateTimeFormat("en-US", options).format(now); } }); </script> </body> </html>
+  <!-- Forgot Password Modal -->
+  <div id="forgot-modal" class="modal" aria-hidden="true">
+    <div class="modal-content enhanced-modal">
+      <span class="close">&times;</span>
+      <h2>Reset Password</h2>
+      <form id="forgotForm" class="styled-form">
+        <label for="forgotEmail">Enter your account email</label>
+        <input type="email" id="forgotEmail" required placeholder="you@example.com" />
+        <button type="submit" class="btn">Send Reset Link</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Signup Modal -->
+  <div id="signup-modal" class="modal" aria-hidden="true">
+    <div class="modal-content enhanced-modal">
+      <span class="close">&times;</span>
+      <h2>Create Your Account</h2>
+      <form id="signupForm" class="styled-form">
+        <div class="name-fields">
+          <div>
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" required />
+          </div>
+          <div>
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" required />
+          </div>
+        </div>
+        <label for="dob">Date of Birth</label>
+        <input type="date" id="dob" required />
+        <label for="signupEmail">Email</label>
+        <input type="email" id="signupEmail" required placeholder="you@example.com" />
+        <label for="signupUsername">Username</label>
+        <input type="text" id="signupUsername" required placeholder="Choose a username" />
+        <label for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" required placeholder="Create a password" />
+        <button type="submit" class="btn">Sign Up</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Report Submitted Modal -->
+<div id="reportSuccessModal" class="modal" aria-hidden="true">
+  <div class="modal-content enhanced-modal">
+    <span class="close" id="reportSuccessClose">&times;</span>
+    <h2>✅ Report Submitted</h2>
+    <p id="reportSuccessMessage">Your report has been submitted successfully.</p>
+    <button id="reportSuccessOk" class="btn" style="margin-top:18px;">Close</button>
+  </div>
+</div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+  <script src="script.js" defer></script>
+
+  <script>
+    // Update Eastern date (no time)
+    document.addEventListener("DOMContentLoaded", () => {
+      const el = document.getElementById("today-date");
+      if (el) {
+        const now = new Date();
+        const opts = { timeZone: "America/New_York", weekday: "long", year: "numeric", month: "long", day: "numeric" };
+        el.textContent = new Intl.DateTimeFormat("en-US", opts).format(now);
+      }
+    });
+  </script>
+</body>
+</html>
+```
