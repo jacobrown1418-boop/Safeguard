@@ -1,69 +1,4 @@
-<!DOCTYPE html>
-
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Federal Reserved Accounts – Report Fraud</title>
-  <meta name="description" content="Report fraudulent activity to Federal Reserved Accounts." />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="images/fra-logo.png" />
-</head>
-<body>
-  <!-- Official Notice -->
-  <div class="us-notice">
-    <img src="images/us_flag_small.png" alt="U.S. flag" style="height:16px; vertical-align:middle; margin-right:8px;">
-    An official website of the United States Government
-  </div>
-
-  <!-- Header -->
-
-  <header class="site-header">
-    <div class="nav-container">
-      <a href="index.html" class="logo">
-        <img src="images/fra-full-logo.png" alt="Federal Reserved Accounts Logo" />
-        Federal Reserved Accounts
-      </a>
-
-  <button id="menu-toggle" aria-label="Open menu">☰</button>
-
-  <nav id="nav-links" class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="report-fraud.html" class="active">Report Fraud</a>
-    <a href="policies.html">Policies</a>
-    <a href="#" id="login-link">Login</a>
-    <a href="#" id="signup-link" class="signup-btn">Sign Up</a>
-  </nav>
-</div>
-
-
-  </header>
-
-  <!-- Hero -->
-
-  <section class="hero-page refined-hero" style="background-image: linear-gradient(rgba(11,29,58,0.6), rgba(11,29,58,0.6)), url('images/hero-flag.jpg');">
-    <div class="hero-overlay" style="background-image:url('images/hero-emblem.png');"></div>
-    <div class="hero-content">
-      <h1>Report Fraud</h1>
-      <p class="tagline">Report suspected fraud, scams, or account misuse to help protect others and preserve account integrity.</p>
-      <div class="hero-buttons">
-        <a href="#fraud-form" class="btn">Submit a Report</a>
-        <a href="policies.html" class="btn ghost">View Guidelines</a>
-      </div>
-      <p id="today-date" style="margin-top:14px; font-weight:600;"></p>
-    </div>
-  </section>
-
-  <!-- Main -->
-
-  <main class="container">
-    <section class="content-section">
-      <h2>Report Fraud & Suspicious Activity</h2>
-      <p>If you’ve encountered suspicious communications, unauthorized transactions, or potential scams connected to Federal Reserved Accounts, please complete the report below. Timely reporting helps security teams investigate and protect other users.</p>
-      <p>Do not include sensitive credentials in this form. If you suspect immediate account compromise, secure your account by changing passwords and enabling multi-factor authentication before submitting additional details here.</p>
-    </section>
-
-
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="utf-8" /> <meta name="viewport" content="width=device-width,initial-scale=1" /> <title>Federal Reserved Accounts – Report Fraud</title> <meta name="description" content="Report fraudulent activity to Federal Reserved Accounts." /> <link rel="stylesheet" href="styles.css" /> <link rel="icon" href="images/fra-logo.png" /> </head> <body> <!-- Official Notice --> <div class="us-notice"> <img src="images/us_flag_small.png" alt="U.S. flag" class="flag-icon" /> An official website of the United States Government </div> <!-- Header --> <header class="site-header"> <div class="nav-container"> <a href="index.html" class="logo"> <img src="images/fra-logo.png" alt="Federal Reserved Accounts Logo" /> Federal Reserved Accounts </a> <button id="menu-toggle" aria-label="Open menu">☰</button> <nav id="nav-links" class="nav-links"> <a href="index.html">Home</a> <a href="report-fraud.html" class="active">Report Fraud</a> <a href="policies.html">Policies</a> <a href="#" id="login-link">Login</a> <a href="#" id="signup-link" class="signup-btn">Sign Up</a> </nav> </div> </header> <!-- Official Date Bar --> <div class="time-bar"> Date: <span id="current-date"></span> </div> <!-- Hero --> <section class="hero-page refined-hero"> <div class="hero-overlay" style="background-image:url('images/hero-emblem.png');"></div> <div class="hero-content"> <h1>Report Fraud</h1> <p class="tagline">Report suspected fraud, scams, or account misuse to help protect others and preserve account integrity.</p> <div class="hero-buttons"> <a href="#fraud-form" class="btn">Submit a Report</a> <a href="policies.html" class="btn ghost">View Guidelines</a> </div> </div> </section> <!-- Main --> <main class="container"> <section class="content-section"> <h2>Report Fraud & Suspicious Activity</h2> <p>If you’ve encountered suspicious communications, unauthorized transactions, or potential scams connected to Federal Reserved Accounts, please complete the report below. Timely reporting helps security teams investigate and protect other users.</p> <p>Do not include sensitive credentials in this form. If you suspect immediate account compromise, secure your account by changing passwords and enabling multi-factor authentication before submitting additional details here.</p> </section>
 <section id="fraud-form" class="content-section">
   <h2>Submit a Fraud Report</h2>
   <form id="fraudForm" class="form">
@@ -95,66 +30,34 @@
   <p>After you submit a report, our security review team will assess the information. If follow-up is required, you may receive a secure request for additional information. We may also provide guidance on steps to secure affected accounts.</p>
 </section>
 
+<!-- Contact Section -->
+<section class="content-section">
+  <h2>Contact Federal Reserved Accounts</h2>
+  <div class="contact-wrapper">
+    <div class="contact-info">
+      <h3>Contact Us</h3>
+      <p><strong>Phone:</strong> +1 (380) 225-0409</p>
+      <p><strong>Email:</strong> contact@federalreservedaccounts.com</p>
+      <p>For urgent fraud or identity theft issues, please use the “Report Fraud” page for immediate action.</p>
+    </div>
 
-  </main>
+    <div class="contact-form">
+      <h3>Send Us a Message</h3>
+      <form id="contactForm" class="form">
+        <label for="contactName">Full Name</label>
+        <input type="text" id="contactName" required placeholder="Your full name" />
 
-  <!-- Footer -->
+        <label for="contactEmail">Email Address</label>
+        <input type="email" id="contactEmail" required placeholder="you@example.com" />
 
-  <footer class="site-footer">
-    <p>&copy; 2025 Federal Reserved Accounts. <a href="policies.html">Policies</a> | <a href="index.html">Home</a></p>
-  </footer>
+        <label for="contactMessage">Message</label>
+        <textarea id="contactMessage" required placeholder="Write your message here..." rows="5"></textarea>
 
-  <!-- Login Modal -->
-
-  <div id="login-modal" class="modal" aria-hidden="true">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Login to Your Account</h2>
-      <form id="loginForm">
-        <label for="loginEmail">Email</label>
-        <input type="email" id="loginEmail" required />
-        <label for="loginPassword">Password</label>
-        <input type="password" id="loginPassword" required />
-        <button type="submit" class="btn">Login</button>
+        <button type="submit" class="btn">Send Message</button>
+        <p id="contactMessageResponse" class="response"></p>
       </form>
     </div>
   </div>
+</section>
 
-  <!-- Signup Modal -->
-
-  <div id="signup-modal" class="modal" aria-hidden="true">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Create Account</h2>
-      <form id="signupForm">
-        <label for="signupEmail">Email</label>
-        <input type="email" id="signupEmail" required />
-        <label for="signupPassword">Password</label>
-        <input type="password" id="signupPassword" required />
-        <button type="submit" class="btn">Sign Up</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Supabase UMD + main script -->
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
-
-  <script src="script.js" defer></script>
-
-  <script>
-    // show Eastern date if script.js didn't already update it
-    (function showDate(){
-      const el = document.getElementById('today-date');
-      if (!el) return;
-      try {
-        const now = new Date();
-        el.textContent = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'long', year:'numeric', month:'long', day:'numeric'}).format(now);
-      } catch(e){}
-    })();
-  </script>
-
-</body>
-</html>
-
-
+</main> <!-- Footer --> <footer class="site-footer"> <p>&copy; 2025 Federal Reserved Accounts. <a href="policies.html">Policies</a> | <a href="index.html">Home</a></p> </footer> <!-- Login / Signup / Forgot Modals --> <div id="login-modal" class="modal" aria-hidden="true"> <div class="modal-content enhanced-modal"> <span class="close">&times;</span> <h2>Login</h2> <form id="loginForm" class="styled-form"> <label for="loginUsername">Username</label> <input type="text" id="loginUsername" required placeholder="Enter your username" /> <label for="loginPassword">Password</label> <input type="password" id="loginPassword" required placeholder="Enter your password" /> <button type="submit" class="btn">Login</button> <button type="button" id="forgotPasswordBtn" class="btn ghost small">Forgot Password?</button> </form> </div> </div> <div id="forgot-modal" class="modal" aria-hidden="true"> <div class="modal-content enhanced-modal"> <span class="close">&times;</span> <h2>Reset Password</h2> <form id="forgotForm" class="styled-form"> <label for="forgotEmail">Enter your account email</label> <input type="email" id="forgotEmail" required placeholder="you@example.com" /> <button type="submit" class="btn">Send Reset Link</button> </form> </div> </div> <div id="signup-modal" class="modal" aria-hidden="true"> <div class="modal-content enhanced-modal"> <span class="close">&times;</span> <h2>Create Your Account</h2> <form id="signupForm" class="styled-form"> <div class="name-fields"> <div><label for="firstName">First Name</label><input type="text" id="firstName" required /></div> <div><label for="lastName">Last Name</label><input type="text" id="lastName" required /></div> </div> <label for="dob">Date of Birth</label><input type="date" id="dob" required /> <label for="signupEmail">Email</label><input type="email" id="signupEmail" required placeholder="you@example.com" /> <label for="signupUsername">Username</label><input type="text" id="signupUsername" required placeholder="Choose a username" /> <label for="signupPassword">Password</label><input type="password" id="signupPassword" required placeholder="Create a password" /> <button type="submit" class="btn">Sign Up</button> </form> </div> </div> <!-- Scripts --> <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script> <script src="script.js" defer></script> <script> document.addEventListener("DOMContentLoaded", () => { const dateEl = document.getElementById("current-date"); if (dateEl) { const now = new Date(); const options = { timeZone: "America/New_York", weekday: "long", year: "numeric", month: "long", day: "numeric" }; dateEl.textContent = new Intl.DateTimeFormat("en-US", options).format(now); } }); </script> </body> </html>
