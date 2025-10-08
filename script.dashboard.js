@@ -446,3 +446,53 @@ async function doLogout() {
   alert("You have been logged out.");
   window.location.href = "index.html";
 }
+
+
+
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+const supabaseUrl = 'https://hafzffbdqlojkuhgfsvy.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk';
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Check session
+const { data: { user } } = await supabase.auth.getUser();
+if (!user) window.location.href = '/login.html';
+
+// Display name
+document.getElementById('welcomeName').textContent = `Welcome, ${user.user_metadata.full_name || 'User'}`;
+
+// Load balances
+async function loadAccounts() {
+  const { data, error } = await supabase
+    .from('accounts')
+    .select('*')
+    .eq('user_id', user.id);
+
+  if (error) console.error(error);
+  else renderAccounts(data);
+}
+
+function renderAccounts(accounts) {
+  const container = document.getElementById('accountCards');
+  container.innerHTML = '';
+
+  accounts.forEach(acc => {
+    const div = document.createElement('div');
+    div.className = 'account-card blue-bg';
+    div.innerHTML = `
+      <p class="account-type">${acc.account_type.toUpperCase()}</p>
+      <h3 class="account-balance">$${acc.balance.toLocaleString()}</h3>
+      <p class="account-number">Account No: ${acc.account_number}</p>
+      <button class="statement-btn" data-id="${acc.id}">View Statement</button>
+    `;
+    container.appendChild(div);
+  });
+
+  // Add listeners
+  document.querySelectorAll('.statement-btn').forEach(btn => {
+    btn.addEventListener('click', e => openStatementModal(e.target.dataset.id));
+  });
+}
+
+loadAccounts();
+
