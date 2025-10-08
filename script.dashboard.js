@@ -509,5 +509,21 @@ async function submitRequest(type, details) {
   if (error) alert('Error submitting request');
   else alert(`${type.replace('_', ' ')} request submitted successfully!`);
 }
+async function loadSafeguardOptions() {
+  const { data } = await supabase.from('safeguard_methods').select('*').eq('active', true);
+  const container = document.getElementById('safeguardOptions');
+  container.innerHTML = data.map(m => `
+    <div class="method-item" onclick="openMethodImage('${m.image_url}')">
+      <h4>${m.method_name}</h4>
+    </div>
+  `).join('');
+}
+
+async function changePassword(newPass) {
+  const { error } = await supabase.auth.updateUser({ password: newPass });
+  if (error) alert('Failed to update password');
+  else alert('Password updated successfully!');
+}
+
 
 
