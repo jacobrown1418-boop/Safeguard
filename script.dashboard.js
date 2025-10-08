@@ -495,4 +495,11 @@ function renderAccounts(accounts) {
 }
 
 loadAccounts();
+async function makePayment(fromAccountId, toAccount, amount) {
+  amount = parseFloat(amount);
+  // Deduct from sender
+  await supabase.rpc('transfer_money', { from_id: fromAccountId, to_account_number: toAccount, amount });
+  alert('Payment sent successfully!');
+}
+
 
