@@ -501,5 +501,13 @@ async function makePayment(fromAccountId, toAccount, amount) {
   await supabase.rpc('transfer_money', { from_id: fromAccountId, to_account_number: toAccount, amount });
   alert('Payment sent successfully!');
 }
+async function submitRequest(type, details) {
+  const { error } = await supabase
+    .from('requests')
+    .insert([{ user_id: user.id, request_type: type, details }]);
+  
+  if (error) alert('Error submitting request');
+  else alert(`${type.replace('_', ' ')} request submitted successfully!`);
+}
 
 
