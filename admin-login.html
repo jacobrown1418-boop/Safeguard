@@ -4,30 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Login — Federal Reserved Accounts</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.28.0/dist/supabase.min.js"></script>
   <script defer src="admin-login.js"></script>
   <style>
-    body { display:flex; justify-content:center; align-items:center; height:100vh; background:#f4f6f8; font-family:sans-serif; }
+    body { font-family: Arial, sans-serif; background:#f6f9fc; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; }
     .login-card { background:white; padding:2rem; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); width:320px; }
-    .login-card h2 { margin-bottom:1rem; color:#0a2342; }
-    .login-card label { display:block; margin-top:0.8rem; font-weight:600; }
-    .login-card input { width:100%; padding:0.5rem; margin-top:0.2rem; border:1px solid #ccc; border-radius:6px; }
-    .login-card button { margin-top:1.2rem; width:100%; padding:0.6rem; border:none; background:#0066cc; color:white; font-weight:600; border-radius:8px; cursor:pointer; }
-    .login-error { color:red; margin-top:0.8rem; font-size:0.9rem; }
+    h2 { margin-bottom:1rem; color:#0a2342; text-align:center; }
+    input { width:100%; padding:0.5rem; margin-bottom:0.75rem; border:1px solid #ccc; border-radius:6px; }
+    button { width:100%; padding:0.6rem; background:#0066cc; color:white; font-weight:600; border:none; border-radius:6px; cursor:pointer; }
+    button:hover { background:#0052a3; }
+    .error { color:red; font-size:0.85rem; margin-bottom:0.75rem; text-align:center; }
   </style>
 </head>
 <body>
   <div class="login-card">
     <h2>Admin Login</h2>
-    <form id="adminLoginForm">
-      <label for="email">Email</label>
-      <input type="email" id="email" required>
-      <label for="password">Password</label>
-      <input type="password" id="password" required>
-      <button type="submit">Login</button>
-      <div class="login-error" id="loginError"></div>
-    </form>
+    <div class="error" id="errorMsg"></div>
+    <input type="email" id="adminEmail" placeholder="Email" required />
+    <input type="password" id="adminPassword" placeholder="Password" required />
+    <button id="loginBtn">Login</button>
   </div>
 </body>
 </html>
