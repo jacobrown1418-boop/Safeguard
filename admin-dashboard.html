@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Federal Reserved Accounts</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Supabase -->
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.28.0/dist/supabase.min.js"></script>
+  <script defer src="admin-dashboard.js"></script>
+
+  <style>
+    body { font-family: sans-serif; background:#f4f6f8; margin:0; }
+    header { padding:1rem 2rem; background:#0a2342; color:white; display:flex; justify-content:space-between; align-items:center; }
+    header h1 { margin:0; font-size:1.2rem; }
+    header button { padding:0.4rem 0.8rem; border:none; border-radius:6px; cursor:pointer; background:#ffcd00; color:#0a2342; font-weight:600; }
+    main { padding:2rem; }
+    section { margin-bottom:2rem; background:white; padding:1rem 1.5rem; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.05); }
+    section h2 { margin-top:0; color:#0a2342; }
+    table { width:100%; border-collapse:collapse; margin-top:1rem; }
+    th, td { padding:0.6rem 0.8rem; text-align:left; border-bottom:1px solid #e6ecf0; }
+    th { background:#f0f4f8; }
+    input[type="number"], input[type="text"] { padding:0.4rem; width:100%; border:1px solid #ccc; border-radius:6px; }
+    button.update-balance, button.save-method { background:#0066cc; color:white; border:none; padding:0.4rem 0.6rem; border-radius:6px; cursor:pointer; }
+    .safeguard-list { display:flex; flex-wrap:wrap; gap:8px; margin-top:0.8rem; }
+    .safeguard-item { border:1px solid #ccc; padding:0.5rem 0.8rem; border-radius:8px; cursor:pointer; background:#f6f9fc; display:flex; align-items:center; gap:6px; }
+    .safeguard-item img { max-width:40px; max-height:40px; border-radius:4px; }
+    .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); justify-content:center; align-items:center; z-index:1000; }
+    .modal-content { background:white; padding:1.5rem; border-radius:12px; max-width:600px; width:95%; position:relative; }
+    .modal .close { position:absolute; top:0.5rem; right:0.5rem; font-size:1.5rem; cursor:pointer; }
+    .preview-img { max-width:100%; max-height:200px; margin-top:0.5rem; border-radius:6px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Admin Dashboard</h1>
+    <button id="logoutBtn">Logout</button>
+  </header>
+
+  <main>
+    <!-- Users Section -->
+    <section>
+      <h2>Manage User Balances</h2>
+      <table id="usersTable">
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Checking</th>
+            <th>Savings</th>
+            <th>Benefits</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="5">Loading users…</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Safeguard Methods Section -->
+    <section>
+      <h2>Manage Safeguard Methods</h2>
+      <button id="addSafeguardBtn">Add New Method</button>
+      <div class="safeguard-list" id="safeguardList">Loading safeguard methods…</div>
+    </section>
+  </main>
+
+  <!-- Modal for Safeguard -->
+  <div class="modal" id="safeguardModal">
+    <div class="modal-content">
+      <span class="close" data-close="safeguardModal">&times;</span>
+      <h3 id="modalTitle">Add Safeguard Method</h3>
+      <form id="safeguardForm">
+        <label>Method Name</label>
+        <input type="text" id="methodName" required>
+        <label>Description</label>
+        <input type="text" id="methodDesc">
+        <label>Image Upload</label>
+        <input type="file" id="methodImage" accept="image/*">
+        <img id="previewImage" class="preview-img" src="" alt="">
+        <button type="submit" class="save-method">Save Method</button>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>
