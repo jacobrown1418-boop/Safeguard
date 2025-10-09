@@ -1,29 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Login — Federal Reserved Accounts</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.28.0/dist/supabase.min.js"></script>
-  <script defer src="admin-login.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Login – Federal Reserved Accounts</title>
   <style>
-    body { font-family: Arial, sans-serif; background:#f6f9fc; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; }
-    .login-card { background:white; padding:2rem; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); width:320px; }
-    h2 { margin-bottom:1rem; color:#0a2342; text-align:center; }
-    input { width:100%; padding:0.5rem; margin-bottom:0.75rem; border:1px solid #ccc; border-radius:6px; }
-    button { width:100%; padding:0.6rem; background:#0066cc; color:white; font-weight:600; border:none; border-radius:6px; cursor:pointer; }
-    button:hover { background:#0052a3; }
-    .error { color:red; font-size:0.85rem; margin-bottom:0.75rem; text-align:center; }
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f6f8fa;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 320px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+    input {
+      width: 100%;
+      padding: 0.6rem;
+      margin: 0.4rem 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      width: 100%;
+      padding: 0.6rem;
+      background: #003366;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+    button:hover {
+      background: #00224e;
+    }
+    .error {
+      color: #c00;
+      margin-top: 0.6rem;
+      font-size: 0.9rem;
+    }
   </style>
 </head>
 <body>
-  <div class="login-card">
-    <h2>Admin Login</h2>
-    <div class="error" id="errorMsg"></div>
-    <input type="email" id="adminEmail" placeholder="Email" required />
-    <input type="password" id="adminPassword" placeholder="Password" required />
-    <button id="loginBtn">Login</button>
+  <div class="login-box">
+    <h1>Admin Login</h1>
+    <form id="loginForm">
+      <input type="email" id="email" placeholder="Admin email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+      <p id="error" class="error"></p>
+    </form>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+  <script>
+    // Supabase Initialization
+    const SUPABASE_URL = 'https://hafzffbdqlojkuhgfsvy.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const form = document.getElementById('loginForm');
+    const errorEl = document.getElementById('error');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorEl.textContent = '';
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      // Sign in with Supabase
+      const { data: { user }, error: loginError } = await supabase.auth.signInWithPassword({ email, password });
+      if (loginError || !user) {
+        errorEl.textContent = 'Invalid login credentials.';
+        return;
+      }
+
+      // Check if the user is in the admins table
+      const { data: adminList, error: adminError } = await supabase
+        .from('admins')
+        .select('email')
+        .eq('email', email)
+        .single();
+
+      if (adminError || !adminList) {
+        await supabase.auth.signOut();
+        errorEl.textContent = 'Access denied: not an admin account.';
+        return;
+      }
+
+      // Redirect to dashboard if verified
+      window.location.href = 'admin-dashboard.html';
+    });
+  </script>
 </body>
 </html>
