@@ -1,51 +1,51 @@
+// admin-login.js — Admin login with Supabase
 const SUPABASE_URL = "https://hafzffbdqlojkuhgfsvy.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk"; // normal anon key is enough for login
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk";
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("adminLoginForm");
-  const errorDiv = document.getElementById("loginError");
-
-  form.addEventListener("submit", async e => {
-    e.preventDefault();
-    errorDiv.textContent = "";
-
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-
-    if (!email || !password) return errorDiv.textContent = "Please enter both email and password.";
-
-    try {
-      // Login with Supabase Auth
-    const { data: { user }, error } = await supabase.auth.signInWithPassword({
-  email: adminEmail,
-  password: adminPassword
+  document.getElementById("loginBtn").addEventListener("click", adminLogin);
 });
 
-if (error) {
-  alert("Login failed: " + error.message);
-  return;
-}
+async function adminLogin() {
+  const email = document.getElementById("adminEmail").value.trim();
+  const password = document.getElementById("adminPassword").value;
 
-// Check role
-const { data: roles } = await supabase
-  .from("user_roles")
-  .select("role")
-  .eq("id", user.id);
+  const errorDiv = document.getElementById("errorMsg");
+  errorDiv.textContent = "";
 
-if (!roles || roles.length === 0 || roles[0].role !== "admin") {
-  alert("Access denied: Not an admin");
-  await supabase.auth.signOut();
-  return;
-}
+  if (!email || !password) {
+    errorDiv.textContent = "Please enter email and password.";
+    return;
+  }
 
-// Admin is valid, redirect to admin dashboard
-window.location.href = "admin-dashboard.html";
+  try {
+    // Login
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) throw error;
 
+    const user = data.user;
+    if (!user) throw new Error("User not found.");
 
-    } catch (err) {
-      console.error(err);
-      errorDiv.textContent = err.message || "Login failed. Please try again.";
+    // Check role
+    const { data: roles, error: roleErr } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
+    if (roleErr) throw roleErr;
+    if (!roles || roles.role !== "admin") {
+      await supabase.auth.signOut();
+      errorDiv.textContent = "Access denied: Not an admin.";
+      return;
     }
-  });
-});
+
+    // Successful login
+    window.location.href = "admin-dashboard.html"; // redirect to admin page
+
+  } catch (err) {
+    console.error(err);
+    errorDiv.textContent = "Login failed: " + (err.message || err);
+  }
+}
