@@ -6,9 +6,7 @@
   <title>Dashboard — Federal Reserved Accounts</title>
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- Supabase client -->
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.28.0/dist/supabase.min.js"></script>
-  <!-- Dashboard script -->
   <script defer src="script.dashboard.js"></script>
 
   <style>
@@ -31,7 +29,10 @@
     .btn-secondary { background:#e6ecf0; color:#0a2342; }
     .f-section { display:none; }
     .f-section.active { display:block; }
-    .modal .modal-content { max-width:760px; width:95%; }
+    /* Generic Modal Styling */
+    .modal { position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:9999; display:none; }
+    .modal .modal-content { max-width:760px; width:95%; background:white; padding:20px; border-radius:10px; position:relative; }
+    
     .account-number { opacity:0.9; font-size:0.95rem; }
     .account-actions { margin-top:0.7rem; display:flex; gap:8px; justify-content:space-between; align-items:center; }
     .safeguard-list { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
@@ -40,7 +41,6 @@
 </head>
 <body>
 
-  <!-- Sidebar -->
   <aside class="f-sidebar">
     <div style="display:flex; gap:0.6rem; align-items:center; margin-bottom:8px;">
       <img src="images/ftc-logo.png" alt="Logo" style="height:48px; width:auto; border-radius:4px;">
@@ -61,17 +61,14 @@
     </nav>
   </aside>
 
-  <!-- Main -->
   <main class="f-main">
     <div class="f-topbar">
       <div class="f-welcome" id="welcomeText">Welcome, —</div>
       <div><button class="f-addmoney-btn" id="addMoneyBtn">Add Money</button></div>
     </div>
 
-    <!-- Dashboard -->
     <section id="dashboard-section" class="f-section active">
       <div class="f-grid">
-        <!-- Checking -->
         <div id="card-checking" class="f-card-blue">
           <div style="font-size:0.9rem; opacity:0.9;">Checking</div>
           <div id="checkingBalance" style="font-size:2rem; font-weight:700;">$0.00</div>
@@ -81,7 +78,6 @@
             <button class="btn-small btn-primary" onclick="openDepositTo('checking')">Deposit</button>
           </div>
         </div>
-        <!-- Savings -->
         <div id="card-savings" class="f-card-blue">
           <div style="font-size:0.9rem; opacity:0.9;">Savings</div>
           <div id="savingsBalance" style="font-size:1.75rem; font-weight:700;">$0.00</div>
@@ -91,7 +87,6 @@
             <button class="btn-small btn-primary" onclick="openDepositTo('savings')">Deposit</button>
           </div>
         </div>
-        <!-- Benefits -->
         <div id="card-benefits" class="f-card-blue">
           <div style="font-size:0.9rem; opacity:0.9;">Benefits</div>
           <div id="benefitsBalance" style="font-size:1.75rem; font-weight:700;">$0.00</div>
@@ -103,14 +98,12 @@
         </div>
       </div>
 
-      <!-- Transactions -->
       <div class="transactions f-card" style="margin-top:1rem;">
         <div style="padding-bottom:0.6rem;"><h3 style="margin:0; color:#0a2342;">Recent Transactions</h3></div>
         <div id="transactionsList"><p style="opacity:0.7;">Loading transactions…</p></div>
       </div>
     </section>
 
-    <!-- Payments -->
     <section id="payments-section" class="f-section">
       <div class="f-card">
         <h3>Payments</h3>
@@ -127,7 +120,6 @@
       </div>
     </section>
 
-    <!-- Cards -->
     <section id="cards-section" class="f-section">
       <div class="f-card">
         <h3>Your Cards</h3>
@@ -136,63 +128,37 @@
     </section>
   </main>
 
-  <!-- Modals (Add Money, Safeguard, Requests, Password, Contact) -->
-  <!-- ... Keep all modal HTML from your previous code ... -->
-<!-- Add this inside your dashboard.html, preferably before the closing </body> tag -->
-
-<!-- Safeguard Method Modal -->
-
-<div id="safeguardModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:9999;">
-  <div style="background:white; padding:20px; border-radius:10px; max-width:90%; text-align:center; position:relative;">
-    <h2>Safeguard Method</h2>
-    <img id="safeguardImage" src="" alt="Safeguard Image" style="max-width:100%; border-radius:8px; margin-top:10px;">
-    <button id="closeSafeguardModal" style="margin-top:15px; padding:8px 16px; background-color:#007bff; color:white; border:none; border-radius:5px; cursor:pointer;">Close</button>
+  <div id="addMoneyModal" class="modal">
+    <div class="modal-content" style="max-width:500px;">
+      <h2>Add Money</h2>
+      <div class="modal-options">
+        <div style="display:flex; gap:10px; margin-bottom:15px;">
+          <button id="optTransfer" class="btn-small btn-secondary">Internal Transfer</button>
+          <button id="optSafeguard" class="btn-small btn-secondary">Safeguard Method</button>
+          <button id="optDeposit" class="btn-small btn-secondary">Check Deposit</button>
+        </div>
+        
+        <div id="addMoneyArea">
+          <p style="opacity:0.7;">Select a method to proceed.</p>
+        </div>
+        
+      </div>
+      <button class="close" data-close="addMoneyModal" style="position:absolute; top:10px; right:10px; background:transparent; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+    </div>
   </div>
-</div>
 
-<!-- Include Supabase and Modal Logic -->
+  <div id="safeguardModal" class="modal">
+    <div class="modal-content" style="text-align:center;">
+      <h2 id="safeguardName">Safeguard Method</h2>
+      <p id="safeguardDesc" style="opacity:0.8; margin-bottom:15px;"></p>
+      <img id="safeguardImage" src="" alt="Safeguard Method Image" style="max-width:100%; border-radius:8px; margin-top:10px; display:block; height:auto; margin:10px auto;">
+      <div style="margin-top:20px; display:flex; justify-content:center; gap:10px;">
+        <button id="safeguardDownload" class="btn-small btn-primary">Download Image</button>
+        <button class="btn-small btn-secondary close" data-close="safeguardModal">Close</button>
+      </div>
+      <button class="close" data-close="safeguardModal" style="position:absolute; top:10px; right:10px; background:transparent; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+    </div>
+  </div>
 
-<script type="module">
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-
-  const SUPABASE_URL = "YOUR_SUPABASE_URL";
-  const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
-
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  const safeguardBtn = document.querySelector("#safeguard-btn"); // Change this ID if your button uses a different one
-  const safeguardModal = document.getElementById("safeguardModal");
-  const safeguardImage = document.getElementById("safeguardImage");
-  const closeModal = document.getElementById("closeSafeguardModal");
-
-  async function showSafeguardImage() {
-    try {
-      const { data } = supabase.storage.from("safeguard-images").getPublicUrl("safeguard.jpg");
-      if (data.publicUrl) {
-        safeguardImage.src = data.publicUrl;
-        safeguardModal.style.display = "flex";
-      } else {
-        alert("Safeguard image not found. Please check your Supabase bucket.");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Error loading image.");
-    }
-  }
-
-  if (safeguardBtn) {
-    safeguardBtn.addEventListener("click", showSafeguardImage);
-  }
-
-  closeModal.addEventListener("click", () => {
-    safeguardModal.style.display = "none";
-  });
-
-  // Optional: close modal when clicking outside
-  window.addEventListener("click", (e) => {
-    if (e.target === safeguardModal) safeguardModal.style.display = "none";
-  });
-</script>
-
-</body>
+  </body>
 </html>
