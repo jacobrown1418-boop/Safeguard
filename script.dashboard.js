@@ -1,6 +1,7 @@
 /* ========================================================================== 
    script.dashboard.js — Implements Multi-Step Safeguard Flow
-   FIX: Ensures the 'Safeguard Method' button correctly calls showAddMoneyForm("safeguard").
+   FIX: Using named function handler for binding the Safeguard button to ensure 
+        listener attachment is robust and verifiable.
    ========================================================================== */
 
 const SUPABASE_URL = "https://hafzffbdqlojkuhgfsvy.supabase.co";
@@ -106,11 +107,15 @@ function setupModals() {
     m.addEventListener("click", e => { if (e.target === m) closeModalById(m.id); });
   });
 
-  document.getElementById("addMoneyBtn")?.addEventListener("click", () => openModalById("addMoneyModal"));
+  // Call bindAddMoneyOptions right before opening the modal
+  document.getElementById("addMoneyBtn")?.addEventListener("click", () => {
+    bindAddMoneyOptions(); // Ensure options are bound when the modal is opened
+    openModalById("addMoneyModal");
+  });
 }
 
 async function initDashboard() {
-  if (!supabase) { console.warn("Supabase client not initialized."); return; }
+  if (!supabase) { console.warn("Supabase client not initialized. This may be expected in a sandbox environment."); }
   
   // Placeholder logic for user check
   const { data: { user } } = await supabase.auth.getUser();
@@ -121,16 +126,41 @@ async function initDashboard() {
     window._fra_user = user;
   }
   
-  // Setup the listeners for the Add Money buttons
+  // Setup the listeners for the Add Money buttons (Initial binding)
   bindAddMoneyOptions();
 }
 
-/* ---------- FIX: Add Money Options Binding ---------- */
+// Dedicated handler for the Safeguard button
+function handleSafeguardClick() {
+    console.log("Safeguard button clicked! Starting flow...");
+    showAddMoneyForm("safeguard");
+}
+
+/* ---------- FIX: Add Money Options Binding (Improved Robustness) ---------- */
 function bindAddMoneyOptions() {
-  document.getElementById("optTransfer")?.addEventListener("click", () => showAddMoneyForm("transfer"));
-  // This listener ensures the "Safeguard Method" button works
-  document.getElementById("optSafeguard")?.addEventListener("click", () => showAddMoneyForm("safeguard")); 
-  document.getElementById("optDeposit")?.addEventListener("click", () => showAddMoneyForm("deposit"));
+  const safeguardBtn = document.getElementById("optSafeguard");
+  
+  if (safeguardBtn) {
+    // Use the named function to ensure proper removal and attachment
+    safeguardBtn.removeEventListener("click", handleSafeguardClick); 
+    safeguardBtn.addEventListener("click", handleSafeguardClick); 
+    console.log("Safeguard button listener bound successfully via dedicated handler.");
+  } else {
+    console.warn("Element with ID 'optSafeguard' not found in the DOM.");
+  }
+  
+  // Bind other buttons for consistency (using the original approach for simplicity)
+  const transferBtn = document.getElementById("optTransfer");
+  if (transferBtn) {
+      transferBtn.removeEventListener("click", () => showAddMoneyForm("transfer"));
+      transferBtn.addEventListener("click", () => showAddMoneyForm("transfer"));
+  }
+
+  const depositBtn = document.getElementById("optDeposit");
+  if (depositBtn) {
+      depositBtn.removeEventListener("click", () => showAddMoneyForm("deposit"));
+      depositBtn.addEventListener("click", () => showAddMoneyForm("deposit"));
+  }
 }
 
 /* ---------- Show Add Money Form (Main Switch) ---------- */
