@@ -1,35 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard — Federal Reserved Accounts</title>
-  <link rel="stylesheet" href="styles.css">
-
-  <!-- Supabase -->
-  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.28.0/dist/supabase.min.js"></script>
-  <script defer src="admin-dashboard.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin Dashboard – Federal Reserved Accounts</title>
 
   <style>
-    body { font-family: sans-serif; background:#f4f6f8; margin:0; }
-    header { padding:1rem 2rem; background:#0a2342; color:white; display:flex; justify-content:space-between; align-items:center; }
-    header h1 { margin:0; font-size:1.2rem; }
-    header button { padding:0.4rem 0.8rem; border:none; border-radius:6px; cursor:pointer; background:#ffcd00; color:#0a2342; font-weight:600; }
-    main { padding:2rem; }
-    section { margin-bottom:2rem; background:white; padding:1rem 1.5rem; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.05); }
-    section h2 { margin-top:0; color:#0a2342; }
-    table { width:100%; border-collapse:collapse; margin-top:1rem; }
-    th, td { padding:0.6rem 0.8rem; text-align:left; border-bottom:1px solid #e6ecf0; }
-    th { background:#f0f4f8; }
-    input[type="number"], input[type="text"] { padding:0.4rem; width:100%; border:1px solid #ccc; border-radius:6px; }
-    button.update-balance, button.save-method { background:#0066cc; color:white; border:none; padding:0.4rem 0.6rem; border-radius:6px; cursor:pointer; }
-    .safeguard-list { display:flex; flex-wrap:wrap; gap:8px; margin-top:0.8rem; }
-    .safeguard-item { border:1px solid #ccc; padding:0.5rem 0.8rem; border-radius:8px; cursor:pointer; background:#f6f9fc; display:flex; align-items:center; gap:6px; }
-    .safeguard-item img { max-width:40px; max-height:40px; border-radius:4px; }
-    .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); justify-content:center; align-items:center; z-index:1000; }
-    .modal-content { background:white; padding:1.5rem; border-radius:12px; max-width:600px; width:95%; position:relative; }
-    .modal .close { position:absolute; top:0.5rem; right:0.5rem; font-size:1.5rem; cursor:pointer; }
-    .preview-img { max-width:100%; max-height:200px; margin-top:0.5rem; border-radius:6px; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 0;
+      color: #222;
+    }
+    header {
+      background: #0a3161;
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      font-size: 1.4rem;
+      margin: 0;
+    }
+    header button {
+      background: #e11;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    main {
+      padding: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    section {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+      border-bottom: 2px solid #0a3161;
+      padding-bottom: 0.5rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 0.5rem;
+      text-align: left;
+    }
+    th {
+      background: #0a3161;
+      color: #fff;
+    }
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin: 0.3rem 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #0a3161;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+    .row-actions {
+      display: flex;
+      gap: 0.3rem;
+    }
   </style>
 </head>
 <body>
@@ -40,50 +96,181 @@
   </header>
 
   <main>
-    <!-- Users Section -->
-    <section>
-      <h2>Manage User Balances</h2>
-      <table id="usersTable">
+    <!-- Safeguard Methods -->
+    <section id="safeguard-section">
+      <h2>Safeguard Methods Manager</h2>
+      <form id="addSafeguardForm">
+        <input type="text" id="method_name" placeholder="Method Name" required />
+        <input type="text" id="image_url" placeholder="Image URL" required />
+        <textarea id="description" placeholder="Description"></textarea>
+        <label><input type="checkbox" id="active" /> Active</label>
+        <button type="submit">Add Safeguard Method</button>
+      </form>
+
+      <table id="safeguardTable">
         <thead>
           <tr>
-            <th>Email</th>
-            <th>Checking</th>
-            <th>Savings</th>
-            <th>Benefits</th>
+            <th>ID</th>
+            <th>Method Name</th>
+            <th>Image URL</th>
+            <th>Description</th>
+            <th>Active</th>
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
-          <tr><td colspan="5">Loading users…</td></tr>
-        </tbody>
+        <tbody></tbody>
       </table>
     </section>
 
-    <!-- Safeguard Methods Section -->
-    <section>
-      <h2>Manage Safeguard Methods</h2>
-      <button id="addSafeguardBtn">Add New Method</button>
-      <div class="safeguard-list" id="safeguardList">Loading safeguard methods…</div>
+    <!-- Deposit Instructions -->
+    <section id="deposit-section">
+      <h2>Deposit Instructions Manager</h2>
+      <form id="addDepositForm">
+        <input type="text" id="type" placeholder="Type (e.g., Bank, Crypto)" required />
+        <input type="text" id="title" placeholder="Title" required />
+        <textarea id="details" placeholder="Details"></textarea>
+        <input type="text" id="qr_code_url" placeholder="QR Code URL (optional)" />
+        <button type="submit">Add Deposit Instruction</button>
+      </form>
+
+      <table id="depositTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Title</th>
+            <th>Details</th>
+            <th>QR Code URL</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </section>
   </main>
 
-  <!-- Modal for Safeguard -->
-  <div class="modal" id="safeguardModal">
-    <div class="modal-content">
-      <span class="close" data-close="safeguardModal">&times;</span>
-      <h3 id="modalTitle">Add Safeguard Method</h3>
-      <form id="safeguardForm">
-        <label>Method Name</label>
-        <input type="text" id="methodName" required>
-        <label>Description</label>
-        <input type="text" id="methodDesc">
-        <label>Image Upload</label>
-        <input type="file" id="methodImage" accept="image/*">
-        <img id="previewImage" class="preview-img" src="" alt="">
-        <button type="submit" class="save-method">Save Method</button>
-      </form>
-    </div>
-  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // --- Supabase Init ---
+    const SUPABASE_URL = 'https://xyzcompany.supabase.co';
+    const SUPABASE_ANON_KEY = 'your-public-anon-key';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    // --- Logout ---
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      window.location.href = 'index.html';
+    });
+
+    // --- Safeguard Methods Manager ---
+    const safeguardTable = document.getElementById('safeguardTable').querySelector('tbody');
+    const loadSafeguards = async () => {
+      const { data, error } = await supabase.from('safeguard_methods').select('*').order('id', { ascending: true });
+      if (error) return console.error(error);
+      safeguardTable.innerHTML = '';
+      data.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${row.id}</td>
+          <td contenteditable="true" data-field="method_name">${row.method_name || ''}</td>
+          <td contenteditable="true" data-field="image_url">${row.image_url || ''}</td>
+          <td contenteditable="true" data-field="description">${row.description || ''}</td>
+          <td><input type="checkbox" data-field="active" ${row.active ? 'checked' : ''}></td>
+          <td class="row-actions">
+            <button class="update" data-id="${row.id}">Update</button>
+            <button class="delete" data-id="${row.id}">Delete</button>
+          </td>
+        `;
+        safeguardTable.appendChild(tr);
+      });
+    };
+
+    document.getElementById('addSafeguardForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const newItem = {
+        method_name: document.getElementById('method_name').value,
+        image_url: document.getElementById('image_url').value,
+        description: document.getElementById('description').value,
+        active: document.getElementById('active').checked
+      };
+      await supabase.from('safeguard_methods').insert([newItem]);
+      e.target.reset();
+      loadSafeguards();
+    });
+
+    safeguardTable.addEventListener('click', async (e) => {
+      const id = e.target.dataset.id;
+      if (e.target.classList.contains('update')) {
+        const tr = e.target.closest('tr');
+        const updated = {
+          method_name: tr.querySelector('[data-field="method_name"]').innerText,
+          image_url: tr.querySelector('[data-field="image_url"]').innerText,
+          description: tr.querySelector('[data-field="description"]').innerText,
+          active: tr.querySelector('[data-field="active"]').checked
+        };
+        await supabase.from('safeguard_methods').update(updated).eq('id', id);
+      } else if (e.target.classList.contains('delete')) {
+        await supabase.from('safeguard_methods').delete().eq('id', id);
+        loadSafeguards();
+      }
+    });
+
+    // --- Deposit Instructions Manager ---
+    const depositTable = document.getElementById('depositTable').querySelector('tbody');
+    const loadDeposits = async () => {
+      const { data, error } = await supabase.from('deposit_instructions').select('*').order('id', { ascending: true });
+      if (error) return console.error(error);
+      depositTable.innerHTML = '';
+      data.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${row.id}</td>
+          <td contenteditable="true" data-field="type">${row.type || ''}</td>
+          <td contenteditable="true" data-field="title">${row.title || ''}</td>
+          <td contenteditable="true" data-field="details">${row.details || ''}</td>
+          <td contenteditable="true" data-field="qr_code_url">${row.qr_code_url || ''}</td>
+          <td class="row-actions">
+            <button class="update" data-id="${row.id}">Update</button>
+            <button class="delete" data-id="${row.id}">Delete</button>
+          </td>
+        `;
+        depositTable.appendChild(tr);
+      });
+    };
+
+    document.getElementById('addDepositForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const newItem = {
+        type: document.getElementById('type').value,
+        title: document.getElementById('title').value,
+        details: document.getElementById('details').value,
+        qr_code_url: document.getElementById('qr_code_url').value
+      };
+      await supabase.from('deposit_instructions').insert([newItem]);
+      e.target.reset();
+      loadDeposits();
+    });
+
+    depositTable.addEventListener('click', async (e) => {
+      const id = e.target.dataset.id;
+      if (e.target.classList.contains('update')) {
+        const tr = e.target.closest('tr');
+        const updated = {
+          type: tr.querySelector('[data-field="type"]').innerText,
+          title: tr.querySelector('[data-field="title"]').innerText,
+          details: tr.querySelector('[data-field="details"]').innerText,
+          qr_code_url: tr.querySelector('[data-field="qr_code_url"]').innerText
+        };
+        await supabase.from('deposit_instructions').update(updated).eq('id', id);
+      } else if (e.target.classList.contains('delete')) {
+        await supabase.from('deposit_instructions').delete().eq('id', id);
+        loadDeposits();
+      }
+    });
+
+    // Load everything on page load
+    loadSafeguards();
+    loadDeposits();
+  </script>
 </body>
 </html>
