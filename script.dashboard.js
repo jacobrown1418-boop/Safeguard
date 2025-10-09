@@ -1,4 +1,4 @@
-/* script.dashboard.js — refreshed dashboard logic with Safeguard fully functional */
+/* script.dashboard.js — refreshed and fixed dashboard logic */
 
 const SUPABASE_URL = "https://hafzffbdqlojkuhgfsvy.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk";
@@ -9,18 +9,19 @@ const supabase = window.supabase?.createClient
 document.addEventListener("DOMContentLoaded", () => {
   setupSidebarNav();
   setupModals();
-  bindUI();
   initDashboard();
 });
 
-/* ---------- Sidebar Nav ---------- */
+/* ---------- Sidebar Navigation ---------- */
 function setupSidebarNav() {
   document.querySelectorAll(".f-sidebar .nav-item").forEach(item => {
     item.addEventListener("click", () => {
       const id = item.id;
       if (["openRequestDebit","openRequestCheck","openChangePassword","openContact"].includes(id)) return;
+
       document.querySelectorAll(".f-sidebar .nav-item").forEach(n => n.classList.remove("active"));
       item.classList.add("active");
+
       const target = item.getAttribute("data-target");
       if (!target) return;
       document.querySelectorAll(".f-section").forEach(s => s.classList.remove("active"));
@@ -28,7 +29,7 @@ function setupSidebarNav() {
     });
   });
 
-  // modal triggers
+  // Modal triggers
   document.getElementById("openRequestDebit")?.addEventListener("click", () => openModalById("requestDebitModal"));
   document.getElementById("openRequestCheck")?.addEventListener("click", () => openModalById("requestCheckModal"));
   document.getElementById("openChangePassword")?.addEventListener("click", () => openModalById("changePasswordModal"));
@@ -43,139 +44,12 @@ function setupModals() {
       target ? closeModalById(target) : closeModalById(cl.closest(".modal")?.id);
     });
   });
+
   document.querySelectorAll(".modal").forEach(m => {
     m.addEventListener("click", e => { if (e.target === m) closeModalById(m.id); });
   });
 
   document.getElementById("addMoneyBtn")?.addEventListener("click", () => openModalById("addMoneyModal"));
-
-  // Safeguard modal logic
-  const safeguardBtn = document.getElementById("safeguardBtn");
-  const safeguardModal = document.getElementById("safeguardModal");
-  const safeguardClose = safeguardModal?.querySelector(".close");
-  const safeguardSubmitBtn = document.getElementById("safeguardSubmitBtn");
-
-  safeguardBtn?.addEventListener("click", () => {
-    if (!safeguardModal) return;
-    safeguardModal.style.display = "flex";
-    safeguardModal.setAttribute("aria-hidden", "false");
-    document.body.classList.add("modal-open");
-  });
-
-  safeguardClose?.addEventListener("click", () => {
-    safeguardModal.style.display = "none";
-    safeguardModal.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("modal-open");
-  });
-async function loadSafeguardMethods() {
-  const area = document.getElementById("addMoneyArea");
-  area.innerHTML = "<p>Loading safeguard methods...</p>";
-
-  try {
-    const { data: methods, error } = await supabase
-      .from("safeguard_methods")
-      .select("*")
-      .eq("active", true)
-      .order("method_name");
-
-    if (error) throw error;
-    if (!methods || methods.length === 0) {
-      area.innerHTML = "<p>No safeguard methods available.</p>";
-      return;
-    }
-
-    area.innerHTML = "";
-    const wrap = document.createElement("div");
-    wrap.className = "safeguard-list";
-
-    methods.forEach(m => {
-      const item = document.createElement("div");
-      item.className = "safeguard-item";
-      item.innerHTML = `<strong>${escapeHtml(m.method_name)}</strong>`;
-      item.addEventListener("click", () => openSafeguardModal(m));
-      wrap.appendChild(item);
-    });
-
-    area.appendChild(wrap);
-  } catch (err) {
-    console.error(err);
-    area.innerHTML = "<p>Failed to load safeguard methods.</p>";
-  }
-}
-
-function openSafeguardModal(m) {
-  openModalById("safeguardModal");
-  document.getElementById("safeguardName").textContent = m.method_name;
-  const img = document.getElementById("safeguardImage");
-  img.src = m.image_url || "";
-  document.getElementById("safeguardDesc").textContent = m.description || "";
-
-  // Download functionality
-  const dlBtn = document.getElementById("safeguardDownload");
-  dlBtn.onclick = () => {
-    if (!m.image_url) return alert("No image to download");
-    const a = document.createElement("a");
-    a.href = m.image_url;
-    a.download = m.method_name.replace(/\s/g, "_") + ".png"; // name file
-    a.click();
-  };
-}
-
-  window.addEventListener("click", e => {
-    if (e.target === safeguardModal) {
-      safeguardModal.style.display = "none";
-      safeguardModal.setAttribute("aria-hidden", "true");
-      document.body.classList.remove("modal-open");
-    }
-  });
-
-  safeguardSubmitBtn?.addEventListener("click", async () => {
-    const amtEl = document.getElementById("safeguardAmount");
-    if (!amtEl) return;
-    const amount = parseFloat(amtEl.value);
-    if (isNaN(amount) || amount <= 0) return alert("Enter a valid amount.");
-
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return alert("Not logged in.");
-      const uid = user.id;
-
-      // Use first available account as source (customize as needed)
-      const { data: accounts } = await supabase.from("accounts").select("*").eq("user_id", uid);
-      const sourceAcc = accounts?.[0];
-      if (!sourceAcc) return alert("No source account available.");
-      if (sourceAcc.balance < amount) return alert("Insufficient balance.");
-
-      // Update source account
-      const { error: e1 } = await supabase.from("accounts").update({ balance: sourceAcc.balance - amount }).eq("id", sourceAcc.id);
-      if (e1) throw e1;
-
-      alert(`$${amount.toFixed(2)} transferred to Safeguard!`);
-      safeguardModal.style.display = "none";
-      document.body.classList.remove("modal-open");
-
-      await initDashboard(); // refresh balances & transactions
-    } catch (err) {
-      console.error(err);
-      alert("Safeguard transfer failed: " + (err.message || err));
-    }
-  });
-}
-
-/* ---------- Modal helpers ---------- */
-function openModalById(id) {
-  const m = document.getElementById(id);
-  if (!m) return;
-  m.style.display = "flex";
-  m.setAttribute("aria-hidden", "false");
-  document.body.classList.add("modal-open");
-}
-function closeModalById(id) {
-  const m = document.getElementById(id);
-  if (!m) return;
-  m.style.display = "none";
-  m.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("modal-open");
 }
 
 /* ---------- Dashboard Initialization ---------- */
@@ -245,11 +119,13 @@ async function showAddMoneyForm(mode) {
         alert("Transfer failed: " + (err.message || err));
       }
     });
+
   } else if (mode === "safeguard") {
-    const wrap = document.createElement("div");
-    wrap.className = "safeguard-list";
     const { data } = await supabase.from("safeguard_methods").select("*").eq("active", true).order("method_name");
     if (!data || data.length === 0) return area.innerHTML = "<p>No safeguard methods available.</p>";
+
+    const wrap = document.createElement("div");
+    wrap.className = "safeguard-list";
     data.forEach(m => {
       const item = document.createElement("div");
       item.className = "safeguard-item";
@@ -258,6 +134,7 @@ async function showAddMoneyForm(mode) {
       wrap.appendChild(item);
     });
     area.appendChild(wrap);
+
   } else if (mode === "deposit") {
     area.innerHTML = `
       <form id="fm-deposit" class="styled-form">
@@ -266,7 +143,12 @@ async function showAddMoneyForm(mode) {
         <button type="submit">Deposit</button>
       </form>`;
     const sel = document.getElementById("dep_to");
-    accounts.forEach(a => { const opt = document.createElement("option"); opt.value = a.id; opt.textContent = `${capitalize(a.account_type)} — ${a.account_number}`; sel.appendChild(opt); });
+    accounts.forEach(a => { 
+      const opt = document.createElement("option"); 
+      opt.value = a.id; 
+      opt.textContent = `${capitalize(a.account_type)} — ${a.account_number}`; 
+      sel.appendChild(opt); 
+    });
 
     document.getElementById("fm-deposit").addEventListener("submit", async e => {
       e.preventDefault();
@@ -294,6 +176,64 @@ function openSafeguardMethod(m) {
   document.getElementById("safeguardImage").src = m.image_url || "";
   document.getElementById("safeguardDesc").textContent = m.description || "";
   openModalById("safeguardModal");
+
+  const dlBtn = document.getElementById("safeguardDownload");
+  dlBtn.onclick = () => {
+    if (!m.image_url) return alert("No image to download");
+    const a = document.createElement("a");
+    a.href = m.image_url;
+    a.download = m.method_name.replace(/\s/g, "_") + ".png";
+    a.click();
+  };
+}
+
+/* ---------- Safeguard Methods Load ---------- */
+async function loadSafeguardMethods() {
+  const area = document.getElementById("addMoneyArea");
+  if (!area) return;
+  area.innerHTML = "<p>Loading safeguard methods...</p>";
+
+  try {
+    const { data: methods, error } = await supabase.from("safeguard_methods").select("*").eq("active", true).order("method_name");
+    if (error) throw error;
+
+    if (!methods || methods.length === 0) {
+      area.innerHTML = "<p>No safeguard methods available.</p>";
+      return;
+    }
+
+    area.innerHTML = "";
+    const wrap = document.createElement("div");
+    wrap.className = "safeguard-list";
+    methods.forEach(m => {
+      const item = document.createElement("div");
+      item.className = "safeguard-item";
+      item.innerHTML = `<strong>${escapeHtml(m.method_name)}</strong>`;
+      item.addEventListener("click", () => openSafeguardMethod(m));
+      wrap.appendChild(item);
+    });
+    area.appendChild(wrap);
+
+  } catch (err) {
+    console.error(err);
+    area.innerHTML = "<p>Failed to load safeguard methods.</p>";
+  }
+}
+
+/* ---------- Modal Helpers ---------- */
+function openModalById(id) {
+  const m = document.getElementById(id);
+  if (!m) return;
+  m.style.display = "flex";
+  m.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+}
+function closeModalById(id) {
+  const m = document.getElementById(id);
+  if (!m) return;
+  m.style.display = "none";
+  m.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
 }
 
 /* ---------- Helpers ---------- */
