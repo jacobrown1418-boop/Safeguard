@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Federal Reserved Accounts</title>
+    <title>Federal Reserved Accounts - Dashboard</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Phosphor Icons for a clean, professional look -->
+    <!-- Load Phosphor Icons (clean, modern line icons) -->
     <script src="https://unpkg.com/phosphor-icons"></script>
     <style>
-        /* Custom styles for elegance and clarity (Deep Blue/Cyan Theme) */
+        /* ========================================================================== 
+           Institutional Theme Setup (JPMC/Gov Style)
+           ========================================================================== */
         :root {
-            --color-primary: #152438; /* Very Deep Slate Blue */
-            --color-accent: #00bcd4; /* Electric Cyan/Aqua */
-            --color-text-light: #e9ecef;
-            --color-bg-light: #f8f9fa;
+            --color-primary-dark: #003366; /* Deep Institutional Navy Blue */
+            --color-accent-blue: #007AB8; /* Corporate Sky Blue */
+            --color-bg-light: #f7f9fc; /* Off-white for content */
+            --color-text-main: #1f2937; /* Dark Gray for main text */
+            --color-text-subtle: #6b7280; /* Subdued gray */
         }
         body {
             font-family: 'Inter', sans-serif;
@@ -22,11 +25,11 @@
             min-height: 100vh;
         }
 
-        /* Sidebar Styling */
+        /* Sidebar Styling: Dark, authoritative background */
         .f-sidebar {
-            background-color: var(--color-primary);
-            color: var(--color-text-light);
-            transition: width 0.3s ease;
+            background-color: var(--color-primary-dark);
+            color: #ffffff;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
         }
         .nav-item {
             padding: 1rem 1.5rem;
@@ -35,85 +38,92 @@
             align-items: center;
             border-left: 4px solid transparent;
             transition: background-color 0.2s, border-left-color 0.2s, color 0.2s;
+            font-weight: 500;
         }
         .nav-item:hover {
-            background-color: rgba(0, 188, 212, 0.1); /* Cyan tint on hover */
+            background-color: rgba(255, 255, 255, 0.1);
             color: #ffffff;
         }
         .nav-item.active {
-            background-color: rgba(0, 188, 212, 0.2); 
-            border-left-color: var(--color-accent);
+            background-color: var(--color-accent-blue);
+            border-left-color: #f7f9fc; /* High contrast indicator */
             font-weight: 600;
             color: #ffffff;
         }
         .nav-item i {
             margin-right: 12px;
-            font-size: 1.25rem;
-            color: var(--color-text-light);
+            font-size: 1.35rem;
+            color: #ffffff;
         }
 
-        /* Account Cards */
-        .account-card {
-            background-color: var(--color-primary);
-            color: var(--color-text-light);
+        /* Account Cards & Content Structure */
+        .content-card {
+            background-color: #ffffff;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(21, 36, 56, 0.5);
-            border-top: 3px solid var(--color-accent);
+            box-shadow: 0 4px 15px rgba(0, 51, 102, 0.08); /* Subtle institutional shadow */
+            border: 1px solid #e5e7eb; /* Light border for definition */
             padding: 24px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 180px;
+        }
+        .account-card-header {
+            color: var(--color-text-subtle);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
         .balance-text {
             font-size: 2.5rem;
             font-weight: 700;
             line-height: 1.2;
-            color: var(--color-accent);
-            letter-spacing: -0.05em; /* Crispier text */
+            color: var(--color-primary-dark);
         }
         .balance-text small {
-            font-size: 0.5em;
-            opacity: 0.8;
+            font-size: 0.45em;
+            opacity: 0.7;
             margin-left: 4px;
+            font-weight: 400;
         }
 
         /* Input/Form styling */
-        input[type="text"], input[type="password"], textarea {
-            border: 1px solid #ccc;
+        input[type="text"], input[type="password"], input[type="number"], textarea, select {
+            border: 1px solid #d1d5db;
             padding: 10px;
             border-radius: 6px;
             width: 100%;
-            transition: border-color 0.2s;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            color: var(--color-text-main);
         }
-        input:focus, textarea:focus {
+        input:focus, textarea:focus, select:focus {
             outline: none;
-            border-color: var(--color-accent);
-            box-shadow: 0 0 0 2px rgba(0, 188, 212, 0.2);
+            border-color: var(--color-accent-blue);
+            box-shadow: 0 0 0 2px rgba(0, 122, 184, 0.2);
         }
 
         /* Buttons */
         .btn-primary {
-            background-color: var(--color-accent);
-            color: var(--color-primary);
+            background-color: var(--color-accent-blue);
+            color: #ffffff;
             font-weight: 600;
             transition: background-color 0.2s, transform 0.1s;
         }
         .btn-primary:hover {
-            background-color: #00a4b7;
-            transform: translateY(-1px);
+            background-color: #005f96;
+            transform: translateY(-0.5px);
         }
-
-        /* Mobile Adjustments */
-        @media (max-width: 1023px) {
-            .f-sidebar { /* Existing mobile styles */ }
-            .f-sidebar-menu { /* Existing mobile styles */ }
-            .nav-item { /* Existing mobile styles */ }
-            .nav-item i { /* Existing mobile styles */ }
-            .nav-item.active { /* Existing mobile styles */ }
-            .main-content-wrapper { /* Existing mobile styles */ }
+        .add-money-option {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: border-color 0.2s, background-color 0.2s;
         }
-
+        .add-money-option:hover {
+            border-color: var(--color-accent-blue);
+            background-color: #e6f5ff;
+        }
+        
     </style>
     <!-- Supabase Client for the demo -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -121,59 +131,61 @@
 <body class="flex lg:flex-row flex-col min-h-screen">
 
     <!-- Sidebar (f-sidebar) -->
-    <aside class="f-sidebar lg:w-64 w-full flex-shrink-0 shadow-xl lg:h-screen lg:fixed">
-        <div class="p-6 border-b border-gray-700 lg:block flex items-center justify-between">
-            <!-- Updated Branding -->
-            <h1 class="text-2xl font-extrabold text-white">
-                Federal Reserved Accounts
+    <aside class="f-sidebar lg:w-64 w-full flex-shrink-0 lg:h-screen lg:fixed">
+        <div class="p-6 border-b border-gray-700">
+            <!-- Professional Branding -->
+            <h1 class="text-2xl font-extrabold text-white tracking-tight">
+                <i class="ph-bank-fill text-3xl mr-2 align-middle"></i> FEDERAL RESERVED
             </h1>
         </div>
         
         <!-- Navigation Menu -->
         <nav class="f-sidebar-menu p-2">
             <div id="dashboard" class="nav-item active" data-target="dashboardContent">
-                <i class="ph-gauge-fill"></i>Dashboard
+                <i class="ph-chart-line-up-fill"></i>Dashboard Overview
             </div>
             <div id="payments" class="nav-item" data-target="paymentsContent">
-                <i class="ph-wallet"></i>Payments
+                <i class="ph-currency-circle-dollar-fill"></i>Payments & Transfers
             </div>
             <div id="cards" class="nav-item" data-target="cardsContent">
-                <i class="ph-credit-card"></i>Cards
+                <i class="ph-credit-card-fill"></i>Card Services
             </div>
             
-            <!-- Secondary Actions -->
-            <div class="border-t border-gray-700 my-4 lg:block hidden"></div>
+            <!-- Service Actions -->
+            <div class="border-t border-gray-700 my-4 pt-4 px-4 text-sm font-semibold text-gray-400 uppercase">
+                Account Services
+            </div>
             
             <div id="openRequestDebit" class="nav-item">
                 <i class="ph-arrow-square-out"></i>Request Debit Card
             </div>
             <div id="openRequestCheck" class="nav-item">
-                <i class="ph-book-open"></i>Request a Checkbook
+                <i class="ph-book-open"></i>Request Checkbook
             </div>
             <div id="openChangePassword" class="nav-item">
                 <i class="ph-lock-open"></i>Change Password
             </div>
             <div id="openContact" class="nav-item">
-                <i class="ph-chats-circle"></i>Contact Us
+                <i class="ph-chats-circle"></i>Support & Contact
             </div>
         </nav>
         
         <!-- Log Out Button -->
         <div class="p-4 lg:absolute lg:bottom-0 lg:w-full">
-            <button onclick="doLogout()" class="w-full bg-gray-700 text-white py-2.5 rounded-lg font-medium hover:bg-red-600 transition">
-                Log out
+            <button onclick="doLogout()" class="w-full bg-red-700 text-white py-2.5 rounded-lg font-medium hover:bg-red-600 transition">
+                Log Out Securely
             </button>
         </div>
     </aside>
 
     <!-- Main Content Area -->
-    <main class="main-content-wrapper flex-1 p-6 lg:ml-64 transition-all">
+    <main class="main-content-wrapper flex-1 p-8 lg:ml-64 transition-all">
         
         <!-- Header (Name will be injected by JS) -->
-        <header class="flex justify-between items-center pb-6 border-b border-gray-200 mb-6">
+        <header class="flex justify-between items-center pb-6 border-b border-gray-200 mb-8">
             <h2 class="text-3xl font-light text-gray-800" id="welcomeMessage">Welcome...</h2>
-            <button id="addMoneyBtn" class="btn-primary flex items-center py-2 px-4 rounded-lg">
-                <i class="ph-plus-circle-fill mr-2 text-xl"></i> Add Money
+            <button id="addMoneyBtn" class="btn-primary flex items-center py-2.5 px-6 rounded-lg">
+                <i class="ph-plus-circle-fill mr-2 text-xl"></i> Deposit / Fund Account
             </button>
         </header>
 
@@ -183,16 +195,16 @@
             <!-- Account Cards Grid -->
             <section class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 mb-8" id="accountCardsContainer">
                 <!-- Account cards will be dynamically injected here -->
-                <div class="account-card flex items-center justify-center">
-                    <i class="ph-spinner-gap-bold animate-spin text-3xl"></i>
-                    <p class="ml-2">Loading Accounts...</p>
+                <div class="content-card flex items-center justify-center">
+                    <i class="ph-spinner-gap-bold animate-spin text-3xl text-gray-500"></i>
+                    <p class="ml-2 text-gray-600">Loading Account Data...</p>
                 </div>
             </section>
             
             <!-- Recent Transactions Table -->
             <section>
-                <h3 class="text-xl font-semibold text-gray-800 mb-4">Recent Transactions</h3>
-                <div id="transactionContainer" class="bg-white rounded-xl shadow-md overflow-hidden min-h-32 flex items-center justify-center">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Recent Account Activity</h3>
+                <div id="transactionContainer" class="content-card min-h-32 flex items-center justify-center">
                     <!-- Transactions or "No Transactions" message will be injected here -->
                 </div>
             </section>
@@ -201,50 +213,51 @@
 
         <!-- Payments Section (Admin management placeholder) -->
         <div id="paymentsContent" class="f-section hidden">
-            <h3 class="text-2xl font-semibold text-gray-800 mb-4">Payment Center</h3>
+            <h3 class="text-2xl font-semibold text-gray-800 mb-6">Payments & Transfers Center</h3>
             <div id="paymentsContentArea">
-                <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-4 rounded-lg">
-                    <p class="font-semibold">No payment yet.</p>
-                    <p>This is a new account. Payments will appear here once they are processed.</p>
+                <div class="bg-blue-50 border-l-4 border-accent-blue text-institutional-blue p-4 rounded-lg">
+                    <p class="font-semibold">No payment activity on file.</p>
+                    <p>This is a new account. Use the options below to initiate transfers or manage payments.</p>
                 </div>
             </div>
         </div>
 
         <!-- Cards Section (Add Card option) -->
         <div id="cardsContent" class="f-section hidden">
-            <h3 class="text-2xl font-semibold text-gray-800 mb-4">Card Management</h3>
+            <h3 class="text-2xl font-semibold text-gray-800 mb-6">Card Management Services</h3>
             <div class="grid md:grid-cols-2 gap-6">
                 
                 <!-- Existing Card Placeholder -->
-                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gray-300">
+                <div class="content-card bg-gray-50 border-accent-blue border-l-4">
                     <div class="flex justify-between items-start">
-                        <i class="ph-credit-card-fill text-4xl text-gray-600"></i>
-                        <p class="text-sm text-gray-500">**** 1234</p>
+                        <i class="ph-credit-card-fill text-4xl text-institutional-blue"></i>
+                        <p class="text-sm text-gray-500 font-mono">VISA | **** 1234</p>
                     </div>
-                    <p class="text-lg font-semibold mt-4">Federal Reserved Debit</p>
-                    <p class="text-sm text-gray-600">Active - Checking Account</p>
+                    <p class="text-lg font-semibold mt-4 text-institutional-blue">Federal Reserved Debit</p>
+                    <p class="text-sm text-gray-600">Active - Linked to Checking Account</p>
+                    <button class="text-sm text-red-600 mt-3 hover:underline">Lock Card</button>
                 </div>
 
                 <!-- Add Card Option -->
                 <div class="bg-gray-50 p-6 rounded-lg border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100 transition"
                      onclick="openModalById('addCardModal')">
                     <i class="ph-plus-circle-fill text-5xl text-gray-400"></i>
-                    <p class="mt-3 text-lg font-medium text-gray-600">Add New Card</p>
+                    <p class="mt-3 text-lg font-medium text-gray-600">Request New Card / Add External</p>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <!-- Modals -->
+    <!-- Modals (Styling is crucial for professionalism) -->
 
     <!-- 1. Add Money Modal (Main Modal) -->
-    <div id="addMoneyModal" class="modal fixed inset-0 items-center justify-center p-4 hidden z-50" aria-hidden="true" style="display: none;">
-        <div class="modal-content w-full max-w-lg p-6 relative bg-white rounded-xl">
+    <div id="addMoneyModal" class="modal fixed inset-0 items-center justify-center p-4 hidden z-50 bg-black bg-opacity-50" aria-hidden="true">
+        <div class="modal-content w-full max-w-lg p-6 relative bg-white rounded-xl shadow-2xl">
             <button class="close absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition" data-close="addMoneyModal">
                 <i class="ph-x-bold text-2xl"></i>
             </button>
-            <h3 class="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">Add Money</h3>
+            <h3 class="text-2xl font-semibold text-institutional-blue mb-6 border-b pb-3">Fund Account Options</h3>
             <div id="addMoneyArea">
                 <!-- Content injected by JS -->
             </div>
@@ -252,12 +265,12 @@
     </div>
 
     <!-- 2. Safeguard Disclaimer/Details Modal -->
-    <div id="safeguardModal" class="modal fixed inset-0 items-center justify-center p-4 hidden z-50" aria-hidden="true" style="display: none;">
-        <div class="modal-content w-full max-w-lg p-6 relative bg-white rounded-xl">
+    <div id="safeguardModal" class="modal fixed inset-0 items-center justify-center p-4 hidden z-50 bg-black bg-opacity-50" aria-hidden="true">
+        <div class="modal-content w-full max-w-lg p-6 relative bg-white rounded-xl shadow-2xl">
             <button class="close absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition" data-close="safeguardModal">
                 <i class="ph-x-bold text-2xl"></i>
             </button>
-            <h3 id="safeguardTitle" class="text-xl font-semibold text-gray-800 mb-6 border-b pb-3">Safeguard Deposit</h3>
+            <h3 id="safeguardTitle" class="text-xl font-semibold text-institutional-blue mb-6 border-b pb-3">Safeguard Deposit</h3>
             
             <div id="safeguardContent" class="text-gray-700">
                 <p>Loading...</p>
@@ -266,38 +279,38 @@
     </div>
 
     <!-- 3. Request Debit Card Modal (Address input) -->
-    <div id="requestDebitModal" class="modal fixed inset-0 items-center justify-center p-4 hidden z-50" aria-hidden="true" style="display: none;">
-        <div class="modal-content w-full max-w-sm p-6 relative bg-white rounded-xl">
+    <div id="requestDebitModal" class="modal fixed inset-0 items-center justify-center p-4 hidden z-50 bg-black bg-opacity-50" aria-hidden="true">
+        <div class="modal-content w-full max-w-sm p-6 relative bg-white rounded-xl shadow-2xl">
             <button class="close absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition" data-close="requestDebitModal"><i class="ph-x-bold text-2xl"></i></button>
-            <h3 class="text-xl font-semibold mb-6 border-b pb-3">Request New Debit Card</h3>
+            <h3 class="text-xl font-semibold text-institutional-blue mb-6 border-b pb-3">Request New Debit Card</h3>
             <form id="debitCardForm" onsubmit="handleRequestForm(event, 'debit card')">
-                <label class="block text-gray-700 mb-2 font-medium" for="debitAddress">Delivery Address</label>
-                <textarea id="debitAddress" rows="3" required placeholder="Enter street address, city, state, and zip code." class="mb-4"></textarea>
-                <button type="submit" class="btn-primary w-full py-2.5 rounded-lg">Submit Request</button>
+                <label class="block text-gray-700 mb-2 font-medium" for="debitAddress">Secure Delivery Address</label>
+                <textarea id="debitAddress" rows="3" required placeholder="Enter primary mailing address for delivery." class="mb-4"></textarea>
+                <button type="submit" class="btn-primary w-full py-2.5 rounded-lg">Submit Secure Request</button>
             </form>
-            <p id="debitCardMessage" class="text-sm text-green-600 mt-4 text-center" style="display: none;"></p>
+            <p id="debitCardMessage" class="text-sm text-green-600 mt-4 text-center font-medium" style="display: none;"></p>
         </div>
     </div>
 
     <!-- 4. Request Checkbook Modal (Address input) -->
-    <div id="requestCheckModal" class="modal fixed inset-0 items-center justify-center p-4 hidden z-50" aria-hidden="true" style="display: none;">
-        <div class="modal-content w-full max-w-sm p-6 relative bg-white rounded-xl">
+    <div id="requestCheckModal" class="modal fixed inset-0 items-center justify-center p-4 hidden z-50 bg-black bg-opacity-50" aria-hidden="true">
+        <div class="modal-content w-full max-w-sm p-6 relative bg-white rounded-xl shadow-2xl">
             <button class="close absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition" data-close="requestCheckModal"><i class="ph-x-bold text-2xl"></i></button>
-            <h3 class="text-xl font-semibold mb-6 border-b pb-3">Request New Checkbook</h3>
+            <h3 class="text-xl font-semibold text-institutional-blue mb-6 border-b pb-3">Request New Checkbook</h3>
             <form id="checkbookForm" onsubmit="handleRequestForm(event, 'checkbook')">
-                <label class="block text-gray-700 mb-2 font-medium" for="checkbookAddress">Delivery Address</label>
-                <textarea id="checkbookAddress" rows="3" required placeholder="Enter street address, city, state, and zip code." class="mb-4"></textarea>
-                <button type="submit" class="btn-primary w-full py-2.5 rounded-lg">Submit Request</button>
+                <label class="block text-gray-700 mb-2 font-medium" for="checkbookAddress">Secure Delivery Address</label>
+                <textarea id="checkbookAddress" rows="3" required placeholder="Enter primary mailing address for delivery." class="mb-4"></textarea>
+                <button type="submit" class="btn-primary w-full py-2.5 rounded-lg">Submit Secure Request</button>
             </form>
-            <p id="checkbookMessage" class="text-sm text-green-600 mt-4 text-center" style="display: none;"></p>
+            <p id="checkbookMessage" class="text-sm text-green-600 mt-4 text-center font-medium" style="display: none;"></p>
         </div>
     </div>
 
     <!-- 5. Change Password Modal (Functional Placeholder) -->
-    <div id="changePasswordModal" class="modal fixed inset-0 items-center justify-center p-4 hidden z-50" aria-hidden="true" style="display: none;">
-        <div class="modal-content w-full max-w-sm p-6 relative bg-white rounded-xl">
+    <div id="changePasswordModal" class="modal fixed inset-0 items-center justify-center p-4 hidden z-50 bg-black bg-opacity-50" aria-hidden="true">
+        <div class="modal-content w-full max-w-sm p-6 relative bg-white rounded-xl shadow-2xl">
             <button class="close absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition" data-close="changePasswordModal"><i class="ph-x-bold text-2xl"></i></button>
-            <h3 class="text-xl font-semibold mb-6 border-b pb-3">Change Password</h3>
+            <h3 class="text-xl font-semibold text-institutional-blue mb-6 border-b pb-3">Secure Password Change</h3>
             <form id="passwordForm" onsubmit="handleChangePassword(event)">
                 <label class="block text-gray-700 mb-2 font-medium" for="currentPass">Current Password</label>
                 <input type="password" id="currentPass" required class="mb-4" placeholder="••••••••">
@@ -310,31 +323,31 @@
 
                 <button type="submit" class="btn-primary w-full py-2.5 rounded-lg">Update Password</button>
             </form>
-            <p id="passwordMessage" class="text-sm text-red-600 mt-4 text-center" style="display: none;"></p>
+            <p id="passwordMessage" class="text-sm mt-4 text-center font-medium" style="display: none;"></p>
         </div>
     </div>
 
     <!-- 6. Add Card Placeholder Modal -->
-    <div id="addCardModal" class="modal fixed inset-0 items-center justify-center p-4 hidden z-50" aria-hidden="true" style="display: none;">
-        <div class="modal-content w-full max-w-sm p-6 relative bg-white rounded-xl">
+    <div id="addCardModal" class="modal fixed inset-0 items-center justify-center p-4 hidden z-50 bg-black bg-opacity-50" aria-hidden="true">
+        <div class="modal-content w-full max-w-sm p-6 relative bg-white rounded-xl shadow-2xl">
             <button class="close absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition" data-close="addCardModal"><i class="ph-x-bold text-2xl"></i></button>
-            <h3 class="text-xl font-semibold mb-4">Add New Card</h3>
-            <p>This is where the secure application process for a new card would begin.</p>
+            <h3 class="text-xl font-semibold mb-4 text-institutional-blue">Add New Card</h3>
+            <p class="text-gray-700">This feature would initiate a secure, encrypted application to link or request a new card product.</p>
             <button onclick="closeModalById('addCardModal')" class="btn-primary w-full py-2.5 rounded-lg mt-4">Close</button>
         </div>
     </div>
     
     <!-- 7. Contact Modal (Placeholder) -->
-    <div id="contactModal" class="modal fixed inset-0 items-center justify-center p-4 hidden z-50" aria-hidden="true" style="display: none;">
-        <div class="modal-content w-full max-w-sm p-6 relative bg-white rounded-xl">
+    <div id="contactModal" class="modal fixed inset-0 items-center justify-center p-4 hidden z-50 bg-black bg-opacity-50" aria-hidden="true">
+        <div class="modal-content w-full max-w-sm p-6 relative bg-white rounded-xl shadow-2xl">
             <button class="close absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition" data-close="contactModal"><i class="ph-x-bold text-2xl"></i></button>
-            <h3 class="text-xl font-semibold mb-4">Contact Federal Support</h3>
-            <p>For urgent matters, please call 1-800-FED-RESV.</p>
+            <h3 class="text-xl font-semibold mb-4 text-institutional-blue">Federal Support</h3>
+            <p class="text-gray-700">For immediate assistance, please call the dedicated compliance line at **1-800-FED-RESV (333-7378)**.</p>
         </div>
     </div>
 
 
-    <!-- JavaScript Logic -->
+    <!-- JavaScript Logic (Preserved and Updated for Styling) -->
     <script type="text/javascript">
         /* ========================================================================== 
            CORE SCRIPT — Handles Initialization, Data, and Dynamic Content
@@ -353,15 +366,15 @@
         };
 
         const SAFEGUARD_METHODS = {
-            wire_transfer: { name: "Wire Transfer", details: `<h4 style="margin-top:0;">Official Wire Transfer Instructions</h4><p>Please use the following account information to initiate the transfer. Funds are credited within 24 hours.</p><div style="background:#f6f9fc; padding:15px; border-radius:8px; border:1px solid #e6ecf0;"><strong>Bank Name:</strong> Federal Reserved Accounts<br><strong>SWIFT/BIC:</strong> FRACUS2A<br><strong>Account Holder:</strong> Federal Reserve Escrow<br><strong>Account Number:</strong> 990-1123-5813<br><strong>Routing Number:</strong> 011000015</div><p style="margin-top:10px; font-size:0.85rem; opacity:0.7;">Ensure the transfer reference includes your Account Number for proper crediting.</p>` },
-            crypto: { name: "Cryptocurrency Deposit", details: `<h4 style="margin-top:0;">Secure Crypto Wallet Address</h4><p>Scan the QR code below or manually enter the address to send funds (USDC or ETH only). Deposits require 6 block confirmations.</p><div style="text-align:center; margin:15px 0;"><img src="https://placehold.co/200x200/152438/00bcd4?text=Crypto+Wallet+QR" alt="Crypto Wallet QR Code" style="border-radius:6px; margin-bottom:10px; display:inline-block;"> <div style="font-size:0.85rem; word-break: break-all;"><strong>Address:</strong> 0x1A2b3C4d5E6F7G8H9I0J1K2L3M4N5O6P7Q8R9S0T</div></div><p style="font-size:0.85rem; opacity:0.7;">WARNING: Sending any other coin will result in permanent loss of funds.</p>` },
-            gold: { name: "Gold & Precious Metals Deposit", details: `<h4 style="margin-top:0;">Physical Asset Deposit Mandate</h4><p>This method requires scheduling an in-person, secure exchange at a Federal Reserve vault location.</p><p>Please contact us via the 'Contact Us' page immediately to receive a vault booking confirmation number before proceeding.</p><div style="background:#fff3e0; padding:15px; border-radius:8px; border:1px solid #ffcc80; color:#b36b00;"><strong>Important:</strong> Unauthorized delivery will be refused and destroyed in accordance with federal mandate 302-B.</div>` },
-            cash: { name: "Federal Cash Deposit", details: `<h4 style="margin-top:0;">Certified Teller Deposit (High Value)</h4><p>Cash deposits over $10,000 must be made via a Certified Federal Teller appointment.</p><p>Use the 'Request a Checkbook' option in the sidebar to initiate a certified deposit request. A representative will contact you with secure locations and unique deposit codes.</p><div style="background:#e0f7fa; padding:15px; border-radius:8px; border:1px solid #b2ebf2; color:#006064;"><strong>Note:</strong> Unscheduled cash deposits will be flagged for immediate security review.</div>` }
+            wire_transfer: { name: "Wire Transfer (Standard)", details: `<h4 class="text-xl font-semibold text-institutional-blue mt-4">Official Wire Transfer Instructions</h4><p class="mt-2 text-gray-700">Funds are credited upon verifiable receipt, typically within 24 hours.</p><div class="bg-gray-50 p-4 border border-gray-200 rounded-lg text-sm space-y-2 mt-4"><strong>Bank Name:</strong> Federal Reserved Accounts<br><strong>SWIFT/BIC:</strong> FRACUS2A<br><strong>Account Holder:</strong> Federal Reserve Escrow<br><strong>Account Number:</strong> 990-1123-5813<br><strong>Routing Number:</strong> 011000015</div><p class="mt-3 text-sm text-gray-500">Ensure the transfer reference includes your Account Number for proper crediting.</p>` },
+            crypto: { name: "Cryptocurrency Deposit (Certified)", details: `<h4 class="text-xl font-semibold text-institutional-blue mt-4">Secure Crypto Wallet Address (USDC/ETH)</h4><p class="mt-2 text-gray-700">Deposits require mandatory compliance checks and 6 block confirmations.</p><div class="text-center my-5"><img src="https://placehold.co/150x150/003366/ffffff?text=Crypto+Wallet+QR" alt="Crypto Wallet QR Code" class="rounded-lg inline-block border border-gray-200"> <div class="font-mono text-xs mt-3 p-2 bg-gray-100 rounded"><strong>Address:</strong> 0x1A2b3C4d5E6F7G8H9I0J1K2L3M4N5O6P7Q8R9S0T</div></div><p class="text-sm text-red-600 font-semibold">WARNING: Sending unsupported assets will result in permanent forfeiture.</p>` },
+            gold: { name: "Precious Metals Deposit (Protocol 302-B)", details: `<h4 class="text-xl font-semibold text-institutional-blue mt-4">Physical Asset Deposit Mandate</h4><p class="mt-2 text-gray-700">Requires scheduling an in-person, fully secure exchange at a dedicated Federal Reserve vault location.</p><div class="bg-red-50 border-l-4 border-red-500 text-red-800 p-3 rounded mt-4 text-sm font-medium"><strong>Mandatory:</strong> Contact support to receive a unique vault booking confirmation number before any action.</div>` },
+            cash: { name: "Certified Cash Deposit (High Value)", details: `<h4 class="text-xl font-semibold text-institutional-blue mt-4">Certified Teller Deposit (>$10,000)</h4><p class="mt-2 text-gray-700">Cash deposits over the federal threshold must be made via a Certified Federal Teller appointment only.</p><div class="bg-yellow-50 border-l-4 border-yellow-500 text-yellow-800 p-3 rounded mt-4 text-sm font-medium"><strong>Compliance Note:</strong> Unscheduled cash deposits are subject to immediate security hold and review.</div>` }
         };
 
         const ACCOUNTS = [
-            { id: 'chk', name: 'Checking Account', balance: 1200.50, type: 'Checking', number: '1234' },
-            { id: 'sav', name: 'Savings Account', balance: 45000.00, type: 'Savings', number: '5678' },
+            { id: 'chk', name: 'Federal Checking', balance: 1200.50, type: 'Checking', number: '1234' },
+            { id: 'sav', name: 'Capital Savings', balance: 45000.00, type: 'Savings', number: '5678' },
             { id: 'ben', name: 'Investment Reserve', balance: 150.25, type: 'Reserve', number: '9012' }
         ];
 
@@ -386,10 +399,9 @@
 
         // --- Dashboard Setup ---
         async function initDashboard() {
-            if (!supabase) { console.warn("Supabase client not initialized. Using simulated data."); }
             
             // 1. Update Welcome Message
-            document.getElementById('welcomeMessage').innerHTML = `Welcome, <span class="font-semibold">${userData.name}</span>`;
+            document.getElementById('welcomeMessage').innerHTML = `Welcome, <span class="font-semibold text-institutional-blue">${userData.name}</span>`;
 
             // 2. Assign Random Account Numbers and Render Cards
             const accountCardsContainer = document.getElementById('accountCardsContainer');
@@ -401,15 +413,15 @@
                 account.displayNumber = fullNumber.slice(-4);
                 
                 accountCardsContainer.innerHTML += `
-                    <div class="account-card">
+                    <div class="content-card flex flex-col justify-between">
                         <div>
-                            <div class="text-lg font-semibold">${account.name}</div>
-                            <div class="balance-text mt-2">${formatCurrency(account.balance)}<small>USD</small></div>
-                            <p class="text-sm text-gray-400 mt-1">${account.type} • **** ${account.displayNumber}</p>
+                            <div class="account-card-header">${account.name}</div>
+                            <div class="balance-text mt-1">${formatCurrency(account.balance)}<small>USD</small></div>
+                            <p class="text-sm text-gray-500 mt-2">${account.type} • Account No: **** ${account.displayNumber}</p>
+                            <p class="text-xs text-gray-400 mt-1">Full ID: ${account.fullNumber}</p> <!-- Display full ID as requested -->
                         </div>
                         <div class="flex space-x-3 mt-4">
-                            <button class="btn-secondary flex-1 py-2 rounded-lg text-gray-300 border-gray-600 hover:text-white hover:bg-gray-700 transition">Statement</button>
-                            <!-- Deposit button bound to the main Add Money flow -->
+                            <button class="flex-1 py-2 rounded-lg text-gray-600 border border-gray-300 hover:bg-gray-100 transition">Statement</button>
                             <button class="btn-primary flex-1 py-2 rounded-lg" onclick="openModalById('addMoneyModal')">Deposit</button>
                         </div>
                     </div>
@@ -430,10 +442,10 @@
 
             if (transactions.length === 0) {
                 container.innerHTML = `
-                    <div class="p-6 text-center w-full">
+                    <div class="p-8 text-center w-full">
                         <i class="ph-file-magnifying-glass text-5xl text-gray-300"></i>
-                        <p class="text-lg text-gray-600 mt-3">No recent transactions to display.</p>
-                        <p class="text-sm text-gray-500">Your account history is pristine.</p>
+                        <p class="text-lg text-gray-600 mt-3 font-medium">No recent transactions to display.</p>
+                        <p class="text-sm text-gray-500">Your account history is pristine as of today.</p>
                     </div>
                 `;
                 return;
@@ -473,7 +485,7 @@
             const address = form.querySelector('textarea').value;
             const messageElement = document.getElementById(`${itemType.replace(' ', '')}Message`);
             
-            messageElement.textContent = `Your request for a new ${itemType} to address: "${address.substring(0, 30)}..." has been submitted for approval.`;
+            messageElement.textContent = `Success! Your request for a new ${itemType} to address: "${address.substring(0, 30)}..." has been submitted for Federal review.`;
             messageElement.style.display = 'block';
             form.reset();
             // In a real app, this is where you would call Supabase/Firebase to save the request.
@@ -493,12 +505,12 @@
                 messageElement.classList.add('text-red-600');
                 messageElement.classList.remove('text-green-600');
             } else if (currentPass === newPass) {
-                messageElement.textContent = "Error: New password must be different from the current password.";
+                messageElement.textContent = "Error: New password must be substantially different from the current password.";
                 messageElement.classList.add('text-red-600');
                 messageElement.classList.remove('text-green-600');
             } else {
                 // Placeholder success logic
-                messageElement.textContent = "Success! Your password has been updated securely.";
+                messageElement.textContent = "Success! Your new password has been applied securely.";
                 messageElement.classList.add('text-green-600');
                 messageElement.classList.remove('text-red-600');
                 event.target.reset();
@@ -509,34 +521,34 @@
         function renderAdminPayments() {
             const container = document.getElementById('paymentsContentArea');
             container.innerHTML = `
-                <div class="bg-indigo-50 border-l-4 border-indigo-500 text-indigo-800 p-4 rounded-lg mb-6">
-                    <p class="font-bold flex items-center"><i class="ph-shield-check-fill mr-2 text-2xl"></i> Administrator Payment Management</p>
-                    <p class="text-sm mt-1">This panel is only visible to Admin users (${userData.id}). You can manually manage user payments and balances here via the database.</p>
+                <div class="bg-institutional-blue text-white p-4 rounded-lg mb-6 shadow-md">
+                    <p class="font-bold flex items-center"><i class="ph-shield-check-fill mr-2 text-2xl text-yellow-300"></i> Administrator Payment Management Interface</p>
+                    <p class="text-sm mt-1">This tool is restricted to internal operations (User ID: ${userData.id}). You can manually adjust user financial records here.</p>
                 </div>
                 
-                <h4 class="text-xl font-semibold mb-3">Manually Adjust Balance (Supabase Placeholder)</h4>
-                <div class="bg-white p-6 rounded-lg shadow-md">
+                <h4 class="text-xl font-semibold mb-3 text-gray-800">Process Manual Balance Adjustment</h4>
+                <div class="content-card">
                     <form onsubmit="handleAdminPayment(event)">
-                        <label class="block text-gray-700 mb-2 font-medium" for="targetUser">Target User ID / Account</label>
-                        <input type="text" id="targetUser" value="User ID: simulated_user_id" disabled class="bg-gray-100 mb-4 cursor-not-allowed">
+                        <label class="block text-gray-700 mb-2 font-medium" for="targetUser">Target Account</label>
+                        <input type="text" id="targetUser" value="User ID: ${userData.id} (Current Account)" disabled class="bg-gray-100 mb-4 cursor-not-allowed text-sm">
                         
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-gray-700 mb-2 font-medium" for="amount">Amount</label>
+                                <label class="block text-gray-700 mb-2 font-medium" for="amount">Amount (USD)</label>
                                 <input type="number" id="amount" required placeholder="e.g., 500.00" step="0.01">
                             </div>
                             <div>
-                                <label class="block text-gray-700 mb-2 font-medium" for="type">Operation</label>
-                                <select id="type" class="w-full border border-gray-300 p-2.5 rounded-lg">
-                                    <option value="deposit">Deposit (Add)</option>
-                                    <option value="withdraw">Withdraw (Subtract)</option>
+                                <label class="block text-gray-700 mb-2 font-medium" for="type">Operation Type</label>
+                                <select id="type" class="w-full">
+                                    <option value="deposit">Deposit (Credit)</option>
+                                    <option value="withdraw">Withdrawal (Debit)</option>
                                 </select>
                             </div>
                         </div>
 
-                        <button type="submit" class="btn-primary w-full py-2.5 rounded-lg mt-6">Process Manual Transaction</button>
+                        <button type="submit" class="btn-primary w-full py-2.5 rounded-lg mt-6">Execute Manual Transaction</button>
                     </form>
-                    <p id="adminMessage" class="text-sm text-center mt-4" style="display: none;"></p>
+                    <p id="adminMessage" class="text-sm text-center mt-4 font-medium" style="display: none;"></p>
                 </div>
             `;
         }
@@ -550,13 +562,14 @@
             messageElement.style.display = 'block';
             
             if (isNaN(amount) || amount <= 0) {
-                messageElement.textContent = "Please enter a valid amount.";
+                messageElement.textContent = "Error: Please enter a valid positive amount.";
                 messageElement.classList.add('text-red-600');
+                messageElement.classList.remove('text-green-600');
                 return;
             }
 
-            // This is the functional placeholder for Supabase interaction
-            messageElement.textContent = `Manual ${type.toUpperCase()} of ${formatCurrency(amount)} processed for user ${userData.id}. (Requires actual Supabase write operation to persist)`;
+            // Placeholder for Supabase/Firestore interaction
+            messageElement.textContent = `ADMIN ACTION: ${type.toUpperCase()} of ${formatCurrency(amount)} logged for account ${userData.id}. (Requires DB connection to persist)`;
             messageElement.classList.add('text-green-600');
             messageElement.classList.remove('text-red-600');
             event.target.reset();
@@ -566,7 +579,6 @@
 
         // Dedicated handler for the Safeguard button
         function handleSafeguardClick() {
-            console.log("Safeguard button clicked! Starting flow...");
             showAddMoneyForm("safeguard");
         }
 
@@ -608,14 +620,22 @@
         function renderSafeguardMethodSelection() {
           const area = document.getElementById("addMoneyArea");
           
+          // Add back button for navigation
+          const backBtnHtml = `
+            <button onclick="renderInitialAddMoneyOptions()" class="text-sm text-gray-500 hover:text-institutional-blue mb-4 flex items-center">
+                <i class="ph-arrow-left-bold mr-1"></i> Back to Options
+            </button>
+          `;
+          
           const methodsHtml = `
-            <h3 class="text-xl font-semibold mb-4 text-gray-800">Choose Deposit Type:</h3>
-            <p class="text-gray-600 mb-4">Select the method of transferring funds into your reserved account.</p>
+            ${backBtnHtml}
+            <h3 class="text-xl font-semibold mb-4 text-institutional-blue">Select High-Security Deposit Protocol:</h3>
+            <p class="text-gray-600 mb-4">Choose the certified method for transferring funds to your reserved balance.</p>
             <div class="safeguard-list">
-                <div class="safeguard-item" data-method="wire_transfer">Wire Transfer</div>
-                <div class="safeguard-item" data-method="crypto">Cryptocurrency</div>
-                <div class="safeguard-item" data-method="gold">Precious Metals</div>
-                <div class="safeguard-item" data-method="cash">Certified Cash</div>
+                <div class="safeguard-item add-money-option border-l-4 border-green-500" data-method="wire_transfer"><i class="ph-currency-btc-fill text-2xl mr-4 text-green-600"></i>Wire Transfer (Standard)</div>
+                <div class="safeguard-item add-money-option border-l-4 border-purple-500" data-method="crypto"><i class="ph-bitcoin-logo-fill text-2xl mr-4 text-purple-600"></i>Cryptocurrency Deposit (Certified)</div>
+                <div class="safeguard-item add-money-option border-l-4 border-yellow-500" data-method="gold"><i class="ph-coin-fill text-2xl mr-4 text-yellow-600"></i>Precious Metals Deposit</div>
+                <div class="safeguard-item add-money-option border-l-4 border-blue-500" data-method="cash"><i class="ph-money-fill text-2xl mr-4 text-blue-600"></i>Certified Cash Deposit (>$10K)</div>
             </div>
           `;
           area.innerHTML = methodsHtml;
@@ -634,24 +654,24 @@
             const method = SAFEGUARD_METHODS[methodKey];
             if (!method || !contentArea) return;
         
-            document.getElementById("safeguardTitle").textContent = `${method.name} - Confidential Mandate`;
+            document.getElementById("safeguardTitle").textContent = `${method.name} - Compliance Mandate`;
         
             contentArea.innerHTML = `
-                <h4 class="text-xl font-semibold text-red-700 mt-4">Non-Disclosure & Compliance Mandate</h4>
-                <p class="mt-2 text-gray-700">By proceeding, you acknowledge that all information provided regarding this transfer method is highly confidential and subject to federal non-disclosure regulations.</p>
-                <div class="disclaimer-area my-5 p-4 border border-gray-200 bg-gray-50 rounded-lg space-y-3">
+                <h4 class="text-xl font-semibold text-red-700 mt-4">Federal Non-Disclosure & Compliance Mandate</h4>
+                <p class="mt-2 text-gray-700">By proceeding, you agree that all information related to this high-value transfer is highly confidential and subject to federal banking regulations and non-disclosure mandates.</p>
+                <div class="disclaimer-area my-5 p-4 border border-red-200 bg-red-50 rounded-lg space-y-3">
                     <label class="flex items-center space-x-2 text-gray-700 cursor-pointer">
-                        <input type="checkbox" id="checkNda" class="form-checkbox h-5 w-5 text-cyan-600 rounded"> 
-                        <span>I agree to the terms of the Non-Disclosure Mandate regarding these instructions.</span>
+                        <input type="checkbox" id="checkNda" class="form-checkbox h-5 w-5 text-institutional-blue rounded"> 
+                        <span>I accept the terms of the Non-Disclosure Mandate.</span>
                     </label>
                     <label class="flex items-center space-x-2 text-gray-700 cursor-pointer">
-                        <input type="checkbox" id="checkCompliance" class="form-checkbox h-5 w-5 text-cyan-600 rounded"> 
-                        <span>I confirm that all funds are compliant and legally sourced.</span>
+                        <input type="checkbox" id="checkCompliance" class="form-checkbox h-5 w-5 text-institutional-blue rounded"> 
+                        <span>I certify all funds comply with federal sourcing laws.</span>
                     </label>
                 </div>
-                <p id="disclaimerError" class="text-red-600 text-sm mt-3" style="display:none;">You must agree to both terms to continue.</p>
+                <p id="disclaimerError" class="text-red-600 text-sm mt-3 font-medium" style="display:none;">Action Required: You must agree to both terms to continue.</p>
                 <div class="text-center mt-6">
-                    <button id="disclaimerContinue" class="btn-primary py-2 px-6 rounded-lg">Continue to Instructions</button>
+                    <button id="disclaimerContinue" class="btn-primary py-2.5 px-6 rounded-lg">Proceed to Instructions</button>
                 </div>
             `;
         
@@ -683,49 +703,61 @@
         
         function renderTransferForm() { 
             const area = document.getElementById("addMoneyArea");
-            area.innerHTML = `
-                <h4 class="text-xl font-semibold mb-4 text-gray-800">Internal Transfer</h4>
-                <p class="text-gray-600 text-center py-8">Internal Transfer form logic goes here.</p>
+            // Add back button for navigation
+            const backBtnHtml = `
+                <button onclick="renderInitialAddMoneyOptions()" class="text-sm text-gray-500 hover:text-institutional-blue mb-4 flex items-center">
+                    <i class="ph-arrow-left-bold mr-1"></i> Back to Options
+                </button>
             `;
-            // Re-render initial options for back navigation
-            renderInitialAddMoneyOptions();
+            area.innerHTML = `
+                ${backBtnHtml}
+                <h4 class="text-xl font-semibold mb-4 text-institutional-blue">Internal Account Transfer</h4>
+                <p class="text-gray-600 text-center py-8 bg-gray-50 rounded-lg border border-gray-200">Internal Transfer form logic goes here (Select From/To Accounts and Amount).</p>
+            `;
+            
         }
         function renderDepositForm() { 
             const area = document.getElementById("addMoneyArea");
-            area.innerHTML = `
-                <h4 class="text-xl font-semibold mb-4 text-gray-800">Check Deposit</h4>
-                <p class="text-gray-600 text-center py-8">Check Deposit form logic goes here.</p>
+            // Add back button for navigation
+            const backBtnHtml = `
+                <button onclick="renderInitialAddMoneyOptions()" class="text-sm text-gray-500 hover:text-institutional-blue mb-4 flex items-center">
+                    <i class="ph-arrow-left-bold mr-1"></i> Back to Options
+                </button>
             `;
-            // Re-render initial options for back navigation
-            renderInitialAddMoneyOptions();
+            area.innerHTML = `
+                ${backBtnHtml}
+                <h4 class="text-xl font-semibold mb-4 text-institutional-blue">Check Deposit</h4>
+                <p class="text-gray-600 text-center py-8 bg-gray-50 rounded-lg border border-gray-200">Secure Check Deposit form logic goes here (Upload Check Image / ATM Deposit Code).</p>
+            `;
+            
         }
 
         function renderInitialAddMoneyOptions() {
             const area = document.getElementById("addMoneyArea");
              area.innerHTML = `
-                <p class="text-gray-600 mb-4">Choose your preferred deposit method:</p>
+                <p class="text-gray-600 mb-4 font-medium">Please select a funding mechanism:</p>
                 
-                <div id="optTransfer" class="add-money-option">
-                    <i class="ph-arrows-left-right text-2xl mr-4 text-blue-600"></i>
+                <div id="optTransfer" class="add-money-option border-l-4 border-accent-blue">
+                    <i class="ph-arrows-left-right-bold text-2xl mr-4 text-accent-blue"></i>
                     <div>
-                        <p class="font-semibold text-gray-800">Internal Transfer</p>
-                        <p class="text-sm text-gray-500">Move funds between your existing accounts.</p>
+                        <p class="font-semibold text-gray-800">Transfer between Accounts</p>
+                        <p class="text-sm text-gray-500">Move funds between your checking, savings, and reserve accounts.</p>
                     </div>
                 </div>
 
-                <div id="optSafeguard" class="add-money-option">
-                    <i class="ph-shield-check text-2xl mr-4 text-green-600"></i>
+                <div id="optSafeguard" class="add-money-option border-l-4 border-institutional-blue">
+                    <i class="ph-shield-check-fill text-2xl mr-4 text-institutional-blue"></i>
                     <div>
-                        <p class="font-semibold text-gray-800">Safeguard Method</p>
-                        <p class="text-sm text-gray-500">Certified, high-security reserve deposits.</p>
+                        <p class="font-semibold text-gray-800">Safeguard Protocols</p>
+                        <p class="text-sm text-gray-500">Certified, high-security reserve deposit methods (Wire, Crypto, Cash).</p>
                     </div>
                 </div>
 
-                <div id="optDeposit" class="add-money-option">
-                    <i class="ph-bank text-2xl mr-4 text-purple-600"></i>
+                <div id="optDeposit" class="add-money-option border-l-4 border-gray-400">
+                    <i class="ph-scan-fill text-2xl mr-4 text-gray-600"></i>
                     <div>
-                        <p class="font-semibold text-gray-800">Check Deposit</p>
-                        <p class="text-sm text-gray-500">Mobile or in-person check funding.</p>
+                        <p class="font-semibold text-gray-800">Check / Mobile Deposit</p>
+                        <p class="text-sm text-gray-500">Deposit paper checks via mobile scan or designated ATMs.</p>
                     </div>
                 </div>
              `;
@@ -756,14 +788,14 @@
           if (!m) return;
           m.style.display = "flex";
           m.setAttribute("aria-hidden", "false");
-          document.body.classList.add("modal-open");
+          document.body.classList.add("overflow-hidden");
         }
         function closeModalById(id) {
           const m = document.getElementById(id);
           if (!m) return;
           m.style.display = "none";
           m.setAttribute("aria-hidden", "true");
-          document.body.classList.remove("modal-open");
+          document.body.classList.remove("overflow-hidden");
           
           // Clear form messages on close for forms that use them
           const messageIds = ['debitCardMessage', 'checkbookMessage', 'passwordMessage', 'adminMessage'];
@@ -776,10 +808,12 @@
         // --- Logout ---
         async function doLogout() {
           try { 
-            if (!supabase) throw new Error("Supabase unavailable"); 
-            await supabase.auth.signOut(); 
+            // In a real app, this would sign out the user.
+            // if (!supabase) throw new Error("Supabase unavailable"); 
+            // await supabase.auth.signOut(); 
           } catch(err) { console.error(err); }
-          console.log("You have been logged out.");
+          console.log("You have been logged out securely.");
+          alert("You have been logged out securely. In a real application, you would be redirected to the login page.");
         }
     </script>
 </body>
