@@ -1,4 +1,7 @@
-/* script.dashboard.js — refreshed and fixed dashboard logic */
+/* ========================================================================== 
+   script.dashboard.js — refreshed, fixed, and optimized
+   Maintains: Sidebar, Modals, Add Money, Transfers, Deposits, Safeguard
+   ========================================================================== */
 
 const SUPABASE_URL = "https://hafzffbdqlojkuhgfsvy.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk";
@@ -81,116 +84,95 @@ function bindAddMoneyOptions() {
 /* ---------- Show Add Money Form ---------- */
 async function showAddMoneyForm(mode) {
   const area = document.getElementById("addMoneyArea");
+  if (!area) return;
   area.innerHTML = "";
   const { data: { user } } = await supabase.auth.getUser();
   const { data: accounts } = await supabase.from("accounts").select("*").eq("user_id", user.id);
 
-  if (mode === "transfer") {
-    area.innerHTML = `
-      <form id="fm-transfer" class="styled-form">
-        <label>From</label><select id="tr_from"></select>
-        <label>To (account number)</label><input id="tr_to" />
-        <label>Amount</label><input id="tr_amt" type="number" min="0" />
-        <button type="submit">Transfer</button>
-      </form>`;
-    const sel = document.getElementById("tr_from");
-    accounts.forEach(a => {
-      const opt = document.createElement("option");
-      opt.value = a.id;
-      opt.textContent = `${capitalize(a.account_type)} — ${a.account_number} ($${Number(a.balance).toFixed(2)})`;
-      sel.appendChild(opt);
-    });
-
-    document.getElementById("fm-transfer").addEventListener("submit", async e => {
-      e.preventDefault();
-      const fromId = sel.value;
-      const to = document.getElementById("tr_to").value.trim();
-      const amt = parseFloat(document.getElementById("tr_amt").value);
-      if (!fromId || !to || isNaN(amt) || amt <= 0) return alert("Complete the form.");
-
-      try {
-        const { error } = await supabase.rpc("transfer_money", { from_id: fromId, to_account_number: to, amount: amt });
-        if (error) throw error;
-        alert("Transfer successful.");
-        closeModalById("addMoneyModal");
-        await initDashboard();
-      } catch (err) {
-        console.error(err);
-        alert("Transfer failed: " + (err.message || err));
-      }
-    });
-
-  } else if (mode === "safeguard") {
-    const { data } = await supabase.from("safeguard_methods").select("*").eq("active", true).order("method_name");
-    if (!data || data.length === 0) return area.innerHTML = "<p>No safeguard methods available.</p>";
-
-    const wrap = document.createElement("div");
-    wrap.className = "safeguard-list";
-    data.forEach(m => {
-      const item = document.createElement("div");
-      item.className = "safeguard-item";
-      item.innerHTML = `<strong>${escapeHtml(m.method_name)}</strong>`;
-      item.addEventListener("click", () => openSafeguardMethod(m));
-      wrap.appendChild(item);
-    });
-    area.appendChild(wrap);
-
-  } else if (mode === "deposit") {
-    area.innerHTML = `
-      <form id="fm-deposit" class="styled-form">
-        <label>Choose account</label><select id="dep_to"></select>
-        <label>Amount</label><input id="dep_amt" type="number" min="0" />
-        <button type="submit">Deposit</button>
-      </form>`;
-    const sel = document.getElementById("dep_to");
-    accounts.forEach(a => { 
-      const opt = document.createElement("option"); 
-      opt.value = a.id; 
-      opt.textContent = `${capitalize(a.account_type)} — ${a.account_number}`; 
-      sel.appendChild(opt); 
-    });
-
-    document.getElementById("fm-deposit").addEventListener("submit", async e => {
-      e.preventDefault();
-      const acct = sel.value;
-      const amt = parseFloat(document.getElementById("dep_amt").value);
-      if (!acct || isNaN(amt) || amt <= 0) return alert("Complete the form.");
-
-      try {
-        const { error } = await supabase.rpc("credit_account", { acct_id: acct, amt: amt });
-        if (error) throw error;
-        alert("Deposit recorded.");
-        closeModalById("addMoneyModal");
-        await initDashboard();
-      } catch (err) {
-        console.error(err);
-        alert("Deposit failed: " + (err.message || err));
-      }
-    });
-  }
+  if (mode === "transfer") renderTransferForm(accounts);
+  else if (mode === "safeguard") await renderSafeguardMethods();
+  else if (mode === "deposit") renderDepositForm(accounts);
 }
 
-/* ---------- Open Safeguard Method ---------- */
-function openSafeguardMethod(m) {
-  document.getElementById("safeguardName").textContent = m.method_name;
-  document.getElementById("safeguardImage").src = m.image_url || "";
-  document.getElementById("safeguardDesc").textContent = m.description || "";
-  openModalById("safeguardModal");
-
-  const dlBtn = document.getElementById("safeguardDownload");
-  dlBtn.onclick = () => {
-    if (!m.image_url) return alert("No image to download");
-    const a = document.createElement("a");
-    a.href = m.image_url;
-    a.download = m.method_name.replace(/\s/g, "_") + ".png";
-    a.click();
-  };
-}
-
-/* ---------- Safeguard Methods Load ---------- */
-async function loadSafeguardMethods() {
+/* ---------- Render Transfer Form ---------- */
+function renderTransferForm(accounts) {
   const area = document.getElementById("addMoneyArea");
-  if (!area) return;
+  area.innerHTML = `
+    <form id="fm-transfer" class="styled-form">
+      <label>From</label><select id="tr_from"></select>
+      <label>To (account number)</label><input id="tr_to" />
+      <label>Amount</label><input id="tr_amt" type="number" min="0" />
+      <button type="submit">Transfer</button>
+    </form>`;
+  
+  const sel = document.getElementById("tr_from");
+  accounts.forEach(a => {
+    const opt = document.createElement("option");
+    opt.value = a.id;
+    opt.textContent = `${capitalize(a.account_type)} — ${a.account_number} ($${Number(a.balance).toFixed(2)})`;
+    sel.appendChild(opt);
+  });
+
+  document.getElementById("fm-transfer").addEventListener("submit", async e => {
+    e.preventDefault();
+    const fromId = sel.value;
+    const to = document.getElementById("tr_to").value.trim();
+    const amt = parseFloat(document.getElementById("tr_amt").value);
+    if (!fromId || !to || isNaN(amt) || amt <= 0) return alert("Complete the form.");
+
+    try {
+      const { error } = await supabase.rpc("transfer_money", { from_id: fromId, to_account_number: to, amount: amt });
+      if (error) throw error;
+      alert("Transfer successful.");
+      closeModalById("addMoneyModal");
+      await initDashboard();
+    } catch (err) {
+      console.error(err);
+      alert("Transfer failed: " + (err.message || err));
+    }
+  });
+}
+
+/* ---------- Render Deposit Form ---------- */
+function renderDepositForm(accounts) {
+  const area = document.getElementById("addMoneyArea");
+  area.innerHTML = `
+    <form id="fm-deposit" class="styled-form">
+      <label>Choose account</label><select id="dep_to"></select>
+      <label>Amount</label><input id="dep_amt" type="number" min="0" />
+      <button type="submit">Deposit</button>
+    </form>`;
+  
+  const sel = document.getElementById("dep_to");
+  accounts.forEach(a => { 
+    const opt = document.createElement("option"); 
+    opt.value = a.id; 
+    opt.textContent = `${capitalize(a.account_type)} — ${a.account_number}`; 
+    sel.appendChild(opt); 
+  });
+
+  document.getElementById("fm-deposit").addEventListener("submit", async e => {
+    e.preventDefault();
+    const acct = sel.value;
+    const amt = parseFloat(document.getElementById("dep_amt").value);
+    if (!acct || isNaN(amt) || amt <= 0) return alert("Complete the form.");
+
+    try {
+      const { error } = await supabase.rpc("credit_account", { acct_id: acct, amt: amt });
+      if (error) throw error;
+      alert("Deposit recorded.");
+      closeModalById("addMoneyModal");
+      await initDashboard();
+    } catch (err) {
+      console.error(err);
+      alert("Deposit failed: " + (err.message || err));
+    }
+  });
+}
+
+/* ---------- Render Safeguard Methods ---------- */
+async function renderSafeguardMethods() {
+  const area = document.getElementById("addMoneyArea");
   area.innerHTML = "<p>Loading safeguard methods...</p>";
 
   try {
@@ -213,11 +195,26 @@ async function loadSafeguardMethods() {
       wrap.appendChild(item);
     });
     area.appendChild(wrap);
-
   } catch (err) {
     console.error(err);
     area.innerHTML = "<p>Failed to load safeguard methods.</p>";
   }
+}
+
+/* ---------- Open Safeguard Method Modal ---------- */
+function openSafeguardMethod(m) {
+  document.getElementById("safeguardName").textContent = m.method_name;
+  document.getElementById("safeguardImage").src = m.image_url || "";
+  document.getElementById("safeguardDesc").textContent = m.description || "";
+  openModalById("safeguardModal");
+
+  document.getElementById("safeguardDownload").onclick = () => {
+    if (!m.image_url) return alert("No image to download");
+    const a = document.createElement("a");
+    a.href = m.image_url;
+    a.download = m.method_name.replace(/\s/g, "_") + ".png";
+    a.click();
+  };
 }
 
 /* ---------- Modal Helpers ---------- */
@@ -242,8 +239,10 @@ function capitalize(s) { return s ? s[0].toUpperCase() + s.slice(1) : s; }
 
 /* ---------- Logout ---------- */
 async function doLogout() {
-  try { if (!supabase) throw new Error("Supabase unavailable"); await supabase.auth.signOut(); } 
-  catch(err) { console.error(err); }
+  try { 
+    if (!supabase) throw new Error("Supabase unavailable"); 
+    await supabase.auth.signOut(); 
+  } catch(err) { console.error(err); }
   alert("You have been logged out.");
   window.location.href = "index.html";
 }
