@@ -1,732 +1,258 @@
-<!DOCTYPE html>
+<!doctype html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Federal Reserved Accounts - Executive Portal</title>
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Phosphor Icons (clean, modern line icons) -->
-    <script src="https://unpkg.com/phosphor-icons"></script>
-    <style>
-        /* ========================================================================== 
-           Elite Institutional Theme Setup (Revised for Professionalism and Clarity)
-           ========================================================================== */
-        :root {
-            --color-primary-dark: #0A1929; /* Deep Obsidian Black/Navy for Authority */
-            --color-accent-blue: #0077B6; /* Deep Sapphire Blue for Key Actions */
-            --color-bg-light: #F4F7FB; /* Very subtle light gray-blue background */
-            --color-text-main: #1F2937; /* Dark Gray for main text */
-            --color-text-subtle: #9CA3AF; /* Light gray for subtle text */
-            --color-success: #059669; /* Green for success/positive balance */
-        }
-        body {
-            /* Using a clean, system-standard sans-serif for ultimate legibility and institutional feel */
-            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-            background-color: var(--color-bg-light);
-            min-height: 100vh;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Federal Reserved Accounts – Dashboard</title>
+  <meta name="description" content="User dashboard — Federal Reserved Accounts" />
+  <link rel="icon" href="images/fra-logo.png" />
+  <!-- Tailwind for quick layout (already used in your existing dashboard) -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-        /* Sidebar Styling: Premium, imposing dark structure */
-        .f-sidebar {
-            background-color: var(--color-primary-dark);
-            color: #ffffff;
-            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3); 
-        }
-        .nav-item {
-            padding: 1.1rem 1.5rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            border-left: 5px solid transparent;
-            transition: background-color 0.2s, border-left-color 0.2s;
-            font-weight: 500;
-        }
-        .nav-item:hover {
-            background-color: rgba(255, 255, 255, 0.08);
-            color: #ffffff;
-        }
-        .nav-item.active {
-            background-color: #1A324A; /* Slightly lighter active background */
-            border-left-color: var(--color-accent-blue); /* Sapphire Blue indicator */
-            font-weight: 600;
-        }
-        .nav-item i {
-            margin-right: 14px;
-            font-size: 1.45rem;
-            color: var(--color-accent-blue); /* Accent color on dark sidebar */
-        }
-        .nav-item.active i {
-            color: #ffffff; /* White icon when active */
-        }
+  <style>
+    /* ---------- Embedded dashboard-specific styles ---------- */
+    :root {
+      --nav-bg: #0a2342;
+      --accent: #0077B6;
+      --muted: #6b7280;
+      --success: #059669;
+    }
+    body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: #f5f7fb; color: #111827; }
+    .f-sidebar { background: var(--nav-bg); color: #fff; min-height: 100vh; padding-bottom: 6rem; }
+    .logo-row { display:flex; gap:12px; align-items:center; }
+    .logo-row img { width:44px; height:auto; }
+    .nav-item { padding:12px 18px; cursor:pointer; display:flex; align-items:center; gap:10px; color:#cfe6ff; border-left:4px solid transparent; }
+    .nav-item.active { background: rgba(255,255,255,0.03); border-left-color: var(--accent); color:#fff; font-weight:600; }
+    .main { padding:28px; margin-left:0; }
+    @media(min-width: 1024px) { .main { margin-left: 18rem; } .f-sidebar { position:fixed; width:18rem; } }
 
-        /* Account Cards & Content Structure */
-        .content-card {
-            background-color: #ffffff;
-            border-radius: 12px; /* Slightly larger radius for quality feel */
-            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.15); /* Stronger, cleaner elevation */
-            border: 1px solid #e0e7ff; 
-            padding: 30px; 
-        }
-        .account-card-header {
-            color: var(--color-text-subtle);
-            font-size: 0.9rem;
-            font-weight: 700; /* Bolder for sharp contrast */
-            margin-bottom: 8px;
-            letter-spacing: 0.8px; /* Tighter letter-spacing for premium feel */
-            text-transform: uppercase;
-        }
+    /* Account card */
+    .account-card { background:white; border-radius:12px; padding:20px; box-shadow:0 6px 20px rgba(9,30,66,0.06); border:1px solid #eef2ff; display:flex; flex-direction:column; gap:12px; }
+    .ac-top { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+    .ac-balance { font-weight:800; font-size:clamp(1.25rem, 2.6vw, 2rem); color:#003366; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .ac-number { color:var(--muted); font-size:0.9rem; }
 
-        /* Buttons */
-        .btn-primary {
-            background-color: var(--color-accent-blue);
-            color: #ffffff;
-            font-weight: 600;
-            border-radius: 8px;
-            padding: 12px 24px;
-            transition: background-color 0.2s, transform 0.1s;
-        }
-        .btn-primary:hover {
-            background-color: #006093;
-            transform: translateY(-1px);
-        }
-        .btn-secondary {
-            background-color: #F3F4F6;
-            color: var(--color-primary-dark);
-            border: 1px solid #E5E7EB;
-            font-weight: 600;
-            border-radius: 8px;
-            padding: 12px 24px;
-            transition: background-color 0.2s;
-        }
-        .btn-secondary:hover {
-            background-color: #E5E7EB;
-        }
-        
-    </style>
-    <!-- Supabase Client for the demo -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    /* Modal */
+    .modal { display:none; position:fixed; inset:0; background:rgba(2,6,23,0.55); align-items:center; justify-content:center; z-index:60; }
+    .modal[aria-hidden="false"] { display:flex; }
+    .modal-panel { background:#fff; border-radius:12px; padding:20px; width:94%; max-width:760px; box-shadow:0 20px 60px rgba(2,6,23,0.4); }
+
+    .btn-primary { background:var(--accent); color:white; padding:10px 16px; border-radius:8px; font-weight:600; }
+    .btn-ghost { background:transparent; border:1px solid #e6eef8; padding:8px 12px; border-radius:8px; }
+
+    /* small helpers */
+    .muted { color:var(--muted); }
+    .success-note { background:#ecfdf5; border:1px solid #bbf7d0; padding:10px; border-radius:8px; color:#065f46; }
+    .editor-area { width:100%; height:160px; border:1px solid #e6eef8; border-radius:8px; padding:10px; resize:vertical; }
+    .small { font-size:0.9rem; }
+  </style>
+
 </head>
-<body class="flex lg:flex-row flex-col min-h-screen">
+<body>
 
-    <!-- Sidebar (f-sidebar) -->
-    <aside class="f-sidebar lg:w-72 w-full flex-shrink-0 lg:h-screen lg:fixed">
-        <div class="p-6 border-b border-gray-700">
-            <!-- Professional Branding - High contrast, authority-driven -->
-            <h1 class="text-2xl font-extrabold text-white tracking-widest">
-                <i class="ph-seal-check-fill text-3xl mr-2 align-middle text-amber-300"></i> FEDERAL.RESV
-            </h1>
-        </div>
-        
-        <!-- Navigation Menu -->
-        <nav class="f-sidebar-menu p-2">
-            <div id="dashboard" class="nav-item active" data-target="dashboardContent">
-                <i class="ph-chart-line-up-fill"></i>Dashboard Overview
-            </div>
-            <!-- Payments & Escrow REMOVED per user request -->
-            <div id="cards" class="nav-item" data-target="cardsContent">
-                <i class="ph-credit-card-fill"></i>Secure Asset Management
-            </div>
-            
-            <!-- Service Actions -->
-            <div class="border-t border-gray-700 my-4 pt-4 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                Compliance & Services
-            </div>
-            
-            <div id="openRequestDebit" class="nav-item">
-                <i class="ph-arrow-square-out"></i>Request Secure Card
-            </div>
-            <div id="openRequestCheck" class="nav-item">
-                <i class="ph-book-open"></i>Order Certified Checks
-            </div>
-            <div id="openChangePassword" class="nav-item">
-                <i class="ph-lock-open"></i>Security Profile Update
-            </div>
-            <div id="openContact" class="nav-item">
-                <i class="ph-chats-circle"></i>Dedicated Support
-            </div>
-        </nav>
-        
-        <!-- Log Out Button -->
-        <div class="p-4 lg:absolute lg:bottom-0 lg:w-full">
-            <button onclick="doLogout()" class="w-full bg-red-700 text-white py-3 rounded-lg font-medium hover:bg-red-600 transition">
-                Log Out Securely
-            </button>
-        </div>
-    </aside>
+  <!-- Sidebar -->
 
-    <!-- Main Content Area -->
-    <main class="main-content-wrapper flex-1 p-4 sm:p-8 lg:ml-72 transition-all">
-        
-        <!-- Header (Name will be injected by JS) -->
-        <header class="flex justify-between items-center pb-6 mb-8">
-            <h2 class="text-3xl sm:text-4xl font-light text-gray-800" id="welcomeMessage">Welcome...</h2>
-            <button id="addMoneyBtn" class="btn-primary flex items-center py-3 px-6 sm:px-8 text-sm sm:text-base">
-                <i class="ph-plus-circle-fill mr-2 text-xl"></i> Initiate Deposit
-            </button>
-        </header>
-
-        <!-- Dynamic Content Sections -->
-        <div id="dashboardContent" class="f-section">
-            
-            <!-- Account Cards Grid -->
-            <section class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 sm:gap-8 mb-10" id="accountCardsContainer">
-                <!-- Account cards will be dynamically injected here -->
-                <div class="content-card flex items-center justify-center col-span-full">
-                    <i class="ph-spinner-gap-bold animate-spin text-4xl text-gray-400"></i>
-                    <p class="ml-3 text-gray-600">Loading High-Value Reserves...</p>
-                </div>
-            </section>
-            
-            <!-- Recent Transactions Table -->
-            <section>
-                <h3 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-5">Verified Transaction Ledger</h3>
-                <div id="transactionContainer" class="content-card min-h-40 flex items-center justify-center">
-                    <!-- Transactions or "No Transactions" message will be injected here -->
-                </div>
-            </section>
-
-        </div>
-
-        <!-- Cards Section (Add Card option) -->
-        <div id="cardsContent" class="f-section hidden">
-            <h3 class="text-3xl font-semibold text-gray-800 mb-6">Asset and Card Compliance</h3>
-            <div class="grid md:grid-cols-2 gap-8">
-                
-                <!-- Existing Card Placeholder -->
-                <div class="content-card bg-gray-50 border-accent-blue border-l-8">
-                    <div class="flex justify-between items-start">
-                        <i class="ph-credit-card-fill text-4xl text-accent-blue"></i>
-                        <p class="text-sm text-gray-500 font-mono tracking-wider">SECURED ASSET CARD</p>
-                    </div>
-                    <p class="text-xl font-bold mt-4 text-primary-dark">Elite Treasury Debit</p>
-                    <p class="text-sm text-gray-600 mt-1">Status: Active | Linked to Capital Reserve</p>
-                    <button class="text-sm text-red-600 mt-4 hover:underline font-medium">Temporarily Freeze Asset</button>
-                </div>
-
-                <!-- Add Card Option -->
-                <div class="bg-gray-50 p-6 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100 transition"
-                     onclick="openModalById('addCardModal')">
-                    <i class="ph-plus-circle-fill text-5xl text-gray-400"></i>
-                    <p class="mt-3 text-lg font-medium text-gray-600">Request New Compliance Card</p>
-                </div>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- Modals (High-end security styling) -->
-
-    <!-- 1. Add Money Modal (Main Modal) -->
-    <div id="addMoneyModal" class="modal fixed inset-0 items-center justify-center p-4 hidden z-50 bg-black bg-opacity-70" aria-hidden="true">
-        <div class="modal-content w-full max-w-lg p-8 relative bg-white rounded-xl shadow-2xl">
-            <button class="close absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition" data-close="addMoneyModal">
-                <i class="ph-x-bold text-2xl"></i>
-            </button>
-            <h3 class="text-2xl font-bold text-primary-dark mb-6 border-b pb-3 border-gray-200">Initiate Fund Deposit</h3>
-            <div id="addMoneyArea">
-                <!-- Content injected by JS -->
-            </div>
-        </div>
+  <aside class="f-sidebar p-6">
+    <div class="logo-row mb-6">
+      <img src="images/fra-logo.png" alt="logo" />
+      <div>
+        <div style="font-weight:800; font-size:1.05rem;">Federal Reserved Accounts</div>
+        <div class="muted small">Dashboard Overview</div>
+      </div>
     </div>
 
-    <!-- 2. Safeguard Disclaimer/Details Modal -->
-    <div id="safeguardModal" class="modal fixed inset-0 items-center justify-center p-4 hidden z-50 bg-black bg-opacity-70" aria-hidden="true">
-        <div class="modal-content w-full max-w-2xl p-8 relative bg-white rounded-xl shadow-2xl">
-            <button class="close absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition" data-close="safeguardModal">
-                <i class="ph-x-bold text-2xl"></i>
-            </button>
-            <h3 id="safeguardTitle" class="text-2xl font-bold text-primary-dark mb-6 border-b pb-3 border-gray-200">Safeguard Protocol Confirmation</h3>
-            
-            <div id="safeguardContent" class="text-gray-700">
-                <p>Loading...</p>
-            </div>
+```
+<nav>
+  <div id="nav-dashboard" class="nav-item active" data-target="section-dashboard">Dashboard Overview</div>
+  <div id="nav-assets" class="nav-item" data-target="section-assets">Secure Asset Management</div>
+
+  <hr class="my-4 border-gray-700/30">
+
+  <div id="openRequestDebit" class="nav-item">Request Secure Card</div>
+  <div id="openRequestCheck" class="nav-item">Request Checkbook</div>
+  <div id="openChangePassword" class="nav-item">Change Password Only</div>
+  <div id="openContact" class="nav-item">Dedicated Support</div>
+</nav>
+
+<div style="position: absolute; bottom: 18px; left: 24px; right:24px;">
+  <button id="logoutBtnSidebar" class="btn-ghost w-full">Logout Securely</button>
+</div>
+```
+
+  </aside>
+
+  <!-- Main -->
+
+  <main class="main">
+    <header class="flex items-center justify-between mb-6">
+      <div>
+        <div class="muted small">Welcome back</div>
+        <h1 id="pf-welcome" style="font-size:1.6rem; margin-top:4px;">—</h1>
+      </div>
+      <div>
+        <button id="addMoneyBtn" class="btn-primary">Initiate Deposit</button>
+      </div>
+    </header>
+
+```
+<!-- Dashboard sections -->
+<section id="section-dashboard" class="mb-6">
+  <h2 class="text-xl font-semibold mb-4">Accounts</h2>
+  <div id="accountCards" class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+    <!-- Account cards injected here -->
+    <div class="account-card">
+      <div class="ac-top">
+        <div>
+          <div class="ac-type">Loading...</div>
+          <div class="ac-number">—</div>
         </div>
+        <div class="ac-balance">$0.00</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="section-assets" class="hidden">
+  <h2 class="text-xl font-semibold mb-4">Secure Asset Management</h2>
+  <p class="muted">Manage secure cards, checkbooks, and deposit instructions.</p>
+  <div class="mt-4">
+    <button class="btn-primary mr-2" onclick="openModal('safeguardEditorModal')">View Current Safeguard Methods</button>
+    <button class="btn-ghost" onclick="openModal('safeguardEditorModal')">Edit Safeguard Methods (Admin)</button>
+  </div>
+</section>
+
+<!-- Small helper area -->
+<div id="noteArea" class="mt-6"></div>
+```
+
+  </main>
+
+  <!-- Modals -->
+
+  <!-- Request Secure Card -->
+
+  <div id="requestDebitModal" class="modal" aria-hidden="true">
+    <div class="modal-panel">
+      <h3>Request Secure Card</h3>
+      <p class="muted small">Enter delivery address for your secure card. This request will display a client-only confirmation and will NOT be sent to the backend.</p>
+      <form id="debitCardForm">
+        <label class="small">Delivery address</label>
+        <textarea id="debitAddress" class="editor-area" required></textarea>
+        <div class="mt-3 flex gap-3">
+          <button type="submit" class="btn-primary">Submit</button>
+          <button type="button" class="btn-ghost" data-close="requestDebitModal">Cancel</button>
+        </div>
+        <p id="debitResult" class="mt-3" style="display:none;"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Request Checkbook -->
+
+  <div id="requestCheckModal" class="modal" aria-hidden="true">
+    <div class="modal-panel">
+      <h3>Request Checkbook</h3>
+      <p class="muted small">Enter delivery address for your checkbook. This request will display a client-only confirmation and will NOT be sent to the backend.</p>
+      <form id="checkbookForm">
+        <label class="small">Delivery address</label>
+        <textarea id="checkbookAddress" class="editor-area" required></textarea>
+        <div class="mt-3 flex gap-3">
+          <button type="submit" class="btn-primary">Submit</button>
+          <button type="button" class="btn-ghost" data-close="requestCheckModal">Cancel</button>
+        </div>
+        <p id="checkbookResult" class="mt-3" style="display:none;"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Change Password (client-only non-functional) -->
+
+  <div id="changePasswordModal" class="modal" aria-hidden="true">
+    <div class="modal-panel">
+      <h3>Change Password</h3>
+      <p class="muted small">This change will show a confirmation but will not update your password on the backend (per your request).</p>
+      <form id="passwordForm">
+        <label class="small">New password</label>
+        <input id="newPass" type="password" class="editor-area" placeholder="New password" required />
+        <div class="mt-3 flex gap-3">
+          <button class="btn-primary" type="submit">Apply</button>
+          <button type="button" class="btn-ghost" data-close="changePasswordModal">Cancel</button>
+        </div>
+        <p id="passwordResult" class="mt-3" style="display:none;"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Safeguard: NDA + Instruction display -->
+
+  <div id="safeguardModal" class="modal" aria-hidden="true">
+    <div class="modal-panel" style="max-width:900px;">
+      <h3 id="safeguardTitle">Safeguard Protocol</h3>
+      <div id="safeguardBody" class="mt-3"></div>
+      <div class="mt-4 text-right">
+        <button id="safeguardProceed" class="btn-primary" style="display:none;">Proceed</button>
+        <button class="btn-ghost" data-close="safeguardModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Safeguard Editor (Admin-only) -->
+
+  <div id="safeguardEditorModal" class="modal" aria-hidden="true">
+    <div class="modal-panel">
+      <h3>Safeguard Instructions Editor</h3>
+      <p class="muted small">Admin-only editor for deposit instructions. Select a method to edit (Wire / Crypto / Physical / Cash).</p>
+
+```
+  <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <label class="small">Method</label>
+      <select id="editorMethod" class="editor-area" style="height:44px;">
+        <option value="wire_transfer">Wire Transfer</option>
+        <option value="crypto">Digital Asset (Crypto)</option>
+        <option value="gold">Physical Asset (Gold)</option>
+        <option value="cash">Certified Cash</option>
+      </select>
+    </div>
+    <div>
+      <label class="small">Title</label>
+      <input id="editorTitle" class="editor-area" style="height:44px;" />
     </div>
 
-    <!-- 3. Request Debit Card Modal (Address input) -->
-    <div id="requestDebitModal" class="modal fixed inset-0 items-center justify-center p-4 hidden z-50 bg-black bg-opacity-70" aria-hidden="true">
-        <div class="modal-content w-full max-w-sm p-8 relative bg-white rounded-xl shadow-2xl">
-            <button class="close absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition" data-close="requestDebitModal"><i class="ph-x-bold text-2xl"></i></button>
-            <h3 class="text-2xl font-bold text-primary-dark mb-6 border-b pb-3 border-gray-200">Request New Secure Card</h3>
-            <form id="debitCardForm" onsubmit="handleRequestForm(event, 'Secure Debit Card')">
-                <label class="block text-gray-700 mb-2 font-medium" for="debitAddress">Validated Delivery Address</label>
-                <textarea id="debitAddress" rows="3" required placeholder="Enter primary compliance address for dispatch." 
-                class="border border-gray-300 p-3 rounded-lg w-full mb-6 focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/30"></textarea>
-                <button type="submit" class="btn-primary w-full py-3">Submit Secure Request</button>
-            </form>
-            <p id="debitCardMessage" class="text-sm text-success mt-4 text-center font-medium" style="display: none;"></p>
-        </div>
+    <div class="md:col-span-2">
+      <label class="small">Details (HTML allowed)</label>
+      <textarea id="editorDetails" class="editor-area"></textarea>
     </div>
 
-    <!-- 4. Request Checkbook Modal (Address input) -->
-    <div id="requestCheckModal" class="modal fixed inset-0 items-center justify-center p-4 hidden z-50 bg-black bg-opacity-70" aria-hidden="true">
-        <div class="modal-content w-full max-w-sm p-8 relative bg-white rounded-xl shadow-2xl">
-            <button class="close absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition" data-close="requestCheckModal"><i class="ph-x-bold text-2xl"></i></button>
-            <h3 class="text-2xl font-bold text-primary-dark mb-6 border-b pb-3 border-gray-200">Order Certified Checkbook</h3>
-            <form id="checkbookForm" onsubmit="handleRequestForm(event, 'Certified Checkbook')">
-                <label class="block text-gray-700 mb-2 font-medium" for="checkbookAddress">Validated Delivery Address</label>
-                <textarea id="checkbookAddress" rows="3" required placeholder="Enter primary compliance address for dispatch." 
-                class="border border-gray-300 p-3 rounded-lg w-full mb-6 focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/30"></textarea>
-                <button type="submit" class="btn-primary w-full py-3">Submit Secure Request</button>
-            </form>
-            <p id="checkbookMessage" class="text-sm text-success mt-4 text-center font-medium" style="display: none;"></p>
-        </div>
+    <div class="md:col-span-2 flex gap-3 justify-end pt-2">
+      <button id="saveInstructionBtn" class="btn-primary">Save</button>
+      <button type="button" class="btn-ghost" data-close="safeguardEditorModal">Close</button>
     </div>
+  </div>
 
-    <!-- 5. Change Password Modal (Functional Placeholder) -->
-    <div id="changePasswordModal" class="modal fixed inset-0 items-center justify-center p-4 hidden z-50 bg-black bg-opacity-70" aria-hidden="true">
-        <div class="modal-content w-full max-w-sm p-8 relative bg-white rounded-xl shadow-2xl">
-            <button class="close absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition" data-close="changePasswordModal"><i class="ph-x-bold text-2xl"></i></button>
-            <h3 class="text-2xl font-bold text-primary-dark mb-6 border-b pb-3 border-gray-200">Security Profile Update</h3>
-            <form id="passwordForm" onsubmit="handleChangePassword(event)">
-                <label class="block text-gray-700 mb-2 font-medium" for="currentPass">Current Access Key</label>
-                <input type="password" id="currentPass" required class="border border-gray-300 p-3 rounded-lg w-full mb-4 focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/30" placeholder="••••••••">
-                
-                <label class="block text-gray-700 mb-2 font-medium" for="newPass">New Access Key</label>
-                <input type="password" id="newPass" required class="border border-gray-300 p-3 rounded-lg w-full mb-4 focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/30" placeholder="••••••••">
-                
-                <label class="block text-gray-700 mb-2 font-medium" for="confirmPass">Confirm New Access Key</label>
-                <input type="password" id="confirmPass" required class="border border-gray-300 p-3 rounded-lg w-full mb-6 focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/30" placeholder="••••••••">
+  <p id="editorStatus" class="mt-4" style="display:none;"></p>
+</div>
+```
 
-                <button type="submit" class="btn-primary w-full py-3">Validate & Update</button>
-            </form>
-            <p id="passwordMessage" class="text-sm mt-4 text-center font-medium" style="display: none;"></p>
-        </div>
+  </div>
+
+  <!-- Dedicated Support quick modal -->
+
+  <div id="supportModal" class="modal" aria-hidden="true">
+    <div class="modal-panel">
+      <h3>Dedicated Support</h3>
+      <p class="muted small">Call our dedicated support line:</p>
+      <p class="text-2xl font-bold mt-3">+1 (380) 225-0409</p>
+      <div class="mt-4 text-right"><button class="btn-ghost" data-close="supportModal">Close</button></div>
     </div>
+  </div>
 
-    <!-- 6. Add Card Placeholder Modal -->
-    <div id="addCardModal" class="modal fixed inset-0 items-center justify-center p-4 hidden z-50 bg-black bg-opacity-70" aria-hidden="true">
-        <div class="modal-content w-full max-w-sm p-8 relative bg-white rounded-xl shadow-2xl">
-            <button class="close absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition" data-close="addCardModal"><i class="ph-x-bold text-2xl"></i></button>
-            <h3 class="text-2xl font-bold mb-4 text-primary-dark">Asset Linking Protocol</h3>
-            <p class="text-gray-700">This feature initiates a secure, multi-factor authorization protocol for linking new external assets or requesting a new compliance card.</p>
-            <button onclick="closeModalById('addCardModal')" class="btn-primary w-full py-3 mt-6">Acknowledge</button>
-        </div>
-    </div>
-    
-    <!-- 7. Contact Modal (Placeholder) -->
-    <div id="contactModal" class="modal fixed inset-0 items-center justify-center p-4 hidden z-50 bg-black bg-opacity-70" aria-hidden="true">
-        <div class="modal-content w-full max-w-sm p-8 relative bg-white rounded-xl shadow-2xl">
-            <button class="close absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition" data-close="contactModal"><i class="ph-x-bold text-2xl"></i></button>
-            <h3 class="text-2xl font-bold mb-4 text-primary-dark">Dedicated Support Line</h3>
-            <p class="text-gray-700">For immediate, confidential support, please call your dedicated compliance officer or use the direct line below:</p>
-            <p class="text-3xl font-bold text-accent-blue mt-4 text-center">1-800-FED-RESV</p>
-        </div>
-    </div>
+  <!-- Scripts -->
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
 
-    <!-- JavaScript Logic -->
-    <script type="text/javascript">
-        /* ========================================================================== 
-           CORE SCRIPT — Handles Initialization, Data, and Dynamic Content
-           ========================================================================== */
-        
-        // --- Configuration ---
-        const SUPABASE_URL = "https://hafzffbdqlojkuhgfsvy.supabase.co";
-        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk";
-        const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+  <script defer src="dashboard.js"></script>
 
-        // --- Simulated User and Data ---
-        let userData = {
-            id: 'simulated_user_id', 
-            name: 'Elizabeth K. Montgomery', 
-            isAdmin: true, 
-        };
-
-        const SAFEGUARD_METHODS = {
-            wire_transfer: { name: "Wire Transfer (Certified)", details: `<h4 class="text-xl font-semibold text-primary-dark mt-4">Official Wire Transfer Protocol (FED Protocol 301)</h4><p class="mt-2 text-gray-700">Funds are credited upon verifiable receipt, typically within 24 hours under a certified holding period.</p><div class="bg-gray-100 p-6 border border-gray-200 rounded-lg text-sm space-y-3 mt-4"><strong>Bank Name:</strong> Federal Reserved Accounts<br><strong>SWIFT/BIC:</strong> FRACUS2A<br><strong>Account Holder:</strong> Federal Reserve Escrow<br><strong>Account Number:</strong> 990-1123-5813<br><strong>Routing Number:</strong> 011000015</div><p class="mt-4 text-sm text-gray-600 font-medium">Mandatory: Ensure the transfer reference includes your Full Account ID for compliance verification.</p>` },
-            crypto: { name: "Digital Asset Deposit (Secure-Blockchain)", details: `<h4 class="text-xl font-semibold text-primary-dark mt-4">Secure Digital Wallet Address (USDC/ETH Certified)</h4><p class="mt-2 text-gray-700">Deposits require multi-layer compliance checks and 6 block confirmations before reserve crediting.</p><div class="text-center my-6 p-4 border border-blue-200 bg-blue-50 rounded-lg"><img src="https://placehold.co/150x150/0A1929/ffffff?text=QR+Code" alt="Crypto Wallet QR Code" class="rounded-lg inline-block border-4 border-white shadow-lg"> <div class="font-mono text-xs mt-3 p-2 bg-gray-200 rounded tracking-wider"><strong>Address:</strong> 0x1A2b3C4d5E6F7G8H9I0J1K2L3M4N5O6P7Q8R9S0T</div></div><p class="text-sm text-red-700 font-semibold">COMPLIANCE WARNING: Only supported assets will be processed. Unscheduled transfer may result in asset suspension.</p>` },
-            gold: { name: "Physical Asset Deposit (Protocol 302-B)", details: `<h4 class="text-xl font-semibold text-primary-dark mt-4">Physical Asset Deposit Mandate (Precious Metals)</h4><p class="mt-2 text-gray-700">Requires scheduling a private, high-security exchange appointment at a dedicated Federal Reserve vault location for verification and assaying.</p><div class="bg-red-50 border-l-4 border-red-500 text-red-800 p-4 rounded mt-4 text-sm font-medium flex items-center"><i class="ph-warning-fill mr-3 text-xl"></i><strong>Mandatory:</strong> Contact support to receive a unique vault booking confirmation number before initiating transport.</div>` },
-            cash: { name: "Certified Cash Deposit (Federal Threshold)", details: `<h4 class="text-xl font-semibold text-primary-dark mt-4">Certified Teller Deposit (High Value >$10,000)</h4><p class="mt-2 text-gray-700">Cash deposits over the federal threshold must be made via a dedicated Certified Federal Teller appointment only for immediate review and compliance filing.</p><div class="bg-yellow-50 border-l-4 border-yellow-500 text-yellow-800 p-4 rounded mt-4 text-sm font-medium flex items-center"><i class="ph-shield-warning-fill mr-3 text-xl"></i><strong>Compliance Note:</strong> Unscheduled cash deposits are subject to immediate security hold and federal review.</div>` }
-        };
-
-        const ACCOUNTS = [
-            { id: 'chk', name: 'Federal Checking', balance: 1200.50, type: 'CHECKING', number: '1234' },
-            { id: 'sav', name: 'Capital Savings', balance: 45000.00, type: 'SAVINGS', number: '5678' },
-            { id: 'ben', name: 'Investment Reserve', balance: 150.25, type: 'RESERVE', number: '9012' }
-        ];
-
-        const TRANSACTIONS = []; // Empty array as requested for the default account
-
-        // --- Initialization ---
-        document.addEventListener("DOMContentLoaded", () => {
-          setupSidebarNav();
-          setupModals();
-          initDashboard();
-        });
-
-        // --- Utility Functions ---
-        function generateAccountNumber() {
-            // Generate a random 8-digit number string
-            return Math.floor(10000000 + Math.random() * 90000000).toString();
-        }
-        
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('en-US', { 
-                style: 'currency', 
-                currency: 'USD',
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }).format(amount);
-        }
-
-        // --- Dashboard Setup ---
-        async function initDashboard() {
-            
-            // 1. Update Welcome Message
-            document.getElementById('welcomeMessage').innerHTML = `Welcome, <span class="font-extrabold text-primary-dark">${userData.name}</span>`;
-
-            // 2. Assign Random Account Numbers and Render Cards
-            const accountCardsContainer = document.getElementById('accountCardsContainer');
-            accountCardsContainer.innerHTML = ''; // Clear loading message
-
-            ACCOUNTS.forEach(account => {
-                const fullNumber = generateAccountNumber();
-                account.fullNumber = fullNumber;
-                account.displayNumber = fullNumber.slice(-4);
-                
-                // Determine icon based on type for elite look
-                let iconClass = '';
-                let colorClass = '';
-                if (account.type === 'CHECKING') { iconClass = 'ph-wallet-fill'; colorClass = 'text-accent-blue'; }
-                else if (account.type === 'SAVINGS') { iconClass = 'ph-money-fill'; colorClass = 'text-success'; }
-                else if (account.type === 'RESERVE') { iconClass = 'ph-shield-fill'; colorClass = 'text-red-500'; }
-
-                accountCardsContainer.innerHTML += `
-                    <div class="content-card flex flex-col justify-between">
-                        <div class="flex justify-between items-start">
-                            <i class="${iconClass} text-4xl ${colorClass}"></i>
-                            <div class="text-right">
-                                <div class="account-card-header">${account.name}</div>
-                                <p class="text-sm text-gray-500 font-mono mt-1">${account.type} • **** ${account.displayNumber}</p>
-                            </div>
-                        </div>
-                        
-                        <div class="mt-6">
-                            <!-- Responsive Balance Text (Fixes Overflow) -->
-                            <div class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-primary-dark">
-                                ${formatCurrency(account.balance)}
-                                <small class="text-base text-success font-medium ml-2 opacity-80 block sm:inline-block">Verified Balance</small>
-                            </div>
-                            <p class="text-xs text-gray-400 mt-2">Full ID: ${account.fullNumber}</p> 
-                        </div>
-                        
-                        <div class="flex space-x-4 mt-6">
-                            <button class="btn-secondary flex-1 text-sm py-2.5">Full Ledger</button>
-                            <button class="btn-primary flex-1 text-sm py-2.5" onclick="openModalById('addMoneyModal')">Deposit</button>
-                        </div>
-                    </div>
-                `;
-            });
-
-            // 3. Render Transactions
-            renderTransactions(TRANSACTIONS);
-        }
-
-        function renderTransactions(transactions) {
-            const container = document.getElementById('transactionContainer');
-
-            if (transactions.length === 0) {
-                container.innerHTML = `
-                    <div class="p-10 text-center w-full">
-                        <i class="ph-file-lock-fill text-6xl text-gray-300"></i>
-                        <p class="text-xl text-gray-600 mt-4 font-semibold">No Recent Ledger Activity.</p>
-                        <p class="text-sm text-gray-500 mt-1">Your account history is pristine as of today. All records are secured in the federal ledger.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            // (If transactions existed, the table rendering logic would go here)
-        }
-
-        // --- Sidebar & Section Setup ---
-        function setupSidebarNav() {
-          document.querySelectorAll(".f-sidebar .nav-item").forEach(item => {
-            item.addEventListener("click", () => {
-              const id = item.id;
-              // Check if the item is a modal trigger, not a section navigation
-              if (["openRequestDebit","openRequestCheck","openChangePassword","openContact"].includes(id)) return;
-        
-              document.querySelectorAll(".f-sidebar .nav-item").forEach(n => n.classList.remove("active"));
-              item.classList.add("active");
-        
-              const target = item.getAttribute("data-target");
-              if (!target) return;
-              document.querySelectorAll(".f-section").forEach(s => s.classList.add("hidden")); 
-              document.getElementById(target)?.classList.remove("hidden"); 
-            });
-          });
-        
-          // Modal triggers
-          document.getElementById("openRequestDebit")?.addEventListener("click", () => openModalById("requestDebitModal"));
-          document.getElementById("openRequestCheck")?.addEventListener("click", () => openModalById("requestCheckModal"));
-          document.getElementById("openChangePassword")?.addEventListener("click", () => openModalById("changePasswordModal"));
-          document.getElementById("openContact")?.addEventListener("click", () => openModalById("contactModal"));
-        }
-
-        // --- Modal Handlers ---
-        function handleRequestForm(event, itemType) {
-            event.preventDefault();
-            const form = event.target;
-            const address = form.querySelector('textarea').value;
-            const messageElement = document.getElementById(`${itemType.replace(/\s/g, '')}Message`);
-            
-            messageElement.textContent = `SUCCESS: Secure dispatch for ${itemType} to address: "${address.substring(0, 30)}..." has been authorized and submitted.`;
-            messageElement.style.display = 'block';
-            form.reset();
-        }
-
-        function handleChangePassword(event) {
-            event.preventDefault();
-            const currentPass = document.getElementById('currentPass').value;
-            const newPass = document.getElementById('newPass').value;
-            const confirmPass = document.getElementById('confirmPass').value;
-            const messageElement = document.getElementById('passwordMessage');
-            
-            messageElement.style.display = 'block';
-
-            if (newPass !== confirmPass) {
-                messageElement.textContent = "VERIFICATION ERROR: New Access Key and confirmation do not match.";
-                messageElement.classList.add('text-red-600');
-                messageElement.classList.remove('text-success');
-            } else if (currentPass === newPass) {
-                messageElement.textContent = "SECURITY ERROR: New Access Key must be substantially different from the current key.";
-                messageElement.classList.add('text-red-600');
-                messageElement.classList.remove('text-success');
-            } else {
-                // Placeholder success logic
-                messageElement.textContent = "SUCCESS: Security profile updated. New Access Key applied.";
-                messageElement.classList.add('text-success');
-                messageElement.classList.remove('text-red-600');
-                event.target.reset();
-            }
-        }
-        
-        // --- Add Money Flow (Safeguard) ---
-
-        function handleSafeguardClick() { showAddMoneyForm("safeguard"); }
-        function bindAddMoneyOptions() {
-            const safeguardBtn = document.getElementById("optSafeguard");
-            const transferBtn = document.getElementById("optTransfer");
-            const depositBtn = document.getElementById("optDeposit");
-            
-            if (safeguardBtn) {
-              safeguardBtn.removeEventListener("click", handleSafeguardClick); 
-              safeguardBtn.addEventListener("click", handleSafeguardClick); 
-            }
-            if (transferBtn) {
-                transferBtn.removeEventListener("click", () => showAddMoneyForm("transfer"));
-                transferBtn.addEventListener("click", () => showAddMoneyForm("transfer"));
-            }
-            if (depositBtn) {
-                depositBtn.removeEventListener("click", () => showAddMoneyForm("deposit"));
-                depositBtn.addEventListener("click", () => showAddMoneyForm("deposit"));
-            }
-        }
-
-        function showAddMoneyForm(mode) {
-          const area = document.getElementById("addMoneyArea");
-          if (!area) return;
-          area.innerHTML = ""; 
-
-          if (mode === "transfer") renderTransferForm();
-          else if (mode === "safeguard") renderSafeguardMethodSelection(); 
-          else if (mode === "deposit") renderDepositForm();
-        }
-
-        function renderSafeguardMethodSelection() {
-          const area = document.getElementById("addMoneyArea");
-          
-          const backBtnHtml = `
-            <button onclick="renderInitialAddMoneyOptions()" class="text-sm text-gray-500 hover:text-accent-blue mb-4 flex items-center font-medium">
-                <i class="ph-arrow-left-bold mr-1 text-base"></i> Back to Deposit Options
-            </button>
-          `;
-          
-          const methodsHtml = `
-            ${backBtnHtml}
-            <h3 class="text-xl font-bold mb-4 text-primary-dark">Select Certified Deposit Protocol:</h3>
-            <p class="text-gray-600 mb-6 text-sm">Choose the audited method for high-security reserve funding.</p>
-            <div class="safeguard-list space-y-3">
-                <div class="add-money-option flex items-center p-5 rounded-xl cursor-pointer transition border border-gray-200 hover:border-accent-blue hover:shadow-md border-l-4 border-accent-blue" data-method="wire_transfer"><i class="ph-currency-dollar-fill text-2xl mr-4 text-accent-blue"></i><p class="font-semibold text-gray-800">Wire Transfer (Certified)</p></div>
-                <div class="add-money-option flex items-center p-5 rounded-xl cursor-pointer transition border border-gray-200 hover:border-purple-600 hover:shadow-md border-l-4 border-purple-600" data-method="crypto"><i class="ph-bitcoin-logo-fill text-2xl mr-4 text-purple-600"></i><p class="font-semibold text-gray-800">Digital Asset Deposit</p></div>
-                <div class="add-money-option flex items-center p-5 rounded-xl cursor-pointer transition border border-gray-200 hover:border-yellow-600 hover:shadow-md border-l-4 border-yellow-600" data-method="gold"><i class="ph-coin-fill text-2xl mr-4 text-yellow-600"></i><p class="font-semibold text-gray-800">Physical Asset Deposit</p></div>
-                <div class="add-money-option flex items-center p-5 rounded-xl cursor-pointer transition border border-gray-200 hover:border-red-600 hover:shadow-md border-l-4 border-red-600" data-method="cash"><i class="ph-money-fill text-2xl mr-4 text-red-600"></i><p class="font-semibold text-gray-800">Certified Cash Deposit</p></div>
-            </div>
-          `;
-          area.innerHTML = methodsHtml;
-
-          document.querySelectorAll(".add-money-option[data-method]").forEach(item => {
-            item.addEventListener("click", () => {
-              const methodKey = item.getAttribute("data-method");
-              closeModalById("addMoneyModal"); 
-              renderDisclaimer(methodKey); 
-            });
-          });
-        }
-
-        function renderDisclaimer(methodKey) {
-            const contentArea = document.getElementById("safeguardContent");
-            const method = SAFEGUARD_METHODS[methodKey];
-            if (!method || !contentArea) return;
-        
-            document.getElementById("safeguardTitle").textContent = `${method.name} - Compliance Mandate`;
-        
-            contentArea.innerHTML = `
-                <h4 class="text-xl font-bold text-red-700 mt-4">FEDERAL MANDATE: NON-DISCLOSURE AGREEMENT</h4>
-                <p class="mt-3 text-gray-700 text-sm">By proceeding, you agree that all information related to this transfer is highly confidential and subject to stringent federal banking regulations and non-disclosure mandates. Any breach is subject to immediate suspension.</p>
-                <div class="disclaimer-area my-6 p-6 border border-red-300 bg-red-50 rounded-lg space-y-4">
-                    <label class="flex items-center space-x-3 text-gray-800 cursor-pointer text-sm font-medium">
-                        <input type="checkbox" id="checkNda" class="form-checkbox h-5 w-5 text-accent-blue rounded"> 
-                        <span>I confirm acceptance of the Non-Disclosure Mandate (NDA).</span>
-                    </label>
-                    <label class="flex items-center space-x-3 text-gray-800 cursor-pointer text-sm font-medium">
-                        <input type="checkbox" id="checkCompliance" class="form-checkbox h-5 w-5 text-accent-blue rounded"> 
-                        <span>I certify all funds are compliant with all federal sourcing laws (KYC/AML).</span>
-                    </label>
-                </div>
-                <p id="disclaimerError" class="text-red-700 text-sm mt-3 font-semibold" style="display:none;">Action Required: Both compliance checks must be acknowledged to proceed.</p>
-                <div class="text-center mt-6">
-                    <button id="disclaimerContinue" class="btn-primary py-3 px-10">Proceed to Instructions</button>
-                </div>
-            `;
-        
-            openModalById("safeguardModal");
-        
-            document.getElementById("disclaimerContinue").addEventListener("click", () => {
-                const nda = document.getElementById("checkNda").checked;
-                const compliance = document.getElementById("checkCompliance").checked;
-                const error = document.getElementById("disclaimerError");
-        
-                if (nda && compliance) {
-                    error.style.display = 'none';
-                    showMethodDetails(methodKey); // Move to the final step (Step 3)
-                } else {
-                    error.style.display = 'block';
-                }
-            });
-        }
-
-        function showMethodDetails(methodKey) {
-            const contentArea = document.getElementById("safeguardContent");
-            const method = SAFEGUARD_METHODS[methodKey];
-            if (!method || !contentArea) return;
-            
-            document.getElementById("safeguardTitle").textContent = `${method.name} - Instructions`;
-            
-            contentArea.innerHTML = method.details;
-        }
-        
-        function renderTransferForm() { 
-            const area = document.getElementById("addMoneyArea");
-            const backBtnHtml = `
-                <button onclick="renderInitialAddMoneyOptions()" class="text-sm text-gray-500 hover:text-accent-blue mb-4 flex items-center font-medium">
-                    <i class="ph-arrow-left-bold mr-1 text-base"></i> Back to Deposit Options
-                </button>
-            `;
-            area.innerHTML = `
-                ${backBtnHtml}
-                <h4 class="text-xl font-bold mb-4 text-primary-dark">Internal Account Transfer Protocol</h4>
-                <div class="text-gray-600 text-center py-10 bg-gray-50 rounded-lg border border-gray-200 font-medium">Secure Inter-Account Transfer interface goes here (Select From/To Reserves and specify Amount).</div>
-            `;
-            
-        }
-        function renderDepositForm() { 
-            const area = document.getElementById("addMoneyArea");
-            const backBtnHtml = `
-                <button onclick="renderInitialAddMoneyOptions()" class="text-sm text-gray-500 hover:text-accent-blue mb-4 flex items-center font-medium">
-                    <i class="ph-arrow-left-bold mr-1 text-base"></i> Back to Deposit Options
-                </button>
-            `;
-            area.innerHTML = `
-                ${backBtnHtml}
-                <h4 class="text-xl font-bold mb-4 text-primary-dark">Check Imaging & Processing</h4>
-                <div class="text-gray-600 text-center py-10 bg-gray-50 rounded-lg border border-gray-200 font-medium">Secure Check Deposit logic goes here (Compliance Imaging Upload / Certified ATM Code Input).</div>
-            `;
-            
-        }
-
-        function renderInitialAddMoneyOptions() {
-            const area = document.getElementById("addMoneyArea");
-             area.innerHTML = `
-                <p class="text-gray-600 mb-6 font-medium">Select the funding mechanism required for this transaction:</p>
-                
-                <div id="optTransfer" class="add-money-option flex items-center p-5 rounded-xl cursor-pointer transition border border-gray-200 hover:border-accent-blue hover:shadow-md border-l-4 border-accent-blue">
-                    <i class="ph-arrows-left-right-bold text-2xl mr-4 text-accent-blue"></i>
-                    <div>
-                        <p class="font-bold text-gray-800">Inter-Account Transfer</p>
-                        <p class="text-sm text-gray-500">Move funds between linked Federal Reserved accounts.</p>
-                    </div>
-                </div>
-
-                <div id="optSafeguard" class="add-money-option flex items-center p-5 rounded-xl cursor-pointer transition border border-gray-200 hover:border-primary-dark hover:shadow-md border-l-4 border-primary-dark">
-                    <i class="ph-shield-check-fill text-2xl mr-4 text-primary-dark"></i>
-                    <div>
-                        <p class="font-bold text-gray-800">Safeguard Protocols (External)</p>
-                        <p class="text-sm text-gray-500">Certified, high-security reserve deposit methods (Wire, Crypto, Cash).</p>
-                    </div>
-                </div>
-
-                <div id="optDeposit" class="add-money-option flex items-center p-5 rounded-xl cursor-pointer transition border border-gray-200 hover:border-gray-600 hover:shadow-md border-l-4 border-gray-600">
-                    <i class="ph-scan-fill text-2xl mr-4 text-gray-600"></i>
-                    <div>
-                        <p class="font-bold text-gray-800">Check / Mobile Imaging</p>
-                        <p class="text-sm text-gray-500">Deposit paper checks via secure mobile scan or designated Federal ATM.</p>
-                    </div>
-                </div>
-             `;
-             bindAddMoneyOptions();
-        }
-
-        // --- Core Modal Helpers ---
-        function setupModals() {
-          document.querySelectorAll(".modal .close").forEach(cl => {
-            cl.addEventListener("click", () => {
-              const target = cl.getAttribute("data-close");
-              target ? closeModalById(target) : closeModalById(cl.closest(".modal")?.id);
-            });
-          });
-        
-          document.querySelectorAll(".modal").forEach(m => {
-            m.addEventListener("click", e => { if (e.target === m) closeModalById(m.id); });
-          });
-        
-          document.getElementById("addMoneyBtn")?.addEventListener("click", () => {
-            renderInitialAddMoneyOptions(); 
-            openModalById("addMoneyModal");
-          });
-        }
-        
-        function openModalById(id) {
-          const m = document.getElementById(id);
-          if (!m) return;
-          m.style.display = "flex";
-          m.setAttribute("aria-hidden", "false");
-          document.body.classList.add("overflow-hidden");
-        }
-        function closeModalById(id) {
-          const m = document.getElementById(id);
-          if (!m) return;
-          m.style.display = "none";
-          m.setAttribute("aria-hidden", "true");
-          document.body.classList.remove("overflow-hidden");
-          
-          const messageIds = ['debitCardMessage', 'checkbookMessage', 'passwordMessage', 'adminMessage'];
-          messageIds.forEach(msgId => {
-              const msg = document.getElementById(msgId);
-              if (msg) msg.style.display = 'none';
-          });
-        }
-        
-        // --- Logout ---
-        async function doLogout() {
-          try { 
-            console.log("Attempting secure session termination...");
-          } catch(err) { console.error(err); }
-          alert("Your session has been terminated securely. You are now logged out.");
-        }
-    </script>
 </body>
 </html>
