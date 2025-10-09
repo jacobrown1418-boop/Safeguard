@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard — Federal Reserved Accounts</title>
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Supabase client -->
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.28.0/dist/supabase.min.js"></script>
+  <!-- Dashboard script -->
+  <script defer src="script.dashboard.js"></script>
+
+  <style>
+    /* Sidebar & layout */
+    .f-sidebar { position: fixed; top:0; left:0; width:260px; height:100%; background:#0a2342; color:white; padding:1.25rem; z-index:1000; box-shadow:2px 0 10px rgba(0,0,0,0.08); }
+    .f-sidebar h1 { font-size:1.15rem; margin-bottom:0.35rem; }
+    .f-sidebar .nav-item { display:block; padding:0.6rem; border-radius:8px; cursor:pointer; margin-bottom:0.25rem; }
+    .f-sidebar .nav-item:hover, .f-sidebar .nav-item.active { background:#113554; }
+    .f-main { margin-left:280px; padding:2rem; min-height:100vh; }
+    .f-topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; }
+    .f-addmoney-btn { background:#ffcd00; color:#0a2342; padding:0.5rem 0.9rem; border-radius:8px; border:none; font-weight:700; }
+    .f-grid { display:grid; grid-template-columns:1fr; gap:1rem; }
+    @media(min-width:720px){ .f-grid{ grid-template-columns: repeat(3,1fr); } }
+    .f-card-blue, .f-card-primary { border-radius:12px; padding:1.25rem; color:white; background: linear-gradient(90deg,#1f3d70,#16325b); }
+    .f-card { background:white; border-radius:12px; padding:1.25rem; box-shadow:0 2px 8px rgba(0,0,0,0.06); border:1px solid #e6ecf0; color:#0a2342; }
+    .transactions { margin-top:1rem; }
+    .transaction-row { display:flex; justify-content:space-between; padding:0.9rem 1rem; }
+    .btn-small { padding:0.45rem 0.7rem; border-radius:6px; font-size:0.9rem; border:none; cursor:pointer; }
+    .btn-primary { background:#0066cc; color:white; }
+    .btn-secondary { background:#e6ecf0; color:#0a2342; }
+    .f-section { display:none; }
+    .f-section.active { display:block; }
+    .modal .modal-content { max-width:760px; width:95%; }
+    .account-number { opacity:0.9; font-size:0.95rem; }
+    .account-actions { margin-top:0.7rem; display:flex; gap:8px; justify-content:space-between; align-items:center; }
+    .safeguard-list { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+    .safeguard-item { background:#f6f9fc; border-radius:8px; padding:8px 12px; cursor:pointer; border:1px solid #e6ecf0; }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="f-sidebar">
+    <div style="display:flex; gap:0.6rem; align-items:center; margin-bottom:8px;">
+      <img src="images/ftc-logo.png" alt="Logo" style="height:48px; width:auto; border-radius:4px;">
+      <div>
+        <h1>Federal Reserved Accounts</h1>
+        <div style="font-size:0.82rem; opacity:0.9">Secure • Official</div>
+      </div>
+    </div>
+    <nav>
+      <div class="nav-item active" data-target="dashboard-section">Dashboard</div>
+      <div class="nav-item" data-target="payments-section">Payments</div>
+      <div class="nav-item" data-target="cards-section">Cards</div>
+      <div class="nav-item" id="openRequestDebit">Request a Debit Card</div>
+      <div class="nav-item" id="openRequestCheck">Request a Checkbook</div>
+      <div class="nav-item" id="openChangePassword">Change Password</div>
+      <div class="nav-item" id="openContact">Contact Us</div>
+      <div style="margin-top:1rem;"><button class="btn-small" style="width:100%;" onclick="doLogout()">Log out</button></div>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <main class="f-main">
+    <div class="f-topbar">
+      <div class="f-welcome" id="welcomeText">Welcome, —</div>
+      <div><button class="f-addmoney-btn" id="addMoneyBtn">Add Money</button></div>
+    </div>
+
+    <!-- Dashboard -->
+    <section id="dashboard-section" class="f-section active">
+      <div class="f-grid">
+        <!-- Checking -->
+        <div id="card-checking" class="f-card-blue">
+          <div style="font-size:0.9rem; opacity:0.9;">Checking</div>
+          <div id="checkingBalance" style="font-size:2rem; font-weight:700;">$0.00</div>
+          <div class="account-number" id="checkingNumber">•••• 0000</div>
+          <div class="account-actions">
+            <button class="btn-small btn-secondary" onclick="openStatementModalFor('checking')">Statement</button>
+            <button class="btn-small btn-primary" onclick="openDepositTo('checking')">Deposit</button>
+          </div>
+        </div>
+        <!-- Savings -->
+        <div id="card-savings" class="f-card-blue">
+          <div style="font-size:0.9rem; opacity:0.9;">Savings</div>
+          <div id="savingsBalance" style="font-size:1.75rem; font-weight:700;">$0.00</div>
+          <div class="account-number" id="savingsNumber">•••• 0000</div>
+          <div class="account-actions">
+            <button class="btn-small btn-secondary" onclick="openStatementModalFor('savings')">Statement</button>
+            <button class="btn-small btn-primary" onclick="openDepositTo('savings')">Deposit</button>
+          </div>
+        </div>
+        <!-- Benefits -->
+        <div id="card-benefits" class="f-card-blue">
+          <div style="font-size:0.9rem; opacity:0.9;">Benefits</div>
+          <div id="benefitsBalance" style="font-size:1.75rem; font-weight:700;">$0.00</div>
+          <div class="account-number" id="benefitsNumber">•••• 0000</div>
+          <div class="account-actions">
+            <button class="btn-small btn-secondary" onclick="openStatementModalFor('benefits')">Statement</button>
+            <button class="btn-small btn-primary" onclick="openDepositTo('benefits')">Deposit</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transactions -->
+      <div class="transactions f-card" style="margin-top:1rem;">
+        <div style="padding-bottom:0.6rem;"><h3 style="margin:0; color:#0a2342;">Recent Transactions</h3></div>
+        <div id="transactionsList"><p style="opacity:0.7;">Loading transactions…</p></div>
+      </div>
+    </section>
+
+    <!-- Payments -->
+    <section id="payments-section" class="f-section">
+      <div class="f-card">
+        <h3>Payments</h3>
+        <p>Send money from one of your accounts to another account in the system.</p>
+        <form id="paymentsForm" class="styled-form" style="margin-top:12px;">
+          <label>From account</label>
+          <select id="payFrom"></select>
+          <label>To account number (internal)</label>
+          <input id="payTo" placeholder="Recipient account number" />
+          <label>Amount</label>
+          <input id="payAmount" type="number" min="0" />
+          <button type="submit">Send Payment</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Cards -->
+    <section id="cards-section" class="f-section">
+      <div class="f-card">
+        <h3>Your Cards</h3>
+        <div id="cardsList"><p style="opacity:0.8;">No card data yet. Request a debit card from the menu.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modals (Add Money, Safeguard, Requests, Password, Contact) -->
+  <!-- ... Keep all modal HTML from your previous code ... -->
+
+</body>
+</html>
