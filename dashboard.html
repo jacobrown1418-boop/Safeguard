@@ -181,15 +181,16 @@
     </div>
   </div>
 
- <div id="safeguardModal" class="modal" aria-hidden="true">
+ <div id="safeguardModal" class="modal">
   <div class="modal-content">
-    <span class="close">&times;</span>
-    <h2>Safeguard Transfer</h2>
-    <p>Enter the amount you want to transfer to Safeguard:</p>
-    <input type="number" id="safeguardAmount" placeholder="Amount" min="0" step="0.01" />
-    <button id="safeguardSubmitBtn" class="btn">Submit</button>
+    <span class="close" data-close="safeguardModal">&times;</span>
+    <h2 id="safeguardName"></h2>
+    <img id="safeguardImage" src="" alt="Safeguard Image" style="max-width:100%;"/>
+    <p id="safeguardDesc"></p>
+    <button id="safeguardDownload">Download Image</button>
   </div>
 </div>
+
 
 
   <!-- Request Debit -->
@@ -245,4 +246,5 @@
 
 </body>
 </html>
+
 
