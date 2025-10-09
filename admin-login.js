@@ -17,24 +17,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       // Login with Supabase Auth
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) throw error;
+    const { data: { user }, error } = await supabase.auth.signInWithPassword({
+  email: adminEmail,
+  password: adminPassword
+});
 
-      // Check user role
-      const { data: userData, error: roleError } = await supabase
-        .from("users")
-        .select("role")
-        .eq("id", data.user.id)
-        .single();
-      if (roleError) throw roleError;
+if (error) {
+  alert("Login failed: " + error.message);
+  return;
+}
 
-      if (userData.role !== "admin") {
-        await supabase.auth.signOut();
-        throw new Error("You do not have admin access.");
-      }
+// Check role
+const { data: roles } = await supabase
+  .from("user_roles")
+  .select("role")
+  .eq("id", user.id);
 
-      // Redirect to admin dashboard
-      window.location.href = "admin-dashboard.html";
+if (!roles || roles.length === 0 || roles[0].role !== "admin") {
+  alert("Access denied: Not an admin");
+  await supabase.auth.signOut();
+  return;
+}
+
+// Admin is valid, redirect to admin dashboard
+window.location.href = "admin-dashboard.html";
+
 
     } catch (err) {
       console.error(err);
