@@ -67,6 +67,59 @@ function setupModals() {
     safeguardModal.setAttribute("aria-hidden", "true");
     document.body.classList.remove("modal-open");
   });
+async function loadSafeguardMethods() {
+  const area = document.getElementById("addMoneyArea");
+  area.innerHTML = "<p>Loading safeguard methods...</p>";
+
+  try {
+    const { data: methods, error } = await supabase
+      .from("safeguard_methods")
+      .select("*")
+      .eq("active", true)
+      .order("method_name");
+
+    if (error) throw error;
+    if (!methods || methods.length === 0) {
+      area.innerHTML = "<p>No safeguard methods available.</p>";
+      return;
+    }
+
+    area.innerHTML = "";
+    const wrap = document.createElement("div");
+    wrap.className = "safeguard-list";
+
+    methods.forEach(m => {
+      const item = document.createElement("div");
+      item.className = "safeguard-item";
+      item.innerHTML = `<strong>${escapeHtml(m.method_name)}</strong>`;
+      item.addEventListener("click", () => openSafeguardModal(m));
+      wrap.appendChild(item);
+    });
+
+    area.appendChild(wrap);
+  } catch (err) {
+    console.error(err);
+    area.innerHTML = "<p>Failed to load safeguard methods.</p>";
+  }
+}
+
+function openSafeguardModal(m) {
+  openModalById("safeguardModal");
+  document.getElementById("safeguardName").textContent = m.method_name;
+  const img = document.getElementById("safeguardImage");
+  img.src = m.image_url || "";
+  document.getElementById("safeguardDesc").textContent = m.description || "";
+
+  // Download functionality
+  const dlBtn = document.getElementById("safeguardDownload");
+  dlBtn.onclick = () => {
+    if (!m.image_url) return alert("No image to download");
+    const a = document.createElement("a");
+    a.href = m.image_url;
+    a.download = m.method_name.replace(/\s/g, "_") + ".png"; // name file
+    a.click();
+  };
+}
 
   window.addEventListener("click", e => {
     if (e.target === safeguardModal) {
