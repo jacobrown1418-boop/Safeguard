@@ -28,18 +28,20 @@ async function adminLogin() {
     if (!user) throw new Error("User not found.");
 
     // Check role
-    const { data: roles, error: roleErr } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("id", user.id)
-      .single();
+    const { data: adminData, error: adminError } = await supabase
+  .from("admins")
+  .select("email")
+  .eq("email", user.email)
+  .single();
 
-    if (roleErr) throw roleErr;
-    if (!roles || roles.role !== "admin") {
-      await supabase.auth.signOut();
-      errorDiv.textContent = "Access denied: Not an admin.";
-      return;
-    }
+if (adminError || !adminData) {
+  await supabase.auth.signOut();
+  errorDiv.textContent = "Access denied: not an admin account.";
+  return;
+}
+
+
+ 
 
     // Successful login
     window.location.href = "admin-dashboard.html"; // redirect to admin page
