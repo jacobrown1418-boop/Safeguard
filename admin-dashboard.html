@@ -58,6 +58,7 @@
       border: 1px solid #ddd;
       padding: 0.5rem;
       text-align: left;
+      vertical-align: middle;
     }
     th {
       background: #0a3161;
@@ -86,6 +87,14 @@
       display: flex;
       gap: 0.3rem;
     }
+    img.preview {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -111,6 +120,7 @@
         <thead>
           <tr>
             <th>ID</th>
+            <th>Preview</th>
             <th>Method Name</th>
             <th>Image URL</th>
             <th>Description</th>
@@ -137,6 +147,7 @@
         <thead>
           <tr>
             <th>ID</th>
+            <th>Preview</th>
             <th>Type</th>
             <th>Title</th>
             <th>Details</th>
@@ -151,12 +162,11 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // --- Supabase Init ---
     const SUPABASE_URL = 'https://xyzcompany.supabase.co';
     const SUPABASE_ANON_KEY = 'your-public-anon-key';
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // --- Logout ---
+    // Logout
     document.getElementById('logoutBtn').addEventListener('click', async () => {
       await supabase.auth.signOut();
       window.location.href = 'index.html';
@@ -172,6 +182,7 @@
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${row.id}</td>
+          <td><img src="${row.image_url || ''}" alt="preview" class="preview" onerror="this.src='';"></td>
           <td contenteditable="true" data-field="method_name">${row.method_name || ''}</td>
           <td contenteditable="true" data-field="image_url">${row.image_url || ''}</td>
           <td contenteditable="true" data-field="description">${row.description || ''}</td>
@@ -196,6 +207,14 @@
       await supabase.from('safeguard_methods').insert([newItem]);
       e.target.reset();
       loadSafeguards();
+    });
+
+    safeguardTable.addEventListener('input', (e) => {
+      if (e.target.dataset.field === 'image_url') {
+        const tr = e.target.closest('tr');
+        const img = tr.querySelector('img.preview');
+        img.src = e.target.textContent.trim();
+      }
     });
 
     safeguardTable.addEventListener('click', async (e) => {
@@ -225,6 +244,7 @@
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${row.id}</td>
+          <td><img src="${row.qr_code_url || ''}" alt="QR" class="preview" onerror="this.src='';"></td>
           <td contenteditable="true" data-field="type">${row.type || ''}</td>
           <td contenteditable="true" data-field="title">${row.title || ''}</td>
           <td contenteditable="true" data-field="details">${row.details || ''}</td>
@@ -251,6 +271,14 @@
       loadDeposits();
     });
 
+    depositTable.addEventListener('input', (e) => {
+      if (e.target.dataset.field === 'qr_code_url') {
+        const tr = e.target.closest('tr');
+        const img = tr.querySelector('img.preview');
+        img.src = e.target.textContent.trim();
+      }
+    });
+
     depositTable.addEventListener('click', async (e) => {
       const id = e.target.dataset.id;
       if (e.target.classList.contains('update')) {
@@ -268,7 +296,7 @@
       }
     });
 
-    // Load everything on page load
+    // Load data on startup
     loadSafeguards();
     loadDeposits();
   </script>
