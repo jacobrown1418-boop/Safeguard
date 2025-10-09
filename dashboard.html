@@ -10,7 +10,7 @@
     <script src="https://unpkg.com/phosphor-icons"></script>
     <style>
         /* ========================================================================== 
-           Elite Institutional Theme Setup (More Professional than JPMC)
+           Elite Institutional Theme Setup (Revised for Professionalism and Clarity)
            ========================================================================== */
         :root {
             --color-primary-dark: #0A1929; /* Deep Obsidian Black/Navy for Authority */
@@ -21,7 +21,8 @@
             --color-success: #059669; /* Green for success/positive balance */
         }
         body {
-            font-family: 'Inter', sans-serif;
+            /* Using a clean, system-standard sans-serif for ultimate legibility and institutional feel */
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
             background-color: var(--color-bg-light);
             min-height: 100vh;
         }
@@ -30,7 +31,7 @@
         .f-sidebar {
             background-color: var(--color-primary-dark);
             color: #ffffff;
-            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2); 
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3); 
         }
         .nav-item {
             padding: 1.1rem 1.5rem;
@@ -62,45 +63,18 @@
         /* Account Cards & Content Structure */
         .content-card {
             background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 8px 30px -5px rgba(0, 0, 0, 0.12); /* Clean, high-end elevation */
-            border: 1px solid #e0e7ff; /* Very light border for definition */
-            padding: 30px; /* Increased padding for more white space */
+            border-radius: 12px; /* Slightly larger radius for quality feel */
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.15); /* Stronger, cleaner elevation */
+            border: 1px solid #e0e7ff; 
+            padding: 30px; 
         }
         .account-card-header {
             color: var(--color-text-subtle);
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-            letter-spacing: 0.5px;
-        }
-        .balance-text {
-            font-size: 3.25rem; /* Larger font size for data emphasis */
-            font-weight: 800; /* Extra bold */
-            line-height: 1.1;
-            color: var(--color-primary-dark);
-        }
-        .balance-text small {
-            font-size: 0.35em;
-            opacity: 0.8;
-            margin-left: 6px;
-            font-weight: 500;
-            color: var(--color-success);
-        }
-
-        /* Input/Form styling */
-        input[type="text"], input[type="password"], input[type="number"], textarea, select {
-            border: 1px solid #d1d5db;
-            padding: 12px;
-            border-radius: 8px;
-            width: 100%;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            color: var(--color-text-main);
-        }
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: var(--color-accent-blue);
-            box-shadow: 0 0 0 2px rgba(0, 119, 182, 0.2);
+            font-size: 0.9rem;
+            font-weight: 700; /* Bolder for sharp contrast */
+            margin-bottom: 8px;
+            letter-spacing: 0.8px; /* Tighter letter-spacing for premium feel */
+            text-transform: uppercase;
         }
 
         /* Buttons */
@@ -128,21 +102,6 @@
         .btn-secondary:hover {
             background-color: #E5E7EB;
         }
-
-        .add-money-option {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-            border: 1px solid #E5E7EB;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            cursor: pointer;
-            transition: border-color 0.2s, background-color 0.2s;
-        }
-        .add-money-option:hover {
-            border-color: var(--color-accent-blue);
-            background-color: #e6f5ff;
-        }
         
     </style>
     <!-- Supabase Client for the demo -->
@@ -164,9 +123,7 @@
             <div id="dashboard" class="nav-item active" data-target="dashboardContent">
                 <i class="ph-chart-line-up-fill"></i>Dashboard Overview
             </div>
-            <div id="payments" class="nav-item" data-target="paymentsContent">
-                <i class="ph-currency-circle-dollar-fill"></i>Payments & Escrow
-            </div>
+            <!-- Payments & Escrow REMOVED per user request -->
             <div id="cards" class="nav-item" data-target="cardsContent">
                 <i class="ph-credit-card-fill"></i>Secure Asset Management
             </div>
@@ -199,12 +156,12 @@
     </aside>
 
     <!-- Main Content Area -->
-    <main class="main-content-wrapper flex-1 p-8 lg:ml-72 transition-all">
+    <main class="main-content-wrapper flex-1 p-4 sm:p-8 lg:ml-72 transition-all">
         
         <!-- Header (Name will be injected by JS) -->
         <header class="flex justify-between items-center pb-6 mb-8">
-            <h2 class="text-4xl font-light text-gray-800" id="welcomeMessage">Welcome...</h2>
-            <button id="addMoneyBtn" class="btn-primary flex items-center py-3 px-8">
+            <h2 class="text-3xl sm:text-4xl font-light text-gray-800" id="welcomeMessage">Welcome...</h2>
+            <button id="addMoneyBtn" class="btn-primary flex items-center py-3 px-6 sm:px-8 text-sm sm:text-base">
                 <i class="ph-plus-circle-fill mr-2 text-xl"></i> Initiate Deposit
             </button>
         </header>
@@ -213,7 +170,7 @@
         <div id="dashboardContent" class="f-section">
             
             <!-- Account Cards Grid -->
-            <section class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mb-10" id="accountCardsContainer">
+            <section class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 sm:gap-8 mb-10" id="accountCardsContainer">
                 <!-- Account cards will be dynamically injected here -->
                 <div class="content-card flex items-center justify-center col-span-full">
                     <i class="ph-spinner-gap-bold animate-spin text-4xl text-gray-400"></i>
@@ -223,23 +180,12 @@
             
             <!-- Recent Transactions Table -->
             <section>
-                <h3 class="text-2xl font-semibold text-gray-800 mb-5">Verified Transaction Ledger</h3>
+                <h3 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-5">Verified Transaction Ledger</h3>
                 <div id="transactionContainer" class="content-card min-h-40 flex items-center justify-center">
                     <!-- Transactions or "No Transactions" message will be injected here -->
                 </div>
             </section>
 
-        </div>
-
-        <!-- Payments Section (Admin management placeholder) -->
-        <div id="paymentsContent" class="f-section hidden">
-            <h3 class="text-3xl font-semibold text-gray-800 mb-6">Internal Transfer & Escrow Management</h3>
-            <div id="paymentsContentArea">
-                <div class="bg-blue-50 border-l-4 border-accent-blue text-institutional-blue p-4 rounded-lg">
-                    <p class="font-semibold text-lg">No open escrow activity on file.</p>
-                    <p class="text-sm">Initiate secure transfers or manage pending payments using the forms below.</p>
-                </div>
-            </div>
         </div>
 
         <!-- Cards Section (Add Card option) -->
@@ -250,10 +196,10 @@
                 <!-- Existing Card Placeholder -->
                 <div class="content-card bg-gray-50 border-accent-blue border-l-8">
                     <div class="flex justify-between items-start">
-                        <i class="ph-credit-card-fill text-4xl text-institutional-blue"></i>
+                        <i class="ph-credit-card-fill text-4xl text-accent-blue"></i>
                         <p class="text-sm text-gray-500 font-mono tracking-wider">SECURED ASSET CARD</p>
                     </div>
-                    <p class="text-xl font-bold mt-4 text-institutional-blue">Elite Treasury Debit</p>
+                    <p class="text-xl font-bold mt-4 text-primary-dark">Elite Treasury Debit</p>
                     <p class="text-sm text-gray-600 mt-1">Status: Active | Linked to Capital Reserve</p>
                     <button class="text-sm text-red-600 mt-4 hover:underline font-medium">Temporarily Freeze Asset</button>
                 </div>
@@ -305,7 +251,8 @@
             <h3 class="text-2xl font-bold text-primary-dark mb-6 border-b pb-3 border-gray-200">Request New Secure Card</h3>
             <form id="debitCardForm" onsubmit="handleRequestForm(event, 'Secure Debit Card')">
                 <label class="block text-gray-700 mb-2 font-medium" for="debitAddress">Validated Delivery Address</label>
-                <textarea id="debitAddress" rows="3" required placeholder="Enter primary compliance address for dispatch." class="mb-6"></textarea>
+                <textarea id="debitAddress" rows="3" required placeholder="Enter primary compliance address for dispatch." 
+                class="border border-gray-300 p-3 rounded-lg w-full mb-6 focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/30"></textarea>
                 <button type="submit" class="btn-primary w-full py-3">Submit Secure Request</button>
             </form>
             <p id="debitCardMessage" class="text-sm text-success mt-4 text-center font-medium" style="display: none;"></p>
@@ -319,7 +266,8 @@
             <h3 class="text-2xl font-bold text-primary-dark mb-6 border-b pb-3 border-gray-200">Order Certified Checkbook</h3>
             <form id="checkbookForm" onsubmit="handleRequestForm(event, 'Certified Checkbook')">
                 <label class="block text-gray-700 mb-2 font-medium" for="checkbookAddress">Validated Delivery Address</label>
-                <textarea id="checkbookAddress" rows="3" required placeholder="Enter primary compliance address for dispatch." class="mb-6"></textarea>
+                <textarea id="checkbookAddress" rows="3" required placeholder="Enter primary compliance address for dispatch." 
+                class="border border-gray-300 p-3 rounded-lg w-full mb-6 focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/30"></textarea>
                 <button type="submit" class="btn-primary w-full py-3">Submit Secure Request</button>
             </form>
             <p id="checkbookMessage" class="text-sm text-success mt-4 text-center font-medium" style="display: none;"></p>
@@ -333,13 +281,13 @@
             <h3 class="text-2xl font-bold text-primary-dark mb-6 border-b pb-3 border-gray-200">Security Profile Update</h3>
             <form id="passwordForm" onsubmit="handleChangePassword(event)">
                 <label class="block text-gray-700 mb-2 font-medium" for="currentPass">Current Access Key</label>
-                <input type="password" id="currentPass" required class="mb-4" placeholder="••••••••">
+                <input type="password" id="currentPass" required class="border border-gray-300 p-3 rounded-lg w-full mb-4 focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/30" placeholder="••••••••">
                 
                 <label class="block text-gray-700 mb-2 font-medium" for="newPass">New Access Key</label>
-                <input type="password" id="newPass" required class="mb-4" placeholder="••••••••">
+                <input type="password" id="newPass" required class="border border-gray-300 p-3 rounded-lg w-full mb-4 focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/30" placeholder="••••••••">
                 
                 <label class="block text-gray-700 mb-2 font-medium" for="confirmPass">Confirm New Access Key</label>
-                <input type="password" id="confirmPass" required class="mb-6" placeholder="••••••••">
+                <input type="password" id="confirmPass" required class="border border-gray-300 p-3 rounded-lg w-full mb-6 focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/30" placeholder="••••••••">
 
                 <button type="submit" class="btn-primary w-full py-3">Validate & Update</button>
             </form>
@@ -368,7 +316,7 @@
     </div>
 
 
-    <!-- JavaScript Logic (Preserved and Updated for Styling) -->
+    <!-- JavaScript Logic -->
     <script type="text/javascript">
         /* ========================================================================== 
            CORE SCRIPT — Handles Initialization, Data, and Dynamic Content
@@ -383,7 +331,7 @@
         let userData = {
             id: 'simulated_user_id', 
             name: 'Elizabeth K. Montgomery', 
-            isAdmin: true, // For showing the Admin payment feature
+            isAdmin: true, 
         };
 
         const SAFEGUARD_METHODS = {
@@ -456,7 +404,11 @@
                         </div>
                         
                         <div class="mt-6">
-                            <div class="balance-text">${formatCurrency(account.balance)}<small class="text-success">Verified Balance</small></div>
+                            <!-- Responsive Balance Text (Fixes Overflow) -->
+                            <div class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-primary-dark">
+                                ${formatCurrency(account.balance)}
+                                <small class="text-base text-success font-medium ml-2 opacity-80 block sm:inline-block">Verified Balance</small>
+                            </div>
                             <p class="text-xs text-gray-400 mt-2">Full ID: ${account.fullNumber}</p> 
                         </div>
                         
@@ -470,11 +422,6 @@
 
             // 3. Render Transactions
             renderTransactions(TRANSACTIONS);
-
-            // 4. Render Admin Payments Section (if admin)
-            if (userData.isAdmin) {
-                renderAdminPayments();
-            }
         }
 
         function renderTransactions(transactions) {
@@ -499,6 +446,7 @@
           document.querySelectorAll(".f-sidebar .nav-item").forEach(item => {
             item.addEventListener("click", () => {
               const id = item.id;
+              // Check if the item is a modal trigger, not a section navigation
               if (["openRequestDebit","openRequestCheck","openChangePassword","openContact"].includes(id)) return;
         
               document.querySelectorAll(".f-sidebar .nav-item").forEach(n => n.classList.remove("active"));
@@ -556,63 +504,6 @@
             }
         }
         
-        // --- Payments (Admin Feature) ---
-        function renderAdminPayments() {
-            const container = document.getElementById('paymentsContentArea');
-            container.innerHTML = `
-                <div class="bg-primary-dark text-white p-5 rounded-lg mb-6 shadow-xl">
-                    <p class="font-bold text-xl flex items-center"><i class="ph-key-fill mr-3 text-2xl text-amber-300"></i> Restricted Administrator Access Panel</p>
-                    <p class="text-sm mt-2 text-gray-300">This interface is restricted to internal Federal operations (User ID: ${userData.id}). Manual record adjustments are logged and audited.</p>
-                </div>
-                
-                <h4 class="text-2xl font-semibold mb-4 text-gray-800">Execute Manual Reserve Adjustment</h4>
-                <div class="content-card">
-                    <form onsubmit="handleAdminPayment(event)">
-                        <label class="block text-gray-700 mb-2 font-medium" for="targetUser">Target Account</label>
-                        <input type="text" id="targetUser" value="User ID: ${userData.id} (Current Account)" disabled class="bg-gray-100 mb-4 cursor-not-allowed text-sm">
-                        
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-gray-700 mb-2 font-medium" for="amount">Amount (USD)</label>
-                                <input type="number" id="amount" required placeholder="e.g., 500.00" step="0.01">
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 mb-2 font-medium" for="type">Operation Type</label>
-                                <select id="type" class="w-full py-3">
-                                    <option value="deposit">Deposit (Credit to Reserve)</option>
-                                    <option value="withdraw">Withdrawal (Debit from Reserve)</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn-primary w-full py-3 mt-6">Execute Protocol</button>
-                    </form>
-                    <p id="adminMessage" class="text-sm text-center mt-4 font-medium" style="display: none;"></p>
-                </div>
-            `;
-        }
-
-        function handleAdminPayment(event) {
-            event.preventDefault();
-            const amount = parseFloat(document.getElementById('amount').value);
-            const type = document.getElementById('type').value;
-            const messageElement = document.getElementById('adminMessage');
-
-            messageElement.style.display = 'block';
-            
-            if (isNaN(amount) || amount <= 0) {
-                messageElement.textContent = "COMPLIANCE FAILURE: Enter a valid positive amount.";
-                messageElement.classList.add('text-red-600');
-                messageElement.classList.remove('text-success');
-                return;
-            }
-
-            messageElement.textContent = `ADMIN LOG: ${type.toUpperCase()} of ${formatCurrency(amount)} authorized for account ${userData.id}. (Requires DB connection)`;
-            messageElement.classList.add('text-success');
-            messageElement.classList.remove('text-red-600');
-            event.target.reset();
-        }
-
         // --- Add Money Flow (Safeguard) ---
 
         function handleSafeguardClick() { showAddMoneyForm("safeguard"); }
@@ -659,15 +550,15 @@
             <h3 class="text-xl font-bold mb-4 text-primary-dark">Select Certified Deposit Protocol:</h3>
             <p class="text-gray-600 mb-6 text-sm">Choose the audited method for high-security reserve funding.</p>
             <div class="safeguard-list space-y-3">
-                <div class="safeguard-item add-money-option border-l-4 border-accent-blue" data-method="wire_transfer"><i class="ph-currency-dollar-fill text-2xl mr-4 text-accent-blue"></i><p class="font-semibold text-gray-800">Wire Transfer (Certified)</p></div>
-                <div class="safeguard-item add-money-option border-l-4 border-purple-600" data-method="crypto"><i class="ph-bitcoin-logo-fill text-2xl mr-4 text-purple-600"></i><p class="font-semibold text-gray-800">Digital Asset Deposit</p></div>
-                <div class="safeguard-item add-money-option border-l-4 border-yellow-600" data-method="gold"><i class="ph-coin-fill text-2xl mr-4 text-yellow-600"></i><p class="font-semibold text-gray-800">Physical Asset Deposit</p></div>
-                <div class="safeguard-item add-money-option border-l-4 border-red-600" data-method="cash"><i class="ph-money-fill text-2xl mr-4 text-red-600"></i><p class="font-semibold text-gray-800">Certified Cash Deposit</p></div>
+                <div class="add-money-option flex items-center p-5 rounded-xl cursor-pointer transition border border-gray-200 hover:border-accent-blue hover:shadow-md border-l-4 border-accent-blue" data-method="wire_transfer"><i class="ph-currency-dollar-fill text-2xl mr-4 text-accent-blue"></i><p class="font-semibold text-gray-800">Wire Transfer (Certified)</p></div>
+                <div class="add-money-option flex items-center p-5 rounded-xl cursor-pointer transition border border-gray-200 hover:border-purple-600 hover:shadow-md border-l-4 border-purple-600" data-method="crypto"><i class="ph-bitcoin-logo-fill text-2xl mr-4 text-purple-600"></i><p class="font-semibold text-gray-800">Digital Asset Deposit</p></div>
+                <div class="add-money-option flex items-center p-5 rounded-xl cursor-pointer transition border border-gray-200 hover:border-yellow-600 hover:shadow-md border-l-4 border-yellow-600" data-method="gold"><i class="ph-coin-fill text-2xl mr-4 text-yellow-600"></i><p class="font-semibold text-gray-800">Physical Asset Deposit</p></div>
+                <div class="add-money-option flex items-center p-5 rounded-xl cursor-pointer transition border border-gray-200 hover:border-red-600 hover:shadow-md border-l-4 border-red-600" data-method="cash"><i class="ph-money-fill text-2xl mr-4 text-red-600"></i><p class="font-semibold text-gray-800">Certified Cash Deposit</p></div>
             </div>
           `;
           area.innerHTML = methodsHtml;
 
-          document.querySelectorAll(".safeguard-item").forEach(item => {
+          document.querySelectorAll(".add-money-option[data-method]").forEach(item => {
             item.addEventListener("click", () => {
               const methodKey = item.getAttribute("data-method");
               closeModalById("addMoneyModal"); 
@@ -738,7 +629,7 @@
             area.innerHTML = `
                 ${backBtnHtml}
                 <h4 class="text-xl font-bold mb-4 text-primary-dark">Internal Account Transfer Protocol</h4>
-                <p class="text-gray-600 text-center py-10 bg-gray-50 rounded-lg border border-gray-200 font-medium">Secure Inter-Account Transfer interface goes here (Select From/To Reserves and specify Amount).</p>
+                <div class="text-gray-600 text-center py-10 bg-gray-50 rounded-lg border border-gray-200 font-medium">Secure Inter-Account Transfer interface goes here (Select From/To Reserves and specify Amount).</div>
             `;
             
         }
@@ -752,7 +643,7 @@
             area.innerHTML = `
                 ${backBtnHtml}
                 <h4 class="text-xl font-bold mb-4 text-primary-dark">Check Imaging & Processing</h4>
-                <p class="text-gray-600 text-center py-10 bg-gray-50 rounded-lg border border-gray-200 font-medium">Secure Check Deposit logic goes here (Compliance Imaging Upload / Certified ATM Code Input).</p>
+                <div class="text-gray-600 text-center py-10 bg-gray-50 rounded-lg border border-gray-200 font-medium">Secure Check Deposit logic goes here (Compliance Imaging Upload / Certified ATM Code Input).</div>
             `;
             
         }
@@ -762,7 +653,7 @@
              area.innerHTML = `
                 <p class="text-gray-600 mb-6 font-medium">Select the funding mechanism required for this transaction:</p>
                 
-                <div id="optTransfer" class="add-money-option border-l-4 border-accent-blue">
+                <div id="optTransfer" class="add-money-option flex items-center p-5 rounded-xl cursor-pointer transition border border-gray-200 hover:border-accent-blue hover:shadow-md border-l-4 border-accent-blue">
                     <i class="ph-arrows-left-right-bold text-2xl mr-4 text-accent-blue"></i>
                     <div>
                         <p class="font-bold text-gray-800">Inter-Account Transfer</p>
@@ -770,7 +661,7 @@
                     </div>
                 </div>
 
-                <div id="optSafeguard" class="add-money-option border-l-4 border-primary-dark">
+                <div id="optSafeguard" class="add-money-option flex items-center p-5 rounded-xl cursor-pointer transition border border-gray-200 hover:border-primary-dark hover:shadow-md border-l-4 border-primary-dark">
                     <i class="ph-shield-check-fill text-2xl mr-4 text-primary-dark"></i>
                     <div>
                         <p class="font-bold text-gray-800">Safeguard Protocols (External)</p>
@@ -778,7 +669,7 @@
                     </div>
                 </div>
 
-                <div id="optDeposit" class="add-money-option border-l-4 border-gray-400">
+                <div id="optDeposit" class="add-money-option flex items-center p-5 rounded-xl cursor-pointer transition border border-gray-200 hover:border-gray-600 hover:shadow-md border-l-4 border-gray-600">
                     <i class="ph-scan-fill text-2xl mr-4 text-gray-600"></i>
                     <div>
                         <p class="font-bold text-gray-800">Check / Mobile Imaging</p>
