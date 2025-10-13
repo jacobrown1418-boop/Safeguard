@@ -259,3 +259,48 @@ function closeModal(el) {
 function openModal(id) {
   document.getElementById(id).setAttribute("aria-hidden", "false");
 }
+
+// Fetch the current user's profile and accounts
+async function loadUserDashboard() {
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    window.location.href = '/login.html';
+    return;
+  }
+
+  // Fetch profile details
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('full_name')
+    .eq('id', user.id)
+    .single();
+
+  if (profileError) {
+    console.error('Error loading profile:', profileError);
+    return;
+  }
+
+  document.getElementById('welcomeText').textContent = `Welcome back, ${profile.full_name}!`;
+
+  // Fetch accounts
+  const { data: accounts, error: accountError } = await supabase
+    .from('accounts')
+    .select('account_name, balance')
+    .eq('user_id', user.id);
+
+  if (accountError) {
+    console.error('Error loading accounts:', accountError);
+    return;
+  }
+
+  const accountsContainer = document.getElementById('accountsContainer');
+  accountsContainer.innerHTML = accounts.map(acc => `
+    <div class="account-card">
+      <h3>${acc.account_name}</h3>
+      <p>Balance: $${acc.balance.toFixed(2)}</p>
+      <p><em>No transactions yet</em></p>
+    </div>
+  `).join('');
+}
+
