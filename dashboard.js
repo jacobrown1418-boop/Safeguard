@@ -1,79 +1,102 @@
-// ---------- dashboard.js (updated) ----------
+// consolidated dashboard.js
 const SUPABASE_URL = "https://hafzffbdqlojkuhgfsvy.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk";
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // DOM
-const pfWelcome = document.getElementById("pf-welcome");      // should show NAME only
+const pfWelcome = document.getElementById("pf-welcome");
 const accountCards = document.getElementById("accountCards");
 const logoutBtn = document.getElementById("logoutBtnSidebar");
 const addMoneyBtn = document.getElementById("addMoneyBtn");
 const lastLoginEl = document.getElementById("lastLogin");
 const totalBalanceEl = document.getElementById("totalBalance");
 const accountCountEl = document.getElementById("accountCount");
+const activityWrapper = document.getElementById("activityWrapper");
+const refreshActivityBtn = document.getElementById("refreshActivityBtn");
+const viewAllActivityBtn = document.getElementById("viewAllActivityBtn");
+const openSafeguardBtn = document.getElementById("openSafeguardBtn");
+const openSafeguardEditorBtn = document.getElementById("openSafeguardEditorBtn");
 
-// util: display mapping for stored types
-function accountTypeToTitle(type){
-  const map = { checking: "Federal Checking Account", savings: "Capital Savings Account", benefits: "Federal Benefits Account" };
-  return map[(type||"").toLowerCase()] || (type || "Account");
+// safe escape helper
+function esc(s){
+  if (s == null) return "";
+  return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
 }
-function escapeHtml(s){ if (s==null) return ""; return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;"); }
 
-// On load
+// account type friendly title
+function acctTitle(t){
+  const map = { checking: "Federal Checking Account", savings: "Capital Savings Account", benefits: "Federal Benefits Account" };
+  return map[(t||"").toLowerCase()] || (t || "Account");
+}
+
+// small util to create modal nodes (animated via CSS in HTML)
+function createModal(innerHTML){
+  const wrapper = document.createElement("div");
+  wrapper.className = "modal";
+  wrapper.setAttribute("aria-hidden","false");
+  wrapper.innerHTML = `<div class="modal-panel" role="dialog" aria-modal="true">${innerHTML}</div>`;
+  // attach close handlers for any [data-close] elements inside content
+  wrapper.querySelectorAll("[data-close]").forEach(btn => btn.addEventListener("click", () => wrapper.remove()));
+  // close when overlay clicked
+  wrapper.addEventListener("click", (e) => { if (e.target === wrapper) wrapper.remove(); });
+  document.body.appendChild(wrapper);
+  return wrapper;
+}
+function closeModal(modal){ if (modal && modal.remove) modal.remove(); }
+
+// --- on load
 document.addEventListener("DOMContentLoaded", async () => {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) { window.location.href = "index.html"; return; }
 
-  // 1) load profile — try full_name, then first_name/last_name, then user metadata
-  const { data: profile, error: profileErr } = await supabase
-    .from("profiles")
-    .select("full_name, first_name, last_name")
-    .eq("id", user.id)
-    .single();
-
-  // debug log to console so you can see what's returned if name is missing
+  // load name from profiles or metadata
+  const { data: profile, error: profileErr } = await supabase.from("profiles").select("full_name, first_name, last_name").eq("id", user.id).single();
   console.log("Auth user:", user);
-  console.log("Profile row:", profile, "profileErr:", profileErr);
+  console.log("Profile row:", profile, "err:", profileErr);
 
-  let displayName = null;
+  let displayName = "";
   if (profile) {
     if (profile.full_name && profile.full_name.trim().length) displayName = profile.full_name.trim();
     else {
-      const fn = (profile.first_name || "").trim();
-      const ln = (profile.last_name || "").trim();
+      const fn = (profile.first_name||"").trim();
+      const ln = (profile.last_name||"").trim();
       if (fn || ln) displayName = `${fn} ${ln}`.trim();
     }
   }
-  // fallback to auth metadata (if you store name there)
   if (!displayName && user?.user_metadata) {
     const meta = user.user_metadata;
-    if (meta.full_name) displayName = meta.full_name;
-    else if (meta.first_name || meta.last_name) displayName = `${meta.first_name || ""} ${meta.last_name || ""}`.trim();
+    displayName = meta.full_name || meta.name || `${meta.first_name || ""} ${meta.last_name || ""}`.trim() || "";
   }
-
-  // FINAL fallback
-  if (!displayName) displayName = ""; // keep header empty rather than repeating "Welcome back"
-
-  // IMPORTANT: only set the name (no "Welcome back" prefix) — small label on page already says "Welcome back"
+  if (!displayName) {
+    const email = user.email || "";
+    displayName = email.split("@")[0] || "—";
+  }
   pfWelcome.textContent = displayName || "—";
 
-  // set last login if available
-  const lastLogin = user?.last_sign_in_at || user?.aud ?? null;
-  if (lastLoginEl) lastLoginEl.textContent = lastLogin ? new Date(lastLogin).toLocaleString() : "—";
+  lastLoginEl.textContent = user.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleString() : "—";
 
-  // accounts
+  // ensure default accounts exist (if your original code used it)
   await ensureDefaultAccounts(user.id);
+
+  // load accounts
   await loadAccounts(user.id);
 
-  // wire handlers
+  // load recent activity
+  await loadRecentActivity(user.id);
+
+  // wire up UI controls
   setupSidebarHandlers();
   wireStaticModalControls();
-  if (addMoneyBtn) addMoneyBtn.addEventListener("click", () => openDepositSelector());
+
+  if (addMoneyBtn) addMoneyBtn.addEventListener("click", () => openInitiateDeposit());
+  if (refreshActivityBtn) refreshActivityBtn.addEventListener("click", () => loadRecentActivity(user.id));
+  if (viewAllActivityBtn) viewAllActivityBtn.addEventListener("click", () => openActivityPage(user.id));
+  if (openSafeguardBtn) openSafeguardBtn.addEventListener("click", () => openSafeguardOptions());
+  if (openSafeguardEditorBtn) openSafeguardEditorBtn.addEventListener("click", () => openStaticModal('safeguardEditorModal'));
 });
 
-// --- accounts helpers ---
+// --- accounts helpers (kept from original)
 async function ensureDefaultAccounts(user_id){
-  // canonical types the DB expects: checking, savings, benefits
   const { data: existing } = await supabase.from("accounts").select("account_type").eq("user_id", user_id);
   const existingTypes = (existing||[]).map(r => (r.account_type||"").toLowerCase());
   const defaults = [{t:"checking"},{t:"savings"},{t:"benefits"}];
@@ -93,91 +116,87 @@ async function loadAccounts(user_id){
     accountCards.innerHTML = `<p class="muted">No accounts available.</p>`;
   } else {
     for (const acc of accounts){
-      const title = accountTypeToTitle(acc.account_type);
       total += Number(acc.balance || 0);
       const card = document.createElement("div");
       card.className = "account-card";
       card.innerHTML = `
         <div class="ac-top">
           <div>
-            <div class="ac-type">${escapeHtml(title)}</div>
-            <div class="ac-number">${escapeHtml(acc.account_number || "—")}</div>
+            <div class="ac-type">${esc(acctTitle(acc.account_type))}</div>
+            <div class="ac-number">${esc(acc.account_number || "—")}</div>
           </div>
           <div class="ac-balance">$${Number(acc.balance||0).toFixed(2)}</div>
         </div>
-        <button class="btn-primary mt-3 w-full" data-account-id="${escapeHtml(acc.id)}">Initiate Deposit</button>
+        <button class="btn-primary mt-3 w-full" data-account-id="${esc(acc.id)}">Initiate Deposit</button>
       `;
-      card.querySelector("button[data-account-id]").addEventListener("click", () => openDepositSelector(acc.id));
+      card.querySelector("button[data-account-id]").addEventListener("click", () => openInitiateDeposit(acc.id));
       accountCards.appendChild(card);
     }
   }
-  if (totalBalanceEl) totalBalanceEl.textContent = `$${Number(total||0).toFixed(2)}`;
-  if (accountCountEl) accountCountEl.textContent = accounts ? accounts.length : 0;
+  totalBalanceEl.textContent = `$${Number(total||0).toFixed(2)}`;
+  accountCountEl.textContent = accounts ? accounts.length : 0;
 }
 
 function generateAccountNumber(){ return "AC-" + Math.floor(100000000 + Math.random()*900000000); }
 
-// ---------------- Deposit selector (restored 3 options, styled cards) ----------------
-function openDepositSelector(accountId){
+// ---------------- Deposit selector (three options) ----------------
+function openInitiateDeposit(accountId){
   const modal = createModal(`
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
-      ${depositOptionCard("account_transfer","Account Transfer","Move funds between your FRA accounts quickly. No fees for internal transfers.")}
-      ${depositOptionCard("manual_deposit","Deposit Onto Your Account","Enter deposit reference, then follow the chosen deposit channel instructions.")}
-      ${depositOptionCard("safeguard","Safeguard Method","Use a secure method provided by FRA (Wire / Crypto / Gold / Cash).")}
+    <h3>Initiate Deposit</h3>
+    <p class="muted txt-small">Choose a deposit flow:</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px">
+      ${depositOptionCard("account_transfer","Transfer from Own Accounts","Move funds between your FRA accounts instantly, fee-free.")}
+      ${depositOptionCard("wire_transfer","Wire Transfer","Use an external bank wire to fund your FRA account.")}
+      ${depositOptionCard("safeguard","Safeguard Method","Use secured channels: Wire / Crypto / Gold / Cash (NDA required).")}
     </div>
-    <div style="margin-top:12px; text-align:right;"><button class="btn-ghost" data-close>Close</button></div>
+    <div class="btn-row" style="margin-top:14px"><button class="btn-ghost" data-close>Close</button></div>
   `);
 
-  // hook the option buttons
   modal.querySelectorAll("[data-option-key]").forEach(btn => {
     btn.addEventListener("click", () => {
       const key = btn.getAttribute("data-option-key");
       closeModal(modal);
       if (key === "safeguard") openSafeguardOptions(accountId);
-      else if (key === "account_transfer") openAccountTransferInfo(accountId);
-      else if (key === "manual_deposit") openManualDepositInfo(accountId);
+      else if (key === "account_transfer") openAccountTransferModal(accountId);
+      else if (key === "wire_transfer") openWireTransferModal(accountId);
     });
   });
 }
+
 function depositOptionCard(key,title,desc){
-  // small card HTML (professional)
   return `
-    <div style="background:linear-gradient(180deg,#ffffff,#fbfdff);border-radius:10px;padding:14px;border:1px solid #eef6ff;box-shadow:0 10px 30px rgba(2,6,23,0.04)">
-      <div style="font-weight:700">${escapeHtml(title)}</div>
-      <div class="txt-small muted" style="margin-top:6px">${escapeHtml(desc)}</div>
+    <div style="background:linear-gradient(180deg,#fff,#fbfdff);border-radius:10px;padding:14px;border:1px solid #eef6ff;box-shadow:0 10px 30px rgba(2,6,23,0.04)">
+      <div style="font-weight:700">${esc(title)}</div>
+      <div class="txt-small muted" style="margin-top:6px">${esc(desc)}</div>
       <div style="margin-top:12px;text-align:right">
-        <button class="btn-primary" data-option-key="${escapeHtml(key)}">Select</button>
+        <button class="btn-primary" data-option-key="${esc(key)}">Select</button>
       </div>
     </div>
   `;
 }
 
-// Account Transfer info modal
-function openAccountTransferInfo(accountId){
+function openAccountTransferModal(accountId){
   createModal(`
-    <h3>Account Transfer</h3>
-    <p class="muted small">Transfer between your FRA accounts. Internal transfers are instant and fee-free.</p>
-    <div style="margin-top:12px" class="txt-small muted">Note: This demo shows information only. In production you would pick source and destination accounts and enter an amount.</div>
+    <h3>Transfer from Own Accounts</h3>
+    <p class="muted small">This demo flow shows how quick internal transfers would behave. In production, you'd select source, destination and an amount here.</p>
     <div class="btn-row"><button class="btn-ghost" data-close>Close</button></div>
   `);
 }
 
-// Manual deposit info modal
-function openManualDepositInfo(accountId){
+function openWireTransferModal(accountId){
   createModal(`
-    <h3>Deposit Onto Your Account</h3>
-    <p class="muted small">Use this flow if you have a deposit reference and want to tell FRA to credit your account once funds arrive.</p>
-    <div style="margin-top:10px" class="txt-small muted">Provide the deposit reference to FRA support from the admin panel. This is a client-side confirmation only.</div>
+    <h3>Wire Transfer</h3>
+    <p class="muted small">Use the FRA wire details to send funds. After transfer, provide the reference so we can credit your account.</p>
     <div class="btn-row"><button class="btn-ghost" data-close>Close</button></div>
   `);
 }
 
-// ---------------- Safeguard flow (NDA text expanded + four options) ----------------
+// ----------------- Safeguard (4 options + NDA) -----------------
 function openSafeguardOptions(accountId){
   const modal = createModal(`
     <h3>Safeguard Methods</h3>
-    <p class="muted small">Select a secure deposit channel. After selecting, you'll be asked to accept a short non-disclosure and receive method-specific instructions.</p>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px">
+    <p class="muted txt-small">Select a secured deposit channel. After selection you will accept a short NDA and then view instructions.</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px">
       ${safeguardButton("wire_transfer","Wire Transfer")}
       ${safeguardButton("crypto","Cryptocurrency")}
       ${safeguardButton("gold","Gold Reserve")}
@@ -185,6 +204,7 @@ function openSafeguardOptions(accountId){
     </div>
     <div style="margin-top:12px;text-align:right"><button class="btn-ghost" data-close>Close</button></div>
   `);
+
   modal.querySelectorAll("[data-method]").forEach(b => b.addEventListener("click", () => {
     const method = b.getAttribute("data-method");
     closeModal(modal);
@@ -192,7 +212,7 @@ function openSafeguardOptions(accountId){
   }));
 }
 function safeguardButton(key,label){
-  return `<button class="btn-ghost" data-method="${escapeHtml(key)}" style="padding:12px;border-radius:10px">${escapeHtml(label)}</button>`;
+  return `<button class="btn-ghost" data-method="${esc(key)}" style="padding:12px;border-radius:10px">${esc(label)}</button>`;
 }
 
 function openNDAAgreement(methodKey, accountId){
@@ -229,13 +249,13 @@ async function showDepositInstructions(methodKey, accountId){
     instr = globalInstr;
   }
   const details = instr ? instr.details : `<p class="muted small">No instructions provided yet. Admins can add method-specific instructions from the Safeguard Editor or direct SQL into the deposit_instructions table.</p>`;
-  createModal(`<h3>Deposit Details — ${escapeHtml(formatMethod(methodKey))}</h3><div style="margin-top:8px">${details}</div><div class="btn-row"><button class="btn-ghost" data-close>Close</button></div>`);
+  createModal(`<h3>Deposit Details — ${esc(formatMethod(methodKey))}</h3><div style="margin-top:8px">${details}</div><div class="btn-row"><button class="btn-ghost" data-close>Close</button></div>`);
 }
 function formatMethod(k){ return { wire_transfer:"Wire Transfer", crypto:"Cryptocurrency", gold:"Gold Reserve", cash:"Cash Deposit" }[k] || k; }
 
 // ---------------- Sidebar handlers & static modals ----------------
 function setupSidebarHandlers(){
-  document.querySelectorAll(".nav-item[data-target]").forEach(item=> item.addEventListener("click", ()=>{
+  document.querySelectorAll(".nav-item[data-target]").forEach(item=> item.addEventListener("click", ()=> {
     const target = item.dataset.target;
     document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
     document.getElementById(target).classList.remove("hidden");
@@ -256,7 +276,7 @@ function openStaticModal(id){
 
 // ---------- static modal submit handlers (card, checkbook, password) ----------
 function wireStaticModalControls(){
-  // close buttons that use data-close="id"
+  // close buttons that use data-close="id" or data-close present
   document.querySelectorAll("[data-close]").forEach(btn=>{
     btn.addEventListener("click", (e)=>{
       const v = btn.getAttribute("data-close"); if (v) { const el = document.getElementById(v); if (el) el.setAttribute("aria-hidden","true"); return; }
@@ -279,7 +299,7 @@ function wireStaticModalControls(){
     checkForm.addEventListener("submit",(e)=> {
       e.preventDefault();
       const res = document.getElementById("checkbookResult");
-      if (res) { res.style.display="block"; res.textContent = "✅ Request submitted. Your checkbook will be dispatched shortly."; }
+      if (res) { res.style.display = "block"; res.textContent = "✅ Request submitted. Your checkbook will be dispatched shortly."; }
       setTimeout(()=>{ const m = document.getElementById("requestCheckModal"); if (m) m.setAttribute("aria-hidden","true"); if (res) res.style.display="none"; checkForm.reset(); },1600);
     });
   }
@@ -289,12 +309,12 @@ function wireStaticModalControls(){
     pwForm.addEventListener("submit",(e)=> {
       e.preventDefault();
       const res = document.getElementById("passwordResult");
-      if (res) { res.style.display="block"; res.textContent = "✅ Password change request received. You will receive confirmation once processed."; }
+      if (res) { res.style.display = "block"; res.textContent = "✅ Password change request received. You will receive confirmation once processed."; }
       setTimeout(()=>{ const m = document.getElementById("changePasswordModal"); if (m) m.setAttribute("aria-hidden","true"); if (res) res.style.display="none"; pwForm.reset(); },1600);
     });
   }
 
-  // also ensure generic cancel buttons close
+  // generic close for any other button that doesn't explicitly have data-close
   document.querySelectorAll(".modal [type='button']").forEach(btn => {
     if (btn.getAttribute("data-close")) return;
     btn.addEventListener("click", ()=> { const modal = btn.closest(".modal"); if (modal) modal.setAttribute("aria-hidden","true"); });
@@ -303,15 +323,115 @@ function wireStaticModalControls(){
 
 // call to wire static modal handlers
 function wireStaticModalControls(){ /* placeholder; will be bound on load above */ }
-// This duplicate definition is intentional to allow code ordering; real binding happens in DOMContentLoaded
+// This duplicate is intentional for ordering; actual binding is invoked in DOMContentLoaded above
 
 // ---------------- dynamic modal builder ----------------
-function createModal(innerHTML){
-  const wrapper = document.createElement("div"); wrapper.className = "modal"; wrapper.setAttribute("aria-hidden","false");
-  wrapper.innerHTML = `<div class="modal-panel" role="dialog" aria-modal="true">${innerHTML}</div>`;
-  document.body.appendChild(wrapper);
-  wrapper.querySelectorAll("[data-close]").forEach(btn => btn.addEventListener("click", ()=> wrapper.remove()));
-  wrapper.addEventListener("click", e => { if (e.target === wrapper) wrapper.remove(); });
-  return wrapper;
+// (createModal/closeModal defined earlier)
+
+// ---------------- Recent Activity loader (uses your transactions table) ----------------
+async function loadRecentActivity(user_id, limit = 10){
+  // show spinner / placeholder
+  activityWrapper.innerHTML = `<p class="muted txt-small">Loading recent activity…</p>`;
+  try {
+    // fetch transactions for the user, optionally join account name if you need (here we filter by user_id)
+    // assume transactions columns: id, user_id, account_id, description, category, amount, transaction_type, created_at
+    const { data, error } = await supabase
+      .from("transactions")
+      .select("id, account_id, description, category, amount, transaction_type, created_at")
+      .eq("user_id", user_id)
+      .order("created_at", { ascending: false })
+      .limit(limit);
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      activityWrapper.innerHTML = `<p class="muted txt-small">No recent activity.</p>`;
+      return;
+    }
+
+    // build table
+    const table = document.createElement("table");
+    table.className = "recent-activity";
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Category</th>
+          <th>Type</th>
+          <th style="text-align:right">Amount</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    `;
+    const tbody = table.querySelector("tbody");
+    for (const tx of data) {
+      const d = new Date(tx.created_at).toLocaleString();
+      const desc = esc(tx.description || "—");
+      const cat = esc(tx.category || "—");
+      const ttype = esc(tx.transaction_type || "—");
+      const amount = Number(tx.amount || 0).toFixed(2);
+      const sign = (ttype && ttype.toLowerCase().includes("credit")) ? "+" : (ttype && ttype.toLowerCase().includes("refund") ? "+" : "-");
+      const amtHtml = `<strong style="font-weight:700">${sign}$${amount}</strong>`;
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td style="white-space:nowrap">${d}</td>
+        <td>${desc}</td>
+        <td>${cat}</td>
+        <td>${ttype}</td>
+        <td style="text-align:right">${amtHtml}</td>
+      `;
+      tbody.appendChild(tr);
+    }
+
+    activityWrapper.innerHTML = "";
+    activityWrapper.appendChild(table);
+  } catch (err) {
+    console.error("loadRecentActivity:", err);
+    activityWrapper.innerHTML = `<p class="muted txt-small">Error loading recent activity.</p>`;
+  }
 }
-function closeModal(modal){ if (modal && modal.remove) modal.remove(); }
+
+// when user clicks "View all" — open a modal with full activity (paginated simple view)
+function openActivityPage(user_id){
+  const modal = createModal(`<h3>Recent Activity — All</h3><div id="fullActivityContainer" style="margin-top:10px"><p class="muted txt-small">Loading…</p></div><div class="btn-row"><button class="btn-ghost" data-close>Close</button></div>`);
+  const container = modal.querySelector("#fullActivityContainer");
+  (async ()=>{
+    try {
+      const { data, error } = await supabase
+        .from("transactions")
+        .select("id, account_id, description, category, amount, transaction_type, created_at")
+        .eq("user_id", (await supabase.auth.getUser()).data.user.id)
+        .order("created_at", { ascending: false })
+        .limit(100);
+      if (error) throw error;
+      if (!data || data.length === 0) { container.innerHTML = `<p class="muted txt-small">No activity available.</p>`; return; }
+      // reuse simple table
+      const tbl = document.createElement("table");
+      tbl.className = "recent-activity";
+      tbl.innerHTML = `<thead><tr><th>Date</th><th>Description</th><th>Category</th><th>Type</th><th style="text-align:right">Amount</th></tr></thead><tbody></tbody>`;
+      const tb = tbl.querySelector("tbody");
+      for (const tx of data) {
+        const d = new Date(tx.created_at).toLocaleString();
+        const desc = esc(tx.description || "—");
+        const cat = esc(tx.category || "—");
+        const ttype = esc(tx.transaction_type || "—");
+        const amount = Number(tx.amount || 0).toFixed(2);
+        const sign = (ttype && ttype.toLowerCase().includes("credit")) ? "+" : "-";
+        const amtHtml = `<strong>${sign}$${amount}</strong>`;
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${d}</td><td>${desc}</td><td>${cat}</td><td>${ttype}</td><td style="text-align:right">${amtHtml}</td>`;
+        tb.appendChild(tr);
+      }
+      container.innerHTML = "";
+      container.appendChild(tbl);
+    } catch (err) {
+      console.error("openActivityPage:", err);
+      container.innerHTML = `<p class="muted txt-small">Unable to load activity.</p>`;
+    }
+  })();
+}
+
+// ----------------- static modal helpers (openStaticModal already defined) -----------------
+
+// ----------------- End of file -----------------
