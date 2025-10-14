@@ -5,9 +5,87 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Federal Reserved Accounts – Dashboard</title>
   <meta name="description" content="User Dashboard — Federal Reserved Accounts" />
-  <link rel="stylesheet" href="dashboard.css">
   <link rel="icon" href="images/fra-logo.png" />
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{
+      --nav-bg: #071733;
+      --accent: #0b66b2;
+      --muted: #6b7280;
+      --card-bg: rgba(255,255,255,0.92);
+    }
+    html,body{height:100%}
+    body{
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,#f6f9fc 0%, #eef4fb 100%);
+      color:#0b1220;
+      margin:0;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* Sidebar */
+    .f-sidebar{
+      background: linear-gradient(180deg,var(--nav-bg), #06213a 80%);
+      color:white;
+      min-height:100vh;
+      padding:26px 18px;
+      position:fixed;
+      width:20rem;
+      box-shadow: 8px 0 30px rgba(2,6,23,0.08);
+    }
+    .logo-row{display:flex;gap:12px;align-items:center}
+    .logo-row img{width:48px;height:48px;border-radius:8px;object-fit:cover}
+    .brand-title{font-weight:800;font-size:1.05rem;line-height:1}
+    .brand-sub{color:rgba(255,255,255,0.85);font-size:0.85rem;margin-top:2px}
+    .trustline{font-size:0.78rem;color:rgba(255,255,255,0.75);margin-top:6px}
+
+    .nav-item{
+      display:flex;align-items:center;gap:10px;padding:12px 12px;border-radius:8px;margin-top:8px;
+      color:rgba(255,255,255,0.95);cursor:pointer;border-left:4px solid transparent;
+    }
+    .nav-item:hover{background:rgba(255,255,255,0.02)}
+    .nav-item.active{background:rgba(255,255,255,0.02);border-left-color:var(--accent);font-weight:600}
+
+    .sidebar-footer{position:absolute;left:18px;right:18px;bottom:18px}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.08);padding:10px;border-radius:8px;color:#fff;width:100%}
+
+    /* Main content */
+    .main{margin-left:20rem;padding:28px}
+    header.top{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:18px}
+    .pf-welcome-small{color:var(--muted);font-size:0.9rem;margin-bottom:4px}
+    #pf-welcome{font-size:1.6rem;font-weight:700;color:#031127;margin:0;padding:0}
+    .badge{background:#eaf3ff;color:#063b7a;padding:4px 8px;border-radius:999px;font-weight:700;font-size:0.8rem;margin-top:8px}
+
+    /* Summary row */
+    .summary-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:12px}
+    .summary-card{background:var(--card-bg);border-radius:12px;padding:16px;box-shadow:0 8px 30px rgba(9,30,66,0.06);border:1px solid rgba(10,37,76,0.04)}
+    .summary-value{font-weight:800;font-size:1.25rem;color:#03294a}
+    .summary-label{font-size:0.9rem;color:var(--muted)}
+
+    /* Accounts */
+    .accounts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:20px}
+    .account-card{background:linear-gradient(180deg, rgba(255,255,255,0.98), #fff);border-radius:12px;padding:18px;border:1px solid #eef4ff;box-shadow:0 10px 30px rgba(9,30,66,0.03);display:flex;flex-direction:column;gap:12px}
+    .ac-top{display:flex;justify-content:space-between;align-items:start}
+    .ac-type{font-weight:700;color:#052240}
+    .ac-number{color:var(--muted);font-size:0.85rem}
+    .ac-balance{font-weight:900;font-size:1.35rem;color:#0b3a66}
+
+    /* Modals */
+    .modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.55);align-items:center;justify-content:center;z-index:60}
+    .modal[aria-hidden="false"]{display:flex}
+    .modal-panel{background:linear-gradient(180deg,#ffffff,#fbfdff);border-radius:12px;padding:20px;width:94%;max-width:760px;box-shadow:0 20px 60px rgba(2,6,23,0.35);border:1px solid rgba(3,18,40,0.04)}
+    .modal h3{font-size:1.05rem;margin-bottom:8px;color:#032240}
+    .muted{color:var(--muted)}
+    .editor-area{width:100%;min-height:120px;border:1px solid #eef6ff;padding:10px;border-radius:10px;margin-top:6px}
+    .btn-primary{background:var(--accent);color:white;padding:10px 14px;border-radius:8px;font-weight:700;border:none}
+    .btn-row{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+
+    /* small helpers */
+    .txt-small{font-size:0.9rem;color:var(--muted)}
+    @media(max-width:1024px){.f-sidebar{position:relative;width:100%;min-height:auto;padding:14px}.main{margin-left:0;padding:18px}.summary-row{grid-template-columns:1fr}}
+  </style>
 </head>
 
 <body>
@@ -95,7 +173,7 @@
     </section>
   </main>
 
-  <!-- Static Modals (unchanged structure) -->
+  <!-- Static Modals (Request Card / Checkbook / Password / Support / Editor) -->
   <div id="requestDebitModal" class="modal" aria-hidden="true">
     <div class="modal-panel">
       <h3>Request Secure Card</h3>
@@ -191,73 +269,288 @@
     </div>
   </div>
 
-  <!-- Keep your Supabase script and embedded JS exactly as before -->
+  <!-- Include Supabase and the embedded JS that powers UI + name display -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
 
-  <!-- your existing embedded JS (unchanged) -->
   <script>
-    /* Paste your exact embedded JS here (the one you provided) OR keep it external as dashboard.js.
-       I intentionally did not alter the logic that fetches profile / accounts / deposit flows etc. */
-  </script>
+  // ----------------- Embedded JS (handles name, modals, NDA, instructions) -----------------
+  const SUPABASE_URL = "https://hafzffbdqlojkuhgfsvy.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk";
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  <!-- existing external dashboard.js (if you use it) -->
-  <script src="dashboard.js" defer></script>
+  // DOM references
+  const pfWelcome = document.getElementById('pf-welcome');
+  const lastLoginEl = document.getElementById('lastLogin');
+  const totalBalanceEl = document.getElementById('totalBalance');
+  const accountCountEl = document.getElementById('accountCount');
+  const accountCards = document.getElementById('accountCards');
 
-  <!-- ===== small safety UI script (non-functional logic) =====
-       - ensures modal panels get a visible top-right close btn
-       - wires the top-right Initiate Deposit button to openInitiateDeposit() like account cards
-       This does not change any Supabase behavior or account logic.
-  -->
-  <script>
-    // Add a visible close (x) button to each static modal-panel so user can always close easily
-    document.addEventListener('DOMContentLoaded', function(){
-      document.querySelectorAll('.modal .modal-panel').forEach(panel => {
-        // only add once
-        if (panel.querySelector('.modal-close')) return;
-        const btn = document.createElement('button');
-        btn.className = 'modal-close';
-        btn.type = 'button';
-        btn.innerHTML = '✕';
-        btn.title = 'Close';
-        btn.addEventListener('click', function(){ 
-          const modal = panel.closest('.modal'); 
-          if (modal) modal.setAttribute('aria-hidden','true'); 
-        });
-        panel.appendChild(btn);
+  // Safe escape
+  const esc = s => s == null ? '' : String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+
+  // Map DB account_type -> friendly name
+  const accountTypeTitle = t => ({ checking: "Federal Checking Account", savings: "Capital Savings Account", benefits: "Federal Benefits Account" }[(t||'').toLowerCase()] || (t||'Account'));
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    // ensure signed-in
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      window.location.href = 'index.html';
+      return;
+    }
+
+    // Fetch profile.full_name
+    const { data: profile, error: pErr } = await supabase.from('profiles').select('full_name').eq('id', user.id).single();
+    console.log('profile row:', profile, 'err:', pErr);
+    if (profile && profile.full_name) {
+      pfWelcome.textContent = profile.full_name;
+    } else if (user.user_metadata && (user.user_metadata.full_name || user.user_metadata.name)) {
+      pfWelcome.textContent = user.user_metadata.full_name || user.user_metadata.name;
+    } else {
+      // fallback to email local-part
+      const email = user.email || '';
+      pfWelcome.textContent = email.split('@')[0] || '—';
+    }
+
+    // last login
+    lastLoginEl.textContent = user.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleString() : '—';
+
+    // load accounts summary & cards
+    await loadAccountsSummary(user.id);
+
+    // wire up nav and static modal triggers
+    setupNavAndStaticModals();
+
+    // wire static modal submit handlers
+    wireStaticModalControls();
+  });
+
+  async function loadAccountsSummary(userId) {
+    const { data: accounts, error } = await supabase.from('accounts').select('*').eq('user_id', userId).order('created_at',{ascending:true});
+    if (error) { console.error('load accounts err', error); accountCards.innerHTML = '<p class="muted">Error loading accounts.</p>'; return; }
+    accountCards.innerHTML = '';
+    let total = 0;
+    for (const a of (accounts||[])) {
+      total += Number(a.balance || 0);
+      const card = document.createElement('div');
+      card.className = 'account-card';
+      card.innerHTML = `
+        <div class="ac-top">
+          <div>
+            <div class="ac-type">${esc(accountTypeTitle(a.account_type))}</div>
+            <div class="ac-number">${esc(a.account_number || '—')}</div>
+          </div>
+          <div class="ac-balance">$${Number(a.balance||0).toFixed(2)}</div>
+        </div>
+        <button class="btn-primary mt-3 w-full" data-accid="${esc(a.id)}">Initiate Deposit</button>
+      `;
+      card.querySelector('button[data-accid]').addEventListener('click', () => openInitiateDeposit(a.id));
+      accountCards.appendChild(card);
+    }
+    totalBalanceEl.textContent = `$${Number(total||0).toFixed(2)}`;
+    accountCountEl.textContent = accounts ? accounts.length : 0;
+  }
+
+  // ----------------- Initiate Deposit pop-up (three options) -----------------
+  function openInitiateDeposit(accountId) {
+    const modal = createModal(`
+      <h3>Initiate Deposit</h3>
+      <p class="muted txt-small">Choose a deposit flow:</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px">
+        ${depositCardHtml('acct_transfer','Transfer from Own Accounts','Move funds between your FRA accounts instantly, fee-free.')}
+        ${depositCardHtml('wire_transfer','Wire Transfer','Use an external bank wire to fund your FRA account.')}
+        ${depositCardHtml('safeguard','Safeguard Method','Use secured channels: Wire / Crypto / Gold / Cash (NDA required).')}
+      </div>
+      <div class="btn-row" style="margin-top:14px"><button class="btn-ghost" data-close>Close</button></div>
+    `);
+
+    modal.querySelectorAll('[data-dep-key]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-dep-key');
+        closeModal(modal);
+        if (key === 'acct_transfer') openAccountTransferModal(accountId);
+        else if (key === 'wire_transfer') openWireTransferModal(accountId);
+        else if (key === 'safeguard') openSafeguardOptions(accountId);
       });
+    });
+  }
 
-      // ensure the top-right Initiate Deposit works exactly like account card buttons
-      const topBtn = document.getElementById('addMoneyBtn');
-      if (topBtn) {
-        topBtn.addEventListener('click', function(e){
-          e.preventDefault();
-          // call the same function that account buttons call — pass null so it opens the selector
-          if (typeof openInitiateDeposit === 'function') openInitiateDeposit(null);
-        });
+  function depositCardHtml(key, title, desc){
+    return `<div style="background:${'linear-gradient(180deg,#fff,#fbfdff)'};padding:12px;border-radius:10px;border:1px solid #eef6ff">
+      <div style="font-weight:700">${esc(title)}</div>
+      <div class="txt-small muted" style="margin-top:6px">${esc(desc)}</div>
+      <div style="text-align:right;margin-top:12px"><button class="btn-primary" data-dep-key="${esc(key)}">Select</button></div>
+    </div>`;
+  }
+
+  function openAccountTransferModal(accountId){
+    createModal(`<h3>Transfer from Own Accounts</h3>
+      <p class="muted txt-small">This flow allows quick internal transfers between your FRA accounts (demo only).</p>
+      <div style="margin-top:12px" class="txt-small muted">In production you'd pick a source account, destination and amount here.</div>
+      <div class="btn-row"><button class="btn-ghost" data-close>Close</button></div>`);
+  }
+
+  function openWireTransferModal(accountId){
+    createModal(`<h3>Wire Transfer</h3>
+      <p class="muted txt-small">Use the FRA wire details to send funds. After transfer, provide the reference so we can credit your account.</p>
+      <div style="margin-top:8px" class="txt-small muted">Admins can configure the wire instructions in the Safeguard Editor.</div>
+      <div class="btn-row"><button class="btn-ghost" data-close>Close</button></div>`);
+  }
+
+  // ----------------- Safeguard flow (4 options + NDA) -----------------
+  function openSafeguardOptions(accountId){
+    const modal = createModal(`
+      <h3>Safeguard Methods</h3>
+      <p class="muted txt-small">Select a secured deposit channel. After selection you will accept a short NDA and then view instructions.</p>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px">
+        ${safeguardBtn('wire_transfer','Wire Transfer')}
+        ${safeguardBtn('crypto','Cryptocurrency')}
+        ${safeguardBtn('gold','Gold Reserve')}
+        ${safeguardBtn('cash','Cash Deposit')}
+      </div>
+      <div class="btn-row" style="margin-top:12px"><button class="btn-ghost" data-close>Close</button></div>
+    `);
+    modal.querySelectorAll('[data-method]').forEach(b => {
+      b.addEventListener('click', () => {
+        const m = b.getAttribute('data-method');
+        closeModal(modal);
+        openNDAForMethod(m, accountId);
+      });
+    });
+  }
+
+  function safeguardBtn(key,label){
+    return `<button class="btn-ghost" data-method="${esc(key)}" style="padding:12px;border-radius:8px">${esc(label)}</button>`;
+  }
+
+  function openNDAForMethod(methodKey, accountId){
+    const modal = createModal(`
+      <h3>Non-Disclosure Agreement</h3>
+      <p class="muted txt-small">Privacy & confidentiality notice: FRA treats deposit instructions and account routing details as strictly confidential. By proceeding you agree not to share deposit credentials, wallet addresses, bank account numbers, or references with any third party. FRA may suspend or cancel services if confidentiality is breached.</p>
+      <ul class="txt-small muted" style="margin-top:8px">
+        <li>• Do not share instructions, addresses, or account numbers with third parties.</li>
+        <li>• Deposit credentials are for the named account holder only.</li>
+        <li>• FRA may suspend service for breaches of confidentiality.</li>
+      </ul>
+      <div style="margin-top:12px">
+        <label><input type="checkbox" id="nda_cb1"> I acknowledge deposit instructions are confidential.</label><br>
+        <label style="margin-top:8px"><input type="checkbox" id="nda_cb2"> I agree not to share deposit credentials with third parties.</label>
+      </div>
+      <div class="btn-row" style="margin-top:12px">
+        <button class="btn-primary" id="ndaProceed" disabled>Proceed</button>
+        <button class="btn-ghost" data-close>Cancel</button>
+      </div>
+    `);
+    const c1 = modal.querySelector('#nda_cb1'), c2 = modal.querySelector('#nda_cb2'), proceed = modal.querySelector('#ndaProceed');
+    [c1,c2].forEach(c => c.addEventListener('change', ()=> proceed.disabled = !(c1.checked && c2.checked)));
+    proceed.addEventListener('click', async () => {
+      closeModal(modal);
+      await showDepositInstructions(methodKey, accountId);
+    });
+  }
+
+  async function showDepositInstructions(methodKey, accountId){
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    // user-specific
+    let { data: instr } = await supabase.from('deposit_instructions').select('*').eq('user_id', user.id).eq('method_key', methodKey).single();
+    if (!instr) {
+      const { data: globalInstr } = await supabase.from('deposit_instructions').select('*').is('user_id', null).eq('method_key', methodKey).single();
+      instr = globalInstr;
+    }
+    const details = instr ? instr.details : `<p class="muted txt-small">No instructions available yet. Admins can set method instructions in the Safeguard Editor or insert into the deposit_instructions table.</p>`;
+    createModal(`<h3>Deposit Instructions — ${esc(formatMethod(methodKey))}</h3><div style="margin-top:10px">${details}</div><div class="btn-row" style="margin-top:14px"><button class="btn-ghost" data-close>Close</button></div>`);
+  }
+
+  function formatMethod(k){ return ({wire_transfer:'Wire Transfer', crypto:'Cryptocurrency', gold:'Gold Reserve', cash:'Cash Deposit'}[k]||k); }
+
+  // ----------------- static modal helpers -----------------
+  function setupNavAndStaticModals(){
+    document.querySelectorAll('.nav-item[data-target]').forEach(item => item.addEventListener('click', () => {
+      const target = item.dataset.target;
+      document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+      document.getElementById(target).classList.remove('hidden');
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+    }));
+
+    document.getElementById('openRequestDebit').onclick = () => openStaticModal('requestDebitModal');
+    document.getElementById('openRequestCheck').onclick = () => openStaticModal('requestCheckModal');
+    document.getElementById('openChangePassword').onclick = () => openStaticModal('changePasswordModal');
+    document.getElementById('openContact').onclick = () => openStaticModal('supportModal');
+
+    document.getElementById('logoutBtnSidebar').addEventListener('click', async ()=> {
+      await supabase.auth.signOut();
+      window.location.href = 'index.html';
+    });
+  }
+
+  function openStaticModal(id){
+    const el = document.getElementById(id); if (!el) return;
+    el.setAttribute('aria-hidden','false');
+    const focusable = el.querySelector('textarea,input,button,select'); if (focusable) focusable.focus();
+  }
+
+  // wire submit/cancel behavior for static modals
+  function wireStaticModalControls(){
+    // clicks for data-close attr
+    document.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', () => {
+      const v = btn.getAttribute('data-close');
+      if (v) {
+        const el = document.getElementById(v);
+        if (el) el.setAttribute('aria-hidden','true');
+      } else {
+        const modal = btn.closest('.modal'); if (modal) modal.setAttribute('aria-hidden','true');
       }
+    }));
+
+    // Secure Card form submit
+    const debitForm = document.getElementById('debitCardForm');
+    if (debitForm) debitForm.addEventListener('submit', (e)=> {
+      e.preventDefault();
+      const r = document.getElementById('debitResult');
+      if (r) { r.style.display='block'; r.textContent = '✅ Request submitted. Your secure card will be delivered soon.'; }
+      setTimeout(()=> { const m = document.getElementById('requestDebitModal'); if (m) m.setAttribute('aria-hidden','true'); if (r) r.style.display='none'; debitForm.reset(); }, 1600);
     });
 
-    // Also ensure any dynamically-created modal's close-icons are clickable (when createModal is used)
-    const origCreate = window.createModal;
-    if (typeof origCreate === 'function') {
-      window.createModal = function(innerHTML) {
-        const modal = origCreate(innerHTML);
-        // small delay to ensure panel exists
-        setTimeout(() => {
-          const panel = modal.querySelector('.modal-panel');
-          if (panel && !panel.querySelector('.modal-close')) {
-            const btn = document.createElement('button');
-            btn.className = 'modal-close';
-            btn.type = 'button';
-            btn.innerHTML = '✕';
-            btn.title = 'Close';
-            btn.addEventListener('click', () => modal.remove());
-            panel.appendChild(btn);
-          }
-        }, 10);
-        return modal;
-      };
-    }
+    // Checkbook form submit
+    const checkForm = document.getElementById('checkbookForm');
+    if (checkForm) checkForm.addEventListener('submit', (e)=> {
+      e.preventDefault();
+      const r = document.getElementById('checkbookResult');
+      if (r) { r.style.display='block'; r.textContent = '✅ Request submitted. Your checkbook will be dispatched shortly.'; }
+      setTimeout(()=> { const m = document.getElementById('requestCheckModal'); if (m) m.setAttribute('aria-hidden','true'); if (r) r.style.display='none'; checkForm.reset(); }, 1600);
+    });
+
+    // Password form submit (client-only)
+    const pwForm = document.getElementById('passwordForm');
+    if (pwForm) pwForm.addEventListener('submit', (e)=> {
+      e.preventDefault();
+      const r = document.getElementById('passwordResult');
+      if (r) { r.style.display='block'; r.textContent = '✅ Password change request received. You will receive confirmation once processed.'; }
+      setTimeout(()=> { const m = document.getElementById('changePasswordModal'); if (m) m.setAttribute('aria-hidden','true'); if (r) r.style.display='none'; pwForm.reset(); }, 1600);
+    });
+
+    // generic close for any other button
+    document.querySelectorAll('.modal [type="button"]').forEach(btn => {
+      if (btn.getAttribute('data-close')) return;
+      btn.addEventListener('click', ()=> { const modal = btn.closest('.modal'); if (modal) modal.setAttribute('aria-hidden','true'); });
+    });
+  }
+
+  // ----------------- dynamic modal builder -----------------
+  function createModal(innerHTML){
+    const wrap = document.createElement('div'); wrap.className='modal'; wrap.setAttribute('aria-hidden','false');
+    wrap.innerHTML = `<div class="modal-panel" role="dialog" aria-modal="true">${innerHTML}</div>`;
+    document.body.appendChild(wrap);
+    wrap.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', ()=> wrap.remove()));
+    wrap.addEventListener('click', (e) => { if (e.target === wrap) wrap.remove(); });
+    return wrap;
+  }
+  function closeModal(m){ if (!m) return; m.remove(); }
   </script>
+
+  <!-- Optionally load your dashboard.js after embedded logic (it will not break) -->
+  <script src="dashboard.js" defer></script>
 </body>
 </html>
