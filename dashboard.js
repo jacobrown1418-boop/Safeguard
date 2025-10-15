@@ -312,11 +312,15 @@ email.split(\"@\")[0]
 ||
 \"—\";
 }
-pfWelcome.textContent
-=
-displayName
-||
-\"—\";
+if (displayName) {
+  // Capitalize first letter of each word and ensure space between names
+  displayName = displayName
+    .split(/[\s_]+/)
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+    .join(" ");
+}
+pfWelcome.textContent = displayName || "—";
+
 lastLoginEl.textContent
 =
 user.last_sign_in_at
@@ -1247,24 +1251,8 @@ if
 res.style.display
 =
 \"block\";
-res.textContent
-=
-\"✅
-Request
-submitted.
-Your
-secure
-card
-will
-be
-delivered
-soon.
-You
-will
-receive
-updates
-via
-email.\";
+res.textContent = "✅ Your information has been submitted successfully. You will receive an update soon.";
+
 }
 setTimeout(()=>{
 const
