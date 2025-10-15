@@ -67,11 +67,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     const meta = user.user_metadata;
     displayName = meta.full_name || meta.name || `${meta.first_name || ""} ${meta.last_name || ""}`.trim() || "";
   }
-  if (!displayName) {
-    const email = user.email || "";
-    displayName = email.split("@")[0] || "—";
-  }
-  pfWelcome.textContent = displayName || "—";
+ if (displayName) {
+  // Capitalize first letter of each word and ensure space between names
+  displayName = displayName
+    .split(/[\s_]+/)
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+    .join(" ");
+}
+pfWelcome.textContent = displayName || "—";
+
 
   lastLoginEl.textContent = user.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleString() : "—";
 
