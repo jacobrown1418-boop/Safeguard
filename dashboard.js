@@ -115,6 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function openNDAModal(method) {
+  // Remove existing NDA if any
   document.querySelector("#ndaModal")?.remove();
 
   const ndaModal = document.createElement("div");
@@ -146,11 +147,13 @@ function openNDAModal(method) {
   `;
   document.body.appendChild(ndaModal);
 
-  ndaModal.querySelector("[data-close]").onclick = () => ndaModal.remove();
+  const chk1 = ndaModal.querySelector("#chk1");
+  const chk2 = ndaModal.querySelector("#chk2");
+  const continueBtn = ndaModal.querySelector("#continueNDA");
+  const closeBtn = ndaModal.querySelector("[data-close]");
 
-  ndaModal.querySelector("#continueNDA").onclick = async () => {
-    const chk1 = ndaModal.querySelector("#chk1");
-    const chk2 = ndaModal.querySelector("#chk2");
+  closeBtn.onclick = () => ndaModal.remove();
+  continueBtn.onclick = async () => {
     if (!chk1.checked || !chk2.checked) {
       alert("Please check both boxes before continuing.");
       return;
@@ -166,8 +169,9 @@ async function showDepositInstructions(methodKey) {
 
   const modalTitle = document.getElementById("depositModalTitle");
   const modalContent = document.getElementById("depositModalContent");
+  const depositModal = document.getElementById("depositModal");
 
-  if (!modalTitle || !modalContent) {
+  if (!modalTitle || !modalContent || !depositModal) {
     console.warn("⚠️ depositModal elements not found in DOM.");
     return;
   }
@@ -183,6 +187,7 @@ async function showDepositInstructions(methodKey) {
   if (userError || !userData?.user) {
     modalContent.innerHTML =
       "<p class='text-red-500 text-center'>Please log in to view instructions.</p>";
+    openModal("depositModal");
     return;
   }
 
@@ -193,46 +198,27 @@ async function showDepositInstructions(methodKey) {
     .eq("method_key", methodKey)
     .single();
 
-  console.log("🔍 Supabase result:", { data, error });
+  console.log("📦 Supabase result:", { data, error });
 
-  if (error && error.code !== "PGRST116") {
+  if (error || !data) {
     modalContent.innerHTML =
       "<p class='text-red-500 text-center'>Error loading instructions. Please contact support.</p>";
-    return;
-  }
-
-  let details = data?.details;
-  let qrUrl = data?.qr_url;
-
-  // fallback to default instructions (if user-specific missing)
-  if (!details) {
-    const { data: defaultData } = await supabase
-      .from("deposit_instructions")
-      .select("*")
-      .is("user_id", null)
-      .eq("method_key", methodKey)
-      .single();
-
-    if (defaultData) {
-      details = defaultData.details;
-      qrUrl = defaultData.qr_url;
-    }
-  }
-
-  if (!details) {
-    modalContent.innerHTML = `<p class='text-gray-600 text-center'>No instructions found for ${formatMethod(
-      methodKey
-    )}.</p>`;
+    openModal("depositModal");
     return;
   }
 
   modalContent.innerHTML = `
-  <h3 class="text-lg font-semibold mb-2">${data.title || "Deposit Instructions"}</h3>
-  <div class="text-sm text-gray-700 leading-relaxed">${data.details || "No details provided."}</div>
-  ${data.qr_url ? `<img src="${data.qr_url}" alt="QR Code" class="mx-auto mt-4 w-48 h-48 object-contain">` : ""}
-`;
+    <h3 class="text-lg font-semibold mb-2">${data.title || "Deposit Instructions"}</h3>
+    <div class="text-sm text-gray-700 leading-relaxed">${data.details || "No details provided."}</div>
+    ${
+      data.qr_url
+        ? `<img src="${data.qr_url}" alt="QR Code" class="mx-auto mt-4 w-48 h-48 object-contain">`
+        : ""
+    }
+  `;
 
-openModal("depositModal");
+  openModal("depositModal");
+}
 
 // ===== Helper =====
 function formatMethod(method) {
