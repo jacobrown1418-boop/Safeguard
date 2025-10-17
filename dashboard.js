@@ -30,20 +30,44 @@ supabase.auth.onAuthStateChange(async (event, session) => {
 });
 
 // ==================== USER PROFILE ====================
-async function loadUser(user) {
+async function loadAccounts(user) {
   try {
     const { data, error } = await supabase
-      .from("profiles")
-      .select("full_name")
-      .eq("id", user.id)
-      .single();
+      .from("accounts")
+      .select("id, account_type, account_number, balance")
+      .eq("user_id", user.id);
 
     if (error) throw error;
-    pfWelcome.textContent = data?.full_name
-      ? data.full_name.replace(/\b\w/g, (c) => c.toUpperCase())
-      : "Valued Member";
+
+    if (!data || data.length === 0) {
+      accountCards.innerHTML = `<p class="muted txt-small">No accounts found.</p>`;
+      totalBalanceEl.textContent = "$0.00";
+      accountCountEl.textContent = "0";
+      return;
+    }
+
+    let total = 0;
+    accountCards.innerHTML = data
+      .map((acc) => {
+        total += acc.balance || 0;
+        return `
+          <div class="account-card">
+            <div class="flex justify-between">
+              <div>
+                <div class="font-semibold">${acc.account_type}</div>
+                <div class="text-sm text-gray-600">${acc.account_number}</div>
+              </div>
+              <div class="font-bold">$${(acc.balance || 0).toLocaleString()}</div>
+            </div>
+          </div>
+        `;
+      })
+      .join("");
+
+    totalBalanceEl.textContent = `$${total.toLocaleString()}`;
+    accountCountEl.textContent = data.length;
   } catch (err) {
-    console.error("Profile fetch failed:", err.message);
+    console.error("Error loading accounts:", err.message);
   }
 }
 
