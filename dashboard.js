@@ -113,16 +113,22 @@ function openNDAModal(method) {
     <div class="modal-panel">
       <h3 class="text-lg font-semibold mb-2">Non-Disclosure & Compliance Agreement</h3>
       <p class="text-sm text-gray-600 mb-4">
-        Before proceeding with your deposit via <strong>${formatMethod(method)}</strong>, you must acknowledge and agree to the terms below:
+        Before proceeding with your deposit via <strong>${formatMethod(method)}</strong>, please acknowledge and agree to the following terms:
       </p>
       <ul class="text-sm text-gray-600 list-disc pl-5 mb-4 space-y-1">
-        <li>All transactions are confidential under U.S. Treasury compliance standards.</li>
-        <li>Information shared must not be disclosed to any third party.</li>
-        <li>Violation of this NDA may result in account suspension or legal action.</li>
+        <li>All transactions are confidential and comply with U.S. Treasury regulations.</li>
+        <li>Information shared during this process must remain undisclosed to third parties.</li>
+        <li>Violation of this NDA may result in legal action or account suspension.</li>
       </ul>
 
-      <label class="block mb-2"><input type="checkbox" id="chk1" /> I agree to the confidentiality terms.</label>
-      <label class="block mb-4"><input type="checkbox" id="chk2" /> I confirm I am the authorized account holder.</label>
+      <div class="space-y-2 mb-4">
+        <label class="block text-sm">
+          <input type="checkbox" id="chk1" class="mr-2"> I agree to the confidentiality terms.
+        </label>
+        <label class="block text-sm">
+          <input type="checkbox" id="chk2" class="mr-2"> I confirm I am the authorized account holder.
+        </label>
+      </div>
 
       <div class="btn-row">
         <button class="btn-primary" id="continueNDA">Continue</button>
@@ -132,9 +138,15 @@ function openNDAModal(method) {
   `;
   document.body.appendChild(ndaModal);
 
-  ndaModal.querySelector("[data-close]").onclick = () => ndaModal.remove();
-  ndaModal.querySelector("#continueNDA").onclick = () => {
-    if (!$("#chk1", ndaModal)?.checked || !$("#chk2", ndaModal)?.checked) {
+  const chk1 = ndaModal.querySelector("#chk1");
+  const chk2 = ndaModal.querySelector("#chk2");
+  const continueBtn = ndaModal.querySelector("#continueNDA");
+  const closeBtn = ndaModal.querySelector("[data-close]");
+
+  closeBtn.onclick = () => ndaModal.remove();
+
+  continueBtn.onclick = () => {
+    if (!chk1.checked || !chk2.checked) {
       alert("Please check both boxes before continuing.");
       return;
     }
@@ -142,6 +154,45 @@ function openNDAModal(method) {
     showDepositInstructions(method);
   };
 }
+
+async function showDepositInstructions(method) {
+  // In future: fetch from Supabase
+  // const { data } = await supabase.from("deposit_instructions").select("*").eq("method", method).single();
+
+  let instructions = "";
+  switch (method) {
+    case "wire_transfer":
+      instructions = `
+        <p>Bank: Federal Reserve Trust<br>Account: 1240 5678 9000<br>Routing: 021000021</p>`;
+      break;
+    case "crypto":
+      instructions = `
+        <p>Scan the QR code below or use wallet ID:<br><strong>0xA45dC...98bF</strong></p>
+        <img src="images/crypto-qr.png" alt="Crypto QR" width="120" class="mt-2" />`;
+      break;
+    case "gold":
+      instructions = `<p>Please contact our certified custodian for physical gold deposit instructions.</p>`;
+      break;
+    case "cash":
+      instructions = `<p>Certified cash deposits must be scheduled via Treasury support.</p>`;
+      break;
+  }
+
+  const instructionModal = document.createElement("div");
+  instructionModal.className = "modal";
+  instructionModal.setAttribute("aria-hidden", "false");
+  instructionModal.innerHTML = `
+    <div class="modal-panel">
+      <h3 class="text-lg font-semibold mb-2">Deposit Instructions — ${formatMethod(method)}</h3>
+      <div class="text-sm text-gray-600 mb-4">${instructions}</div>
+      <div class="btn-row"><button class="btn-ghost" data-close>Close</button></div>
+    </div>
+  `;
+  document.body.appendChild(instructionModal);
+
+  instructionModal.querySelector("[data-close]").onclick = () => instructionModal.remove();
+}
+
 
 function showDepositInstructions(method) {
   const instructionModal = document.createElement("div");
