@@ -264,7 +264,25 @@ $("logoutBtnSidebar").onclick = async () => {
   }, 250); // small delay to allow initial render; safe and non-blocking
 })();
 
-// ===== Initialize =====
-checkUser();
 
+ // ===== Initialize =====
+ checkUser();
+
++/* === Account Card Color Accent Decorator ===
++   Adds color-coded sidebars to account cards depending on account type.
++   (Safe: doesn’t modify logic or data, only adds CSS classes.)
++*/
++(function decorateAccountCards(){
++  // Small delay to ensure loadAccounts() has rendered DOM
++  setTimeout(() => {
++    const cards = document.querySelectorAll("#accountCards .account-card");
++    cards.forEach(card => {
++      const text = (card.textContent || "").toLowerCase();
++      if (text.includes("checking")) card.classList.add("color-checking");
++      else if (text.includes("savings")) card.classList.add("color-savings");
++      else if (text.includes("benefits")) card.classList.add("color-benefits");
++      else if (text.includes("crypto") || text.includes("digital")) card.classList.add("color-crypto");
++    });
++  }, 400); // Delay ensures loadAccounts has completed
++})();
 
