@@ -5,7 +5,19 @@ const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 // Helper functions
 const $ = (id) => document.getElementById(id);
-const modals = document.querySelectorAll(".modal");
+// Helper functions
+const $ = (id) => document.getElementById(id);
+const openModal = (id) => $(id).setAttribute("aria-hidden", "false");
+
+// ❌ Old — doesn't work for dynamically created modals
+// const modals = document.querySelectorAll(".modal");
+// const closeModal = () => modals.forEach((m) => m.setAttribute("aria-hidden", "true"));
+
+// ✅ Fixed — always gets live modals
+const closeModal = () => {
+  document.querySelectorAll(".modal").forEach((m) => m.setAttribute("aria-hidden", "true"));
+};
+
 const openModal = (id) => $(id).setAttribute("aria-hidden", "false");
 const closeModal = () => modals.forEach((m) => m.setAttribute("aria-hidden", "true"));
 
