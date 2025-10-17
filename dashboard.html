@@ -1,13 +1,18 @@
-<!DOCTYPE html>
+
+<div class='dashboard-container'>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Safeguard Bank — Dashboard</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Federal Reserved Accounts – Dashboard</title>
+  <link rel="icon" href="images/fra-logo.png" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <style>
+
+
+<style>
 /* -----------------------
   Visual polish (safe patch)
   - Keeps all IDs/classes intact
@@ -181,98 +186,239 @@ h1,h2,h3 { margin:0; }
 /* small helper utility for subtle fade-in where you might use it */
 .fade-in { animation: fadeIn .45s ease both; }
 @keyframes fadeIn { from {opacity:0; transform:translateY(6px)} to {opacity:1; transform:none} }
+
+
 </style>
+
+
 
 </head>
 
-<body class="min-h-screen text-gray-900">
-
+<body>
   <!-- Sidebar -->
-  <aside class="fixed top-0 left-0 h-full w-64 gradient-header text-white flex flex-col shadow-2xl">
-    <div class="px-6 py-6 border-b border-blue-900 flex items-center justify-between">
-      <h1 class="text-xl font-semibold tracking-wide">Safeguard Bank</h1>
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/bank-building.png" class="w-6 h-6 opacity-80" />
+  <aside class="f-sidebar">
+    <div class="logo-row mb-6">
+      <img src="images/fra-logo.png" alt="FRA logo" width="48" height="48" style="border-radius:8px;" />
+      <div>
+        <div class="font-bold text-lg">Federal Reserved Accounts</div>
+        <div class="text-sm text-white/70">Secure banking platform</div>
+        <div class="text-xs text-white/60 mt-1">Backed by the U.S. Treasury Department</div>
+      </div>
     </div>
-    <nav class="flex-1 px-4 py-6 space-y-3">
-      <button class="w-full text-left hover:bg-blue-800/60 px-4 py-2 rounded-md" id="openDashboard">🏦 Dashboard</button>
-      <button class="w-full text-left hover:bg-blue-800/60 px-4 py-2 rounded-md" id="addMoneyBtn">💰 Add Money</button>
-      <button class="w-full text-left hover:bg-blue-800/60 px-4 py-2 rounded-md" id="openRequestDebit">💳 Request Card</button>
-      <button class="w-full text-left hover:bg-blue-800/60 px-4 py-2 rounded-md" id="openRequestCheck">🧾 Request Check</button>
-      <button class="w-full text-left hover:bg-blue-800/60 px-4 py-2 rounded-md" id="openChangePassword">🔐 Change Password</button>
-      <button class="w-full text-left hover:bg-blue-800/60 px-4 py-2 rounded-md" id="openContact">📞 Support</button>
+
+    <nav>
+      <div id="nav-dashboard" class="nav-item active" data-target="section-dashboard">Dashboard Overview</div>
+      <div id="nav-assets" class="nav-item" data-target="section-assets">Secure Asset Management</div>
+      <hr class="my-4 border-white/10">
+      <div id="openRequestDebit" class="nav-item">Request Secure Card</div>
+      <div id="openRequestCheck" class="nav-item">Request Checkbook</div>
+      <div id="openChangePassword" class="nav-item">Change Password</div>
+      <div id="openContact" class="nav-item">Dedicated Support</div>
     </nav>
-    <div class="px-6 py-5 border-t border-blue-900">
-      <button id="logoutBtnSidebar" class="w-full text-center py-2 bg-red-600 hover:bg-red-700 rounded-md">Logout</button>
+
+    <div class="sidebar-footer mt-6">
+      <button id="logoutBtnSidebar" class="btn-ghost w-full">Logout Securely</button>
     </div>
   </aside>
 
   <!-- Main -->
-  <main class="ml-64 p-10 space-y-8 relative overflow-hidden">
-
-    <!-- Hero Header -->
-    <section class="relative rounded-3xl overflow-hidden shadow-lg gradient-header text-white p-8">
-      <img src="https://images.unsplash.com/photo-1591696205602-2f950c417cb9?auto=format&fit=crop&w=1500&q=80"
-           class="absolute inset-0 w-full h-full object-cover opacity-15" alt="">
-      <div class="relative z-10">
-        <h2 class="text-3xl font-semibold mb-1">Welcome, <span id="pf-welcome">User</span></h2>
-        <p class="text-sm text-blue-100">Last login: <span id="lastLogin"></span></p>
-        <div class="mt-6">
-          <div class="text-5xl font-bold text-white drop-shadow-lg" id="totalBalance">$0.00</div>
-          <p class="text-blue-100 text-sm"><span id="accountCount">0</span> Active Accounts</p>
-        </div>
+  <main class="main">
+    <header class="top">
+      <div>
+        <div class="text-sm text-gray-500">Welcome back</div>
+        <h1 id="pf-welcome">—</h1>
+        <div class="text-sm text-gray-500">Member — Federal Reserved Network</div>
       </div>
+      <div style="text-align:right">
+        <button id="addMoneyBtn" class="btn-primary">Initiate Deposit</button>
+        <div class="text-xs text-gray-500 mt-2">Last login: <span id="lastLogin">—</span></div>
+      </div>
+    </header>
+
+    <!-- Summary -->
+    <div class="summary-row">
+      <div class="summary-card">
+        <div class="text-sm text-gray-500">Total Balance</div>
+        <div id="totalBalance" class="text-xl font-bold">$0.00</div>
+        <div class="text-xs text-gray-500">Accounts: <span id="accountCount">0</span></div>
+      </div>
+      <div class="summary-card">
+        <div class="text-sm text-gray-500">Recent Activity</div>
+        <button id="viewAllActivityBtn" class="btn-ghost mt-2">View All</button>
+      </div>
+      <div class="summary-card">
+        <div class="text-sm text-gray-500">Security</div>
+        <button class="btn-ghost mt-2">Security Settings</button>
+      </div>
+    </div>
+
+    <!-- Accounts -->
+    <section id="section-dashboard" class="mt-6">
+      <h2 class="font-semibold text-lg mb-3">Accounts</h2>
+      <div id="accountCards" class="accounts-grid"></div>
+      <div id="activityWrapper" class="mt-6 text-sm text-gray-500">Loading recent activity…</div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="glass-card p-5 rounded-2xl shadow-md text-center">
-        <img src="https://img.icons8.com/fluency/96/money-bag.png" class="mx-auto w-12 h-12 mb-2" />
-        <p class="text-gray-600">Savings Rate</p>
-        <h3 class="text-3xl font-bold text-green-600">3.25%</h3>
-        <p class="text-xs text-gray-400 mt-1">Interest compounded daily</p>
-      </div>
-      <div class="glass-card p-5 rounded-2xl shadow-md text-center">
-        <img src="https://img.icons8.com/fluency/96/headset.png" class="mx-auto w-12 h-12 mb-2" />
-        <p class="text-gray-600">Support Status</p>
-        <h3 class="text-xl font-semibold text-blue-600">Active</h3>
-        <p class="text-xs text-gray-400 mt-1">24/7 Assistance</p>
-      </div>
-      <div class="glass-card p-5 rounded-2xl shadow-md text-center">
-        <img src="https://img.icons8.com/fluency/96/investment-portfolio.png" class="mx-auto w-12 h-12 mb-2" />
-        <p class="text-gray-600">Total Deposits</p>
-        <h3 class="text-3xl font-bold text-emerald-600">$128,540</h3>
-        <p class="text-xs text-gray-400 mt-1">Across all accounts</p>
-      </div>
+    <!-- Secure Assets -->
+    <section id="section-assets" class="hidden mt-6">
+      <h2 class="font-semibold text-lg mb-3">Secure Asset Management</h2>
+      <button class="btn-primary mr-2" id="openSafeguardBtn">View Safeguard Methods</button>
     </section>
-
-    <!-- Accounts Section -->
-    <section>
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-semibold">Your Accounts</h3>
-        <button class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 py-2 rounded-md shadow-md transition-all" id="addMoneyBtn2">+ Add Funds</button>
-      </div>
-      <div id="accountCards" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Dynamically loaded -->
-      </div>
-    </section>
-
-    <!-- Decorative Image -->
-    <img src="https://www.svgrepo.com/show/349308/bank.svg" class="absolute bottom-8 right-8 w-32 opacity-10" />
   </main>
 
-  <!-- Deposit Modal -->
-  <div id="depositModal" class="modal" aria-hidden="true">
-    <div class="modal-panel glass-card rounded-xl shadow-xl max-w-lg mx-auto mt-20 p-6">
-      <h3 id="depositModalTitle" class="text-lg font-semibold mb-3"></h3>
-      <div id="depositModalContent" class="text-gray-700"></div>
-      <div class="flex justify-end mt-4">
-        <button class="btn-ghost border border-gray-300 px-4 py-2 rounded-md" data-close>Close</button>
-      </div>
+  <!-- Modals -->
+  <div id="requestDebitModal" class="modal" aria-hidden="true">
+    <div class="modal-panel">
+      <h3>Request Secure Card</h3>
+      <form id="debitCardForm">
+        <label>Delivery address</label>
+        <textarea id="debitAddress" class="editor-area" required></textarea>
+        <div class="btn-row">
+          <button type="submit" class="btn-primary">Submit</button>
+          <button type="button" class="btn-ghost" data-close>Close</button>
+        </div>
+        <p id="debitResult" class="text-sm text-gray-500 mt-2" style="display:none"></p>
+      </form>
     </div>
   </div>
 
-  <!-- Supabase + Script -->
-  <script src="https://unpkg.com/@supabase/supabase-js"></script>
-  <script src="dashboard.js"></script>
+  <div id="requestCheckModal" class="modal" aria-hidden="true">
+    <div class="modal-panel">
+      <h3>Request Checkbook</h3>
+      <form id="checkbookForm">
+        <label>Delivery address</label>
+        <textarea id="checkbookAddress" class="editor-area" required></textarea>
+        <div class="btn-row">
+          <button type="submit" class="btn-primary">Submit</button>
+          <button type="button" class="btn-ghost" data-close>Close</button>
+        </div>
+        <p id="checkbookResult" class="text-sm text-gray-500 mt-2" style="display:none"></p>
+      </form>
+    </div>
+  </div>
+
+  <div id="changePasswordModal" class="modal" aria-hidden="true">
+    <div class="modal-panel">
+      <h3>Change Password</h3>
+      <form id="passwordForm">
+        <input type="password" class="editor-area" placeholder="Current Password" required />
+        <input type="password" class="editor-area" placeholder="New Password" required />
+        <input type="password" class="editor-area" placeholder="Confirm Password" required />
+        <div class="btn-row">
+          <button type="submit" class="btn-primary">Apply</button>
+          <button type="button" class="btn-ghost" data-close>Close</button>
+        </div>
+        <p id="passwordResult" class="text-sm text-gray-500 mt-2" style="display:none"></p>
+      </form>
+    </div>
+  </div>
+
+  <div id="safeguardModal" class="modal" aria-hidden="true">
+    <div class="modal-panel">
+      <h3>Safeguard Methods</h3>
+      <p class="text-sm text-gray-500">Choose a deposit method and accept the NDA to view instructions.</p>
+      <div id="safeguardBody" class="mt-3" style="display:grid;gap:10px;">
+        <button class="btn-ghost w-full" data-method="wire_transfer">Wire Transfer</button>
+        <button class="btn-ghost w-full" data-method="crypto">Digital Asset (Crypto)</button>
+        <button class="btn-ghost w-full" data-method="gold">Physical Asset (Gold)</button>
+        <button class="btn-ghost w-full" data-method="cash">Certified Cash</button>
+      </div>
+      <div class="btn-row"><button class="btn-ghost" data-close>Close</button></div>
+    </div>
+  </div>
+
+  <div id="supportModal" class="modal" aria-hidden="true">
+    <div class="modal-panel">
+      <h3>Dedicated Support</h3>
+      <p class="text-lg font-bold mt-3">+1 (380) 225-0409</p>
+      <p class="text-sm text-gray-500 mt-2">Federal Reserved Accounts — Washington, D.C.</p>
+      <div class="btn-row"><button class="btn-ghost" data-close>Close</button></div>
+    </div>
+  </div>
+
+
+ <!-- Deposit Instructions Modal -->
+<div id="depositModal" class="modal" aria-hidden="true">
+  <div class="modal-panel">
+    <h3 id="depositModalTitle" class="text-lg font-semibold mb-2">Deposit Instructions</h3>
+    <div id="depositModalContent" class="text-sm text-gray-700 leading-relaxed">
+      Loading...
+    </div>
+    <div class="btn-row mt-4">
+      <button class="btn-ghost" data-close>Close</button>
+    </div>
+  </div>
+</div>
+<body class="min-h-screen bg-gray-50 text-gray-900 font-inter">
+  <!-- Sidebar -->
+  <aside class="fixed top-0 left-0 h-full w-64 bg-[#0b2341] text-white flex flex-col shadow-xl">
+    <div class="px-6 py-5 border-b border-gray-700">
+      <h1 class="text-xl font-semibold tracking-wide">Safeguard Bank</h1>
+    </div>
+    <nav class="flex-1 px-4 py-6 space-y-3">
+      <button class="w-full text-left hover:bg-gray-700 px-3 py-2 rounded" id="openDashboard">🏦 Dashboard</button>
+      <button class="w-full text-left hover:bg-gray-700 px-3 py-2 rounded" id="addMoneyBtn">💰 Add Money</button>
+      <button class="w-full text-left hover:bg-gray-700 px-3 py-2 rounded" id="openRequestDebit">💳 Request Card</button>
+      <button class="w-full text-left hover:bg-gray-700 px-3 py-2 rounded" id="openRequestCheck">🧾 Request Check</button>
+      <button class="w-full text-left hover:bg-gray-700 px-3 py-2 rounded" id="openChangePassword">🔐 Change Password</button>
+      <button class="w-full text-left hover:bg-gray-700 px-3 py-2 rounded" id="openContact">📞 Support</button>
+    </nav>
+    <div class="px-6 py-4 border-t border-gray-700">
+      <button id="logoutBtnSidebar" class="w-full text-center py-2 bg-red-600 hover:bg-red-700 rounded">Logout</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="ml-64 p-8 space-y-6">
+    <header>
+      <h2 class="text-2xl font-semibold">Welcome, <span id="pf-welcome">User</span></h2>
+      <p class="text-sm text-gray-500">Last login: <span id="lastLogin"></span></p>
+    </header>
+
+    <!-- Overview -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-white shadow-md rounded-2xl p-5 flex flex-col justify-between">
+        <p class="text-gray-600">Total Balance</p>
+        <h3 class="text-3xl font-bold text-[#0b2341]" id="totalBalance">$0.00</h3>
+        <p class="text-sm text-gray-500"><span id="accountCount">0</span> Accounts</p>
+      </div>
+      <div class="bg-white shadow-md rounded-2xl p-5">
+        <p class="text-gray-600">Savings Rate</p>
+        <h3 class="text-3xl font-bold text-green-600">3.25%</h3>
+      </div>
+      <div class="bg-white shadow-md rounded-2xl p-5">
+        <p class="text-gray-600">Support Status</p>
+        <h3 class="text-xl font-semibold text-blue-600">Active</h3>
+      </div>
+    </section>
+
+    <!-- Accounts -->
+    <section>
+      <h3 class="text-lg font-semibold mb-3">Your Accounts</h3>
+      <div id="accountCards" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Loaded dynamically -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Include existing modals -->
+  <div id="safeguardModal" class="modal" aria-hidden="true"></div>
+  <div id="depositModal" class="modal" aria-hidden="true">
+    <div class="modal-panel">
+      <h3 id="depositModalTitle" class="text-lg font-semibold mb-2"></h3>
+      <div id="depositModalContent"></div>
+      <div class="btn-row mt-4">
+        <button class="btn-ghost" data-close>Close</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+  
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+  <script src="dashboard.js" defer></script>
 </body>
 </html>
+
+</div>
