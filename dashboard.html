@@ -10,10 +10,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-/* ===== FEDERAL RESERVED ACCOUNTS - DROP-IN LAYOUT CSS =====
-   Replace the entire existing <style> block with this.
-   This only changes visual/layout styles and does not touch HTML/JS.
-*/
+/* ==============================
+   FEDERAL RESERVED ACCOUNTS — LAYOUT FIX (DROP-IN CSS)
+   Replace your existing <style> block with this
+   ============================== */
 
 :root{
   --nav-dark: #071733;
@@ -26,7 +26,7 @@
   --shadow-lg: 0 18px 50px rgba(6,18,37,0.08);
 }
 
-/* reset & base */
+/* Reset + base */
 *{box-sizing:border-box}
 html,body{
   height:100%;
@@ -38,86 +38,83 @@ html,body{
   -moz-osx-font-smoothing:grayscale;
   background: var(--surface);
   color: #071433;
-  overflow: hidden; /* keep global page from scrolling — main will scroll */
+  overflow: hidden; /* we let main scroll, not the whole page */
 }
 
-/* core layout: fixed sidebar + full-width main */
-body{ display:flex; min-height:100vh; width:100%; }
+/* ---------- CORE LAYOUT ---------- */
+/* Page uses two fixed regions:
+   - aside.f-sidebar (fixed width)
+   - main.main (fills remaining viewport)
+*/
+body{
+  display:flex;
+  min-height:100vh;
+  width:100%;
+}
 
-/* support both sidebar variants: .f-sidebar OR the fixed aside (classless) */
-aside.f-sidebar,
-aside.fixed,
-aside[role="navigation"],
-aside[class*="gradient-header"] {
+/* SIDEBAR - fixed and scrollable independently */
+aside.f-sidebar {
   position: fixed;
   top: 0;
   left: 0;
-  width: 270px;            /* changeable: keep in sync with main margin-left below */
+  width: 270px;           /* you can tweak width here */
   height: 100vh;
   padding: 28px 20px;
   background: linear-gradient(180deg, var(--nav-dark), #031127 92%);
   color: #fff;
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
   box-shadow: 8px 0 40px rgba(2,6,23,0.12);
   overflow-y: auto;
-  z-index: 80;
   scrollbar-width: thin;
+  z-index: 60;
 }
 
-/* If there is also an aside.fixed with width 256/64 etc, ensure it uses the same look */
-aside.f-sidebar img,
-aside.fixed img { border-radius:8px; }
+/* ensure logo row doesn't shrink, and sidebar footer stays visible */
+.logo-row { flex: 0 0 auto; }
+.sidebar-footer { flex: 0 0 auto; }
 
-/* keep footer / logout visible in sidebar */
-.sidebar-footer,
-aside .sidebar-footer,
-aside .px-6 {
-  flex: 0 0 auto;
+/* make logout/button sticky to bottom inside sidebar if long content */
+.sidebar-footer {
+  margin-top: 16px;
   position: sticky;
-  bottom: 18px;
-  width: calc(100% - 38px);
-  margin-top: 12px;
-  z-index: 90;
+  bottom: 20px;
+  width: calc(100% - 40px);
 }
 
-/* main area - fill remaining viewport to the right of sidebar
-   Support both main.main and main.ml-64 (your file has both).
-*/
-main.main,
-main.ml-64,
-main[class*="main"] {
-  margin-left: 270px;                 /* must match sidebar width above */
-  width: calc(100vw - 270px);
-  height: 100vh;
+/* MAIN area - fills all space to the right of the sidebar */
+main.main {
+  margin-left: 270px;                 /* match the sidebar width above */
+  width: calc(100vw - 270px);         /* ensure full fill */
   min-height: 100vh;
-  overflow-y: auto;                   /* all page scroll happens here */
+  height: 100vh;
+  overflow-y: auto;                   /* page scroll happens here */
   -webkit-overflow-scrolling: touch;
   background: linear-gradient(180deg, rgba(246,249,253,0.6), var(--surface));
   padding: 36px 48px;
   box-sizing: border-box;
 }
 
-/* Neutralize internal "container" styles that may cap width and cause big right gap.
-   Many templates add <div class="container"> with max-width:1200px; this forces full width.
+/* Prevent any inner 'container' from capping layout width.
+   Many themes add `.container` or `.content` with max-width; this neutralizes that inside main.
 */
 main.main .container,
 main.main .content,
 main.main > .container,
 main.main > .content,
-main.main > div,
-main.ml-64 .container,
-main.ml-64 .content {
+main.main > div {
   max-width: none !important;
   width: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
 }
 
-/* If some element still centers with margin:auto override it inside main */
-main.main * { max-width: none !important; }
+/* If some element still uses margin:auto centering, remove it */
+main.main * {
+  max-width: none !important;
+}
 
-/* keep sidebar nav items looking nice (non-destructive) */
+/* ---------- VISUAL / COMPONENT POLISH (non-destructive) ---------- */
 .nav-item,
 aside button,
 nav button {
@@ -138,8 +135,14 @@ aside button:hover,
 nav button:hover { transform:translateX(6px); background: rgba(255,255,255,0.03) }
 .nav-item.active { background: rgba(255,255,255,0.06); border-left-color:var(--accent); }
 
-/* cards, account grid etc (keeps your existing rules intact) */
-.summary-card, .account-card, .glass-card, .modal-panel {
+.logo-row { display:flex; align-items:center; gap:12px; }
+.logo-row img { border-radius:8px; }
+
+/* Cards */
+.summary-card,
+.account-card,
+.glass-card,
+.modal-panel {
   background: var(--card-bg);
   border-radius:14px;
   border: 1px solid var(--glass-border);
@@ -147,49 +150,74 @@ nav button:hover { transform:translateX(6px); background: rgba(255,255,255,0.03)
   box-shadow: 0 10px 30px rgba(6,18,37,0.06);
   transition: transform .22s ease, box-shadow .22s ease;
 }
-.summary-card:hover, .account-card:hover { transform:translateY(-4px); box-shadow: 0 20px 40px rgba(6,18,37,0.08); }
+.summary-card:hover,
+.account-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(6,18,37,0.08); }
 
-/* accounts grid responsive */
-.accounts-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+/* Account grid */
+.accounts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
 
-/* accent stripes */
+/* accent stripes for types */
 .color-checking { border-left:6px solid #2563eb; }
 .color-savings  { border-left:6px solid #16a34a; }
 .color-benefits { border-left:6px solid #f59e0b; }
 .color-crypto   { border-left:6px solid #8b5cf6; }
 
-/* buttons */
-.btn-primary { background: linear-gradient(90deg,var(--accent),var(--accent-2)); color:#fff; padding:10px 16px; border-radius:10px; border:none; font-weight:700; box-shadow: 0 8px 20px rgba(11,102,178,0.14); }
-.btn-ghost { background:#fff; border:1px solid rgba(13,34,66,0.06); padding:10px 14px; border-radius:10px; font-weight:600; }
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(90deg,var(--accent),var(--accent-2));
+  color:#fff;
+  padding:10px 16px;
+  border-radius:10px;
+  border:none;
+  font-weight:700;
+  box-shadow: 0 8px 20px rgba(11,102,178,0.14);
+}
+.btn-ghost {
+  background:#fff;
+  border:1px solid rgba(13,34,66,0.06);
+  padding:10px 14px;
+  border-radius:10px;
+  font-weight:600;
+}
 
-/* modals */
-.modal { display:none; position:fixed; inset:0; align-items:center; justify-content:center; background: rgba(6,18,37,0.35); z-index:120; }
+/* Modals */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6,18,37,0.35);
+  z-index: 70;
+}
 .modal[aria-hidden="false"] { display:flex; animation: modalIn .18s ease both; }
-@keyframes modalIn { from {opacity:0; transform:translateY(6px)} to {opacity:1; transform:none} }
+@keyframes modalIn { from { opacity:0; transform: translateY(6px) } to { opacity:1; transform:none } }
 .modal-panel { max-width:720px; width:92%; border-radius:14px; padding:24px; background:#fff; box-shadow: var(--shadow-lg); }
+
+/* Ensure deposit modal uses same style */
 #depositModal .modal-panel { background: linear-gradient(180deg,#ffffff,#f8fbff); }
 
-/* text helpers */
+/* Text helpers */
 .text-muted, .text-gray-500 { color:var(--muted); }
 h1,h2,h3 { margin:0; }
 
-/* responsive */
-@media (max-width: 1024px) {
-  aside.f-sidebar, aside.fixed { position:relative; width:100%; height:auto; }
-  main.main, main.ml-64 { margin-left:0; width:100%; height:auto; padding:20px; overflow:visible; }
+/* Responsive: collapse sidebar to top on small screens */
+@media (max-width: 1024px){
+  aside.f-sidebar { position: relative; width:100%; height:auto; }
+  main.main { margin-left:0; width:100%; height:auto; padding:20px; overflow:visible; }
 }
 
-/* Ensure logout button is visible if sidebar is tall */
-aside.f-sidebar .btn-ghost,
-aside.fixed .btn-ghost { width:100%; display:block; }
-
-/* Optional debug helper (comment out for production)
-   Uncomment to outline elements inside main that still constrain width:
-*/
+/* ============ Helpful debug helpers (remove if you want) ============ */
+/* Uncomment during debugging to see elements that still constrain width */
 /*
-main.main *[style] { outline: 1px dashed rgba(255,0,0,0.2); }
+main.main *[style] {
+  outline: 1px dashed rgba(255,0,0,0.2);
+}
 */
-
 
 
 </style>
@@ -226,50 +254,7 @@ main.main *[style] { outline: 1px dashed rgba(255,0,0,0.2); }
     </div>
   </aside>
 
-  <!-- Main -->
-  <main class="main">
-    <header class="top">
-      <div>
-        <div class="text-sm text-gray-500">Welcome back</div>
-        <h1 id="pf-welcome">—</h1>
-        <div class="text-sm text-gray-500">Member — Federal Reserved Network</div>
-      </div>
-      <div style="text-align:right">
-        <button id="addMoneyBtn" class="btn-primary">Initiate Deposit</button>
-        <div class="text-xs text-gray-500 mt-2">Last login: <span id="lastLogin">—</span></div>
-      </div>
-    </header>
 
-    <!-- Summary -->
-    <div class="summary-row">
-      <div class="summary-card">
-        <div class="text-sm text-gray-500">Total Balance</div>
-        <div id="totalBalance" class="text-xl font-bold">$0.00</div>
-        <div class="text-xs text-gray-500">Accounts: <span id="accountCount">0</span></div>
-      </div>
-      <div class="summary-card">
-        <div class="text-sm text-gray-500">Recent Activity</div>
-        <button id="viewAllActivityBtn" class="btn-ghost mt-2">View All</button>
-      </div>
-      <div class="summary-card">
-        <div class="text-sm text-gray-500">Security</div>
-        <button class="btn-ghost mt-2">Security Settings</button>
-      </div>
-    </div>
-
-    <!-- Accounts -->
-    <section id="section-dashboard" class="mt-6">
-      <h2 class="font-semibold text-lg mb-3">Accounts</h2>
-      <div id="accountCards" class="accounts-grid"></div>
-      <div id="activityWrapper" class="mt-6 text-sm text-gray-500">Loading recent activity…</div>
-    </section>
-
-    <!-- Secure Assets -->
-    <section id="section-assets" class="hidden mt-6">
-      <h2 class="font-semibold text-lg mb-3">Secure Asset Management</h2>
-      <button class="btn-primary mr-2" id="openSafeguardBtn">View Safeguard Methods</button>
-    </section>
-  </main>
 
   <!-- Modals -->
   <div id="requestDebitModal" class="modal" aria-hidden="true">
@@ -373,8 +358,37 @@ main.main *[style] { outline: 1px dashed rgba(255,0,0,0.2); }
     </div>
   </aside>
 
+  <!-- Main -->
+  <main class="ml-64 p-8 space-y-6">
+    <header>
+      <h2 class="text-2xl font-semibold">Welcome, <span id="pf-welcome">User</span></h2>
+      <p class="text-sm text-gray-500">Last login: <span id="lastLogin"></span></p>
+    </header>
 
+    <!-- Overview -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-white shadow-md rounded-2xl p-5 flex flex-col justify-between">
+        <p class="text-gray-600">Total Balance</p>
+        <h3 class="text-3xl font-bold text-[#0b2341]" id="totalBalance">$0.00</h3>
+        <p class="text-sm text-gray-500"><span id="accountCount">0</span> Accounts</p>
+      </div>
+      <div class="bg-white shadow-md rounded-2xl p-5">
+        <p class="text-gray-600">Savings Rate</p>
+        <h3 class="text-3xl font-bold text-green-600">3.25%</h3>
+      </div>
+      <div class="bg-white shadow-md rounded-2xl p-5">
+        <p class="text-gray-600">Support Status</p>
+        <h3 class="text-xl font-semibold text-blue-600">Active</h3>
+      </div>
+    </section>
 
+    <!-- Accounts -->
+    <section>
+      <h3 class="text-lg font-semibold mb-3">Your Accounts</h3>
+      <div id="accountCards" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Loaded dynamically -->
+      </div>
+    </section>
   </main>
 
   <!-- Include existing modals -->
@@ -396,4 +410,3 @@ main.main *[style] { outline: 1px dashed rgba(255,0,0,0.2); }
   <script src="dashboard.js" defer></script>
 </body>
 </html>
-
