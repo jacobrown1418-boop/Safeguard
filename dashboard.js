@@ -164,55 +164,39 @@ function openNDAModal(method) {
 }
 
 // ===== Deposit Instructions Modal =====
-async function showDepositInstructions(method) {
-  const { data: userData } = await supabase.auth.getUser();
-  if (!userData.user) {
-    alert("You must be logged in to view deposit instructions.");
+async function showDepositInstructions(methodKey) {
+  const modalTitle = document.getElementById("depositModalTitle");
+  const modalContent = document.getElementById("depositModalContent");
+
+  modalTitle.textContent = "Deposit Instructions — " + methodKey.charAt(0).toUpperCase() + methodKey.slice(1);
+  modalContent.innerHTML = "<p class='text-center text-gray-500'>Loading instructions...</p>";
+
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+  if (userError || !userData?.user) {
+    modalContent.innerHTML = "<p class='text-red-500 text-center'>Please log in to view instructions.</p>";
     return;
   }
 
   const { data, error } = await supabase
     .from("deposit_instructions")
-    .select("details, qr_url")
+    .select("*")
     .eq("user_id", userData.user.id)
-    .eq("method_key", method)
+    .eq("method_key", methodKey)
     .single();
 
-  let instructions = "";
-  if (error) {
+  if (error || !data) {
     console.error("Error fetching deposit instructions:", error);
-    instructions = `<p>Error loading instructions. Please contact support.</p>`;
-  } else if (!data) {
-    instructions = `<p>No instructions found for ${formatMethod(method)}.</p>`;
-  } else {
-    instructions = data.details || "";
-    if (data.qr_url) {
-      const qrSrc = data.qr_url.startsWith("http")
-        ? data.qr_url
-        : `${supabaseUrl}/storage/v1/object/public/safeguard-images/${data.qr_url}`;
-      instructions += `
-        <div class="mt-4 text-center">
-          <img src="${qrSrc}" alt="${formatMethod(
-        method
-      )} QR Code" style="width:160px; height:auto; border-radius:8px; box-shadow:0 0 8px rgba(0,0,0,0.15);" />
-        </div>`;
-    }
+    modalContent.innerHTML = "<p class='text-red-500 text-center'>Error loading instructions. Please contact support.</p>";
+    return;
   }
 
-  const modal = document.createElement("div");
-  modal.className = "modal";
-  modal.setAttribute("aria-hidden", "false");
-  modal.innerHTML = `
-    <div class="modal-panel">
-      <h3 class="text-lg font-semibold mb-2">Deposit Instructions — ${formatMethod(
-        method
-      )}</h3>
-      <div class="text-sm text-gray-600 mb-4">${instructions}</div>
-      <div class="btn-row"><button class="btn-ghost" data-close>Close</button></div>
-    </div>`;
-  document.body.appendChild(modal);
-  modal.querySelector("[data-close]").onclick = () => modal.remove();
+  modalContent.innerHTML = `
+    <h3 class="text-lg font-semibold mb-2">${data.title || "Deposit Instructions"}</h3>
+    <div class="text-sm text-gray-700 leading-relaxed">${data.details || "No details provided."}</div>
+    ${data.qr_url ? `<img src="${data.qr_url}" alt="QR Code" class="mx-auto mt-4 w-48 h-48 object-contain">` : ""}
+  `;
 }
+
 
 // ===== Helper =====
 function formatMethod(method) {
