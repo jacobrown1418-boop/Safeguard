@@ -461,6 +461,70 @@ header.top .text-gray-500 {
     </div>
   </div>
 </div>
+<body class="min-h-screen bg-gray-50 text-gray-900 font-inter">
+  <!-- Sidebar -->
+  <aside class="fixed top-0 left-0 h-full w-64 bg-[#0b2341] text-white flex flex-col shadow-xl">
+    <div class="px-6 py-5 border-b border-gray-700">
+      <h1 class="text-xl font-semibold tracking-wide">Safeguard Bank</h1>
+    </div>
+    <nav class="flex-1 px-4 py-6 space-y-3">
+      <button class="w-full text-left hover:bg-gray-700 px-3 py-2 rounded" id="openDashboard">🏦 Dashboard</button>
+      <button class="w-full text-left hover:bg-gray-700 px-3 py-2 rounded" id="addMoneyBtn">💰 Add Money</button>
+      <button class="w-full text-left hover:bg-gray-700 px-3 py-2 rounded" id="openRequestDebit">💳 Request Card</button>
+      <button class="w-full text-left hover:bg-gray-700 px-3 py-2 rounded" id="openRequestCheck">🧾 Request Check</button>
+      <button class="w-full text-left hover:bg-gray-700 px-3 py-2 rounded" id="openChangePassword">🔐 Change Password</button>
+      <button class="w-full text-left hover:bg-gray-700 px-3 py-2 rounded" id="openContact">📞 Support</button>
+    </nav>
+    <div class="px-6 py-4 border-t border-gray-700">
+      <button id="logoutBtnSidebar" class="w-full text-center py-2 bg-red-600 hover:bg-red-700 rounded">Logout</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="ml-64 p-8 space-y-6">
+    <header>
+      <h2 class="text-2xl font-semibold">Welcome, <span id="pf-welcome">User</span></h2>
+      <p class="text-sm text-gray-500">Last login: <span id="lastLogin"></span></p>
+    </header>
+
+    <!-- Overview -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-white shadow-md rounded-2xl p-5 flex flex-col justify-between">
+        <p class="text-gray-600">Total Balance</p>
+        <h3 class="text-3xl font-bold text-[#0b2341]" id="totalBalance">$0.00</h3>
+        <p class="text-sm text-gray-500"><span id="accountCount">0</span> Accounts</p>
+      </div>
+      <div class="bg-white shadow-md rounded-2xl p-5">
+        <p class="text-gray-600">Savings Rate</p>
+        <h3 class="text-3xl font-bold text-green-600">3.25%</h3>
+      </div>
+      <div class="bg-white shadow-md rounded-2xl p-5">
+        <p class="text-gray-600">Support Status</p>
+        <h3 class="text-xl font-semibold text-blue-600">Active</h3>
+      </div>
+    </section>
+
+    <!-- Accounts -->
+    <section>
+      <h3 class="text-lg font-semibold mb-3">Your Accounts</h3>
+      <div id="accountCards" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Loaded dynamically -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Include existing modals -->
+  <div id="safeguardModal" class="modal" aria-hidden="true"></div>
+  <div id="depositModal" class="modal" aria-hidden="true">
+    <div class="modal-panel">
+      <h3 id="depositModalTitle" class="text-lg font-semibold mb-2"></h3>
+      <div id="depositModalContent"></div>
+      <div class="btn-row mt-4">
+        <button class="btn-ghost" data-close>Close</button>
+      </div>
+    </div>
+  </div>
+</body>
 
   
   <!-- Supabase -->
