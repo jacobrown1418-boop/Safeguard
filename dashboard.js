@@ -162,7 +162,6 @@ async function showDepositInstructions(method) {
     return;
   }
 
-  // Fetch both text and image
   const { data, error } = await supabase
     .from("deposit_instructions")
     .select("details, qr_url")
@@ -171,35 +170,36 @@ async function showDepositInstructions(method) {
     .single();
 
   let instructions = "";
-  if (error && error.code !== "PGRST116") {
-    console.error("Error fetching deposit instructions:", error);
-    instructions = `<p class="text-red-500">Error loading instructions. Please contact support.</p>`;
+  if (error) {
+    console.error("Error:", error);
+    instructions = `<p>Error loading instructions. Please contact support.</p>`;
   } else if (!data) {
-    instructions = `<p>No deposit instructions found for <strong>${formatMethod(method)}</strong>. Please contact support.</p>`;
+    instructions = `<p>No instructions found for ${formatMethod(method)}.</p>`;
   } else {
     instructions = data.details || "";
     if (data.qr_url) {
-      instructions += `<div class="mt-4 text-center">
-        <img src="${data.qr_url}" alt="${formatMethod(method)} QR" width="160" class="inline-block rounded-lg shadow-md" />
-      </div>`;
+      instructions += `
+        <div class="mt-4 text-center">
+          <img src="${data.qr_url}" 
+               alt="${formatMethod(method)} QR Code"
+               style="width:160px; height:auto; border-radius:8px; box-shadow:0 0 8px rgba(0,0,0,0.15);" />
+        </div>`;
     }
   }
 
-  const instructionModal = document.createElement("div");
-  instructionModal.className = "modal";
-  instructionModal.setAttribute("aria-hidden", "false");
-  instructionModal.innerHTML = `
+  const modal = document.createElement("div");
+  modal.className = "modal";
+  modal.setAttribute("aria-hidden", "false");
+  modal.innerHTML = `
     <div class="modal-panel">
       <h3 class="text-lg font-semibold mb-2">Deposit Instructions — ${formatMethod(method)}</h3>
       <div class="text-sm text-gray-600 mb-4">${instructions}</div>
-      <div class="btn-row">
-        <button class="btn-ghost" data-close>Close</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(instructionModal);
+      <div class="btn-row"><button class="btn-ghost" data-close>Close</button></div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.querySelector("[data-close]").onclick = () => modal.remove();
+}
 
-  instructionModal.querySelector("[data-close]").onclick = () => instructionModal.remove();
   console.log("QR URL from Supabase:", data.qr_url);
 
 }
