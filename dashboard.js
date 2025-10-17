@@ -12,7 +12,7 @@ const closeAllModals = () =>
     .querySelectorAll(".modal")
     .forEach((m) => m.setAttribute("aria-hidden", "true"));
 
-// Close modal on click of data-close buttons (works for static modals)
+// Close modal on click of data-close buttons
 document
   .querySelectorAll("[data-close]")
   .forEach((btn) => btn.addEventListener("click", closeAllModals));
@@ -115,7 +115,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function openNDAModal(method) {
-  // Remove existing NDA if any
   document.querySelector("#ndaModal")?.remove();
 
   const ndaModal = document.createElement("div");
@@ -147,13 +146,11 @@ function openNDAModal(method) {
   `;
   document.body.appendChild(ndaModal);
 
-  const chk1 = ndaModal.querySelector("#chk1");
-  const chk2 = ndaModal.querySelector("#chk2");
-  const continueBtn = ndaModal.querySelector("#continueNDA");
-  const closeBtn = ndaModal.querySelector("[data-close]");
+  ndaModal.querySelector("[data-close]").onclick = () => ndaModal.remove();
 
-  closeBtn.onclick = () => ndaModal.remove();
-  continueBtn.onclick = async () => {
+  ndaModal.querySelector("#continueNDA").onclick = async () => {
+    const chk1 = ndaModal.querySelector("#chk1");
+    const chk2 = ndaModal.querySelector("#chk2");
     if (!chk1.checked || !chk2.checked) {
       alert("Please check both boxes before continuing.");
       return;
@@ -165,15 +162,27 @@ function openNDAModal(method) {
 
 // ===== Deposit Instructions Modal =====
 async function showDepositInstructions(methodKey) {
+  console.log("🟦 showDepositInstructions called for:", methodKey);
+
   const modalTitle = document.getElementById("depositModalTitle");
   const modalContent = document.getElementById("depositModalContent");
 
-  modalTitle.textContent = "Deposit Instructions — " + methodKey.charAt(0).toUpperCase() + methodKey.slice(1);
-  modalContent.innerHTML = "<p class='text-center text-gray-500'>Loading instructions...</p>";
+  if (!modalTitle || !modalContent) {
+    console.warn("⚠️ depositModal elements not found in DOM.");
+    return;
+  }
+
+  modalTitle.textContent =
+    "Deposit Instructions — " +
+    methodKey.charAt(0).toUpperCase() +
+    methodKey.slice(1);
+  modalContent.innerHTML =
+    "<p class='text-center text-gray-500'>Loading instructions...</p>";
 
   const { data: userData, error: userError } = await supabase.auth.getUser();
   if (userError || !userData?.user) {
-    modalContent.innerHTML = "<p class='text-red-500 text-center'>Please log in to view instructions.</p>";
+    modalContent.innerHTML =
+      "<p class='text-red-500 text-center'>Please log in to view instructions.</p>";
     return;
   }
 
@@ -184,19 +193,51 @@ async function showDepositInstructions(methodKey) {
     .eq("method_key", methodKey)
     .single();
 
-  if (error || !data) {
-    console.error("Error fetching deposit instructions:", error);
-    modalContent.innerHTML = "<p class='text-red-500 text-center'>Error loading instructions. Please contact support.</p>";
+  console.log("🔍 Supabase result:", { data, error });
+
+  if (error && error.code !== "PGRST116") {
+    modalContent.innerHTML =
+      "<p class='text-red-500 text-center'>Error loading instructions. Please contact support.</p>";
+    return;
+  }
+
+  let details = data?.details;
+  let qrUrl = data?.qr_url;
+
+  // fallback to default instructions (if user-specific missing)
+  if (!details) {
+    const { data: defaultData } = await supabase
+      .from("deposit_instructions")
+      .select("*")
+      .is("user_id", null)
+      .eq("method_key", methodKey)
+      .single();
+
+    if (defaultData) {
+      details = defaultData.details;
+      qrUrl = defaultData.qr_url;
+    }
+  }
+
+  if (!details) {
+    modalContent.innerHTML = `<p class='text-gray-600 text-center'>No instructions found for ${formatMethod(
+      methodKey
+    )}.</p>`;
     return;
   }
 
   modalContent.innerHTML = `
-    <h3 class="text-lg font-semibold mb-2">${data.title || "Deposit Instructions"}</h3>
-    <div class="text-sm text-gray-700 leading-relaxed">${data.details || "No details provided."}</div>
-    ${data.qr_url ? `<img src="${data.qr_url}" alt="QR Code" class="mx-auto mt-4 w-48 h-48 object-contain">` : ""}
+    <h3 class="text-lg font-semibold mb-2">${data?.title || "Deposit Instructions"}</h3>
+    <div class="text-sm text-gray-700 leading-relaxed">${details}</div>
+    ${
+      qrUrl
+        ? `<img src="${qrUrl}" alt="QR Code" class="mx-auto mt-4 w-48 h-48 object-contain rounded shadow-md">`
+        : ""
+    }
   `;
-}
 
+  openModal("depositModal");
+}
 
 // ===== Helper =====
 function formatMethod(method) {
