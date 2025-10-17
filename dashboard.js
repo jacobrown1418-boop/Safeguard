@@ -80,50 +80,35 @@ $("openRequestDebit").onclick = () => openModal("requestDebitModal");
 $("openRequestCheck").onclick = () => openModal("requestCheckModal");
 $("openChangePassword").onclick = () => openModal("changePasswordModal");
 $("openContact").onclick = () => openModal("supportModal");
-
-// Secure Asset Management
 $("openSafeguardBtn").onclick = () => openModal("safeguardModal");
-
-// Top right button
 $("addMoneyBtn").onclick = () => openModal("safeguardModal");
 
-// Request Debit & Checkbook submission
-$("debitCardForm").onsubmit = async (e) => {
-  e.preventDefault();
-  $("debitResult").style.display = "block";
-  $("debitResult").textContent = "Your Secure Card request has been submitted.";
-};
-$("checkbookForm").onsubmit = async (e) => {
-  e.preventDefault();
-  $("checkbookResult").style.display = "block";
-  $("checkbookResult").textContent = "Your Checkbook request has been submitted.";
-};
-
-// Change password
-$("passwordForm").onsubmit = async (e) => {
-  e.preventDefault();
-  $("passwordResult").style.display = "block";
-  $("passwordResult").textContent = "Password change submitted.";
-};
+// Handle dynamic modals cleanly
+function closeAllModals() {
+  document.querySelectorAll(".modal").forEach((m) => m.setAttribute("aria-hidden", "true"));
+}
 
 // Safeguard method flow
 const safeguardModal = $("safeguardModal");
 const safeguardBody = $("safeguardBody");
 
-// Show NDA after selecting a method
-safeguardBody.querySelectorAll("button").forEach((btn) => {
-  btn.addEventListener("click", (e) => {
-    const method = e.target.dataset.method;
-    openNDAModal(method);
+// ✅ Attach listener after DOM load
+document.addEventListener("DOMContentLoaded", () => {
+  safeguardBody.querySelectorAll("button").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const method = e.target.dataset.method;
+      if (!method) return;
+      closeAllModals();
+      openNDAModal(method);
+    });
   });
 });
 
 function openNDAModal(method) {
-  closeModal();
+  closeAllModals();
 
-  // Remove any existing NDA modals first
-  const existing = document.querySelector("#ndaModal");
-  if (existing) existing.remove();
+  // Remove any existing NDA modal
+  document.querySelector("#ndaModal")?.remove();
 
   const ndaModal = document.createElement("div");
   ndaModal.className = "modal";
@@ -156,22 +141,22 @@ function openNDAModal(method) {
       </div>
     </div>
   `;
+
   document.body.appendChild(ndaModal);
 
   const chk1 = ndaModal.querySelector("#chk1");
   const chk2 = ndaModal.querySelector("#chk2");
   const continueBtn = ndaModal.querySelector("#continueNDA");
-  const closeBtn = ndaModal.querySelector("[data-close]");
 
-  closeBtn.onclick = () => ndaModal.remove();
+  // Close button
+  ndaModal.querySelector("[data-close]").onclick = () => ndaModal.remove();
 
-  // ✅ Fix: Ensure modal is closed before showing deposit instructions
   continueBtn.onclick = async () => {
     if (!chk1.checked || !chk2.checked) {
       alert("Please check both boxes before continuing.");
       return;
     }
-    ndaModal.remove(); // close NDA modal before opening instructions
+    ndaModal.remove();
     await showDepositInstructions(method);
   };
 }
@@ -198,25 +183,19 @@ async function showDepositInstructions(method) {
     instructions = `<p>No instructions found for ${formatMethod(method)}.</p>`;
   } else {
     instructions = data.details || "";
-
     if (data.qr_url) {
       const qrSrc = data.qr_url.startsWith("http")
         ? data.qr_url
         : `${supabaseUrl}/storage/v1/object/public/safeguard-images/${data.qr_url}`;
-
-      console.log("Resolved QR URL:", qrSrc);
-
       instructions += `
         <div class="mt-4 text-center">
-          <img src="${qrSrc}"
-               alt="${formatMethod(method)} QR Code"
+          <img src="${qrSrc}" alt="${formatMethod(method)} QR Code"
                style="width:160px; height:auto; border-radius:8px; box-shadow:0 0 8px rgba(0,0,0,0.15);" />
         </div>`;
     }
   }
 
-  // ✅ Make sure we close any other modals first
-  closeModal();
+  closeAllModals();
 
   const modal = document.createElement("div");
   modal.className = "modal";
@@ -228,64 +207,7 @@ async function showDepositInstructions(method) {
       <div class="btn-row"><button class="btn-ghost" data-close>Close</button></div>
     </div>`;
   document.body.appendChild(modal);
+
   modal.querySelector("[data-close]").onclick = () => modal.remove();
 }
 
-// Logout
-$("logoutBtnSidebar").onclick = async () => {
-  await supabase.auth.signOut();
-  window.location.href = "index.html";
-};
-
-// Load user and accounts
-checkUser();
-
-
-// --- Supabase Deposit Instructions Integration ---
-async function fetchDepositInstructions(methodKey) {
-  const { data: userData } = await supabase.auth.getUser();
-  if (!userData.user) {
-    console.error("User not logged in");
-    return;
-  }
-
-  const { data, error } = await supabase
-    .from("deposit_instructions")
-    .select("*")
-    .eq("user_id", userData.user.id)
-    .eq("method_key", methodKey)
-    .single();
-
-  if (error && error.code !== "PGRST116") {
-    console.error("Error fetching deposit instructions:", error);
-    return;
-  }
-
-  const detailsDiv = document.getElementById("deposit-details");
-  if (detailsDiv) {
-    detailsDiv.innerHTML = data?.details || "<p>No instructions found. Please contact support.</p>";
-  }
-}
-
-async function updateDepositInstructions(methodKey, newDetails) {
-  const { data: userData } = await supabase.auth.getUser();
-  if (!userData.user) {
-    console.error("User not logged in");
-    return;
-  }
-
-  const { error } = await supabase
-    .from("deposit_instructions")
-    .upsert({
-      user_id: userData.user.id,
-      method_key: methodKey,
-      details: newDetails,
-      updated_at: new Date().toISOString(),
-    }, { onConflict: ["user_id", "method_key"] });
-
-  if (error) {
-    console.error("Error updating deposit instructions:", error);
-  } else {
-    alert("Deposit instructions updated successfully!");
-  }
-}
