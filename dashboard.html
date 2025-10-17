@@ -42,7 +42,7 @@ body {
   overflow: hidden;
 }
 
-/* Sidebar */
+/* Sidebar stays fixed */
 .f-sidebar {
   width: 18rem;
   background: linear-gradient(180deg, var(--nav-bg), #031127 90%);
@@ -112,17 +112,24 @@ body {
 
 /* ===== MAIN CONTENT ===== */
 .main {
-  margin-left: 18rem;
-  flex: 1;
+  margin-left: 18rem; /* matches sidebar width */
+  flex-grow: 1;
+  width: calc(100vw - 18rem);
   background: var(--surface);
   height: 100vh;
   overflow-y: auto;
-  padding: 40px 80px;
-  scroll-behavior: smooth;
+  padding: 40px 60px;
   display: flex;
   flex-direction: column;
+  scroll-behavior: smooth;
+  transition: width 0.3s ease;
 }
-
+/* Make sure grid elements adapt fully */
+.summary-row,
+.accounts-grid {
+  width: 100%;
+}  
+  
 header.top {
   display: flex;
   justify-content: space-between;
@@ -275,7 +282,10 @@ header.top .text-gray-500 {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
-  body { flex-direction: column; overflow: auto; }
+  body {
+    flex-direction: column;
+    overflow: auto;
+  }
   .f-sidebar {
     position: relative;
     width: 100%;
@@ -283,11 +293,9 @@ header.top .text-gray-500 {
   }
   .main {
     margin-left: 0;
+    width: 100%;
     padding: 20px;
   }
-  .summary-row { grid-template-columns: 1fr; }
-  .accounts-grid { grid-template-columns: 1fr; }
-  .modal-panel { padding: 24px; }
 }
 
 
