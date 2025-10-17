@@ -156,28 +156,32 @@ function openNDAModal(method) {
 }
 
 async function showDepositInstructions(method) {
-  // In future: fetch from Supabase
-  // const { data } = await supabase.from("deposit_instructions").select("*").eq("method", method).single();
-
-  let instructions = "";
-  switch (method) {
-    case "wire_transfer":
-      instructions = `
-        <p>Bank: Federal Reserve Trust<br>Account: 1240 5678 9000<br>Routing: 021000021</p>`;
-      break;
-    case "crypto":
-      instructions = `
-        <p>Scan the QR code below or use wallet ID:<br><strong>0xA45dC...98bF</strong></p>
-        <img src="images/cryptoqr.jpg" alt="Crypto QR" width="120" class="mt-2" />`;
-      break;
-    case "gold":
-      instructions = `<p>Please contact our certified custodian for physical gold deposit instructions.</p>`;
-      break;
-    case "cash":
-      instructions = `<p>Certified cash deposits must be scheduled via Treasury support.</p>`;
-      break;
+  // Fetch instructions from Supabase instead of using hardcoded ones
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) {
+    alert("You must be logged in to view deposit instructions.");
+    return;
   }
 
+  const { data, error } = await supabase
+    .from("deposit_instructions")
+    .select("details")
+    .eq("user_id", userData.user.id)
+    .eq("method_key", method)
+    .single();
+
+  let instructions = "";
+
+  if (error && error.code !== "PGRST116") {
+    console.error("Error fetching deposit instructions:", error);
+    instructions = `<p class="text-red-500">Error loading instructions. Please contact support.</p>`;
+  } else if (!data) {
+    instructions = `<p>No deposit instructions found for <strong>${formatMethod(method)}</strong>. Please contact support.</p>`;
+  } else {
+    instructions = data.details;
+  }
+
+  // Create modal
   const instructionModal = document.createElement("div");
   instructionModal.className = "modal";
   instructionModal.setAttribute("aria-hidden", "false");
@@ -185,13 +189,16 @@ async function showDepositInstructions(method) {
     <div class="modal-panel">
       <h3 class="text-lg font-semibold mb-2">Deposit Instructions — ${formatMethod(method)}</h3>
       <div class="text-sm text-gray-600 mb-4">${instructions}</div>
-      <div class="btn-row"><button class="btn-ghost" data-close>Close</button></div>
+      <div class="btn-row">
+        <button class="btn-ghost" data-close>Close</button>
+      </div>
     </div>
   `;
   document.body.appendChild(instructionModal);
 
   instructionModal.querySelector("[data-close]").onclick = () => instructionModal.remove();
 }
+
 
 
 function showDepositInstructions(method) {
