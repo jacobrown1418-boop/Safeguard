@@ -200,6 +200,8 @@ async function showDepositInstructions(method) {
   document.body.appendChild(instructionModal);
 
   instructionModal.querySelector("[data-close]").onclick = () => instructionModal.remove();
+  console.log("QR URL from Supabase:", data.qr_url);
+
 }
 
 
