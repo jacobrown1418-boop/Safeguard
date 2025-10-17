@@ -262,6 +262,41 @@ h1, h2, h3 { margin: 0; }
     padding: 1.25rem;
   }
 }
+
+  /* === FILL DASHBOARD FULL WIDTH + SHOW LOGOUT BUTTON === */
+
+/* Ensure main fills entire horizontal space */
+main.main {
+  margin-left: 270px;
+  width: calc(100vw - 270px);
+  max-width: calc(100vw - 270px) !important;
+  overflow-x: hidden;
+}
+
+/* Remove unwanted inner max-width or centering */
+main.main > .container,
+main.main > .content,
+main.main > div {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Make sure sidebar stays fully visible with footer (logout) shown */
+aside.f-sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: auto;
+}
+
+/* Force logout button to stay at bottom */
+aside.f-sidebar .sidebar-footer {
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+
 </style>
 
 
