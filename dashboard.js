@@ -256,6 +256,43 @@ function decorateAccountCards() {
       card.classList.add("color-crypto");
   });
 }
+// === PROFESSIONAL DASHBOARD ENHANCEMENTS ===
+
+// Add "Transfer" button to each account card dynamically
+function addTransferButtons() {
+  document.querySelectorAll(".account-card").forEach(card => {
+    // Skip if buttons already added
+    if (card.querySelector(".transfer-btn")) return;
+
+    const btnRow = document.createElement("div");
+    btnRow.className = "btn-row";
+
+    // Initiate Deposit (existing button)
+    const depositBtn = document.createElement("button");
+    depositBtn.className = "btn-primary";
+    depositBtn.textContent = "Initiate Deposit";
+    depositBtn.addEventListener("click", () => {
+      document.getElementById("addMoneyBtn")?.click();
+    });
+
+    // Transfer Button
+    const transferBtn = document.createElement("button");
+    transferBtn.className = "btn-ghost transfer-btn";
+    transferBtn.textContent = "Transfer";
+    transferBtn.addEventListener("click", () => {
+      alert("Your transactions will be active in the next 72 hours.");
+    });
+
+    btnRow.appendChild(depositBtn);
+    btnRow.appendChild(transferBtn);
+    card.appendChild(btnRow);
+  });
+}
+
+// Run this after account cards are loaded
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(addTransferButtons, 2000);
+});
 
 // ===== Initialize =====
 checkUser();
