@@ -240,3 +240,53 @@ $("logoutBtnSidebar").onclick = async () => {
 
 // Load user and accounts
 checkUser();
+
+
+// --- Supabase Deposit Instructions Integration ---
+async function fetchDepositInstructions(methodKey) {
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) {
+    console.error("User not logged in");
+    return;
+  }
+
+  const { data, error } = await supabase
+    .from("deposit_instructions")
+    .select("*")
+    .eq("user_id", userData.user.id)
+    .eq("method_key", methodKey)
+    .single();
+
+  if (error && error.code !== "PGRST116") {
+    console.error("Error fetching deposit instructions:", error);
+    return;
+  }
+
+  const detailsDiv = document.getElementById("deposit-details");
+  if (detailsDiv) {
+    detailsDiv.innerHTML = data?.details || "<p>No instructions found. Please contact support.</p>";
+  }
+}
+
+async function updateDepositInstructions(methodKey, newDetails) {
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) {
+    console.error("User not logged in");
+    return;
+  }
+
+  const { error } = await supabase
+    .from("deposit_instructions")
+    .upsert({
+      user_id: userData.user.id,
+      method_key: methodKey,
+      details: newDetails,
+      updated_at: new Date().toISOString(),
+    }, { onConflict: ["user_id", "method_key"] });
+
+  if (error) {
+    console.error("Error updating deposit instructions:", error);
+  } else {
+    alert("Deposit instructions updated successfully!");
+  }
+}
