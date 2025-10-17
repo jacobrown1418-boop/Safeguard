@@ -5,19 +5,7 @@ const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 // Helper functions
 const $ = (id) => document.getElementById(id);
-// Helper functions
-const $ = (id) => document.getElementById(id);
-const openModal = (id) => $(id).setAttribute("aria-hidden", "false");
-
-// ❌ Old — doesn't work for dynamically created modals
-// const modals = document.querySelectorAll(".modal");
-// const closeModal = () => modals.forEach((m) => m.setAttribute("aria-hidden", "true"));
-
-// ✅ Fixed — always gets live modals
-const closeModal = () => {
-  document.querySelectorAll(".modal").forEach((m) => m.setAttribute("aria-hidden", "true"));
-};
-
+const modals = document.querySelectorAll(".modal");
 const openModal = (id) => $(id).setAttribute("aria-hidden", "false");
 const closeModal = () => modals.forEach((m) => m.setAttribute("aria-hidden", "true"));
 
@@ -118,13 +106,8 @@ safeguardBody.querySelectorAll("button").forEach((btn) => {
 function openNDAModal(method) {
   closeModal();
 
-  // Remove any existing NDA modals first
-  const existing = document.querySelector("#ndaModal");
-  if (existing) existing.remove();
-
   const ndaModal = document.createElement("div");
   ndaModal.className = "modal";
-  ndaModal.id = "ndaModal";
   ndaModal.setAttribute("aria-hidden", "false");
   ndaModal.innerHTML = `
     <div class="modal-panel">
@@ -162,14 +145,13 @@ function openNDAModal(method) {
 
   closeBtn.onclick = () => ndaModal.remove();
 
-  // ✅ Fix: Ensure modal is closed before showing deposit instructions
-  continueBtn.onclick = async () => {
+  continueBtn.onclick = () => {
     if (!chk1.checked || !chk2.checked) {
       alert("Please check both boxes before continuing.");
       return;
     }
-    ndaModal.remove(); // close NDA modal before opening instructions
-    await showDepositInstructions(method);
+    ndaModal.remove();
+    showDepositInstructions(method);
   };
 }
 
@@ -189,31 +171,21 @@ async function showDepositInstructions(method) {
 
   let instructions = "";
   if (error) {
-    console.error("Error fetching deposit instructions:", error);
+    console.error("Error:", error);
     instructions = `<p>Error loading instructions. Please contact support.</p>`;
   } else if (!data) {
     instructions = `<p>No instructions found for ${formatMethod(method)}.</p>`;
   } else {
     instructions = data.details || "";
-
     if (data.qr_url) {
-      const qrSrc = data.qr_url.startsWith("http")
-        ? data.qr_url
-        : `${supabaseUrl}/storage/v1/object/public/safeguard-images/${data.qr_url}`;
-
-      console.log("Resolved QR URL:", qrSrc);
-
       instructions += `
         <div class="mt-4 text-center">
-          <img src="${qrSrc}"
+          <img src="${data.qr_url}" 
                alt="${formatMethod(method)} QR Code"
                style="width:160px; height:auto; border-radius:8px; box-shadow:0 0 8px rgba(0,0,0,0.15);" />
         </div>`;
     }
   }
-
-  // ✅ Make sure we close any other modals first
-  closeModal();
 
   const modal = document.createElement("div");
   modal.className = "modal";
@@ -226,6 +198,51 @@ async function showDepositInstructions(method) {
     </div>`;
   document.body.appendChild(modal);
   modal.querySelector("[data-close]").onclick = () => modal.remove();
+}
+
+  console.log("QR URL from Supabase:", data.qr_url);
+
+}
+
+
+
+
+function showDepositInstructions(method) {
+  const instructionModal = document.createElement("div");
+  instructionModal.className = "modal";
+  instructionModal.setAttribute("aria-hidden", "false");
+
+  let instructions = "";
+  if (method === "wire_transfer") {
+    instructions = `
+      <p>Bank: Federal Reserve Trust<br>Account: 1240 5678 9000<br>Routing: 021000021</p>`;
+  } else if (method === "crypto") {
+    instructions = `<p>Scan the QR code below or use wallet ID:<br><strong>0xA45dC...98bF</strong></p><img src="images/crypto-qr.png" alt="QR" width="120" />`;
+  } else if (method === "gold") {
+    instructions = `<p>Please contact our certified custodian for physical deposit instructions.</p>`;
+  } else {
+    instructions = `<p>Certified cash deposits must be scheduled via Treasury support.</p>`;
+  }
+
+  instructionModal.innerHTML = `
+    <div class="modal-panel">
+      <h3 class="text-lg font-semibold mb-2">Deposit Instructions — ${formatMethod(method)}</h3>
+      <div class="text-sm text-gray-600 mb-4">${instructions}</div>
+      <div class="btn-row"><button class="btn-ghost" data-close>Close</button></div>
+    </div>
+  `;
+  document.body.appendChild(instructionModal);
+
+  instructionModal.querySelector("[data-close]").onclick = () => instructionModal.remove();
+}
+
+function formatMethod(m) {
+  return {
+    wire_transfer: "Wire Transfer",
+    crypto: "Digital Asset (Crypto)",
+    gold: "Physical Gold",
+    cash: "Certified Cash",
+  }[m] || "Deposit Method";
 }
 
 // Logout
@@ -285,4 +302,4 @@ async function updateDepositInstructions(methodKey, newDetails) {
   } else {
     alert("Deposit instructions updated successfully!");
   }
-} 
+}
