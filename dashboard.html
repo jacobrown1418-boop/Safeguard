@@ -8,48 +8,181 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(180deg, #f0f4f8 0%, #e2e8f0 100%);
-      overflow-x: hidden;
-    }
-    .glass-card {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(14px);
-      border: 1px solid rgba(255,255,255,0.4);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .glass-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-    }
-    .gradient-header {
-      background: linear-gradient(135deg, #0b2341 0%, #1e3a8a 100%);
-      position: relative;
-      overflow: hidden;
-    }
-    .gradient-header::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.15), transparent 70%);
-      animation: glow 8s infinite alternate;
-    }
-    @keyframes glow {
-      from {opacity: 0.4;}
-      to {opacity: 0.9;}
-    }
-    .account-card {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .account-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-    .color-checking { border-left: 5px solid #2563eb; }
-    .color-savings { border-left: 5px solid #16a34a; }
-    .color-benefits { border-left: 5px solid #f59e0b; }
-  </style>
+/* -----------------------
+  Visual polish (safe patch)
+  - Keeps all IDs/classes intact
+  - Non-destructive: only styles existing elements
+  ----------------------- */
+
+:root{
+  --nav-dark: #071733;
+  --nav-deep: #071733;
+  --accent: #0b66b2;
+  --accent-2: #1e6ae8;
+  --surface: #f4f7fb;
+  --muted: #6b7280;
+  --card-bg: rgba(255,255,255,0.9);
+  --glass-border: rgba(13, 34, 66, 0.06);
+  --shadow-lg: 0 18px 50px rgba(6,18,37,0.08);
+}
+
+/* Base reset (keeps your original typography but with a nicer base) */
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--surface);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#071433; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale}
+
+/* Keep body display as your original layout expects */
+body{display:flex;height:100vh;overflow:hidden}
+
+/* Sidebar polish (keeps .f-sidebar if present, otherwise styles current .gradient-header sidebar) */
+.f-sidebar,
+aside.gradient-header, /* support both versions */
+aside[class*="gradient-header"]{
+  width:18rem;
+  min-width:18rem;
+  background: linear-gradient(180deg,var(--nav-dark), #031127 92%);
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  padding:28px 20px;
+  box-shadow: 8px 0 40px rgba(2,6,23,0.12);
+  position:fixed;
+  top:0;left:0;bottom:0;
+  z-index:40;
+}
+
+/* if user used the alternative sidebar markup (id/class differences), these ensure it looks polished */
+.gradient-header { background: linear-gradient(135deg,#071733 0%, #112e4a 60%); }
+.gradient-header .logo { font-weight:700; font-size:1.05rem; }
+
+/* Sidebar nav items (works with your .nav-item or button elements) */
+.nav-item,
+aside button,
+nav button {
+  display:block;
+  width:100%;
+  text-align:left;
+  padding:10px 12px;
+  border-radius:10px;
+  color:rgba(255,255,255,0.95);
+  border-left:3px solid transparent;
+  margin-top:8px;
+  background:transparent;
+  transition:all .18s ease;
+  font-weight:600;
+}
+.nav-item:hover,
+aside button:hover,
+nav button:hover { transform:translateX(6px); background: rgba(255,255,255,0.03) }
+.nav-item.active { background: rgba(255,255,255,0.06); border-left-color:var(--accent); }
+
+/* Main content area: ensure it fills right-side and keeps your existing paddings */
+main,
+.main {
+  margin-left: 18rem; /* matches sidebar width above */
+  flex:1;
+  height:100vh;
+  overflow:auto;
+  padding:36px 56px;
+  background: linear-gradient(180deg, rgba(246,249,253,0.6), var(--surface));
+}
+
+/* Hero / header polish (works with your hero section already using gradient classes) */
+.gradient-header.hero,
+section.relative.rounded-3xl,
+section.gradient-header {
+  border-radius:18px;
+  padding:28px;
+  position:relative;
+  overflow:hidden;
+  box-shadow: var(--shadow-lg);
+}
+.gradient-header::after {
+  content:"";
+  position:absolute; inset:0;
+  background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.06), transparent 30%);
+  pointer-events:none;
+  mix-blend-mode:overlay;
+}
+
+/* Cards: uniform modern card style (applies to .glass-card, .summary-card, .account-card) */
+.glass-card,
+.summary-card,
+.account-card,
+.modal-panel {
+  background: var(--card-bg);
+  border-radius:14px;
+  border:1px solid var(--glass-border);
+  padding:18px;
+  box-shadow: 0 10px 30px rgba(6,18,37,0.06);
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+.glass-card:hover,
+.summary-card:hover,
+.account-card:hover { transform: translateY(-6px); box-shadow: 0 26px 60px rgba(6,18,37,0.09) }
+
+/* Account card layout improvements (keeps .account-card JS-created markup intact) */
+.account-card {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  min-height:120px;
+  position:relative;
+  padding:20px;
+  overflow:hidden;
+  border-radius:12px;
+}
+
+/* Color accents - added classes (JS snippet will attach these if you use it) */
+.color-checking { border-left:6px solid #2563eb; }
+.color-savings  { border-left:6px solid #16a34a; }
+.color-benefits { border-left:6px solid #f59e0b; }
+.color-crypto   { border-left:6px solid #8b5cf6; }
+
+/* Headings and text */
+h1,h2,h3 { margin:0; }
+#pf-welcome { font-weight:700; }
+.text-muted, .text-gray-500 { color:var(--muted) }
+
+/* Buttons (primary / ghost) - keep classes .btn-primary/.btn-ghost used by your app */
+.btn-primary {
+  background: linear-gradient(90deg,var(--accent), var(--accent-2));
+  color:#fff;
+  padding:10px 16px;
+  border-radius:10px;
+  border:none;
+  font-weight:700;
+  box-shadow: 0 8px 20px rgba(11,102,178,0.14);
+}
+.btn-primary:hover { transform:translateY(-2px); }
+.btn-ghost {
+  background:#fff; border:1px solid rgba(13,34,66,0.06); padding:10px 14px; border-radius:10px; font-weight:600;
+}
+
+/* Modal improvements (keeps .modal + .modal-panel identifiers) */
+.modal {
+  display:none;
+  position:fixed; inset:0; align-items:center; justify-content:center;
+  background: rgba(6,18,37,0.35); z-index:60;
+}
+.modal[aria-hidden="false"] { display:flex; animation:modalIn .18s ease both; }
+@keyframes modalIn { from {opacity:0; transform:translateY(6px)} to {opacity:1; transform:none} }
+.modal-panel { max-width:720px; width:92%; border-radius:14px; padding:24px; }
+
+/* Deposit modal specifics (your depositModal ID stays the same) */
+#depositModal .modal-panel { max-width:640px; background:linear-gradient(180deg,#ffffff,#f8fbff); }
+
+/* Responsive tweaks - preserves earlier mobile rules */
+@media (max-width: 1024px) {
+  .f-sidebar, aside[class*="gradient-header"] { position:relative; width:100%; height:auto; }
+  .main, main { margin-left:0; padding:18px; height:auto; overflow:auto; }
+  .account-card { min-height:100px; }
+}
+
+/* small helper utility for subtle fade-in where you might use it */
+.fade-in { animation: fadeIn .45s ease both; }
+@keyframes fadeIn { from {opacity:0; transform:translateY(6px)} to {opacity:1; transform:none} }
+</style>
+
 </head>
 
 <body class="min-h-screen text-gray-900">
