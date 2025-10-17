@@ -1,28 +1,31 @@
-// Initialize Supabase client
+// ======================
+// Supabase Initialization
+// ======================
 const supabaseUrl = "https://hafzffbdqlojkuhgfsvy.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk";
+const supabaseKey =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk";
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-// Helper functions
+// ======================
+// Helper Functions
+// ======================
 const $ = (id) => document.getElementById(id);
-// Helper functions
-const $ = (id) => document.getElementById(id);
-const openModal = (id) => $(id).setAttribute("aria-hidden", "false");
 
-// ❌ Old — doesn't work for dynamically created modals
-// const modals = document.querySelectorAll(".modal");
-// const closeModal = () => modals.forEach((m) => m.setAttribute("aria-hidden", "true"));
+// ✅ Fixed modal handlers
+const openModal = (id) => {
+  const modal = $(id);
+  if (modal) modal.setAttribute("aria-hidden", "false");
+};
 
-// ✅ Fixed — always gets live modals
 const closeModal = () => {
   document.querySelectorAll(".modal").forEach((m) => m.setAttribute("aria-hidden", "true"));
 };
 
-const openModal = (id) => $(id).setAttribute("aria-hidden", "false");
-const closeModal = () => modals.forEach((m) => m.setAttribute("aria-hidden", "true"));
+// ✅ Ensure all [data-close] buttons close modals dynamically
+document.addEventListener("click", (e) => {
+  if (e.target.matches("[data-close]")) closeModal();
+});
 
-// Close modal on click of data-close buttons
-document.querySelectorAll("[data-close]").forEach((btn) => btn.addEventListener("click", closeModal));
 
 // Authentication
 async function checkUser() {
