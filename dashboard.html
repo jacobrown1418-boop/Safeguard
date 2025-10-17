@@ -385,6 +385,161 @@ main.main {
   background: linear-gradient(90deg, #dc2626, #ef4444);
   transform: translateY(-1px);
 }
+/* === DARK PROFESSIONAL DASHBOARD PATCH === */
+
+:root {
+  --navy-bg: #0b1221;
+  --navy-surface: #131c33;
+  --navy-card: rgba(255, 255, 255, 0.06);
+  --navy-border: rgba(255, 255, 255, 0.08);
+  --navy-text: #f4f7fb;
+  --accent-blue: #2b73ff;
+  --accent-green: #00d08f;
+  --accent-gold: #f8d96c;
+}
+
+/* === BACKGROUND & MAIN AREA === */
+main.main {
+  background: radial-gradient(circle at 25% 15%, #0d1730 0%, #060b19 100%);
+  color: var(--navy-text);
+  min-height: 100vh;
+  padding: 2rem 2.5rem;
+  margin-left: 270px;
+  width: calc(100vw - 270px);
+  overflow-y: auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Subtle background pattern overlay */
+main.main::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("https://www.transparenttextures.com/patterns/asfalt-light.png") repeat;
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* === HEADER === */
+header.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 1.5rem;
+  color: var(--navy-text);
+}
+
+header.top h1 {
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: #ffffff;
+}
+
+header.top .text-gray-500 {
+  color: rgba(255,255,255,0.55) !important;
+}
+
+/* === SUMMARY CARDS === */
+.summary-card {
+  background: var(--navy-card);
+  border: 1px solid var(--navy-border);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  backdrop-filter: blur(14px);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.45);
+}
+
+.summary-card .text-gray-500 {
+  color: rgba(255,255,255,0.65) !important;
+}
+
+/* === ACCOUNT CARDS === */
+.accounts-grid .account-card {
+  background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  border: 1px solid var(--navy-border);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+  color: var(--navy-text);
+  transition: all 0.25s ease;
+  backdrop-filter: blur(10px);
+}
+.account-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+}
+
+/* Accent borders by type */
+.color-checking { border-left: 6px solid var(--accent-blue); }
+.color-savings  { border-left: 6px solid var(--accent-green); }
+.color-benefits { border-left: 6px solid var(--accent-gold); }
+.color-crypto   { border-left: 6px solid #b794f4; }
+
+/* === BUTTONS === */
+.btn-primary {
+  background: linear-gradient(90deg, var(--accent-blue), #0059d6);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(43, 115, 255, 0.3);
+  transition: all 0.18s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(43,115,255,0.5);
+}
+
+.btn-ghost {
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  border: 1px solid var(--navy-border);
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all .15s ease;
+}
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+/* === TEXT ADJUSTMENTS === */
+.text-gray-500 {
+  color: rgba(255,255,255,0.65) !important;
+}
+
+h2 {
+  color: #fff;
+}
+
+/* === SCROLLBAR === */
+main.main::-webkit-scrollbar {
+  width: 8px;
+}
+main.main::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.15);
+  border-radius: 4px;
+}
+main.main::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1024px) {
+  main.main {
+    margin-left: 0;
+    width: 100%;
+  }
+}
 
 </style>
 
