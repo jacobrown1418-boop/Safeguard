@@ -213,6 +213,51 @@ h1,h2,h3 { margin:0; }
 .fade-in { animation: fadeIn .45s ease both; }
 @keyframes fadeIn { from {opacity:0; transform:translateY(6px)} to {opacity:1; transform:none} }
 
+/* ===== Layout Fix: Full Width + Fixed Sidebar ===== */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* prevent global scrollbars */
+  background: #f5f7fa;
+}
+
+/* Sidebar fixed to left */
+.f-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 270px; /* consistent fixed width */
+  overflow-y: auto;
+  background: linear-gradient(180deg, #0c1a33 0%, #081120 100%);
+  color: #fff;
+  z-index: 50;
+  scrollbar-width: thin;
+}
+
+/* Main content fills the rest */
+.main {
+  margin-left: 270px; /* match sidebar width */
+  width: calc(100vw - 270px);
+  height: 100vh;
+  overflow-y: auto;
+  background: #f9fbfd;
+  padding: 2rem 2.5rem;
+  box-sizing: border-box;
+}
+
+/* Responsive fix */
+@media (max-width: 768px) {
+  .f-sidebar {
+    position: fixed;
+    width: 220px;
+  }
+  .main {
+    margin-left: 220px;
+    width: calc(100vw - 220px);
+  }
+}
 
 </style>
 
