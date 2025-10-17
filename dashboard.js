@@ -4,6 +4,20 @@ const supabaseKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk";
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
+
+
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: { inter: ['Inter', 'sans-serif'] },
+      colors: {
+        primary: '#0b2341',
+        secondary: '#1e3a8a'
+      }
+    }
+  }
+}
+
 // ===== Helper Functions =====
 const $ = (id) => document.getElementById(id);
 const openModal = (id) => $(id)?.setAttribute("aria-hidden", "false");
@@ -234,3 +248,5 @@ $("logoutBtnSidebar").onclick = async () => {
 
 // ===== Initialize =====
 checkUser();
+
+
