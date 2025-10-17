@@ -207,33 +207,51 @@ async function showDepositInstructions(method) {
 
 
 
-function showDepositInstructions(method) {
-  const instructionModal = document.createElement("div");
-  instructionModal.className = "modal";
-  instructionModal.setAttribute("aria-hidden", "false");
-
-  let instructions = "";
-  if (method === "wire_transfer") {
-    instructions = `
-      <p>Bank: Federal Reserve Trust<br>Account: 1240 5678 9000<br>Routing: 021000021</p>`;
-  } else if (method === "crypto") {
-    instructions = `<p>Scan the QR code below or use wallet ID:<br><strong>0xA45dC...98bF</strong></p><img src="images/crypto-qr.png" alt="QR" width="120" />`;
-  } else if (method === "gold") {
-    instructions = `<p>Please contact our certified custodian for physical deposit instructions.</p>`;
-  } else {
-    instructions = `<p>Certified cash deposits must be scheduled via Treasury support.</p>`;
+// ✅ FINAL PATCHED VERSION
+async function showDepositInstructions(method) {
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) {
+    alert("You must be logged in to view deposit instructions.");
+    return;
   }
 
-  instructionModal.innerHTML = `
+  const { data, error } = await supabase
+    .from("deposit_instructions")
+    .select("details, qr_url")
+    .eq("user_id", userData.user.id)
+    .eq("method_key", method)
+    .single();
+
+  let instructions = "";
+  if (error) {
+    console.error("Error:", error);
+    instructions = `<p>Error loading instructions. Please contact support.</p>`;
+  } else if (!data) {
+    instructions = `<p>No instructions found for ${formatMethod(method)}.</p>`;
+  } else {
+    instructions = data.details || "";
+    if (data.qr_url) {
+      console.log("QR URL from Supabase:", data.qr_url);
+      instructions += `
+        <div class="mt-4 text-center">
+          <img src="${data.qr_url}" 
+               alt="${formatMethod(method)} QR Code"
+               style="width:160px; height:auto; border-radius:8px; box-shadow:0 0 8px rgba(0,0,0,0.15);" />
+        </div>`;
+    }
+  }
+
+  const modal = document.createElement("div");
+  modal.className = "modal";
+  modal.setAttribute("aria-hidden", "false");
+  modal.innerHTML = `
     <div class="modal-panel">
       <h3 class="text-lg font-semibold mb-2">Deposit Instructions — ${formatMethod(method)}</h3>
       <div class="text-sm text-gray-600 mb-4">${instructions}</div>
       <div class="btn-row"><button class="btn-ghost" data-close>Close</button></div>
-    </div>
-  `;
-  document.body.appendChild(instructionModal);
-
-  instructionModal.querySelector("[data-close]").onclick = () => instructionModal.remove();
+    </div>`;
+  document.body.appendChild(modal);
+  modal.querySelector("[data-close]").onclick = () => modal.remove();
 }
 
 function formatMethod(m) {
@@ -244,7 +262,6 @@ function formatMethod(m) {
     cash: "Certified Cash",
   }[m] || "Deposit Method";
 }
-
 // Logout
 $("logoutBtnSidebar").onclick = async () => {
   await supabase.auth.signOut();
