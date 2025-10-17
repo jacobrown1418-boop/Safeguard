@@ -155,54 +155,6 @@ function openNDAModal(method) {
   };
 }
 
-async function showDepositInstructions(method) {
-  const { data: userData } = await supabase.auth.getUser();
-  if (!userData.user) {
-    alert("You must be logged in to view deposit instructions.");
-    return;
-  }
-
-  const { data, error } = await supabase
-    .from("deposit_instructions")
-    .select("details, qr_url")
-    .eq("user_id", userData.user.id)
-    .eq("method_key", method)
-    .single();
-
-  let instructions = "";
-  if (error) {
-    console.error("Error:", error);
-    instructions = `<p>Error loading instructions. Please contact support.</p>`;
-  } else if (!data) {
-    instructions = `<p>No instructions found for ${formatMethod(method)}.</p>`;
-  } else {
-    instructions = data.details || "";
-    if (data.qr_url) {
-      instructions += `
-        <div class="mt-4 text-center">
-          <img src="${data.qr_url}" 
-               alt="${formatMethod(method)} QR Code"
-               style="width:160px; height:auto; border-radius:8px; box-shadow:0 0 8px rgba(0,0,0,0.15);" />
-        </div>`;
-    }
-  }
-
-  const modal = document.createElement("div");
-  modal.className = "modal";
-  modal.setAttribute("aria-hidden", "false");
-  modal.innerHTML = `
-    <div class="modal-panel">
-      <h3 class="text-lg font-semibold mb-2">Deposit Instructions — ${formatMethod(method)}</h3>
-      <div class="text-sm text-gray-600 mb-4">${instructions}</div>
-      <div class="btn-row"><button class="btn-ghost" data-close>Close</button></div>
-    </div>`;
-  document.body.appendChild(modal);
-  modal.querySelector("[data-close]").onclick = () => modal.remove();
-}
-
-  console.log("QR URL from Supabase:", data.qr_url);
-
-}
 
 
 
