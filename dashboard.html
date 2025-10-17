@@ -258,6 +258,52 @@ html, body {
     width: calc(100vw - 220px);
   }
 }
+/* ===== FINAL LAYOUT PATCH (fills right side, keeps sidebar fixed) ===== */
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+}
+
+/* Fixed sidebar on left */
+aside.f-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 270px; /* or your preferred width */
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+/* Main area fills remaining right side */
+main.main {
+  margin-left: 270px; /* same as sidebar width */
+  width: calc(100vw - 270px);
+  height: 100vh;
+  overflow-y: auto;
+  background: #f9fbfd;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* Fix for responsive view */
+@media (max-width: 768px) {
+  aside.f-sidebar {
+    position: fixed;
+    width: 220px;
+  }
+  main.main {
+    margin-left: 220px;
+    width: calc(100vw - 220px);
+  }
+}
 
 </style>
 
