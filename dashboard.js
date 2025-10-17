@@ -155,11 +155,6 @@ function openNDAModal(method) {
   };
 }
 
-
-
-
-
-// ✅ FINAL PATCHED VERSION
 async function showDepositInstructions(method) {
   const { data: userData } = await supabase.auth.getUser();
   if (!userData.user) {
@@ -176,17 +171,24 @@ async function showDepositInstructions(method) {
 
   let instructions = "";
   if (error) {
-    console.error("Error:", error);
+    console.error("Error fetching deposit instructions:", error);
     instructions = `<p>Error loading instructions. Please contact support.</p>`;
   } else if (!data) {
     instructions = `<p>No instructions found for ${formatMethod(method)}.</p>`;
   } else {
     instructions = data.details || "";
+
+    // ✅ Handle full Supabase public URL correctly
     if (data.qr_url) {
-      console.log("QR URL from Supabase:", data.qr_url);
+      const qrSrc = data.qr_url.startsWith("http")
+        ? data.qr_url
+        : `${supabaseUrl}/storage/v1/object/public/safeguard-images/${data.qr_url}`;
+
+      console.log("Resolved QR URL:", qrSrc);
+
       instructions += `
         <div class="mt-4 text-center">
-          <img src="${data.qr_url}" 
+          <img src="${qrSrc}"
                alt="${formatMethod(method)} QR Code"
                style="width:160px; height:auto; border-radius:8px; box-shadow:0 0 8px rgba(0,0,0,0.15);" />
         </div>`;
@@ -206,14 +208,6 @@ async function showDepositInstructions(method) {
   modal.querySelector("[data-close]").onclick = () => modal.remove();
 }
 
-function formatMethod(m) {
-  return {
-    wire_transfer: "Wire Transfer",
-    crypto: "Digital Asset (Crypto)",
-    gold: "Physical Gold",
-    cash: "Certified Cash",
-  }[m] || "Deposit Method";
-}
 // Logout
 $("logoutBtnSidebar").onclick = async () => {
   await supabase.auth.signOut();
