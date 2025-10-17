@@ -168,7 +168,7 @@ async function showDepositInstructions(method) {
     case "crypto":
       instructions = `
         <p>Scan the QR code below or use wallet ID:<br><strong>0xA45dC...98bF</strong></p>
-        <img src="https://hafzffbdqlojkuhgfsvy.supabase.co/storage/v1/object/public/safeguard-images/cryptoqr.jpg" alt="Crypto QR" width="120" class="mt-2" />`;
+        <img src="images/cryptoqr.jpg" alt="Crypto QR" width="120" class="mt-2" />`;
       break;
     case "gold":
       instructions = `<p>Please contact our certified custodian for physical gold deposit instructions.</p>`;
