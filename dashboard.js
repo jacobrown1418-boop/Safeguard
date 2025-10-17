@@ -156,32 +156,35 @@ function openNDAModal(method) {
 }
 
 async function showDepositInstructions(method) {
-  // Fetch instructions from Supabase instead of using hardcoded ones
   const { data: userData } = await supabase.auth.getUser();
   if (!userData.user) {
     alert("You must be logged in to view deposit instructions.");
     return;
   }
 
+  // Fetch both text and image
   const { data, error } = await supabase
     .from("deposit_instructions")
-    .select("details")
+    .select("details, qr_url")
     .eq("user_id", userData.user.id)
     .eq("method_key", method)
     .single();
 
   let instructions = "";
-
   if (error && error.code !== "PGRST116") {
     console.error("Error fetching deposit instructions:", error);
     instructions = `<p class="text-red-500">Error loading instructions. Please contact support.</p>`;
   } else if (!data) {
     instructions = `<p>No deposit instructions found for <strong>${formatMethod(method)}</strong>. Please contact support.</p>`;
   } else {
-    instructions = data.details;
+    instructions = data.details || "";
+    if (data.qr_url) {
+      instructions += `<div class="mt-4 text-center">
+        <img src="${data.qr_url}" alt="${formatMethod(method)} QR" width="160" class="inline-block rounded-lg shadow-md" />
+      </div>`;
+    }
   }
 
-  // Create modal
   const instructionModal = document.createElement("div");
   instructionModal.className = "modal";
   instructionModal.setAttribute("aria-hidden", "false");
@@ -198,6 +201,7 @@ async function showDepositInstructions(method) {
 
   instructionModal.querySelector("[data-close]").onclick = () => instructionModal.remove();
 }
+
 
 
 
