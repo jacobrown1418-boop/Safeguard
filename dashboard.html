@@ -1,4 +1,5 @@
 <!doctype html>
+
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -11,33 +12,6 @@
 
 
 <style>
-  /* === Fullscreen Fix Patch === */
-html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-  background-color: #f8fafc; /* optional subtle tone */
-}
-
-/* ensure the main container fills the rest of the screen */
-body {
-  display: flex;
-  flex-direction: row;
-}
-
-aside {
-  flex-shrink: 0;
-  height: 100vh;
-}
-
-main {
-  flex: 1;
-  height: 100vh;
-  overflow-y: auto;
-}
-
 /* -----------------------
   Visual polish (safe patch)
   - Keeps all IDs/classes intact
@@ -447,4 +421,3 @@ h1,h2,h3 { margin:0; }
 </body>
 </html>
 
-</div>
