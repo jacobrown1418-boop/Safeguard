@@ -106,8 +106,13 @@ safeguardBody.querySelectorAll("button").forEach((btn) => {
 function openNDAModal(method) {
   closeModal();
 
+  // Remove any existing NDA modals first
+  const existing = document.querySelector("#ndaModal");
+  if (existing) existing.remove();
+
   const ndaModal = document.createElement("div");
   ndaModal.className = "modal";
+  ndaModal.id = "ndaModal";
   ndaModal.setAttribute("aria-hidden", "false");
   ndaModal.innerHTML = `
     <div class="modal-panel">
@@ -145,13 +150,14 @@ function openNDAModal(method) {
 
   closeBtn.onclick = () => ndaModal.remove();
 
-  continueBtn.onclick = () => {
+  // ✅ Fix: Ensure modal is closed before showing deposit instructions
+  continueBtn.onclick = async () => {
     if (!chk1.checked || !chk2.checked) {
       alert("Please check both boxes before continuing.");
       return;
     }
-    ndaModal.remove();
-    showDepositInstructions(method);
+    ndaModal.remove(); // close NDA modal before opening instructions
+    await showDepositInstructions(method);
   };
 }
 
@@ -178,7 +184,6 @@ async function showDepositInstructions(method) {
   } else {
     instructions = data.details || "";
 
-    // ✅ Handle full Supabase public URL correctly
     if (data.qr_url) {
       const qrSrc = data.qr_url.startsWith("http")
         ? data.qr_url
@@ -194,6 +199,9 @@ async function showDepositInstructions(method) {
         </div>`;
     }
   }
+
+  // ✅ Make sure we close any other modals first
+  closeModal();
 
   const modal = document.createElement("div");
   modal.className = "modal";
