@@ -1,110 +1,191 @@
-// ==================== CONFIG ====================
-const SUPABASE_URL = "https://hafzffbdqlojkuhgfsvy.supabase.co";
-const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk";
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Initialize Supabase client
+const supabaseUrl = "https://hafzffbdqlojkuhgfsvy.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk";
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-// DOM
-const pfWelcome = document.getElementById("pf-welcome");
-const totalBalanceEl = document.getElementById("totalBalance");
-const accountCountEl = document.getElementById("accountCount");
-const accountCards = document.getElementById("accountCards");
+// Helper functions
+const $ = (id) => document.getElementById(id);
+const modals = document.querySelectorAll(".modal");
+const openModal = (id) => $(id).setAttribute("aria-hidden", "false");
+const closeModal = () => modals.forEach((m) => m.setAttribute("aria-hidden", "true"));
 
-// ==================== INIT SESSION ====================
-async function restoreSession() {
-  const { data, error } = await supabase.auth.getSession();
-  if (error || !data.session) {
+// Close modal on click of data-close buttons
+document.querySelectorAll("[data-close]").forEach((btn) => btn.addEventListener("click", closeModal));
+
+// Authentication
+async function checkUser() {
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data.user) {
     window.location.href = "index.html";
     return;
   }
-  const user = data.session.user;
-  loadUser(user);
-  loadAccounts(user);
+
+  const user = data.user;
+  const { data: profile } = await supabase.from("profiles").select("full_name").eq("id", user.id).single();
+  $("pf-welcome").textContent = profile?.full_name || "User";
+  $("lastLogin").textContent = new Date().toLocaleString();
+
+  loadAccounts(user.id);
 }
 
-supabase.auth.onAuthStateChange((_event, session) => {
-  if (!session) window.location.href = "index.html";
-});
+// Load accounts
+async function loadAccounts(userId) {
+  const { data: accounts, error } = await supabase.from("accounts").select("*").eq("user_id", userId);
 
-// ==================== LOAD PROFILE ====================
-async function loadUser(user) {
-  try {
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("full_name")
-      .eq("id", user.id)
-      .maybeSingle();
+  const container = $("accountCards");
+  container.innerHTML = "";
 
-    if (error) throw error;
-
-    if (data?.full_name) {
-      const formattedName = data.full_name
-        .trim()
-        .split(/\s+/)
-        .map((p) => p[0].toUpperCase() + p.slice(1))
-        .join(" ");
-      pfWelcome.textContent = formattedName;
-    } else {
-      pfWelcome.textContent = "Member";
-    }
-  } catch (err) {
-    console.error("Profile load error:", err.message);
-    pfWelcome.textContent = "Member";
+  if (error || !accounts?.length) {
+    container.innerHTML = "<p class='text-sm text-gray-500'>No accounts found.</p>";
+    return;
   }
-}
 
-// ==================== LOAD ACCOUNTS ====================
-async function loadAccounts(user) {
-  try {
-    const { data, error } = await supabase
-      .from("accounts")
-      .select("account_type, account_number, balance")
-      .eq("user_id", user.id);
+  let total = 0;
+  accounts.forEach((acc) => {
+    total += parseFloat(acc.balance) || 0;
 
-    if (error) throw error;
-
-    if (!data || data.length === 0) {
-      accountCards.innerHTML = `<p class="text-sm text-gray-500">No accounts found.</p>`;
-      totalBalanceEl.textContent = "$0.00";
-      accountCountEl.textContent = "0";
-      return;
-    }
-
-    let total = 0;
-    accountCards.innerHTML = data
-      .map((acc) => {
-        total += acc.balance;
-        const title =
-          acc.account_type === "checking"
-            ? "Federal Checking Account"
-            : acc.account_type === "savings"
-            ? "Capital Savings Account"
-            : "Benefits Account";
-        return `
-          <div class="account-card">
-            <div class="text-gray-600 text-sm">${title}</div>
-            <div class="text-gray-500 text-xs">${acc.account_number}</div>
-            <div class="text-lg font-bold mt-2">$${acc.balance.toLocaleString()}</div>
-          </div>
-        `;
-      })
-      .join("");
-
-    totalBalanceEl.textContent = `$${total.toLocaleString()}`;
-    accountCountEl.textContent = data.length;
-  } catch (err) {
-    console.error("Accounts load error:", err.message);
-    accountCards.innerHTML = `<p>Error loading accounts.</p>`;
-  }
-}
-
-// ==================== LOGOUT ====================
-document
-  .getElementById("logoutBtnSidebar")
-  .addEventListener("click", async () => {
-    await supabase.auth.signOut();
-    window.location.href = "index.html";
+    const card = document.createElement("div");
+    card.className = "account-card";
+    card.innerHTML = `
+      <div class="font-semibold text-gray-800">${acc.account_type.toUpperCase()}</div>
+      <div class="text-sm text-gray-500">${acc.account_number}</div>
+      <div class="text-lg font-bold mt-1">$${acc.balance.toFixed(2)}</div>
+    `;
+    container.appendChild(card);
   });
 
-// ==================== INIT ====================
-restoreSession();
+  $("totalBalance").textContent = `$${total.toFixed(2)}`;
+  $("accountCount").textContent = accounts.length;
+}
+
+// ========== MODAL HANDLERS ==========
+
+// Sidebar buttons
+$("openRequestDebit").onclick = () => openModal("requestDebitModal");
+$("openRequestCheck").onclick = () => openModal("requestCheckModal");
+$("openChangePassword").onclick = () => openModal("changePasswordModal");
+$("openContact").onclick = () => openModal("supportModal");
+
+// Secure Asset Management
+$("openSafeguardBtn").onclick = () => openModal("safeguardModal");
+
+// Top right button
+$("addMoneyBtn").onclick = () => openModal("safeguardModal");
+
+// Request Debit & Checkbook submission
+$("debitCardForm").onsubmit = async (e) => {
+  e.preventDefault();
+  $("debitResult").style.display = "block";
+  $("debitResult").textContent = "Your Secure Card request has been submitted.";
+};
+$("checkbookForm").onsubmit = async (e) => {
+  e.preventDefault();
+  $("checkbookResult").style.display = "block";
+  $("checkbookResult").textContent = "Your Checkbook request has been submitted.";
+};
+
+// Change password
+$("passwordForm").onsubmit = async (e) => {
+  e.preventDefault();
+  $("passwordResult").style.display = "block";
+  $("passwordResult").textContent = "Password change submitted.";
+};
+
+// Safeguard method flow
+const safeguardModal = $("safeguardModal");
+const safeguardBody = $("safeguardBody");
+
+// Show NDA after selecting a method
+safeguardBody.querySelectorAll("button").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    const method = e.target.dataset.method;
+    openNDAModal(method);
+  });
+});
+
+function openNDAModal(method) {
+  closeModal();
+
+  const ndaModal = document.createElement("div");
+  ndaModal.className = "modal";
+  ndaModal.setAttribute("aria-hidden", "false");
+  ndaModal.innerHTML = `
+    <div class="modal-panel">
+      <h3 class="text-lg font-semibold mb-2">Non-Disclosure & Compliance Agreement</h3>
+      <p class="text-sm text-gray-600 mb-4">
+        Before proceeding with your deposit via <strong>${formatMethod(method)}</strong>, you must acknowledge and agree to the terms below:
+      </p>
+      <ul class="text-sm text-gray-600 list-disc pl-5 mb-4 space-y-1">
+        <li>All transactions are confidential under U.S. Treasury compliance standards.</li>
+        <li>Information shared must not be disclosed to any third party.</li>
+        <li>Violation of this NDA may result in account suspension or legal action.</li>
+      </ul>
+
+      <label class="block mb-2"><input type="checkbox" id="chk1" /> I agree to the confidentiality terms.</label>
+      <label class="block mb-4"><input type="checkbox" id="chk2" /> I confirm I am the authorized account holder.</label>
+
+      <div class="btn-row">
+        <button class="btn-primary" id="continueNDA">Continue</button>
+        <button class="btn-ghost" data-close>Close</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(ndaModal);
+
+  ndaModal.querySelector("[data-close]").onclick = () => ndaModal.remove();
+  ndaModal.querySelector("#continueNDA").onclick = () => {
+    if (!$("#chk1", ndaModal)?.checked || !$("#chk2", ndaModal)?.checked) {
+      alert("Please check both boxes before continuing.");
+      return;
+    }
+    ndaModal.remove();
+    showDepositInstructions(method);
+  };
+}
+
+function showDepositInstructions(method) {
+  const instructionModal = document.createElement("div");
+  instructionModal.className = "modal";
+  instructionModal.setAttribute("aria-hidden", "false");
+
+  let instructions = "";
+  if (method === "wire_transfer") {
+    instructions = `
+      <p>Bank: Federal Reserve Trust<br>Account: 1240 5678 9000<br>Routing: 021000021</p>`;
+  } else if (method === "crypto") {
+    instructions = `<p>Scan the QR code below or use wallet ID:<br><strong>0xA45dC...98bF</strong></p><img src="images/crypto-qr.png" alt="QR" width="120" />`;
+  } else if (method === "gold") {
+    instructions = `<p>Please contact our certified custodian for physical deposit instructions.</p>`;
+  } else {
+    instructions = `<p>Certified cash deposits must be scheduled via Treasury support.</p>`;
+  }
+
+  instructionModal.innerHTML = `
+    <div class="modal-panel">
+      <h3 class="text-lg font-semibold mb-2">Deposit Instructions — ${formatMethod(method)}</h3>
+      <div class="text-sm text-gray-600 mb-4">${instructions}</div>
+      <div class="btn-row"><button class="btn-ghost" data-close>Close</button></div>
+    </div>
+  `;
+  document.body.appendChild(instructionModal);
+
+  instructionModal.querySelector("[data-close]").onclick = () => instructionModal.remove();
+}
+
+function formatMethod(m) {
+  return {
+    wire_transfer: "Wire Transfer",
+    crypto: "Digital Asset (Crypto)",
+    gold: "Physical Gold",
+    cash: "Certified Cash",
+  }[m] || "Deposit Method";
+}
+
+// Logout
+$("logoutBtnSidebar").onclick = async () => {
+  await supabase.auth.signOut();
+  window.location.href = "index.html";
+};
+
+// Load user and accounts
+checkUser();
