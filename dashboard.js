@@ -227,17 +227,12 @@ async function showDepositInstructions(methodKey) {
   }
 
   modalContent.innerHTML = `
-    <h3 class="text-lg font-semibold mb-2">${data?.title || "Deposit Instructions"}</h3>
-    <div class="text-sm text-gray-700 leading-relaxed">${details}</div>
-    ${
-      qrUrl
-        ? `<img src="${qrUrl}" alt="QR Code" class="mx-auto mt-4 w-48 h-48 object-contain rounded shadow-md">`
-        : ""
-    }
-  `;
+  <h3 class="text-lg font-semibold mb-2">${data.title || "Deposit Instructions"}</h3>
+  <div class="text-sm text-gray-700 leading-relaxed">${data.details || "No details provided."}</div>
+  ${data.qr_url ? `<img src="${data.qr_url}" alt="QR Code" class="mx-auto mt-4 w-48 h-48 object-contain">` : ""}
+`;
 
-  openModal("depositModal");
-}
+openModal("depositModal");
 
 // ===== Helper =====
 function formatMethod(method) {
