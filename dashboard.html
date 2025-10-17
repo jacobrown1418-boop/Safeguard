@@ -9,8 +9,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-
-
 <style>
 /* -----------------------
   Visual polish (safe patch)
@@ -78,6 +76,34 @@ nav button {
 aside button:hover,
 nav button:hover { transform:translateX(6px); background: rgba(255,255,255,0.03) }
 .nav-item.active { background: rgba(255,255,255,0.06); border-left-color:var(--accent); }
+
+  /* === Fix Right Side Empty Space === */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.dashboard-wrapper {
+  display: flex;
+  width: 100vw; /* use full viewport width */
+  height: 100vh; /* fill screen height */
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 280px; /* or your current sidebar width */
+  flex-shrink: 0;
+}
+
+.main-content {
+  flex: 1; /* takes the remaining space */
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f9fafb; /* light background for main area */
+  overflow-y: auto;
+}
 
 /* Main content area: ensure it fills right-side and keeps your existing paddings */
 main,
