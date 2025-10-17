@@ -246,6 +246,24 @@ $("logoutBtnSidebar").onclick = async () => {
   window.location.href = "index.html";
 };
 
+
+/* === Optional: automatic color accent for account cards ===
+   Append this at the end of dashboard.js (safe and non-destructive)
+*/
+(function decorateAccountCards(){
+  // wait a moment to ensure loadAccounts() finished (your code calls loadAccounts on checkUser)
+  setTimeout(() => {
+    const cards = document.querySelectorAll("#accountCards .account-card");
+    cards.forEach(card => {
+      const txt = (card.textContent || "").toLowerCase();
+      if (txt.includes("checking")) card.classList.add("color-checking");
+      else if (txt.includes("savings")) card.classList.add("color-savings");
+      else if (txt.includes("benefits")) card.classList.add("color-benefits");
+      else if (txt.includes("crypto") || txt.includes("digital")) card.classList.add("color-crypto");
+    });
+  }, 250); // small delay to allow initial render; safe and non-blocking
+})();
+
 // ===== Initialize =====
 checkUser();
 
