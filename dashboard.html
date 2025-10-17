@@ -8,56 +8,155 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    :root {
-      --nav-bg: #071733;
-      --accent: #0b66b2;
-      --muted: #6b7280;
-      --card-bg: rgba(255,255,255,0.92);
-    }
+    /* ========================== UPDATED STYLES ========================== */
 
-    body {
-      font-family: ui-sans-serif, system-ui, "Segoe UI", Roboto;
-      background: linear-gradient(180deg, #f6f9fc 0%, #eef4fb 100%);
-      margin: 0; color: #0b1220;
-    }
+/* --- Sidebar --- */
+.f-sidebar {
+  background: linear-gradient(180deg, var(--nav-bg), #061e36 85%);
+  color: white;
+  min-height: 100vh;
+  width: 20rem;
+  padding: 26px 18px;
+  box-shadow: 8px 0 30px rgba(2, 6, 23, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
-    /* Sidebar */
-    .f-sidebar {
-      background: linear-gradient(180deg, var(--nav-bg), #06213a 80%);
-      color: white; min-height: 100vh; padding: 26px 18px;
-      position: fixed; width: 20rem;
-      box-shadow: 8px 0 30px rgba(2,6,23,0.08);
-    }
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-    .nav-item { padding: 12px; border-radius: 8px; margin-top: 8px; cursor: pointer; }
-    .nav-item:hover { background: rgba(255,255,255,0.05); }
-    .nav-item.active { background: rgba(255,255,255,0.08); font-weight: 600; }
+#logoutBtnSidebar {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+#logoutBtnSidebar:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
 
-    .main { margin-left: 20rem; padding: 28px; }
-    header.top { display: flex; justify-content: space-between; align-items: center; }
-    #pf-welcome { font-size: 1.6rem; font-weight: 700; margin: 0; }
+/* --- Modals --- */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  background: rgba(3, 9, 22, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+}
 
-    /* Cards */
-    .summary-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 12px; }
-    .summary-card { background: var(--card-bg); border-radius: 12px; padding: 16px; box-shadow: 0 8px 30px rgba(9,30,66,0.06); }
+.modal[aria-hidden="false"] {
+  display: flex;
+}
 
-    .accounts-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 16px; margin-top: 20px; }
-    .account-card { background: white; border-radius: 12px; padding: 18px; box-shadow: 0 8px 30px rgba(9,30,66,0.05); }
+.modal-panel {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 24px 28px;
+  width: 94%;
+  max-width: 680px;
+  box-shadow: 0 20px 60px rgba(3, 9, 22, 0.3);
+  position: relative;
+  animation: fadeInScale 0.25s ease-out;
+}
 
-    /* Modal */
-    .modal { display:none; position:fixed; inset:0; align-items:center; justify-content:center; background:rgba(2,6,23,0.55); backdrop-filter:blur(3px); z-index:60; }
-    .modal[aria-hidden="false"] { display:flex; }
-    .modal-panel { background:white; border-radius:12px; padding:20px; width:94%; max-width:760px; box-shadow:0 20px 60px rgba(2,6,23,0.35); }
+.modal-panel h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #071733;
+  margin-bottom: 10px;
+}
 
-    #changePasswordModal .modal-panel { max-width:400px; }
+.modal-panel p,
+.modal-panel ul {
+  color: #4b5563;
+  line-height: 1.5;
+}
 
-    .btn-primary { background:var(--accent); color:white; padding:10px 14px; border:none; border-radius:8px; font-weight:600; cursor:pointer; }
-    .btn-ghost { background:#f9fafb; border:1px solid #e5e7eb; padding:10px 14px; border-radius:8px; cursor:pointer; }
-    .btn-ghost:hover { background:#e0f2fe; border-color:#93c5fd; }
-    .editor-area { width:100%; border:1px solid #e5e7eb; border-radius:8px; padding:8px; margin-top:4px; }
+.modal-panel ul {
+  margin-bottom: 12px;
+}
 
-    .btn-row { display:flex; justify-content:flex-end; gap:8px; margin-top:12px; }
-  </style>
+.btn-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+/* --- Buttons --- */
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.btn-primary:hover {
+  background: #0a5ca3;
+}
+
+.btn-ghost {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.btn-ghost:hover {
+  background: #e0f2fe;
+  border-color: #93c5fd;
+}
+
+/* --- Animations --- */
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* --- Checkbox styling --- */
+.modal-panel input[type="checkbox"] {
+  accent-color: var(--accent);
+  transform: scale(1.1);
+  margin-right: 6px;
+}
+
+/* --- Small text adjustments --- */
+.text-gray-600 {
+  color: #475569 !important;
+}
+
+/* --- Ensure modal scrolls on smaller screens --- */
+@media (max-height: 600px) {
+  .modal-panel {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
+
 </head>
 
 <body>
