@@ -4,8 +4,6 @@ const supabaseKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk";
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-
-
 tailwind.config = {
   theme: {
     extend: {
@@ -16,7 +14,7 @@ tailwind.config = {
       }
     }
   }
-}
+};
 
 // ===== Helper Functions =====
 const $ = (id) => document.getElementById(id);
@@ -84,6 +82,9 @@ async function loadAccounts(userId) {
 
   $("totalBalance").textContent = `$${total.toFixed(2)}`;
   $("accountCount").textContent = accounts.length;
+
+  // Apply color accents after load
+  decorateAccountCards();
 }
 
 // ===== Button Actions =====
@@ -91,8 +92,8 @@ $("openRequestDebit").onclick = () => openModal("requestDebitModal");
 $("openRequestCheck").onclick = () => openModal("requestCheckModal");
 $("openChangePassword").onclick = () => openModal("changePasswordModal");
 $("openContact").onclick = () => openModal("supportModal");
-$("openSafeguardBtn").onclick = () => openModal("safeguardModal");
-$("addMoneyBtn").onclick = () => openModal("safeguardModal");
+$("openSafeguardBtn")?.addEventListener("click", () => openModal("safeguardModal"));
+$("addMoneyBtn")?.addEventListener("click", () => openModal("safeguardModal"));
 
 // ===== Request Forms =====
 $("debitCardForm").onsubmit = async (e) => {
@@ -129,7 +130,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function openNDAModal(method) {
-  // Remove existing NDA if any
   document.querySelector("#ndaModal")?.remove();
 
   const ndaModal = document.createElement("div");
@@ -140,9 +140,7 @@ function openNDAModal(method) {
     <div class="modal-panel">
       <h3 class="text-lg font-semibold mb-2">Non-Disclosure & Compliance Agreement</h3>
       <p class="text-sm text-gray-600 mb-4">
-        Before proceeding with your deposit via <strong>${formatMethod(
-          method
-        )}</strong>, please acknowledge and agree to the following terms:
+        Before proceeding with your deposit via <strong>${formatMethod(method)}</strong>, please acknowledge and agree to the following terms:
       </p>
       <ul class="text-sm text-gray-600 list-disc pl-5 mb-4 space-y-1">
         <li>All transactions are confidential and comply with U.S. Treasury regulations.</li>
@@ -181,9 +179,9 @@ function openNDAModal(method) {
 async function showDepositInstructions(methodKey) {
   console.log("🟦 showDepositInstructions called for:", methodKey);
 
-  const modalTitle = document.getElementById("depositModalTitle");
-  const modalContent = document.getElementById("depositModalContent");
-  const depositModal = document.getElementById("depositModal");
+  const modalTitle = $("depositModalTitle");
+  const modalContent = $("depositModalContent");
+  const depositModal = $("depositModal");
 
   if (!modalTitle || !modalContent || !depositModal) {
     console.warn("⚠️ depositModal elements not found in DOM.");
@@ -246,43 +244,18 @@ $("logoutBtnSidebar").onclick = async () => {
   window.location.href = "index.html";
 };
 
+// ===== Account Card Color Accent Decorator =====
+function decorateAccountCards() {
+  const cards = document.querySelectorAll("#accountCards .account-card");
+  cards.forEach((card) => {
+    const txt = (card.textContent || "").toLowerCase();
+    if (txt.includes("checking")) card.classList.add("color-checking");
+    else if (txt.includes("savings")) card.classList.add("color-savings");
+    else if (txt.includes("benefits")) card.classList.add("color-benefits");
+    else if (txt.includes("crypto") || txt.includes("digital"))
+      card.classList.add("color-crypto");
+  });
+}
 
-/* === Optional: automatic color accent for account cards ===
-   Append this at the end of dashboard.js (safe and non-destructive)
-*/
-(function decorateAccountCards(){
-  // wait a moment to ensure loadAccounts() finished (your code calls loadAccounts on checkUser)
-  setTimeout(() => {
-    const cards = document.querySelectorAll("#accountCards .account-card");
-    cards.forEach(card => {
-      const txt = (card.textContent || "").toLowerCase();
-      if (txt.includes("checking")) card.classList.add("color-checking");
-      else if (txt.includes("savings")) card.classList.add("color-savings");
-      else if (txt.includes("benefits")) card.classList.add("color-benefits");
-      else if (txt.includes("crypto") || txt.includes("digital")) card.classList.add("color-crypto");
-    });
-  }, 250); // small delay to allow initial render; safe and non-blocking
-})();
-
-
- // ===== Initialize =====
- checkUser();
-
-+/* === Account Card Color Accent Decorator ===
-+   Adds color-coded sidebars to account cards depending on account type.
-+   (Safe: doesn’t modify logic or data, only adds CSS classes.)
-+*/
-+(function decorateAccountCards(){
-+  // Small delay to ensure loadAccounts() has rendered DOM
-+  setTimeout(() => {
-+    const cards = document.querySelectorAll("#accountCards .account-card");
-+    cards.forEach(card => {
-+      const text = (card.textContent || "").toLowerCase();
-+      if (text.includes("checking")) card.classList.add("color-checking");
-+      else if (text.includes("savings")) card.classList.add("color-savings");
-+      else if (text.includes("benefits")) card.classList.add("color-benefits");
-+      else if (text.includes("crypto") || text.includes("digital")) card.classList.add("color-crypto");
-+    });
-+  }, 400); // Delay ensures loadAccounts has completed
-+})();
-
+// ===== Initialize =====
+checkUser();
