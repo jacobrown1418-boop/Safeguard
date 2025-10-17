@@ -9,102 +9,287 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-/* ====== MAIN DASHBOARD FULL-WIDTH FIX ====== */
-.main {
-  margin-left: 18rem; /* keep sidebar space */
-  position: relative;
-  width: calc(100vw - 18rem); /* take up all remaining width */
-  min-height: 100vh;
-  background: #f8fbff;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 40px 60px 60px 60px;
-  box-sizing: border-box;
+/* ======================= PRODUCTION-LEVEL BANKING DASHBOARD CSS ======================= */
+:root {
+  --nav-bg: #071733;
+  --accent: #0b66b2;
+  --accent-dark: #035aa3;
+  --surface: #f5f8fb;
+  --border: #e5ecf5;
+  --text: #021223;
+  --muted: #6b7280;
+  --card-bg: #ffffff;
+  --shadow: 0 10px 30px rgba(9, 30, 66, 0.05);
 }
 
-/* Top header alignment */
-header.top {
+/* Base Reset */
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--surface);
+  font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== LAYOUT ===== */
+body {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.f-sidebar {
+  width: 18rem;
+  background: linear-gradient(180deg, var(--nav-bg), #031127 90%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 18px;
+  box-shadow: 6px 0 24px rgba(2, 6, 23, 0.1);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  z-index: 10;
+}
+.logo-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.logo-row img {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+}
+.brand-title { font-weight: 800; font-size: 1.05rem; }
+.brand-sub { color: rgba(255,255,255,0.85); font-size: 0.85rem; }
+.trustline { color: rgba(255,255,255,0.6); font-size: 0.78rem; }
+
+.nav-item {
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-top: 8px;
+  color: rgba(255,255,255,0.95);
+  border-left: 4px solid transparent;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  cursor: pointer;
+}
+.nav-item:hover {
+  background: rgba(255,255,255,0.07);
+  transform: translateX(3px);
+}
+.nav-item.active {
+  background: rgba(255,255,255,0.1);
+  border-left-color: var(--accent);
+  font-weight: 600;
+}
+.sidebar-footer {
+  margin-top: auto;
+}
+#logoutBtnSidebar {
   width: 100%;
-  max-width: 100%;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+#logoutBtnSidebar:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* ===== MAIN CONTENT ===== */
+.main {
+  margin-left: 18rem;
+  flex: 1;
+  background: var(--surface);
+  height: 100vh;
+  overflow-y: auto;
+  padding: 40px 80px;
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
+}
+
+header.top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 36px;
+  margin-bottom: 32px;
+  width: 100%;
+}
+#pf-welcome {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--text);
+}
+header.top .text-gray-500 {
+  color: var(--muted);
 }
 
-/* Summary + account sections expand naturally */
-.summary-row,
-.accounts-grid {
+/* ===== SUMMARY CARDS ===== */
+.summary-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
   gap: 28px;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
+  margin-top: 8px;
 }
-
-/* Cards look clean and full-width consistent */
-.summary-card,
-.account-card {
-  width: 100%;
-  background: #fff;
-  border: 1px solid #e3ebf4;
-  border-radius: 14px;
-  padding: 24px 28px;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.05);
+.summary-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 26px 30px;
+  box-shadow: var(--shadow);
   transition: all 0.25s ease;
 }
-.summary-card:hover,
+.summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 36px rgba(9,30,66,0.08);
+}
+
+/* ===== ACCOUNTS ===== */
+.accounts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+.account-card {
+  background: linear-gradient(180deg, #ffffff, #fafcff);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px 24px;
+  box-shadow: var(--shadow);
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .account-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 36px rgba(0,0,0,0.07);
+  box-shadow: 0 12px 36px rgba(9,30,66,0.08);
 }
 
-/* Optional: align inner elements better */
-.main .card-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #0b1a2a;
-  margin-bottom: 6px;
-}
-.main .card-value {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #032f6b;
-}
-
-/* Fix Initiate Deposit button alignment */
-header.top button {
-  background: #0b66b2;
+/* ===== BUTTONS ===== */
+.btn-primary {
+  background: var(--accent);
   color: #fff;
   padding: 10px 18px;
-  border-radius: 8px;
   border: none;
+  border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.25s ease;
+  transition: all 0.15s ease;
 }
-header.top button:hover { background: #054d8c; }
+.btn-primary:hover { background: var(--accent-dark); }
 
-/* Smooth scroll for the main content */
-.main::-webkit-scrollbar {
-  width: 10px;
+.btn-ghost {
+  background: #fff;
+  border: 1px solid var(--border);
+  padding: 10px 16px;
+  border-radius: 8px;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
-.main::-webkit-scrollbar-thumb {
-  background: #c9d4e4;
+.btn-ghost:hover {
+  background: #f3f8ff;
+  border-color: #d1e3ff;
+}
+
+/* ===== MODALS (Professional look) ===== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(6px);
+  z-index: 60;
+  transition: opacity 0.25s ease;
+}
+.modal[aria-hidden="false"] { display: flex; animation: fadeIn 0.25s ease; }
+@keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+
+.modal-panel {
+  background: #fff;
+  border-radius: 18px;
+  padding: 30px 34px;
+  width: 95%;
+  max-width: 520px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+  border: 1px solid #dde6f3;
+  animation: slideUp 0.25s ease;
+}
+@keyframes slideUp { from {transform: translateY(20px); opacity: 0;} to {transform: translateY(0); opacity: 1;} }
+
+.modal-panel h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+.modal-panel label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: var(--muted);
+}
+.modal-panel textarea,
+.modal-panel input {
+  width: 100%;
+  border: 1px solid var(--border);
   border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  font-size: 0.95rem;
+  transition: border 0.15s ease;
+}
+.modal-panel textarea:focus,
+.modal-panel input:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(11,102,178,0.15);
 }
 
-/* Responsive layout */
+.btn-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
+  body { flex-direction: column; overflow: auto; }
+  .f-sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
   .main {
     margin-left: 0;
-    width: 100%;
     padding: 20px;
   }
+  .summary-row { grid-template-columns: 1fr; }
+  .accounts-grid { grid-template-columns: 1fr; }
+  .modal-panel { padding: 24px; }
 }
+
 
 
 </style>
