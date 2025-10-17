@@ -81,12 +81,13 @@ nav button:hover { transform:translateX(6px); background: rgba(255,255,255,0.03)
 /* Main content area: ensure it fills right-side and keeps your existing paddings */
 main,
 .main {
-  margin-left: 18rem; /* matches sidebar width above */
-  flex:1;
-  height:100vh;
-  overflow:auto;
-  padding:36px 56px;
+  margin-left: 18rem; /* matches sidebar width */
+  width: calc(100vw - 18rem); /* ensures full width with sidebar */
+  min-height: 100vh;
+  overflow-y: auto;
+  padding: 36px 56px;
   background: linear-gradient(180deg, rgba(246,249,253,0.6), var(--surface));
+  box-sizing: border-box;
 }
 
 /* Hero / header polish (works with your hero section already using gradient classes) */
