@@ -246,6 +246,59 @@ main.main::-webkit-scrollbar-thumb:hover {
     height: auto;
   }
 }
+/* === ELEGANT CARD ANIMATIONS – PROFESSIONAL TOUCH === */
+
+/* Subtle pulse when the dashboard loads */
+@keyframes cardFadeIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Gentle glow effect on hover (total balance + account cards) */
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 0 rgba(30,106,232,0); }
+  50% { box-shadow: 0 0 18px rgba(30,106,232,0.15); }
+  100% { box-shadow: 0 0 0 rgba(30,106,232,0); }
+}
+
+/* Apply fade-in animation to all summary + account cards */
+.summary-card,
+.account-card {
+  animation: cardFadeIn 0.6s ease both;
+}
+
+/* Apply glow pulse on hover */
+.summary-card:hover,
+.account-card:hover {
+  animation: glowPulse 1.5s ease infinite alternate;
+  transform: translateY(-3px);
+}
+
+/* Make total balance visually stand out a bit */
+#totalBalance {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #0b66b2;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+#totalBalance:hover {
+  text-shadow: 0 0 8px rgba(11,102,178,0.25);
+}
+
+/* Add slight card tilt on hover for realism */
+.summary-card:hover,
+.account-card:hover {
+  transform: translateY(-4px) rotateX(1deg);
+}
+
+/* Optional: smooth entrance delay so cards cascade in */
+.summary-card:nth-child(1) { animation-delay: 0.05s; }
+.summary-card:nth-child(2) { animation-delay: 0.15s; }
+.summary-card:nth-child(3) { animation-delay: 0.25s; }
+.account-card:nth-child(1) { animation-delay: 0.35s; }
+.account-card:nth-child(2) { animation-delay: 0.45s; }
+.account-card:nth-child(3) { animation-delay: 0.55s; }
 
 
 </style>
