@@ -300,6 +300,137 @@ main.main::-webkit-scrollbar-thumb:hover {
 .account-card:nth-child(2) { animation-delay: 0.45s; }
 .account-card:nth-child(3) { animation-delay: 0.55s; }
 
+/* ============================================
+   POLISHED PROFESSIONAL DASHBOARD UI REFINEMENTS
+   ============================================ */
+
+/* === Smooth hover glow animation === */
+.summary-card,
+.account-card {
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: cardFadeIn 0.6s ease both;
+  background: #ffffff;
+  border: 1px solid rgba(12, 28, 55, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(9, 30, 66, 0.06);
+}
+
+.summary-card:hover,
+.account-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(11, 102, 178, 0.15);
+}
+
+/* === Fade-in for soft appearance === */
+@keyframes cardFadeIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* === Username gradient text (professional) === */
+#pf-welcome {
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #0b66b2, #1e6ae8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 1px 2px rgba(30, 106, 232, 0.2);
+  letter-spacing: 0.3px;
+  animation: fadeInUser 0.8s ease both;
+}
+
+/* Optional: subtle underline bar under username */
+#pf-welcome::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  margin-top: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #0b66b2, #1e6ae8);
+}
+
+/* === Header fade animation === */
+@keyframes fadeInUser {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* === Background polish for a light professional tone === */
+main.main {
+  background: linear-gradient(180deg, #f8fbff 0%, #f4f7fb 100%);
+  background-attachment: fixed;
+}
+
+/* === Make summary cards more compact & balanced === */
+.summary-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.summary-card {
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* === Accounts grid uniform professional layout === */
+.accounts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+/* === Account cards refined === */
+.account-card {
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+/* === Consistent buttons inside account cards === */
+.account-card .btn-primary,
+.account-card .btn-ghost {
+  width: 48%;
+  text-align: center;
+  padding: 8px 0;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+}
+
+.account-card .btn-primary:hover {
+  box-shadow: 0 6px 20px rgba(11,102,178,0.25);
+  transform: translateY(-2px);
+}
+
+/* === Fix Logout button visibility & layout === */
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+#logoutBtnSidebar {
+  background: linear-gradient(90deg, #d93025, #b71c1c);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: 10px;
+  width: 100%;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#logoutBtnSidebar:hover {
+  background: linear-gradient(90deg, #e64a19, #c62828);
+  transform: translateY(-2px);
+}
 
 </style>
 
