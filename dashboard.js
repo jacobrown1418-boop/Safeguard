@@ -332,25 +332,37 @@ async function loadRecentTransactions() {
       `<div class="text-red-500 text-sm p-3">Error loading transactions.</div>`;
   }
 }
-
 // === Load & Manage Transactions (read, edit, delete) ===
 async function loadRecentTransactions() {
   try {
-    const { data: transactions, error } = await supabase
-      .from("transactions")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(10);
-
+    // ✅ 1. Get the signed-in user
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError) throw userError;
     const list = document.getElementById("transactionsList");
     list.innerHTML = "";
 
+    if (!user) {
+      list.innerHTML = `<div class="text-gray-500 text-sm p-3">Please log in to see your transactions.</div>`;
+      return;
+    }
+
+    // ✅ 2. Fetch user-specific transactions
+    const { data: transactions, error } = await supabase
+      .from("transactions")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(10);
+
     if (error) throw error;
+
+    // ✅ 3. Display transactions or fallback message
     if (!transactions || transactions.length === 0) {
       list.innerHTML = `<div class="text-gray-500 text-sm p-3">No recent transactions found.</div>`;
       return;
     }
 
+    // ✅ 4. Render transaction rows
     transactions.forEach(tx => {
       const row = document.createElement("div");
       row.className = "transaction-row";
@@ -362,8 +374,8 @@ async function loadRecentTransactions() {
           ${tx.type === "credit" ? "+" : "-"}$${Number(tx.amount).toFixed(2)}
         </span>
         <div class="transaction-actions">
-          <button onclick="editTransaction('${tx.id}')">✏️</button>
-          <button onclick="deleteTransaction('${tx.id}')">🗑️</button>
+          <button onclick="editTransaction('${tx.id}')" title="Edit Transaction">✏️</button>
+          <button onclick="deleteTransaction('${tx.id}')" title="Delete Transaction">🗑️</button>
         </div>
       `;
       list.appendChild(row);
@@ -374,6 +386,19 @@ async function loadRecentTransactions() {
       `<div class="text-red-500 text-sm p-3">Error loading transactions.</div>`;
   }
 }
+
+// ✅ 5. Live updates with Supabase Realtime
+supabase
+  .channel("transactions_changes")
+  .on(
+    "postgres_changes",
+    { event: "*", schema: "public", table: "transactions" },
+    payload => {
+      console.log("Transaction change detected:", payload);
+      loadRecentTransactions(); // refresh automatically
+    }
+  )
+  .subscribe();
 
 // === Delete a transaction ===
 async function deleteTransaction(id) {
