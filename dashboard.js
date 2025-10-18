@@ -336,6 +336,128 @@ async function loadRecentTransactions() {
 // Load on dashboard open
 document.addEventListener("DOMContentLoaded", loadRecentTransactions);
 
+// === Load & Manage Transactions ===
+async function loadRecentTransactions() {
+  try {
+    const { data: transactions, error } = await supabase
+      .from("transactions")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(10);
+
+    const list = document.getElementById("transactionsList");
+    list.innerHTML = "";
+
+    if (error) throw error;
+    if (!transactions || transactions.length === 0) {
+      list.innerHTML = `<div class="text-gray-500 text-sm p-3">No recent transactions found.</div>`;
+      return;
+    }
+
+    transactions.forEach(tx => {
+      const row = document.createElement("div");
+      row.className = "transaction-row";
+      row.innerHTML = `
+        <span>${new Date(tx.created_at).toLocaleDateString()}</span>
+        <span>${tx.description || "—"}</span>
+        <span class="transaction-type ${tx.type}">${tx.type}</span>
+        <span class="transaction-amount ${tx.type}">
+          ${tx.type === "credit" ? "+" : "-"}$${Number(tx.amount).toFixed(2)}
+        </span>
+        <div class="transaction-actions">
+          <button onclick="editTransaction('${tx.id}')">✏️</button>
+          <button onclick="deleteTransaction('${tx.id}')">🗑️</button>
+        </div>
+      `;
+      list.appendChild(row);
+    });
+  } catch (err) {
+    console.error("Error loading transactions:", err);
+    document.getElementById("transactionsList").innerHTML =
+      `<div class="text-red-500 text-sm p-3">Error loading transactions.</div>`;
+  }
+}
+
+// === Delete a transaction ===
+async function deleteTransaction(id) {
+  if (!confirm("Are you sure you want to delete this transaction?")) return;
+  const { error } = await supabase.from("transactions").delete().eq("id", id);
+  if (error) alert("Error deleting: " + error.message);
+  else loadRecentTransactions();
+}
+
+// === Open modal for add/edit ===
+const modalHTML = `
+  <div id="transactionModal" class="modal" aria-hidden="true">
+    <div class="modal-panel">
+      <h3 id="txModalTitle" class="text-lg font-semibold mb-3">New Transaction</h3>
+      <form id="txForm">
+        <input type="hidden" id="txId">
+        <input type="text" id="txDescription" placeholder="Description" class="transaction-input" required>
+        <select id="txType" class="transaction-input" required>
+          <option value="">Select type</option>
+          <option value="credit">Credit</option>
+          <option value="debit">Debit</option>
+        </select>
+        <input type="number" step="0.01" id="txAmount" placeholder="Amount" class="transaction-input" required>
+        <div class="flex justify-end mt-3 gap-2">
+          <button type="button" data-close class="btn-ghost">Cancel</button>
+          <button type="submit" class="btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+`;
+document.body.insertAdjacentHTML("beforeend", modalHTML);
+const txModal = document.getElementById("transactionModal");
+
+// === Add or edit transaction ===
+document.getElementById("addTransactionBtn").addEventListener("click", () => {
+  openTransactionModal();
+});
+
+function openTransactionModal(data = null) {
+  document.getElementById("txModalTitle").textContent = data ? "Edit Transaction" : "New Transaction";
+  document.getElementById("txId").value = data?.id || "";
+  document.getElementById("txDescription").value = data?.description || "";
+  document.getElementById("txType").value = data?.type || "";
+  document.getElementById("txAmount").value = data?.amount || "";
+  txModal.setAttribute("aria-hidden", "false");
+}
+
+function editTransaction(id) {
+  supabase.from("transactions").select("*").eq("id", id).single().then(({ data }) => {
+    if (data) openTransactionModal(data);
+  });
+}
+
+document.querySelectorAll("[data-close]").forEach(btn =>
+  btn.addEventListener("click", () => txModal.setAttribute("aria-hidden", "true"))
+);
+
+document.getElementById("txForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const id = document.getElementById("txId").value;
+  const data = {
+    description: document.getElementById("txDescription").value,
+    type: document.getElementById("txType").value,
+    amount: parseFloat(document.getElementById("txAmount").value),
+  };
+
+  let result;
+  if (id) result = await supabase.from("transactions").update(data).eq("id", id);
+  else result = await supabase.from("transactions").insert([data]);
+
+  if (result.error) {
+    alert("Error saving: " + result.error.message);
+  } else {
+    txModal.setAttribute("aria-hidden", "true");
+    loadRecentTransactions();
+  }
+});
+
+// Load on startup
+document.addEventListener("DOMContentLoaded", loadRecentTransactions);
 
 // ===== Initialize =====
 checkUser();
