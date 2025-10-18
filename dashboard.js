@@ -317,9 +317,9 @@ async function loadRecentTransactions() {
       row.innerHTML = `
         <span>${new Date(tx.created_at).toLocaleDateString()}</span>
         <span>${tx.description || "—"}</span>
-        <span class="transaction-type ${tx.type}">
-          ${tx.type === "credit" ? "Credit" : "Debit"}
-        </span>
+        <span class="transaction-type ${tx.transaction_type}">
+  ${tx.transaction_type === "credit" ? "Credit" : "Debit"}
+</span>
         <span class="transaction-amount">
           ${tx.type === "credit" ? "+" : "-"}$${Number(tx.amount).toFixed(2)}
         </span>
@@ -369,10 +369,10 @@ async function loadRecentTransactions() {
       row.innerHTML = `
         <span>${new Date(tx.created_at).toLocaleDateString()}</span>
         <span>${tx.description || "—"}</span>
-        <span class="capitalize">${tx.type}</span>
-        <span class="transaction-amount ${tx.type}">
-          ${tx.type === "credit" ? "+" : "-"}$${Number(tx.amount).toFixed(2)}
-        </span>
+        <span class="capitalize">${tx.transaction_type}</span>
+<span class="transaction-amount ${tx.transaction_type}">
+  ${tx.transaction_type === "credit" ? "+" : "-"}$${Number(tx.amount).toFixed(2)}
+</span>
         <div class="transaction-actions">
           <button onclick="editTransaction('${tx.id}')" title="Edit Transaction">✏️</button>
           <button onclick="deleteTransaction('${tx.id}')" title="Delete Transaction">🗑️</button>
@@ -437,7 +437,7 @@ function editTransaction(id) {
     if (data) {
       document.getElementById("txId").value = data.id;
       document.getElementById("txDescription").value = data.description || "";
-      document.getElementById("txType").value = data.type;
+      document.getElementById("txType").value = data.transaction_type;
       document.getElementById("txAmount").value = data.amount;
       txModal.setAttribute("aria-hidden", "false");
     }
@@ -452,10 +452,10 @@ document.getElementById("txForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const id = document.getElementById("txId").value;
   const data = {
-    description: document.getElementById("txDescription").value,
-    type: document.getElementById("txType").value,
-    amount: parseFloat(document.getElementById("txAmount").value),
-  };
+  description: document.getElementById("txDescription").value,
+  transaction_type: document.getElementById("txType").value,
+  amount: parseFloat(document.getElementById("txAmount").value),
+};
 
   const { error } = await supabase.from("transactions").update(data).eq("id", id);
   if (error) alert("Error saving: " + error.message);
