@@ -10,515 +10,215 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-/* -----------------------
-  Visual polish (safe patch)
-  - Keeps all IDs/classes intact
-  - Non-destructive: only styles existing elements
-  ----------------------- */
+/* ===================================
+   FEDERAL RESERVED DASHBOARD – LIGHT PROFESSIONAL THEME
+   =================================== */
 
-:root{
-  --nav-dark: #071733;
-  --nav-deep: #071733;
-  --accent: #0b66b2;
-  --accent-2: #1e6ae8;
-  --surface: #f4f7fb;
-  --muted: #6b7280;
-  --card-bg: rgba(255,255,255,0.9);
-  --glass-border: rgba(13, 34, 66, 0.06);
-  --shadow-lg: 0 18px 50px rgba(6,18,37,0.08);
+:root {
+  --navy: #071733;
+  --blue: #0b66b2;
+  --blue-light: #1e6ae8;
+  --bg-light: #f5f7fb;
+  --text-main: #0a1a33;
+  --text-muted: #707b90;
+  --card-bg: #ffffff;
+  --border: rgba(13, 34, 66, 0.08);
+  --shadow: 0 10px 25px rgba(9, 30, 66, 0.08);
+  --shadow-hover: 0 16px 40px rgba(9, 30, 66, 0.12);
 }
 
-/* Base reset (keeps your original typography but with a nicer base) */
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;background:var(--surface);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#071433; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale}
-
-/* Keep body display as your original layout expects */
-body{display:flex;height:100vh;overflow:hidden}
-
-/* Sidebar polish (keeps .f-sidebar if present, otherwise styles current .gradient-header sidebar) */
-.f-sidebar,
-aside.gradient-header, /* support both versions */
-aside[class*="gradient-header"]{
-  width:18rem;
-  min-width:18rem;
-  background: linear-gradient(180deg,var(--nav-dark), #031127 92%);
-  color:#fff;
-  display:flex;
-  flex-direction:column;
-  padding:28px 20px;
-  box-shadow: 8px 0 40px rgba(2,6,23,0.12);
-  position:fixed;
-  top:0;left:0;bottom:0;
-  z-index:40;
-}
-
-/* if user used the alternative sidebar markup (id/class differences), these ensure it looks polished */
-.gradient-header { background: linear-gradient(135deg,#071733 0%, #112e4a 60%); }
-.gradient-header .logo { font-weight:700; font-size:1.05rem; }
-
-/* Sidebar nav items (works with your .nav-item or button elements) */
-.nav-item,
-aside button,
-nav button {
-  display:block;
-  width:100%;
-  text-align:left;
-  padding:10px 12px;
-  border-radius:10px;
-  color:rgba(255,255,255,0.95);
-  border-left:3px solid transparent;
-  margin-top:8px;
-  background:transparent;
-  transition:all .18s ease;
-  font-weight:600;
-}
-.nav-item:hover,
-aside button:hover,
-nav button:hover { transform:translateX(6px); background: rgba(255,255,255,0.03) }
-.nav-item.active { background: rgba(255,255,255,0.06); border-left-color:var(--accent); }
-
-  /* === Fix Right Side Empty Space === */
-body, html {
+/* Base */
+* { box-sizing: border-box; }
+html, body {
   margin: 0;
-  padding: 0;
   height: 100%;
-  width: 100%;
-}
-
-.dashboard-wrapper {
-  display: flex;
-  width: 100vw; /* use full viewport width */
-  height: 100vh; /* fill screen height */
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg-light);
+  color: var(--text-main);
   overflow: hidden;
 }
 
-.sidebar {
-  width: 280px; /* or your current sidebar width */
-  flex-shrink: 0;
-}
-
-.main-content {
-  flex: 1; /* takes the remaining space */
-  width: 100%;
-  min-height: 100vh;
-  background-color: #f9fafb; /* light background for main area */
-  overflow-y: auto;
-}
-
-/* Main content area: ensure it fills right-side and keeps your existing paddings */
-main,
-.main {
-  margin-left: 18rem; /* matches sidebar width */
-  width: calc(100vw - 18rem); /* ensures full width with sidebar */
-  min-height: 100vh;
-  overflow-y: auto;
-  padding: 36px 56px;
-  background: linear-gradient(180deg, rgba(246,249,253,0.6), var(--surface));
-  box-sizing: border-box;
-}
-
-/* Hero / header polish (works with your hero section already using gradient classes) */
-.gradient-header.hero,
-section.relative.rounded-3xl,
-section.gradient-header {
-  border-radius:18px;
-  padding:28px;
-  position:relative;
-  overflow:hidden;
-  box-shadow: var(--shadow-lg);
-}
-.gradient-header::after {
-  content:"";
-  position:absolute; inset:0;
-  background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.06), transparent 30%);
-  pointer-events:none;
-  mix-blend-mode:overlay;
-}
-
-/* Cards: uniform modern card style (applies to .glass-card, .summary-card, .account-card) */
-.glass-card,
-.summary-card,
-.account-card,
-.modal-panel {
-  background: var(--card-bg);
-  border-radius:14px;
-  border:1px solid var(--glass-border);
-  padding:18px;
-  box-shadow: 0 10px 30px rgba(6,18,37,0.06);
-  transition: transform .22s ease, box-shadow .22s ease;
-}
-.glass-card:hover,
-.summary-card:hover,
-.account-card:hover { transform: translateY(-6px); box-shadow: 0 26px 60px rgba(6,18,37,0.09) }
-
-/* Account card layout improvements (keeps .account-card JS-created markup intact) */
-.account-card {
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  min-height:120px;
-  position:relative;
-  padding:20px;
-  overflow:hidden;
-  border-radius:12px;
-}
-
-/* Color accents - added classes (JS snippet will attach these if you use it) */
-.color-checking { border-left:6px solid #2563eb; }
-.color-savings  { border-left:6px solid #16a34a; }
-.color-benefits { border-left:6px solid #f59e0b; }
-.color-crypto   { border-left:6px solid #8b5cf6; }
-
-/* Headings and text */
-h1,h2,h3 { margin:0; }
-#pf-welcome { font-weight:700; }
-.text-muted, .text-gray-500 { color:var(--muted) }
-
-/* Buttons (primary / ghost) - keep classes .btn-primary/.btn-ghost used by your app */
-.btn-primary {
-  background: linear-gradient(90deg,var(--accent), var(--accent-2));
-  color:#fff;
-  padding:10px 16px;
-  border-radius:10px;
-  border:none;
-  font-weight:700;
-  box-shadow: 0 8px 20px rgba(11,102,178,0.14);
-}
-.btn-primary:hover { transform:translateY(-2px); }
-.btn-ghost {
-  background:#fff; border:1px solid rgba(13,34,66,0.06); padding:10px 14px; border-radius:10px; font-weight:600;
-}
-
-/* Modal improvements (keeps .modal + .modal-panel identifiers) */
-.modal {
-  display:none;
-  position:fixed; inset:0; align-items:center; justify-content:center;
-  background: rgba(6,18,37,0.35); z-index:60;
-}
-.modal[aria-hidden="false"] { display:flex; animation:modalIn .18s ease both; }
-@keyframes modalIn { from {opacity:0; transform:translateY(6px)} to {opacity:1; transform:none} }
-.modal-panel { max-width:720px; width:92%; border-radius:14px; padding:24px; }
-
-/* Deposit modal specifics (your depositModal ID stays the same) */
-#depositModal .modal-panel { max-width:640px; background:linear-gradient(180deg,#ffffff,#f8fbff); }
-
-/* Responsive tweaks - preserves earlier mobile rules */
-@media (max-width: 1024px) {
-  .f-sidebar, aside[class*="gradient-header"] { position:relative; width:100%; height:auto; }
-  .main, main { margin-left:0; padding:18px; height:auto; overflow:auto; }
-  .account-card { min-height:100px; }
-}
-
-/* small helper utility for subtle fade-in where you might use it */
-.fade-in { animation: fadeIn .45s ease both; }
-@keyframes fadeIn { from {opacity:0; transform:translateY(6px)} to {opacity:1; transform:none} }
-
-/* ===== Layout Fix: Full Width + Fixed Sidebar ===== */
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden; /* prevent global scrollbars */
-  background: #f5f7fa;
-}
-
-/* Sidebar fixed to left */
-.f-sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 270px; /* consistent fixed width */
-  overflow-y: auto;
-  background: linear-gradient(180deg, #0c1a33 0%, #081120 100%);
-  color: #fff;
-  z-index: 50;
-  scrollbar-width: thin;
-}
-
-/* Main content fills the rest */
-.main {
-  margin-left: 270px; /* match sidebar width */
-  width: calc(100vw - 270px);
-  height: 100vh;
-  overflow-y: auto;
-  background: #f9fbfd;
-  padding: 2rem 2.5rem;
-  box-sizing: border-box;
-}
-
-/* Responsive fix */
-@media (max-width: 768px) {
-  .f-sidebar {
-    position: fixed;
-    width: 220px;
-  }
-  .main {
-    margin-left: 220px;
-    width: calc(100vw - 220px);
-  }
-}
-/* ===== FINAL LAYOUT PATCH (fills right side, keeps sidebar fixed) ===== */
-html, body {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
+/* === LAYOUT === */
 body {
   display: flex;
+  min-height: 100vh;
+  width: 100%;
 }
 
-/* Fixed sidebar on left */
 aside.f-sidebar {
   position: fixed;
-  top: 0;
   left: 0;
+  top: 0;
+  width: 270px;
   height: 100vh;
-  width: 270px; /* or your preferred width */
-  overflow-y: auto;
-  flex-shrink: 0;
-}
-
-/* Main area fills remaining right side */
-main.main {
-  margin-left: 270px; /* same as sidebar width */
-  width: calc(100vw - 270px);
-  height: 100vh;
-  overflow-y: auto;
-  background: #f9fbfd;
-  padding: 2rem;
-  box-sizing: border-box;
-}
-
-/* Fix for responsive view */
-@media (max-width: 768px) {
-  aside.f-sidebar {
-    position: fixed;
-    width: 220px;
-  }
-  main.main {
-    margin-left: 220px;
-    width: calc(100vw - 220px);
-  }
-}
-/* === PROFESSIONAL DASHBOARD ENHANCEMENTS (non-destructive patch) === */
-
-/* Bigger username text */
-#pf-welcome {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #0b2341;
-}
-
-/* Summary cards smaller and clean */
-.summary-row {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-}
-.summary-card {
-  flex: 1 1 200px;
-  max-width: 220px;
-  text-align: center;
-  border-radius: 12px;
-  background: white;
-  border: 1px solid rgba(0,0,0,0.06);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  padding: 16px;
-  transition: transform 0.2s ease;
-}
-.summary-card:hover {
-  transform: translateY(-3px);
-}
-
-/* Account cards as squares */
-.accounts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-}
-.account-card {
-  aspect-ratio: 1 / 1;
+  background: linear-gradient(180deg, var(--navy), #031127 92%);
+  color: white;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: white;
-  border-radius: 14px;
-  border: 1px solid rgba(0,0,0,0.06);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  padding: 18px;
+  padding: 24px 18px;
+  box-shadow: 8px 0 35px rgba(2,6,23,0.15);
+  overflow-y: auto;
+  z-index: 50;
+}
+
+/* Sidebar items */
+.nav-item, aside button, nav button {
+  width: 100%;
   text-align: left;
-  transition: transform 0.2s ease;
-}
-.account-card:hover {
-  transform: translateY(-3px);
-}
-.account-card .btn-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-/* Make buttons consistent */
-.account-card .btn-primary,
-.account-card .btn-ghost {
-  flex: 1;
-  padding: 8px;
-  font-size: 0.9rem;
-}
-
-/* Fix logout visibility */
-.sidebar-footer button {
-  background: linear-gradient(90deg, #b91c1c, #dc2626);
-  color: #fff !important;
-  border: none;
-  padding: 10px;
-  border-radius: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: rgba(255,255,255,0.9);
+  background: transparent;
+  border-left: 3px solid transparent;
+  margin-top: 8px;
   font-weight: 600;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  transition: all .18s ease;
 }
-.sidebar-footer button:hover {
-  background: linear-gradient(90deg, #dc2626, #ef4444);
-  transform: translateY(-1px);
+.nav-item:hover,
+aside button:hover {
+  background: rgba(255,255,255,0.06);
+  transform: translateX(4px);
 }
-/* === DARK PROFESSIONAL DASHBOARD PATCH === */
-
-:root {
-  --navy-bg: #0b1221;
-  --navy-surface: #131c33;
-  --navy-card: rgba(255, 255, 255, 0.06);
-  --navy-border: rgba(255, 255, 255, 0.08);
-  --navy-text: #f4f7fb;
-  --accent-blue: #2b73ff;
-  --accent-green: #00d08f;
-  --accent-gold: #f8d96c;
+.nav-item.active {
+  border-left-color: var(--blue-light);
+  background: rgba(255,255,255,0.1);
 }
 
-/* === BACKGROUND & MAIN AREA === */
+/* === MAIN AREA === */
 main.main {
-  background: radial-gradient(circle at 25% 15%, #0d1730 0%, #060b19 100%);
-  color: var(--navy-text);
-  min-height: 100vh;
-  padding: 2rem 2.5rem;
   margin-left: 270px;
   width: calc(100vw - 270px);
+  min-height: 100vh;
   overflow-y: auto;
-  position: relative;
-  z-index: 1;
+  padding: 2rem 2.5rem;
+  background: linear-gradient(180deg, #f8fbff, #edf1f7);
+  box-sizing: border-box;
 }
 
-/* Subtle background pattern overlay */
-main.main::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: url("https://www.transparenttextures.com/patterns/asfalt-light.png") repeat;
-  opacity: 0.05;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* === HEADER === */
+/* Header */
 header.top {
   display: flex;
   justify-content: space-between;
-  align-items: start;
-  margin-bottom: 1.5rem;
-  color: var(--navy-text);
+  align-items: flex-start;
+  margin-bottom: 1.75rem;
 }
-
 header.top h1 {
+  font-size: 1.8rem;
   font-weight: 700;
-  font-size: 1.6rem;
-  color: #ffffff;
+  color: var(--text-main);
 }
-
 header.top .text-gray-500 {
-  color: rgba(255,255,255,0.55) !important;
+  color: var(--text-muted) !important;
 }
 
-/* === SUMMARY CARDS === */
+/* === SUMMARY ROW === */
+.summary-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
 .summary-card {
-  background: var(--navy-card);
-  border: 1px solid var(--navy-border);
-  border-radius: 14px;
-  padding: 18px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-  backdrop-filter: blur(14px);
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 18px;
+  box-shadow: var(--shadow);
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
 }
-
+.summary-card::before {
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: -40%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at top left, rgba(30,106,232,0.06), transparent 70%);
+}
 .summary-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 35px rgba(0,0,0,0.45);
+  box-shadow: var(--shadow-hover);
 }
-
 .summary-card .text-gray-500 {
-  color: rgba(255,255,255,0.65) !important;
+  color: var(--text-muted) !important;
 }
 
-/* === ACCOUNT CARDS === */
-.accounts-grid .account-card {
-  background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-  border: 1px solid var(--navy-border);
-  border-radius: 14px;
-  padding: 18px;
-  box-shadow: 0 10px 28px rgba(0,0,0,0.35);
-  color: var(--navy-text);
+/* === ACCOUNTS === */
+.accounts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 1.5rem;
+}
+
+.account-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-left: 6px solid transparent;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--shadow);
   transition: all 0.25s ease;
-  backdrop-filter: blur(10px);
 }
 .account-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
 }
 
-/* Accent borders by type */
-.color-checking { border-left: 6px solid var(--accent-blue); }
-.color-savings  { border-left: 6px solid var(--accent-green); }
-.color-benefits { border-left: 6px solid var(--accent-gold); }
-.color-crypto   { border-left: 6px solid #b794f4; }
+/* Color stripes */
+.color-checking { border-left-color: #2563eb; }
+.color-savings  { border-left-color: #16a34a; }
+.color-benefits { border-left-color: #f59e0b; }
+.color-crypto   { border-left-color: #8b5cf6; }
 
 /* === BUTTONS === */
 .btn-primary {
-  background: linear-gradient(90deg, var(--accent-blue), #0059d6);
+  background: linear-gradient(90deg, var(--blue), var(--blue-light));
   color: #fff;
   padding: 10px 16px;
   border-radius: 10px;
-  border: none;
   font-weight: 700;
-  box-shadow: 0 4px 14px rgba(43, 115, 255, 0.3);
-  transition: all 0.18s ease;
+  border: none;
+  box-shadow: 0 6px 18px rgba(11,102,178,0.15);
+  transition: all 0.2s ease;
 }
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(43,115,255,0.5);
+  box-shadow: 0 10px 25px rgba(11,102,178,0.25);
 }
-
 .btn-ghost {
-  background: rgba(255,255,255,0.06);
-  color: #fff;
-  border: 1px solid var(--navy-border);
+  background: #fff;
+  border: 1px solid var(--border);
   padding: 10px 14px;
   border-radius: 10px;
   font-weight: 600;
-  transition: all .15s ease;
+  transition: all 0.15s ease;
+  color: var(--text-main);
 }
 .btn-ghost:hover {
-  background: rgba(255,255,255,0.12);
+  background: #f0f3f8;
 }
 
-/* === TEXT ADJUSTMENTS === */
-.text-gray-500 {
-  color: rgba(255,255,255,0.65) !important;
+/* === MODALS === */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6,18,37,0.35);
+  z-index: 60;
 }
-
-h2 {
-  color: #fff;
+.modal[aria-hidden="false"] { display: flex; }
+.modal-panel {
+  background: #fff;
+  max-width: 720px;
+  width: 92%;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--shadow-hover);
 }
 
 /* === SCROLLBAR === */
@@ -526,20 +226,27 @@ main.main::-webkit-scrollbar {
   width: 8px;
 }
 main.main::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.15);
+  background: rgba(13,34,66,0.18);
   border-radius: 4px;
 }
 main.main::-webkit-scrollbar-thumb:hover {
-  background: rgba(255,255,255,0.3);
+  background: rgba(13,34,66,0.3);
 }
 
 /* === RESPONSIVE === */
 @media (max-width: 1024px) {
+  aside.f-sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
   main.main {
     margin-left: 0;
     width: 100%;
+    height: auto;
   }
 }
+
 
 </style>
 
