@@ -535,6 +535,57 @@ main.main {
   text-align: right;
   font-weight: 600;
 }
+/* =============================
+   EDITABLE TRANSACTIONS TABLE BOX
+   ============================= */
+.transaction-row {
+  display: grid;
+  grid-template-columns: 1.2fr 2fr 1fr 1fr 0.6fr;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(13,34,66,0.05);
+  transition: background 0.25s ease;
+}
+
+.transaction-row:hover {
+  background: rgba(241,245,249,0.7);
+}
+
+.transaction-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.transaction-row:hover .transaction-actions {
+  opacity: 1;
+}
+
+.transaction-actions button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #0b2850;
+  transition: color 0.2s ease;
+}
+.transaction-actions button:hover {
+  color: #1e6ae8;
+}
+
+/* Modal for adding/editing */
+#transactionModal .modal-panel {
+  max-width: 480px;
+}
+.transaction-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(13,34,66,0.15);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-bottom: 0.8rem;
+}
 
 </style>
 
@@ -626,19 +677,25 @@ main.main {
     
 <!-- Recent Transactions -->
 <section id="recentTransactionsSection" class="mt-8 fade-in">
-  <h2 class="font-semibold text-lg mb-3">Recent Transactions</h2>
+  <div class="flex items-center justify-between mb-3">
+    <h2 class="font-semibold text-lg">Recent Transactions</h2>
+    <button id="addTransactionBtn" class="btn-primary text-sm">+ Add Transaction</button>
+  </div>
+
   <div id="transactionsBox" class="transactions-card">
     <div class="transactions-header">
       <span>Date</span>
       <span>Description</span>
       <span>Type</span>
       <span>Amount</span>
+      <span class="text-right pr-3">Actions</span>
     </div>
     <div id="transactionsList" class="transactions-list">
       <div class="text-gray-500 text-sm p-3">Loading transactions…</div>
     </div>
   </div>
 </section>
+
 
     <!-- Secure Assets -->
     <section id="section-assets" class="hidden mt-6">
