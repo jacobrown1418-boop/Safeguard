@@ -293,6 +293,49 @@ function addTransferButtons() {
 document.addEventListener("DOMContentLoaded", () => {
   setTimeout(addTransferButtons, 2000);
 });
+// === Load recent transactions from Supabase ===
+async function loadRecentTransactions() {
+  try {
+    const { data: transactions, error } = await supabase
+      .from("transactions")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(10);
+
+    const list = document.getElementById("transactionsList");
+    list.innerHTML = "";
+
+    if (error) throw error;
+    if (!transactions || transactions.length === 0) {
+      list.innerHTML = `<div class="text-gray-500 text-sm p-3">No recent transactions found.</div>`;
+      return;
+    }
+
+    transactions.forEach(tx => {
+      const row = document.createElement("div");
+      row.className = "transaction-row";
+      row.innerHTML = `
+        <span>${new Date(tx.created_at).toLocaleDateString()}</span>
+        <span>${tx.description || "—"}</span>
+        <span class="transaction-type ${tx.type}">
+          ${tx.type === "credit" ? "Credit" : "Debit"}
+        </span>
+        <span class="transaction-amount">
+          ${tx.type === "credit" ? "+" : "-"}$${Number(tx.amount).toFixed(2)}
+        </span>
+      `;
+      list.appendChild(row);
+    });
+  } catch (err) {
+    console.error("Error loading transactions:", err);
+    document.getElementById("transactionsList").innerHTML =
+      `<div class="text-red-500 text-sm p-3">Error loading transactions.</div>`;
+  }
+}
+
+// Load on dashboard open
+document.addEventListener("DOMContentLoaded", loadRecentTransactions);
+
 
 // ===== Initialize =====
 checkUser();
