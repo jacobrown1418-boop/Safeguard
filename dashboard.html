@@ -587,6 +587,30 @@ main.main {
   margin-bottom: 0.8rem;
 }
 
+  .transactions-card {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid rgba(13,34,66,0.06);
+  box-shadow: 0 10px 35px rgba(6,18,37,0.06);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.transactions-card:hover {
+  box-shadow: 0 18px 45px rgba(6,18,37,0.08);
+}
+
+.transactions-header {
+  display: grid;
+  grid-template-columns: 1.2fr 2fr 1fr 1fr 0.6fr;
+  background: #f5f8fb;
+  padding: 12px 16px;
+  font-weight: 600;
+  color: #0b2341;
+  font-size: 0.9rem;
+  border-bottom: 1px solid rgba(13,34,66,0.08);
+}
+
 </style>
 
 
@@ -677,10 +701,7 @@ main.main {
     
 <!-- Recent Transactions -->
 <section id="recentTransactionsSection" class="mt-8 fade-in">
-  <div class="flex items-center justify-between mb-3">
-    <h2 class="font-semibold text-lg">Recent Transactions</h2>
-    <button id="addTransactionBtn" class="btn-primary text-sm">+ Add Transaction</button>
-  </div>
+  <h2 class="font-semibold text-lg mb-3">Recent Transactions</h2>
 
   <div id="transactionsBox" class="transactions-card">
     <div class="transactions-header">
@@ -695,6 +716,7 @@ main.main {
     </div>
   </div>
 </section>
+
 
 
     <!-- Secure Assets -->
