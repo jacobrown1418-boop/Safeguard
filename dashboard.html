@@ -481,76 +481,81 @@ main.main {
   border: 1px solid rgba(12,28,55,0.05);
   box-shadow: inset 0 0 18px rgba(10,37,64,0.03);
 }
-/* =============================
-   RECENT TRANSACTIONS TABLE BOX
-   ============================= */
+/* =============================================
+   REFINED RECENT TRANSACTIONS SECTION (LIGHT PRO)
+   ============================================= */
 .transactions-card {
-  background: rgba(255, 255, 255, 0.96);
-  border-radius: 14px;
-  border: 1px solid rgba(12,28,55,0.06);
-  box-shadow: 0 8px 28px rgba(10,37,64,0.08);
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(13,34,66,0.08);
+  box-shadow: 0 8px 28px rgba(10,37,64,0.06);
   overflow: hidden;
+  transition: box-shadow 0.3s ease, transform 0.25s ease;
 }
 
+.transactions-card:hover {
+  box-shadow: 0 14px 42px rgba(10,37,64,0.08);
+  transform: translateY(-3px);
+}
+
+/* Header row */
 .transactions-header {
   display: grid;
-  grid-template-columns: 1.2fr 2fr 1fr 1fr;
-  background: linear-gradient(90deg, #f8fafc, #eef2f7);
-  padding: 12px 16px;
+  grid-template-columns: 120px 1fr 110px 120px 80px;
+  background: linear-gradient(90deg, #f9fafc, #eef3f9);
+  padding: 14px 18px;
   font-weight: 700;
   font-size: 0.9rem;
-  color: #0b2850;
+  color: #0a1a33;
   border-bottom: 1px solid rgba(13,34,66,0.08);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
+/* List container */
 .transactions-list {
   display: flex;
   flex-direction: column;
-  font-size: 0.9rem;
-  color: #1e293b;
+  padding: 12px 16px;
+  background: #fff;
 }
 
+/* Each transaction row */
 .transaction-row {
   display: grid;
-  grid-template-columns: 1.2fr 2fr 1fr 1fr;
-  padding: 10px 16px;
-  border-bottom: 1px solid rgba(13,34,66,0.05);
-  transition: background 0.2s ease;
+  grid-template-columns: 120px 1fr 110px 120px 80px;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid rgba(13,34,66,0.05);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 12px 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+  transition: all 0.25s ease;
 }
 
 .transaction-row:hover {
-  background: rgba(241,245,249,0.6);
+  background: #f8fafc;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
 }
 
-.transaction-type.credit {
-  color: #16a34a;
-  font-weight: 600;
-}
-.transaction-type.debit {
-  color: #dc2626;
-  font-weight: 600;
-}
-
+/* Amount styles */
 .transaction-amount {
   text-align: right;
   font-weight: 600;
-}
-/* =============================
-   EDITABLE TRANSACTIONS TABLE BOX
-   ============================= */
-.transaction-row {
-  display: grid;
-  grid-template-columns: 1.2fr 2fr 1fr 1fr 0.6fr;
-  align-items: center;
-  padding: 10px 16px;
-  border-bottom: 1px solid rgba(13,34,66,0.05);
-  transition: background 0.25s ease;
+  font-size: 0.95rem;
 }
 
-.transaction-row:hover {
-  background: rgba(241,245,249,0.7);
+.transaction-amount.credit {
+  color: #16a34a;
 }
 
+.transaction-amount.debit {
+  color: #dc2626;
+}
+
+/* Actions (edit/delete) */
 .transaction-actions {
   display: flex;
   justify-content: flex-end;
@@ -558,6 +563,7 @@ main.main {
   opacity: 0;
   transition: opacity 0.25s ease;
 }
+
 .transaction-row:hover .transaction-actions {
   opacity: 1;
 }
@@ -566,82 +572,36 @@ main.main {
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 15px;
   color: #0b2850;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
+
 .transaction-actions button:hover {
   color: #1e6ae8;
+  transform: scale(1.1);
 }
 
-/* Modal for adding/editing */
-#transactionModal .modal-panel {
-  max-width: 480px;
-}
-.transaction-input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid rgba(13,34,66,0.15);
-  border-radius: 8px;
+/* Empty state */
+.transactions-list .empty-state {
+  text-align: center;
+  color: #64748b;
   font-size: 0.9rem;
-  margin-bottom: 0.8rem;
+  padding: 20px;
 }
 
-  .transactions-card {
-  background: #fff;
-  border-radius: 14px;
-  border: 1px solid rgba(13,34,66,0.06);
-  box-shadow: 0 10px 35px rgba(6,18,37,0.06);
-  overflow: hidden;
-  transition: box-shadow 0.3s ease;
+/* Scrollbar refinement */
+.transactions-list::-webkit-scrollbar {
+  width: 6px;
+}
+.transactions-list::-webkit-scrollbar-thumb {
+  background: rgba(13,34,66,0.1);
+  border-radius: 3px;
+}
+.transactions-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(13,34,66,0.25);
 }
 
-.transactions-card:hover {
-  box-shadow: 0 18px 45px rgba(6,18,37,0.08);
-}
-
-.transactions-header {
-  display: grid;
-  grid-template-columns: 1.2fr 2fr 1fr 1fr 0.6fr;
-  background: #f5f8fb;
-  padding: 12px 16px;
-  font-weight: 600;
-  color: #0b2341;
-  font-size: 0.9rem;
-  border-bottom: 1px solid rgba(13,34,66,0.08);
-}
-.transaction-row {
-  display: grid;
-  grid-template-columns: 110px 1fr 90px 120px 70px;
-  align-items: center;
-  padding: 12px 16px;
-  background: #fff;
-  border-radius: 10px;
-  margin-bottom: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.transaction-row:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-}
-
-.transaction-amount.credit { color: #16a34a; font-weight: 600; }
-.transaction-amount.debit { color: #dc2626; font-weight: 600; }
-
-.transaction-actions button {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  opacity: 0.6;
-  transition: opacity 0.15s ease;
-}
-.transaction-actions button:hover {
-  opacity: 1;
-}
 
 </style>
 
