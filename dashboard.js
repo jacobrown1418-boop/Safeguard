@@ -333,10 +333,7 @@ async function loadRecentTransactions() {
   }
 }
 
-// Load on dashboard open
-document.addEventListener("DOMContentLoaded", loadRecentTransactions);
-
-// === Load & Manage Transactions ===
+// === Load & Manage Transactions (read, edit, delete) ===
 async function loadRecentTransactions() {
   try {
     const { data: transactions, error } = await supabase
@@ -360,7 +357,7 @@ async function loadRecentTransactions() {
       row.innerHTML = `
         <span>${new Date(tx.created_at).toLocaleDateString()}</span>
         <span>${tx.description || "—"}</span>
-        <span class="transaction-type ${tx.type}">${tx.type}</span>
+        <span class="capitalize">${tx.type}</span>
         <span class="transaction-amount ${tx.type}">
           ${tx.type === "credit" ? "+" : "-"}$${Number(tx.amount).toFixed(2)}
         </span>
@@ -386,16 +383,15 @@ async function deleteTransaction(id) {
   else loadRecentTransactions();
 }
 
-// === Open modal for add/edit ===
+// === Edit Modal (reuses same modal structure) ===
 const modalHTML = `
   <div id="transactionModal" class="modal" aria-hidden="true">
     <div class="modal-panel">
-      <h3 id="txModalTitle" class="text-lg font-semibold mb-3">New Transaction</h3>
+      <h3 id="txModalTitle" class="text-lg font-semibold mb-3">Edit Transaction</h3>
       <form id="txForm">
         <input type="hidden" id="txId">
         <input type="text" id="txDescription" placeholder="Description" class="transaction-input" required>
         <select id="txType" class="transaction-input" required>
-          <option value="">Select type</option>
           <option value="credit">Credit</option>
           <option value="debit">Debit</option>
         </select>
@@ -411,23 +407,15 @@ const modalHTML = `
 document.body.insertAdjacentHTML("beforeend", modalHTML);
 const txModal = document.getElementById("transactionModal");
 
-// === Add or edit transaction ===
-document.getElementById("addTransactionBtn").addEventListener("click", () => {
-  openTransactionModal();
-});
-
-function openTransactionModal(data = null) {
-  document.getElementById("txModalTitle").textContent = data ? "Edit Transaction" : "New Transaction";
-  document.getElementById("txId").value = data?.id || "";
-  document.getElementById("txDescription").value = data?.description || "";
-  document.getElementById("txType").value = data?.type || "";
-  document.getElementById("txAmount").value = data?.amount || "";
-  txModal.setAttribute("aria-hidden", "false");
-}
-
 function editTransaction(id) {
   supabase.from("transactions").select("*").eq("id", id).single().then(({ data }) => {
-    if (data) openTransactionModal(data);
+    if (data) {
+      document.getElementById("txId").value = data.id;
+      document.getElementById("txDescription").value = data.description || "";
+      document.getElementById("txType").value = data.type;
+      document.getElementById("txAmount").value = data.amount;
+      txModal.setAttribute("aria-hidden", "false");
+    }
   });
 }
 
@@ -444,17 +432,17 @@ document.getElementById("txForm").addEventListener("submit", async (e) => {
     amount: parseFloat(document.getElementById("txAmount").value),
   };
 
-  let result;
-  if (id) result = await supabase.from("transactions").update(data).eq("id", id);
-  else result = await supabase.from("transactions").insert([data]);
-
-  if (result.error) {
-    alert("Error saving: " + result.error.message);
-  } else {
+  const { error } = await supabase.from("transactions").update(data).eq("id", id);
+  if (error) alert("Error saving: " + error.message);
+  else {
     txModal.setAttribute("aria-hidden", "true");
     loadRecentTransactions();
   }
 });
+
+// Auto-load on startup
+document.addEventListener("DOMContentLoaded", loadRecentTransactions);
+
 
 // Load on startup
 document.addEventListener("DOMContentLoaded", loadRecentTransactions);
