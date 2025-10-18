@@ -83,7 +83,6 @@ async function loadAccounts(userId) {
   $("totalBalance").textContent = `$${total.toFixed(2)}`;
   $("accountCount").textContent = accounts.length;
 
-  // Apply color accents after load
   decorateAccountCards();
 }
 
@@ -256,18 +255,14 @@ function decorateAccountCards() {
       card.classList.add("color-crypto");
   });
 }
-// === PROFESSIONAL DASHBOARD ENHANCEMENTS ===
 
-// Add "Transfer" button to each account card dynamically
+// === PROFESSIONAL DASHBOARD ENHANCEMENTS ===
 function addTransferButtons() {
   document.querySelectorAll(".account-card").forEach(card => {
-    // Skip if buttons already added
     if (card.querySelector(".transfer-btn")) return;
-
     const btnRow = document.createElement("div");
     btnRow.className = "btn-row";
 
-    // Initiate Deposit (existing button)
     const depositBtn = document.createElement("button");
     depositBtn.className = "btn-primary";
     depositBtn.textContent = "Initiate Deposit";
@@ -275,7 +270,6 @@ function addTransferButtons() {
       document.getElementById("addMoneyBtn")?.click();
     });
 
-    // Transfer Button
     const transferBtn = document.createElement("button");
     transferBtn.className = "btn-ghost transfer-btn";
     transferBtn.textContent = "Transfer";
@@ -289,53 +283,13 @@ function addTransferButtons() {
   });
 }
 
-// Run this after account cards are loaded
 document.addEventListener("DOMContentLoaded", () => {
   setTimeout(addTransferButtons, 2000);
 });
-// === Load recent transactions from Supabase ===
+
+// === Load & Manage Transactions ===
 async function loadRecentTransactions() {
   try {
-    const { data: transactions, error } = await supabase
-      .from("transactions")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(10);
-
-    const list = document.getElementById("transactionsList");
-    list.innerHTML = "";
-
-    if (error) throw error;
-    if (!transactions || transactions.length === 0) {
-      list.innerHTML = `<div class="text-gray-500 text-sm p-3">No recent transactions found.</div>`;
-      return;
-    }
-
-    transactions.forEach(tx => {
-      const row = document.createElement("div");
-      row.className = "transaction-row";
-      row.innerHTML = `
-        <span>${new Date(tx.created_at).toLocaleDateString()}</span>
-        <span>${tx.description || "—"}</span>
-        <span class="transaction-type ${tx.transaction_type}">
-  ${tx.transaction_type === "credit" ? "Credit" : "Debit"}
-</span>
-        <span class="transaction-amount">
-          ${tx.type === "credit" ? "+" : "-"}$${Number(tx.amount).toFixed(2)}
-        </span>
-      `;
-      list.appendChild(row);
-    });
-  } catch (err) {
-    console.error("Error loading transactions:", err);
-    document.getElementById("transactionsList").innerHTML =
-      `<div class="text-red-500 text-sm p-3">Error loading transactions.</div>`;
-  }
-}
-// === Load & Manage Transactions (read, edit, delete) ===
-async function loadRecentTransactions() {
-  try {
-    // ✅ 1. Get the signed-in user
     const { data: { user }, error: userError } = await supabase.auth.getUser();
     if (userError) throw userError;
     const list = document.getElementById("transactionsList");
@@ -346,7 +300,6 @@ async function loadRecentTransactions() {
       return;
     }
 
-    // ✅ 2. Fetch user-specific transactions
     const { data: transactions, error } = await supabase
       .from("transactions")
       .select("*")
@@ -356,13 +309,11 @@ async function loadRecentTransactions() {
 
     if (error) throw error;
 
-    // ✅ 3. Display transactions or fallback message
     if (!transactions || transactions.length === 0) {
       list.innerHTML = `<div class="text-gray-500 text-sm p-3">No recent transactions found.</div>`;
       return;
     }
 
-    // ✅ 4. Render transaction rows
     transactions.forEach(tx => {
       const row = document.createElement("div");
       row.className = "transaction-row";
@@ -370,9 +321,9 @@ async function loadRecentTransactions() {
         <span>${new Date(tx.created_at).toLocaleDateString()}</span>
         <span>${tx.description || "—"}</span>
         <span class="capitalize">${tx.transaction_type}</span>
-<span class="transaction-amount ${tx.transaction_type}">
-  ${tx.transaction_type === "credit" ? "+" : "-"}$${Number(tx.amount).toFixed(2)}
-</span>
+        <span class="transaction-amount">
+          ${tx.transaction_type === "credit" ? "+" : "-"}$${Number(tx.amount).toFixed(2)}
+        </span>
         <div class="transaction-actions">
           <button onclick="editTransaction('${tx.id}')" title="Edit Transaction">✏️</button>
           <button onclick="deleteTransaction('${tx.id}')" title="Delete Transaction">🗑️</button>
@@ -387,7 +338,7 @@ async function loadRecentTransactions() {
   }
 }
 
-// ✅ 5. Live updates with Supabase Realtime
+// ✅ Live updates
 supabase
   .channel("transactions_changes")
   .on(
@@ -395,12 +346,12 @@ supabase
     { event: "*", schema: "public", table: "transactions" },
     payload => {
       console.log("Transaction change detected:", payload);
-      loadRecentTransactions(); // refresh automatically
+      loadRecentTransactions();
     }
   )
   .subscribe();
 
-// === Delete a transaction ===
+// === Delete ===
 async function deleteTransaction(id) {
   if (!confirm("Are you sure you want to delete this transaction?")) return;
   const { error } = await supabase.from("transactions").delete().eq("id", id);
@@ -408,7 +359,7 @@ async function deleteTransaction(id) {
   else loadRecentTransactions();
 }
 
-// === Edit Modal (reuses same modal structure) ===
+// === Edit Modal ===
 const modalHTML = `
   <div id="transactionModal" class="modal" aria-hidden="true">
     <div class="modal-panel">
@@ -452,10 +403,10 @@ document.getElementById("txForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const id = document.getElementById("txId").value;
   const data = {
-  description: document.getElementById("txDescription").value,
-  transaction_type: document.getElementById("txType").value,
-  amount: parseFloat(document.getElementById("txAmount").value),
-};
+    description: document.getElementById("txDescription").value,
+    transaction_type: document.getElementById("txType").value,
+    amount: parseFloat(document.getElementById("txAmount").value),
+  };
 
   const { error } = await supabase.from("transactions").update(data).eq("id", id);
   if (error) alert("Error saving: " + error.message);
@@ -464,10 +415,6 @@ document.getElementById("txForm").addEventListener("submit", async (e) => {
     loadRecentTransactions();
   }
 });
-
-// Auto-load on startup
-document.addEventListener("DOMContentLoaded", loadRecentTransactions);
-
 
 // Load on startup
 document.addEventListener("DOMContentLoaded", loadRecentTransactions);
