@@ -481,6 +481,60 @@ main.main {
   border: 1px solid rgba(12,28,55,0.05);
   box-shadow: inset 0 0 18px rgba(10,37,64,0.03);
 }
+/* =============================
+   RECENT TRANSACTIONS TABLE BOX
+   ============================= */
+.transactions-card {
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 14px;
+  border: 1px solid rgba(12,28,55,0.06);
+  box-shadow: 0 8px 28px rgba(10,37,64,0.08);
+  overflow: hidden;
+}
+
+.transactions-header {
+  display: grid;
+  grid-template-columns: 1.2fr 2fr 1fr 1fr;
+  background: linear-gradient(90deg, #f8fafc, #eef2f7);
+  padding: 12px 16px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #0b2850;
+  border-bottom: 1px solid rgba(13,34,66,0.08);
+}
+
+.transactions-list {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  color: #1e293b;
+}
+
+.transaction-row {
+  display: grid;
+  grid-template-columns: 1.2fr 2fr 1fr 1fr;
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(13,34,66,0.05);
+  transition: background 0.2s ease;
+}
+
+.transaction-row:hover {
+  background: rgba(241,245,249,0.6);
+}
+
+.transaction-type.credit {
+  color: #16a34a;
+  font-weight: 600;
+}
+.transaction-type.debit {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.transaction-amount {
+  text-align: right;
+  font-weight: 600;
+}
 
 </style>
 
@@ -568,8 +622,23 @@ main.main {
     <section id="section-dashboard" class="mt-6">
       <h2 class="font-semibold text-lg mb-3">Accounts</h2>
       <div id="accountCards" class="accounts-grid"></div>
-      <div id="activityWrapper" class="mt-6 text-sm text-gray-500">Loading recent activity…</div>
     </section>
+    
+<!-- Recent Transactions -->
+<section id="recentTransactionsSection" class="mt-8 fade-in">
+  <h2 class="font-semibold text-lg mb-3">Recent Transactions</h2>
+  <div id="transactionsBox" class="transactions-card">
+    <div class="transactions-header">
+      <span>Date</span>
+      <span>Description</span>
+      <span>Type</span>
+      <span>Amount</span>
+    </div>
+    <div id="transactionsList" class="transactions-list">
+      <div class="text-gray-500 text-sm p-3">Loading transactions…</div>
+    </div>
+  </div>
+</section>
 
     <!-- Secure Assets -->
     <section id="section-assets" class="hidden mt-6">
