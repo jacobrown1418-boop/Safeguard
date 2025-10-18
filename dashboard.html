@@ -393,6 +393,94 @@ main.main {
   background: linear-gradient(90deg, #e64a19, #c62828);
   transform: translateY(-2px);
 }
+/* ============================================
+   ICON + VISUAL POLISH UPGRADE FOR DASHBOARD
+   ============================================ */
+
+/* Import a professional icon set (Lucide / Feather) */
+@import url('https://cdn.jsdelivr.net/npm/lucide-static@latest/font/lucide.css');
+
+/* === Summary cards with icons === */
+.summary-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 22px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.96);
+  box-shadow: 0 6px 20px rgba(10, 37, 64, 0.08);
+  border: 1px solid rgba(12,28,55,0.06);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.summary-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 32px rgba(11, 102, 178, 0.14);
+}
+
+/* === Decorative accent icon area === */
+.summary-card::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  right: -20%;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle at center, rgba(11,102,178,0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  transition: opacity 0.3s ease;
+  opacity: 0.6;
+}
+
+/* === Icon styling === */
+.summary-icon {
+  font-family: "Lucide";
+  font-size: 32px;
+  color: var(--accent);
+  margin-bottom: 12px;
+  opacity: 0.9;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.summary-card:hover .summary-icon {
+  color: var(--accent-2);
+  transform: scale(1.08);
+}
+
+/* === Text layout === */
+.summary-card .text-sm {
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  margin-bottom: 6px;
+}
+
+.summary-card .text-xl {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+/* === Improved layout for each summary card === */
+.summary-card-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* === Minor text polish === */
+.text-gray-500 {
+  color: #64748b !important;
+}
+
+/* === Accounts grid subtle background polish === */
+.accounts-grid {
+  background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(249,251,253,0.95));
+  padding: 1.5rem;
+  border-radius: 18px;
+  border: 1px solid rgba(12,28,55,0.05);
+  box-shadow: inset 0 0 18px rgba(10,37,64,0.03);
+}
 
 </style>
 
@@ -441,22 +529,40 @@ main.main {
       </div>
     </header>
 
-    <!-- Summary -->
-    <div class="summary-row">
-      <div class="summary-card">
+  <!-- Summary -->
+<div class="summary-row">
+  <div class="summary-card">
+    <div class="summary-card-content">
+      <i class="summary-icon lucide-wallet"></i>
+      <div>
         <div class="text-sm text-gray-500">Total Balance</div>
         <div id="totalBalance" class="text-xl font-bold">$0.00</div>
         <div class="text-xs text-gray-500">Accounts: <span id="accountCount">0</span></div>
       </div>
-      <div class="summary-card">
+    </div>
+  </div>
+
+  <div class="summary-card">
+    <div class="summary-card-content">
+      <i class="summary-icon lucide-activity"></i>
+      <div>
         <div class="text-sm text-gray-500">Recent Activity</div>
         <button id="viewAllActivityBtn" class="btn-ghost mt-2">View All</button>
       </div>
-      <div class="summary-card">
+    </div>
+  </div>
+
+  <div class="summary-card">
+    <div class="summary-card-content">
+      <i class="summary-icon lucide-shield-check"></i>
+      <div>
         <div class="text-sm text-gray-500">Security</div>
         <button class="btn-ghost mt-2">Security Settings</button>
       </div>
     </div>
+  </div>
+</div>
+
 
     <!-- Accounts -->
     <section id="section-dashboard" class="mt-6">
