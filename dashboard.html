@@ -602,6 +602,66 @@ main.main {
   background: rgba(13,34,66,0.25);
 }
 
+/* === Glassy Modal Styling === */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  transition: opacity 0.3s ease;
+}
+
+.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(25px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  padding: 30px;
+  color: #fff;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  animation: slideIn 0.4s ease;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px; right: 20px;
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.close-btn:hover { color: #ff4b4b; }
+
+#modalConfirmBtn {
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.3s ease;
+}
+#modalConfirmBtn:hover {
+  background: #0056b3;
+}
 
 </style>
 
@@ -832,6 +892,18 @@ main.main {
       </div>
     </div>
   </div>
+
+
+  <!-- Universal Glass Modal -->
+<div id="glassModal" class="modal-overlay hidden">
+  <div class="modal-content">
+    <span class="close-btn" id="closeModal">&times;</span>
+    <h2 id="modalTitle">Action</h2>
+    <p id="modalMessage">Loading...</p>
+    <button id="modalConfirmBtn">OK</button>
+  </div>
+</div>
+
 </body>
 
   
