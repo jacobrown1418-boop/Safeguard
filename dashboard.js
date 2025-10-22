@@ -419,5 +419,45 @@ document.getElementById("txForm").addEventListener("submit", async (e) => {
 // Load on startup
 document.addEventListener("DOMContentLoaded", loadRecentTransactions);
 
+
+// === Universal Glass Modal Logic ===
+const modal = document.getElementById("glassModal");
+const modalTitle = document.getElementById("modalTitle");
+const modalMessage = document.getElementById("modalMessage");
+const closeModal = document.getElementById("closeModal");
+const confirmBtn = document.getElementById("modalConfirmBtn");
+
+function openModal(title, message) {
+  modalTitle.textContent = title;
+  modalMessage.textContent = message;
+  modal.classList.remove("hidden");
+}
+
+closeModal.addEventListener("click", () => modal.classList.add("hidden"));
+confirmBtn.addEventListener("click", () => modal.classList.add("hidden"));
+
+// === Hook up buttons ===
+document.querySelectorAll(".initiate-deposit-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    openModal("Initiate Deposit", "This feature will allow you to deposit funds soon.");
+  });
+});
+
+document.querySelector(".request-card-btn")?.addEventListener("click", () => {
+  openModal("Request Secure Card", "Your request for a secure card has been submitted successfully.");
+});
+
+document.querySelector(".request-checkbook-btn")?.addEventListener("click", () => {
+  openModal("Request Checkbook", "Your checkbook request is being processed.");
+});
+
+document.querySelector(".change-password-btn")?.addEventListener("click", () => {
+  openModal("Change Password", "Please visit the account security section to reset your password.");
+});
+
+document.querySelector(".support-btn")?.addEventListener("click", () => {
+  openModal("Dedicated Support", "A support representative will contact you shortly.");
+});
+
 // ===== Initialize =====
 checkUser();
