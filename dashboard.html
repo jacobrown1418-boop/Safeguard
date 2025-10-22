@@ -663,6 +663,23 @@ main.main {
   background: #0056b3;
 }
 
+  /* Hide scrollbar but keep scrolling */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* Optional: make scrollbar invisible */
+}
+
+html, body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  overflow-y: scroll; /* Keep vertical scroll active */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
 </style>
 
 
