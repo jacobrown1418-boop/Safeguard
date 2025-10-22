@@ -101,29 +101,74 @@ function setupAuthForms() {
   const signupForm = document.getElementById("signupForm");
   const forgotForm = document.getElementById("forgotForm");
 
-  if (loginForm) {
-    loginForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const btn = loginForm.querySelector("button[type='submit']");
-      showSpinner(btn, "Logging in...");
-      // existing index.html uses loginUsername
-      const username = loginForm.loginUsername ? loginForm.loginUsername.value.trim() : loginForm.loginEmail?.value.trim();
-      const password = loginForm.loginPassword.value.trim();
-      try {
-        if (!supabase) throw new Error("Supabase unavailable");
-        const { error } = await supabase.auth.signInWithPassword({ email: username, password });
-        hideSpinner(btn, "Login");
-        if (error) return alert("Login failed: " + error.message);
-        alert("✅ Login successful — redirecting...");
-        window._fraCloseAllModals?.();
-        loginForm.reset();
-        window.location.href = "dashboard.html";
-      } catch (err) {
-        hideSpinner(btn, "Login");
-        alert("Login error: " + (err.message || err));
+ if (loginForm) {
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const btn = loginForm.querySelector("button[type='submit']");
+    showSpinner(btn, "Logging in...");
+
+    const username = loginForm.loginUsername
+      ? loginForm.loginUsername.value.trim()
+      : loginForm.loginEmail?.value.trim();
+    const password = loginForm.loginPassword.value.trim();
+
+    try {
+      if (!supabase) throw new Error("Supabase unavailable");
+
+      // Try signing in
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: username,
+        password,
+      });
+
+      hideSpinner(btn, "Login");
+
+      if (error) {
+        if (error.message.includes("Email not confirmed")) {
+          alert("⚠️ Please verify your email before logging in.");
+        } else {
+          alert("Login failed: " + error.message);
+        }
+        return;
       }
-    });
-  }
+
+      const user = data.user;
+      if (!user) {
+        alert("Login failed: No user found.");
+        return;
+      }
+
+      // ✅ Fetch approval status from profiles
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("is_approved")
+        .eq("id", user.id)
+        .single();
+
+      if (profileError) {
+        console.error("Profile fetch error:", profileError.message);
+        alert("Error checking profile status.");
+        return;
+      }
+
+      if (!profile?.is_approved) {
+        alert("⚠️ Your account is pending admin approval.");
+        await supabase.auth.signOut();
+        return;
+      }
+
+      alert("✅ Login successful — redirecting...");
+      window._fraCloseAllModals?.();
+      loginForm.reset();
+      window.location.href = "dashboard.html";
+    } catch (err) {
+      hideSpinner(btn, "Login");
+      alert("Login error: " + (err.message || err));
+      console.error(err);
+    }
+  });
+}
+
 
   if (signupForm) {
     signupForm.addEventListener("submit", async (e) => {
@@ -543,4 +588,5 @@ async function showAdminUser(userId) {
     console.error(err);
   }
 }
+
 
