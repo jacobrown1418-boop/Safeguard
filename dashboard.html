@@ -601,6 +601,21 @@ main.main {
 .transactions-list::-webkit-scrollbar-thumb:hover {
   background: rgba(13,34,66,0.25);
 }
+/* Hide scrollbar but keep scrolling */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+body {
+  overflow-y: scroll; /* still allows scrolling */
+  scrollbar-width: none; /* for Firefox */
+  -ms-overflow-style: none; /* for IE and Edge */
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
 
 
 </style>
