@@ -265,71 +265,49 @@ function setupContactForm() {
 
 document.addEventListener("DOMContentLoaded", () => {
   const supabaseClient = supabase.createClient(
-    "YOUR_SUPABASE_URL",
-    "YOUR_ANON_PUBLIC_KEY"
+    "https://hafzffbdqlojkuhgfsvy.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk"
   );
 
-  const fraudForm = document.getElementById("fraudForm");
-  const modal = document.getElementById("reportSuccessModal");
-  const messageEl = document.getElementById("reportSuccessMessage");
-  const closeBtn = document.getElementById("reportSuccessClose");
-  const okBtn = document.getElementById("reportSuccessOk");
+// ✅ Fraud Report Form Submission (Single Supabase Client Usage)
+const fraudForm = document.getElementById("fraudForm");
 
-  function generateCaseID() {
-    const num = Math.floor(10000 + Math.random() * 90000);
-    return `FRA${num}`;
-  }
-
+if (fraudForm) {
   fraudForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const caseId = generateCaseID();
+    const fullName = document.getElementById("fullName").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const description = document.getElementById("description").value.trim();
+
+    // Unique reference number
+    const caseId = `CASE-${Date.now()}-${Math.floor(Math.random() * 9999)}`;
 
     const payload = {
       case_id: caseId,
-      full_name: document.getElementById("fullName").value,
-      email: document.getElementById("reportEmail").value,
-      phone: document.getElementById("phone").value,
-      incident_type: document.getElementById("incidentType").value,
-      incident_date: document.getElementById("incidentDate").value,
-      incident_location: document.getElementById("incidentLocation").value,
-      amount_involved: document.getElementById("amountInvolved").value,
-      contacted:
-        document.querySelector('input[name="contacted"]:checked')?.value ===
-        "yes",
-      contact_method: document.getElementById("contactMethod").value,
-      description: document.getElementById("incidentDescription").value,
-      additional_info: document.getElementById("additionalInfo").value
+      full_name: fullName,
+      email: email,
+      phone: phone,
+      description: description,
+      status: "pending"
     };
 
-    const { error } = await supabaseClient
+    const { data, error } = await supabase
       .from("fraud_reports")
-      .insert(payload);
+      .insert([payload]);
 
     if (error) {
-      console.error("Insert failed:", error);
-      alert("Submission failed. Try again.");
+      alert("Failed to submit report: " + error.message);
+      console.error(error);
       return;
     }
 
-    messageEl.textContent =
-      `Your report has been submitted successfully. Case ID: ${caseId}. ` +
-      `Please save this number for reference.`;
-
-    modal.style.display = "block";
-    modal.setAttribute("aria-hidden", "false");
-
+    alert(`Fraud report submitted successfully. Case ID: ${caseId}`);
     fraudForm.reset();
   });
+}
 
-  function closeModal() {
-    modal.style.display = "none";
-    modal.setAttribute("aria-hidden", "true");
-  }
-
-  closeBtn.addEventListener("click", closeModal);
-  okBtn.addEventListener("click", closeModal);
-});
 
 
 /* ---------- Helpers ---------- */
@@ -628,6 +606,7 @@ async function showAdminUser(userId) {
     console.error(err);
   }
 }
+
 
 
 
