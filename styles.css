@@ -702,40 +702,44 @@ img {
 
 
 
-/* --- Hero Section (Report Fraud Page) --- */
+/* --- Report Fraud Hero (Same as Homepage Hero) --- */
 .refined-hero {
   position: relative;
-  padding: 7rem 1rem;
+  padding: 6.5rem 1rem;
   text-align: center;
   color: white;
-  background: linear-gradient(
-      to bottom right,
-      rgba(10, 35, 66, 0.85),
-      rgba(15, 55, 110, 0.85)
+  overflow: hidden;
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(10, 35, 66, 0.8),
+      rgba(10, 35, 66, 0.6),
+      rgba(10, 35, 66, 0.8)
     ),
-     background-image:
-    linear-gradient(to bottom, rgba(10, 35, 66, 0.75) 0%, rgba(10, 35, 66, 0.3) 50%, rgba(10, 35, 66, 0.75) 100%),
-    url('images/hero-flag.jpg');
+    url("images/hero-flag.jpg");
   background-blend-mode: overlay;
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  backdrop-filter: blur(6px);
-  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.35);
+  animation: heroFadeIn 1.2s ease-in-out;
 }
 
 .refined-hero .hero-content {
   max-width: 850px;
   margin: 0 auto;
+  backdrop-filter: blur(8px) saturate(140%);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2rem 1.5rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .refined-hero h1 {
   font-family: "Merriweather", serif;
-  font-size: 2.8rem;
-  letter-spacing: 1px;
+  font-size: 2.7rem;
   margin-bottom: 1rem;
+  letter-spacing: 1px;
 }
 
 .refined-hero .tagline {
@@ -758,8 +762,8 @@ img {
   font-size: 1rem;
   letter-spacing: 0.3px;
   transition: all 0.3s ease;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
   cursor: pointer;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
 }
 
 .refined-hero .btn:hover {
@@ -787,6 +791,19 @@ img {
   background: linear-gradient(90deg, #2b4f91, #0e3063);
 }
 
+/* Animation */
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
 /* ---------- Responsive ---------- */
 @media (max-width: 768px) {
   #accountCards, .admin-accounts {
@@ -800,6 +817,7 @@ img {
     width: 90%;
   }
 }
+
 
 
 
