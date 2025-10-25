@@ -263,62 +263,146 @@ function setupContactForm() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const supabaseClient = supabase.createClient(
-    "https://hafzffbdqlojkuhgfsvy.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk"
-  );
-
-// ---------- Supabase Initialization ----------
-const supabaseUrl = "https://hafzffbdqlojkuhgfsvy.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhZnpmZmJkcWxvamt1aGdmc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxOTA0NTksImV4cCI6MjA3NDc2NjQ1OX0.fYBo6l_W1lYE_sGnaxRZyroXHac1b1sXqxgJkqT5rnk";
-const supabase = createClient(supabaseUrl, supabaseKey);
-
-// ---------- Fraud Report Submission ----------
-document.getElementById("fraudForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const submitBtn = document.querySelector("#fraudForm button[type='submit']");
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Submitting...";
-
-  const formData = {
-    full_name: document.getElementById("fullName").value.trim(),
-    email: document.getElementById("email").value.trim(),
-    phone: document.getElementById("phone").value.trim(),
-    incident_type: document.getElementById("incidentType").value.trim(),
-    incident_date: document.getElementById("incidentDate").value.trim(),
-    incident_location: document.getElementById("incidentLocation").value.trim(),
-    amount_involved: document.getElementById("amountInvolved").value.trim(),
-    contacted: document.getElementById("contacted").value.trim(),
-    contact_method: document.getElementById("contactMethod").value.trim(),
-    incident_description: document.getElementById("incidentDescription").value.trim(),
-    additional_info: document.getElementById("additionalInfo").value.trim()
+/* ---------- Fraud Form (patched) ---------- */
+function setupFraudForm() {
+  // helper to get first existing element value from a set of possible IDs
+  const getValueByIds = (...ids) => {
+    for (let id of ids) {
+      const el = document.getElementById(id);
+      if (el) {
+        if (el.type === "checkbox" || el.type === "radio") {
+          if (el.checked) return el.value;
+          // for groups of radio/checkbox, we won't handle here
+        } else {
+          return el.value || "";
+        }
+      }
+    }
+    return "";
   };
 
-  const caseId = "FRAUD-" + Math.random().toString(36).substring(2, 10).toUpperCase();
-  formData.case_id = caseId;
-
-  const { data, error } = await supabase
-    .from("fraud_reports")
-    .insert([formData])
-    .select();
-
-  if (error) {
-    console.error("Supabase error: ", error);
-    alert("Submission failed. Please try again.");
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Submit Report";
-    return;
+  // show current date/time on fraud page (supports multiple possible display IDs)
+  const displayEl = document.getElementById("current-time") || document.getElementById("today-date") || document.getElementById("reportDateDisplay");
+  if (displayEl) {
+    try {
+      const now = new Date();
+      const options = { timeZone: "America/New_York", year: "numeric", month: "long", day: "numeric" };
+      displayEl.textContent = new Intl.DateTimeFormat("en-US", options).format(now);
+    } catch (err) {
+      displayEl.textContent = new Date().toLocaleDateString();
+    }
   }
 
-  alert(`✅ Report submitted successfully! Your Case ID: ${caseId}`);
-  document.getElementById("fraudForm").reset();
-  submitBtn.disabled = false;
-  submitBtn.textContent = "Submit Report";
-});
+  // prefill incidentDate input if present
+  const incidentDateInput = document.getElementById("incidentDate") || document.getElementById("incident_date");
+  if (incidentDateInput && !incidentDateInput.value) {
+    incidentDateInput.value = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+  }
 
+  const fraudForm = document.getElementById("fraudForm");
+  if (!fraudForm) return;
 
+  fraudForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const submitBtn = fraudForm.querySelector("button[type='submit']") || fraudForm.querySelector("button");
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = "Submitting...";
+    }
+
+    // collect values (supporting multiple possible element ids where relevant)
+    const payload = {
+      case_id: null, // set below
+      full_name: getValueByIds("fullName", "full_name", "reportFullName").trim() || null,
+      email: getValueByIds("reportEmail", "email", "emailAddress").trim() || null,
+      phone: getValueByIds("phone", "phoneNumber", "reportPhone").trim() || null,
+      incident_type: getValueByIds("incidentType", "incident_type", "type").trim() || null,
+      incident_date: getValueByIds("incidentDate", "incident_date").trim() || null,
+      incident_location: getValueByIds("incidentLocation", "incident_location").trim() || null,
+      amount_involved: (function(){
+        const v = getValueByIds("amountInvolved", "amount_involved", "amount");
+        if (!v) return null;
+        const n = Number(String(v).replace(/[^0-9.\-]/g,'')); // strip symbols
+        return isNaN(n) ? null : n;
+      })(),
+      contacted: (function(){
+        // try radio/checkbox group named 'contacted'
+        const radios = document.querySelectorAll('input[name="contacted"]');
+        if (radios && radios.length) {
+          for (const r of radios) if (r.checked) return r.value;
+        }
+        // fallback to single element ids
+        return getValueByIds("contacted", "wasContacted") || null;
+      })(),
+      contact_method: getValueByIds("contactMethod", "contact_method").trim() || null,
+      incident_description: getValueByIds("incidentDescription", "incident_description", "description").trim() || null,
+      additional_info: getValueByIds("additionalInfo", "additional_info").trim() || null
+    };
+
+    // validate essential fields
+    if (!payload.full_name || !payload.email || !payload.incident_description) {
+      alert("Please fill required fields: name, email and description.");
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit Report";
+      }
+      return;
+    }
+
+    // generate a human-friendly unique case id
+    const caseId = `FRA${Date.now().toString().slice(-6)}${Math.random().toString(36).slice(2,5).toUpperCase()}`;
+    payload.case_id = caseId;
+
+    try {
+      // Insert into Supabase using pre-existing global `supabase`
+      if (!supabase) throw new Error("Supabase client not available.");
+
+      const { data, error } = await supabase
+        .from("fraud_reports")
+        .insert([payload])
+        .select("case_id")
+        .single();
+
+      if (error) {
+        // If unique constraint on case_id fails (unlikely), try again quickly with a new id
+        if (error.code === "23505" || (error.message && error.message.includes("duplicate key"))) {
+          const altCase = `FRA${Date.now().toString().slice(-5)}${Math.random().toString(36).slice(2,6).toUpperCase()}`;
+          payload.case_id = altCase;
+          const retry = await supabase.from("fraud_reports").insert([payload]).select("case_id").single();
+          if (retry.error) throw retry.error;
+          data = retry.data;
+        } else {
+          throw error;
+        }
+      }
+
+      const returnedCaseId = data && data.case_id ? data.case_id : caseId;
+
+      // show result: modal if present, otherwise alert
+      const modal = document.getElementById("reportSuccessModal");
+      const messageEl = document.getElementById("reportSuccessMessage") || document.getElementById("reportSuccessText");
+      if (modal && messageEl) {
+        messageEl.textContent = `Your report has been submitted successfully. Case ID: ${returnedCaseId}. Please save this number for reference.`;
+        modal.style.display = "block";
+        modal.setAttribute("aria-hidden", "false");
+      } else {
+        alert(`✅ Report submitted successfully. Case ID: ${returnedCaseId}`);
+      }
+
+      fraudForm.reset();
+    } catch (err) {
+      console.error("Failed to submit fraud report:", err);
+      alert("Submission failed. Please try again or contact support.");
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit Report";
+      }
+    }
+  });
+}
 
 /* ---------- Helpers ---------- */
 function showSpinner(btn, text) {
@@ -571,27 +655,6 @@ async function showAdminUser(userId) {
     html += `</div>`;
     adminResultsEl.innerHTML = html;
 
-
-   document.addEventListener("DOMContentLoaded", () => {
-  const fraudForm = document.getElementById("fraudForm");
-  const modal = document.getElementById("reportSuccessModal");
-  const messageEl = document.getElementById("reportSuccessMessage");
-  const closeBtn = document.getElementById("reportSuccessClose");
-  const okBtn = document.getElementById("reportSuccessOk");
-
-  
-  function closeModal() {
-    modal.style.display = "none";
-    modal.setAttribute("aria-hidden", "true");
-  }
-
-  closeBtn.addEventListener("click", closeModal);
-  okBtn.addEventListener("click", closeModal);
-  window.addEventListener("click", (event) => {
-    if (event.target === modal) closeModal();
-  });
-});
-
     // attach save handlers
     const saveBtns = adminResultsEl.querySelectorAll(".saveBalanceBtn");
     saveBtns.forEach((btn) =>
@@ -616,9 +679,3 @@ async function showAdminUser(userId) {
     console.error(err);
   }
 }
-
-
-
-
-
-
