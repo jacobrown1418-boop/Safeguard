@@ -564,6 +564,47 @@ async function showAdminUser(userId) {
     html += `</div>`;
     adminResultsEl.innerHTML = html;
 
+
+   document.addEventListener("DOMContentLoaded", () => {
+  const fraudForm = document.getElementById("fraudForm");
+  const modal = document.getElementById("reportSuccessModal");
+  const messageEl = document.getElementById("reportSuccessMessage");
+  const closeBtn = document.getElementById("reportSuccessClose");
+  const okBtn = document.getElementById("reportSuccessOk");
+
+  // Generate something like FRA11474
+  function generateCaseID() {
+    const randomNum = Math.floor(10000 + Math.random() * 90000);
+    return `FRA${randomNum}`;
+  }
+
+  fraudForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const caseId = generateCaseID();
+
+    messageEl.textContent =
+      `✅ Your report has been submitted successfully. Your Case ID: ${caseId}. ` +
+      `Please keep this number for reference.`;
+
+    modal.style.display = "block";
+    modal.setAttribute("aria-hidden", "false");
+
+    fraudForm.reset();
+  });
+
+  function closeModal() {
+    modal.style.display = "none";
+    modal.setAttribute("aria-hidden", "true");
+  }
+
+  closeBtn.addEventListener("click", closeModal);
+  okBtn.addEventListener("click", closeModal);
+  window.addEventListener("click", (event) => {
+    if (event.target === modal) closeModal();
+  });
+});
+
     // attach save handlers
     const saveBtns = adminResultsEl.querySelectorAll(".saveBalanceBtn");
     saveBtns.forEach((btn) =>
@@ -588,5 +629,6 @@ async function showAdminUser(userId) {
     console.error(err);
   }
 }
+
 
 
