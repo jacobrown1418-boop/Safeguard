@@ -700,6 +700,87 @@ img {
   margin-left: 8px;
 }
 
+
+
+/* --- Hero Section (Report Fraud Page) --- */
+.refined-hero {
+  position: relative;
+  padding: 7rem 1rem;
+  text-align: center;
+  color: white;
+  background: linear-gradient(
+      to bottom right,
+      rgba(10, 35, 66, 0.85),
+      rgba(15, 55, 110, 0.85)
+    ),
+    url("images/hero-emblem.png");
+  background-size: cover;
+  background-position: center;
+  backdrop-filter: blur(6px);
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.4);
+}
+
+.refined-hero .hero-content {
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.refined-hero h1 {
+  font-family: "Merriweather", serif;
+  font-size: 2.8rem;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+}
+
+.refined-hero .tagline {
+  font-size: 1.15rem;
+  opacity: 0.9;
+  margin-bottom: 2rem;
+}
+
+.refined-hero .hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.refined-hero .btn {
+  padding: 0.9rem 2rem;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+}
+
+.refined-hero .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.25);
+}
+
+.refined-hero .btn.ghost {
+  background-color: transparent;
+  border: 2px solid #ffffffb5;
+  color: #fff;
+}
+
+.refined-hero .btn.ghost:hover {
+  background-color: #ffffff;
+  color: #0a2342;
+}
+
+.refined-hero .btn {
+  background: linear-gradient(90deg, #1f3d70, #0a2342);
+  color: white;
+}
+
+.refined-hero .btn:hover {
+  background: linear-gradient(90deg, #2b4f91, #0e3063);
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 768px) {
   #accountCards, .admin-accounts {
@@ -713,4 +794,5 @@ img {
     width: 90%;
   }
 }
+
 
