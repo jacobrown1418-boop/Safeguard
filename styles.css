@@ -713,7 +713,7 @@ img {
       rgba(10, 35, 66, 0.85),
       rgba(15, 55, 110, 0.85)
     ),
-    url("images/hero-emblem.png");
+    url("images/hero-flag.jpg");
   background-size: cover;
   background-position: center;
   backdrop-filter: blur(6px);
@@ -794,5 +794,6 @@ img {
     width: 90%;
   }
 }
+
 
 
