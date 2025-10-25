@@ -291,54 +291,177 @@ img {
   background-color: #16325b;
 }
 
-/* ---------- Report Fraud Form ---------- */
-#fraudForm {
-  background-color: #ffffff;
-  border-radius: 10px;
-  padding: 2rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  max-width: 700px;
-  margin: 1rem auto;
+/* ==========================
+   ✨ Report Fraud Page Enhancements ✨
+   Theme: Federal Blue + Frosted Glass
+   ========================== */
+
+/* --- Hero Refinement --- */
+.refined-hero {
+  position: relative;
+  padding: 6rem 1rem;
+  text-align: center;
+  color: white;
+  background: linear-gradient(
+      to bottom right,
+      rgba(10, 35, 66, 0.85),
+      rgba(15, 55, 110, 0.85)
+    ),
+    url("images/hero-emblem.png");
+  background-size: cover;
+  background-position: center;
+  backdrop-filter: blur(5px);
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.4);
 }
 
-#fraudForm h3 {
-  color: #0a2342;
+.refined-hero .hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.refined-hero h1 {
+  font-family: "Merriweather", serif;
+  font-size: 2.8rem;
+  letter-spacing: 1px;
   margin-bottom: 1rem;
-  font-size: 1.3rem;
+}
+
+.refined-hero .tagline {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+.refined-hero .hero-buttons {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.refined-hero .btn {
+  padding: 0.9rem 2rem;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+}
+
+.refined-hero .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.25);
+}
+
+.refined-hero .btn.ghost {
+  background-color: transparent;
+  border: 2px solid #ffffffb5;
+  color: #fff;
+}
+
+.refined-hero .btn.ghost:hover {
+  background-color: #ffffff;
+  color: #0a2342;
+}
+
+/* --- Form Redesign --- */
+#fraudForm {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border-radius: 14px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  margin: 2rem auto;
+  max-width: 780px;
+  animation: fadeIn 0.7s ease;
 }
 
 #fraudForm label {
+  font-weight: 600;
+  color: #0a2342;
+  margin-bottom: 0.4rem;
   display: block;
-  margin-top: 0.5rem;
-  margin-bottom: 0.2rem;
-  font-weight: 500;
 }
 
 #fraudForm input,
-#fraudForm textarea,
-#fraudForm select {
+#fraudForm select,
+#fraudForm textarea {
   width: 100%;
-  padding: 0.6rem;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  margin-bottom: 1rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 6px;
+  border: 1px solid #cfd6e0;
+  background-color: rgba(255, 255, 255, 0.75);
   font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+#fraudForm input:focus,
+#fraudForm select:focus,
+#fraudForm textarea:focus {
+  outline: none;
+  border-color: #1f3d70;
+  box-shadow: 0 0 5px rgba(31, 61, 112, 0.3);
+  background-color: #fff;
 }
 
 #fraudForm button {
-  background-color: #1f3d70;
+  margin-top: 1rem;
+  background: linear-gradient(90deg, #1f3d70, #0a2342);
   color: white;
-  font-weight: bold;
-  padding: 0.8rem 1.2rem;
-  border-radius: 5px;
-  width: 100%;
-  margin-top: 0.5rem;
-  transition: 0.2s;
+  padding: 0.9rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
 }
 
 #fraudForm button:hover {
-  background-color: #16325b;
+  background: linear-gradient(90deg, #2b4f91, #0e3063);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(10, 35, 66, 0.25);
 }
+
+/* --- Sections + Typography --- */
+.content-section {
+  margin: 3rem auto;
+  max-width: 900px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.content-section h2 {
+  font-family: "Merriweather", serif;
+  font-size: 1.8rem;
+  color: #0a2342;
+  margin-bottom: 1rem;
+  border: none;
+}
+
+.content-section p,
+.content-section li {
+  color: #1c1c1c;
+  font-size: 1rem;
+  line-height: 1.75;
+  opacity: 0.95;
+}
+
+.content-section ul {
+  list-style: disc;
+  margin-left: 1.5rem;
+}
+
+/* --- Animation --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 
 /* ---------- Footer ---------- */
 .site-footer {
@@ -590,3 +713,4 @@ img {
     width: 90%;
   }
 }
+
