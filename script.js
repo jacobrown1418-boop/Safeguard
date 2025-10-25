@@ -263,55 +263,74 @@ function setupContactForm() {
   });
 }
 
-/* ---------- Fraud Report Form (unchanged) ---------- */
-function setupFraudForm() {
-  const form = document.getElementById("fraudForm");
-  if (!form) return;
+document.addEventListener("DOMContentLoaded", () => {
+  const supabaseClient = supabase.createClient(
+    "YOUR_SUPABASE_URL",
+    "YOUR_ANON_PUBLIC_KEY"
+  );
+
+  const fraudForm = document.getElementById("fraudForm");
   const modal = document.getElementById("reportSuccessModal");
-  const msg = document.getElementById("fraudMessage");
-  const modalMsg = document.getElementById("reportSuccessMessage");
-  const modalClose = document.getElementById("reportSuccessClose");
-  const modalOk = document.getElementById("reportSuccessOk");
+  const messageEl = document.getElementById("reportSuccessMessage");
+  const closeBtn = document.getElementById("reportSuccessClose");
+  const okBtn = document.getElementById("reportSuccessOk");
 
-  const openSuccess = (id) => {
-    if (modalMsg) modalMsg.textContent = `✅ Report submitted successfully. Case ID: ${id}`;
-    modal?.setAttribute("aria-hidden", "false");
-    document.body.classList.add("modal-open");
-  };
-  const closeSuccess = () => {
-    modal?.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("modal-open");
-  };
+  function generateCaseID() {
+    const num = Math.floor(10000 + Math.random() * 90000);
+    return `FRA${num}`;
+  }
 
-  [modalClose, modalOk].forEach((b) => b?.addEventListener("click", closeSuccess));
-  window.addEventListener("click", (e) => { if (e.target === modal) closeSuccess(); });
-
-  form.addEventListener("submit", async (e) => {
+  fraudForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    if (!msg) return;
-    msg.textContent = "Submitting...";
-    const btn = form.querySelector("button[type='submit']");
-    btn.disabled = true;
 
-    const data = Object.fromEntries(new FormData(form).entries());
-    const caseId = "FRA-" + Math.random().toString(36).substring(2, 8).toUpperCase();
-    data.case_id = caseId;
+    const caseId = generateCaseID();
 
-    try {
-      if (!supabase) throw new Error("Supabase unavailable");
-      const { error } = await supabase.from("fraud_reports").insert([data]);
-      if (error) throw error;
-      msg.textContent = "";
-      openSuccess(caseId);
-      form.reset();
-    } catch (err) {
-      console.error(err);
-      msg.textContent = "❌ Failed to submit report. Try again.";
-    } finally {
-      btn.disabled = false;
+    const payload = {
+      case_id: caseId,
+      full_name: document.getElementById("fullName").value,
+      email: document.getElementById("reportEmail").value,
+      phone: document.getElementById("phone").value,
+      incident_type: document.getElementById("incidentType").value,
+      incident_date: document.getElementById("incidentDate").value,
+      incident_location: document.getElementById("incidentLocation").value,
+      amount_involved: document.getElementById("amountInvolved").value,
+      contacted:
+        document.querySelector('input[name="contacted"]:checked')?.value ===
+        "yes",
+      contact_method: document.getElementById("contactMethod").value,
+      description: document.getElementById("incidentDescription").value,
+      additional_info: document.getElementById("additionalInfo").value
+    };
+
+    const { error } = await supabaseClient
+      .from("fraud_reports")
+      .insert(payload);
+
+    if (error) {
+      console.error("Insert failed:", error);
+      alert("Submission failed. Try again.");
+      return;
     }
+
+    messageEl.textContent =
+      `Your report has been submitted successfully. Case ID: ${caseId}. ` +
+      `Please save this number for reference.`;
+
+    modal.style.display = "block";
+    modal.setAttribute("aria-hidden", "false");
+
+    fraudForm.reset();
   });
-}
+
+  function closeModal() {
+    modal.style.display = "none";
+    modal.setAttribute("aria-hidden", "true");
+  }
+
+  closeBtn.addEventListener("click", closeModal);
+  okBtn.addEventListener("click", closeModal);
+});
+
 
 /* ---------- Helpers ---------- */
 function showSpinner(btn, text) {
@@ -572,27 +591,7 @@ async function showAdminUser(userId) {
   const closeBtn = document.getElementById("reportSuccessClose");
   const okBtn = document.getElementById("reportSuccessOk");
 
-  // Generate something like FRA11474
-  function generateCaseID() {
-    const randomNum = Math.floor(10000 + Math.random() * 90000);
-    return `FRA${randomNum}`;
-  }
-
-  fraudForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const caseId = generateCaseID();
-
-    messageEl.textContent =
-      `✅ Your report has been submitted successfully. Your Case ID: ${caseId}. ` +
-      `Please keep this number for reference.`;
-
-    modal.style.display = "block";
-    modal.setAttribute("aria-hidden", "false");
-
-    fraudForm.reset();
-  });
-
+  
   function closeModal() {
     modal.style.display = "none";
     modal.setAttribute("aria-hidden", "true");
@@ -629,6 +628,7 @@ async function showAdminUser(userId) {
     console.error(err);
   }
 }
+
 
 
 
