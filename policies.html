@@ -261,23 +261,7 @@
     }
     document.addEventListener('DOMContentLoaded', updateEasternDate);
 
-    // Auto-generate Table of Contents
-    document.addEventListener('DOMContentLoaded', function () {
-      const toc = document.getElementById('table-of-contents');
-      const sections = document.querySelectorAll('main .content-section h2');
-      sections.forEach(section => {
-        const id = section.parentElement.id;
-        if (id) {
-          const li = document.createElement('li');
-          const a = document.createElement('a');
-          a.href = `#${id}`;
-          a.textContent = section.textContent;
-          li.appendChild(a);
-          toc.appendChild(li);
-        }
-      });
-    });
-  </script>
+   
 
 
     <script src="js/supabase.js"></script>
@@ -286,5 +270,6 @@
     
 </body>
 </html>
+
 
 
