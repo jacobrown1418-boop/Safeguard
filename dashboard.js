@@ -421,13 +421,12 @@ document.addEventListener("DOMContentLoaded", loadRecentTransactions);
 
 // ===== Initialize =====
 checkUser();
-/* ===== Non-destructive responsive JS patch =====
-   Append to end of your dashboard.js
-   - Adds hamburger + overlay
-   - Hides duplicate DOM elements with same id (keeps first)
-   - Adds modal & escape handling improvements
-   - Makes modals full-screen friendly on small screens
-*/
+
+// =========================================================
+// APPENDED NON-DESTRUCTIVE RESPONSIVE JS PATCH (DO NOT DELETE)
+// This block was appended to make your existing markup responsive and to avoid removing any original content.
+// It hides duplicate nodes (keeps first), adds a mobile hamburger + overlay, and improves modal behavior.
+// =========================================================
 
 /* small helper */
 function _qAll(sel) { return Array.from(document.querySelectorAll(sel)); }
