@@ -350,6 +350,64 @@ supabase
     }
   )
   .subscribe();
+<script>
+  // Mobile sidebar toggle
+  (function() {
+    // create a hamburger button in header if not present
+    const topHeader = document.querySelector('header.top');
+    if (topHeader) {
+      let btn = document.getElementById('mobileMenuBtn');
+      if (!btn) {
+        btn = document.createElement('button');
+        btn.id = 'mobileMenuBtn';
+        btn.innerHTML = '&#9776;'; // hamburger
+        btn.title = 'Open menu';
+        btn.className = 'mobile-menu-btn';
+        topHeader.querySelector('div')?.prepend(btn); // put on left of header
+      }
+
+      const sidebar = document.querySelector('aside.f-sidebar');
+      // add overlay element
+      let overlay = document.querySelector('.f-sidebar-overlay');
+      if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'f-sidebar-overlay';
+        document.body.appendChild(overlay);
+      }
+
+      function openSidebar() {
+        sidebar?.classList.add('open');
+        overlay.classList.add('open');
+        overlay.style.display = 'block';
+      }
+      function closeSidebar() {
+        sidebar?.classList.remove('open');
+        overlay.classList.remove('open');
+        overlay.style.display = 'none';
+      }
+
+      btn.addEventListener('click', () => {
+        if (sidebar.classList.contains('open')) closeSidebar(); else openSidebar();
+      });
+      overlay.addEventListener('click', closeSidebar);
+
+      // Auto-close sidebar on nav click (use delegation)
+      sidebar?.addEventListener('click', (e) => {
+        if (e.target.classList.contains('nav-item')) closeSidebar();
+      });
+    }
+
+    // Simple modal close wiring for buttons with [data-close]
+    document.addEventListener('click', (e) => {
+      const target = e.target;
+      if (target.matches('[data-close]')) {
+        const modal = target.closest('.modal');
+        if (modal) modal.setAttribute('aria-hidden', 'true');
+      }
+    });
+
+  })();
+</script>
 
 // === Delete ===
 async function deleteTransaction(id) {
