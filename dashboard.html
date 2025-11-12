@@ -779,6 +779,143 @@ body::-webkit-scrollbar {
   backdrop-filter: blur(20px);
 }
 .modal-panel h3 { color: #0b2341; }
+/* === Responsive Overrides (mobile-first) === */
+
+/* Remove global overflow:hidden (if present) */
+html, body {
+  overflow: auto; /* allow scrolling */
+}
+
+/* Base: make layout column on small screens */
+aside.f-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 240px; /* default collapsed width for larger phones */
+  height: 100vh;
+  transform: translateX(-110%); /* hide by default on mobile; shown via .open class */
+  transition: transform 0.28s ease;
+  z-index: 80;
+}
+
+/* Off-canvas overlay */
+.f-sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6,18,37,0.45);
+  display: none;
+  z-index: 70;
+}
+.f-sidebar-overlay.open { display: block; }
+
+/* When sidebar has .open, slide in */
+aside.f-sidebar.open { transform: translateX(0); }
+
+/* Topbar hamburger for small screens */
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+#mobileMenuBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Adjust main when sidebar is hidden on small screens */
+main.main {
+  margin-left: 0;
+  width: 100%;
+  padding: 1.25rem;
+}
+
+/* Summary cards: responsive stacking */
+.summary-row {
+  grid-template-columns: 1fr; /* stack by default on narrow screens */
+  gap: 1rem;
+}
+
+/* Accounts grid responsive */
+.accounts-grid {
+  grid-template-columns: 1fr;
+  padding: 0.75rem;
+  gap: 1rem;
+}
+
+/* Account card sizing: let content define height */
+.account-card { height: auto; }
+
+/* Buttons full width on small screens */
+.account-card .btn-primary,
+.account-card .btn-ghost,
+.btn-primary,
+.btn-ghost {
+  width: 100%;
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* Transactions: switch to stacked card layout on small screens */
+.transactions-header { display: none; } /* hide header on small screens */
+.transaction-row {
+  grid-template-columns: 1fr;
+  display: block;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+.transaction-row .transaction-amount { text-align: left; margin-top: 8px; display: block; }
+
+/* Make modals full-screen friendly */
+.modal-panel {
+  max-width: 92%;
+  width: 92%;
+  padding: 18px;
+  border-radius: 12px;
+}
+
+/* Larger touch targets */
+.nav-item, .btn-ghost, .btn-primary {
+  min-height: 44px;
+  padding: 12px 14px;
+}
+
+/* ================= Tablet and up ================= */
+@media (min-width: 600px) {
+  .summary-row { grid-template-columns: repeat(2, 1fr); }
+  .accounts-grid { grid-template-columns: repeat(2, 1fr); }
+  aside.f-sidebar { width: 260px; }
+  main.main { padding: 1.5rem 2rem; }
+}
+
+/* ================= Small laptop / desktop ================= */
+@media (min-width: 1024px) {
+  aside.f-sidebar {
+    transform: translateX(0);
+    position: fixed;
+    width: 270px;
+  }
+  main.main {
+    margin-left: 270px;
+    width: calc(100vw - 270px);
+    padding: 2rem 2.5rem;
+  }
+  .summary-row { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  .accounts-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); background: none; padding: 0; }
+  .transactions-header { display: grid; grid-template-columns: 120px 1fr 110px 120px 80px; } /* desktop layout */
+  .transaction-row { display: grid; grid-template-columns: 120px 1fr 110px 120px 80px; }
+}
+
+/* clamp-based font scaling */
+h1, #pf-welcome { font-size: clamp(1.25rem, 3.5vw, 2rem); }
+.text-xl { font-size: clamp(1rem, 2.2vw, 1.6rem); }
 
 </style>
 
