@@ -623,7 +623,7 @@ main.main {
 .modal-content {
   background: rgba(255, 255, 255, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(25px) saturate(180%);
+  backdrop-filter: blur(25px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   padding: 30px;
@@ -886,7 +886,7 @@ body::-webkit-scrollbar {
   </div>
 </section>
 
-<!-- (rest of your original HTML continues exactly as you provided) -->
+
 
     <!-- Secure Assets -->
     <section id="section-assets" class="hidden mt-6">
@@ -1028,110 +1028,4 @@ body::-webkit-scrollbar {
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
   <script src="dashboard.js" defer></script>
 </body>
-</html>
-
-<!--
-  ================================================
-  APPENDED NON-DESTRUCTIVE RESPONSIVE CSS (DO NOT DELETE)
-  ================================================
-  The CSS below was appended to make your existing markup responsive without removing or changing any of your original HTML.
-  If you'd like this moved to an external file, I can produce that for you.
--->
-<style>
-/* ===== NON-DESTRUCTIVE RESPONSIVE ADDITIONAL CSS =====
-   Append only — does not remove existing styles.
-   Mobile-first, small-footprint rules that override where needed.
-====================================================== */
-
-/* Allow regular scrolling on small devices (override any overflow hidden) */
-html, body {
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Off-canvas responsive sidebar behavior (applies to existing .f-sidebar) */
-@media (max-width: 1023px) {
-  .f-sidebar {
-    position: fixed !important;
-    top: 0; left: 0;
-    width: 80% !important;
-    max-width: 340px !important;
-    height: 100vh !important;
-    transform: translateX(-110%);
-    transition: transform .28s cubic-bezier(.2,.9,.2,1), opacity .18s;
-    z-index: 1000 !important;
-    box-shadow: 0 20px 46px rgba(2,6,23,0.28) !important;
-    overflow-y: auto !important;
-  }
-  .f-sidebar.open {
-    transform: translateX(0) !important;
-  }
-
-  /* main content full width when sidebar hidden */
-  main.main {
-    margin-left: 0 !important;
-    padding: 1rem !important;
-    width: 100% !important;
-  }
-
-  /* compact header & make hamburger visible */
-  .hamburger-toggle {
-    display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: none;
-    font-size: 1.25rem;
-    padding: 8px;
-    border-radius: 8px;
-  }
-
-  /* Modals full width on phones */
-  .modal .modal-panel {
-    width: calc(100% - 32px) !important;
-    max-width: none !important;
-    border-radius: 10px !important;
-    margin: 0 16px !important;
-  }
-
-  /* Make account grid 1 column on narrow */
-  .accounts-grid {
-    grid-template-columns: 1fr !important;
-    gap: 12px !important;
-  }
-}
-
-/* Medium screens */
-@media (min-width: 1024px) {
-  /* Ensure sidebar is visible on desktop if .open or no transform applied */
-  .f-sidebar {
-    transform: none !important;
-    position: fixed !important;
-  }
-}
-
-/* Small touches: make modal close targets easier to tap */
-.modal .modal-panel { touch-action: manipulation; }
-
-/* Overlay for sidebar (we'll create an element 'body > .sidebar-overlay' via JS) */
-.sidebar-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(6,12,26,0.45);
-  z-index: 900;
-  display: none;
-}
-.sidebar-overlay.show { display: block; }
-
-/* Utility: visually hide duplicates (JS will add .duplicate-hidden) */
-.duplicate-hidden { display: none !important; }
-
-/* Make buttons more touch friendly */
-.btn-primary, .btn-ghost {
-  min-height: 42px;
-  padding-left: 12px;
-  padding-right: 12px;
-  touch-action: manipulation;
-}
-</style>
+</html> 
