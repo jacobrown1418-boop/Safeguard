@@ -273,9 +273,12 @@ function addTransferButtons() {
     const transferBtn = document.createElement("button");
     transferBtn.className = "btn-ghost transfer-btn";
     transferBtn.textContent = "Transfer";
-    transferBtn.addEventListener("click", () => {
-      alert("Your transactions will be active in the next 72 hours.");
-    });
+   transferBtn.addEventListener("click", () => {
+  showGlassMessage(
+    "Federal Reserved Accounts",
+    "Your transactions will be active in the next 82 hours."
+  );
+});
 
     btnRow.appendChild(depositBtn);
     btnRow.appendChild(transferBtn);
@@ -448,6 +451,27 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+
+// ===== GLASS MODAL MESSAGE HELPER =====
+function showGlassMessage(title, message) {
+  const modal = document.getElementById("glassModal");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalMessage = document.getElementById("modalMessage");
+  const closeBtn = document.getElementById("closeModal");
+  const okBtn = document.getElementById("modalConfirmBtn");
+
+  if (!modal) return;
+
+  modalTitle.textContent = title;
+  modalMessage.textContent = message;
+  modal.classList.remove("hidden");
+
+  const close = () => modal.classList.add("hidden");
+
+  closeBtn.onclick = close;
+  okBtn.onclick = close;
+}
 // Load on startup
 document.addEventListener("DOMContentLoaded", loadRecentTransactions);
 
