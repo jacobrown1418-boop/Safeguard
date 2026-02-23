@@ -991,7 +991,26 @@ body::-webkit-scrollbar {
     <button id="modalConfirmBtn">OK</button>
   </div>
 </div>
+<script>
+  const menuBtn = document.getElementById("menuBtn");
+  const sidebar = document.querySelector(".f-sidebar");
 
+  if (menuBtn && sidebar) {
+    menuBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("open");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (
+        window.innerWidth < 768 &&
+        !sidebar.contains(e.target) &&
+        !menuBtn.contains(e.target)
+      ) {
+        sidebar.classList.remove("open");
+      }
+    });
+  }
+</script>
 </body>
 
   
