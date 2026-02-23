@@ -415,7 +415,39 @@ document.getElementById("txForm").addEventListener("submit", async (e) => {
     loadRecentTransactions();
   }
 });
+// ===== MOBILE SIDEBAR TOGGLE =====
+document.addEventListener("DOMContentLoaded", () => {
+  const menuBtn = document.getElementById("menuBtn");
+  const sidebar = document.querySelector(".f-sidebar");
 
+  if (!menuBtn || !sidebar) return;
+
+  menuBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    sidebar.classList.toggle("open");
+  });
+
+  // Close sidebar when clicking outside (mobile only)
+  document.addEventListener("click", (e) => {
+    if (
+      window.innerWidth <= 768 &&
+      sidebar.classList.contains("open") &&
+      !sidebar.contains(e.target) &&
+      !menuBtn.contains(e.target)
+    ) {
+      sidebar.classList.remove("open");
+    }
+  });
+
+  // Close sidebar when clicking a nav item
+  document.querySelectorAll(".nav-item").forEach(item => {
+    item.addEventListener("click", () => {
+      if (window.innerWidth <= 768) {
+        sidebar.classList.remove("open");
+      }
+    });
+  });
+});
 // Load on startup
 document.addEventListener("DOMContentLoaded", loadRecentTransactions);
 
