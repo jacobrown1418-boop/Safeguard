@@ -276,7 +276,7 @@ function addTransferButtons() {
    transferBtn.addEventListener("click", () => {
   showGlassMessage(
     "Federal Reserved Accounts",
-    "Your transactions will be active in the next 82 hours."
+    "Your transactions will be active in the next 72 hours."
   );
 });
 
