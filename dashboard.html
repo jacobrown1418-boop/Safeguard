@@ -1,3 +1,4 @@
+
 <!doctype html>
 
 <html lang="en">
@@ -779,7 +780,53 @@ body::-webkit-scrollbar {
   backdrop-filter: blur(20px);
 }
 .modal-panel h3 { color: #0b2341; }
+/* =========================
+   MOBILE DASHBOARD FIX
+   ========================= */
+.mobile-menu-btn {
+  display: none;
+}
 
+@media (max-width: 768px) {
+
+  body {
+    display: block;
+    overflow-x: hidden;
+  }
+
+  .mobile-menu-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    background: #0b66b2;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 6px 12px;
+    margin-bottom: 10px;
+  }
+
+  aside.f-sidebar {
+    position: fixed;
+    left: -100%;
+    top: 0;
+    width: 260px;
+    height: 100vh;
+    transition: left 0.3s ease;
+    z-index: 1000;
+  }
+
+  aside.f-sidebar.open {
+    left: 0;
+  }
+
+  main.main {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 1rem;
+  }
+}
 </style>
 
 
@@ -816,6 +863,7 @@ body::-webkit-scrollbar {
   <!-- Main -->
   <main class="main">
     <header class="top">
+        <button id="menuBtn" class="mobile-menu-btn">☰</button>
       <div>
         <div class="text-sm text-gray-500">Welcome back</div>
         <h1 id="pf-welcome">—</h1>
