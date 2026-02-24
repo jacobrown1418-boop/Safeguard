@@ -843,6 +843,65 @@ body::-webkit-scrollbar {
   background: linear-gradient(90deg, #e64a19, #c62828);
   transform: translateX(4px);
 }
+
+  @media (max-width: 768px) {
+  .account-card .btn-row {
+    display: flex;
+    gap: 12px;          /* FIXED spacing */
+  }
+
+  .account-card .btn-primary,
+  .account-card .btn-ghost {
+    width: 100%;        /* stack cleanly */
+  }
+}
+  @media (max-width: 768px) {
+
+  .transactions-header {
+    display: none; /* hide desktop header */
+  }
+
+  .transaction-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 14px;
+  }
+
+  .transaction-row span {
+    display: block;
+    font-size: 0.85rem;
+  }
+
+  .transaction-row .transaction-amount {
+    text-align: left;
+    margin-top: 6px;
+    font-weight: 700;
+  }
+
+  .transaction-actions {
+    opacity: 1;
+    justify-content: flex-start;
+    margin-top: 6px;
+  }
+}
+  @media (max-width: 768px) {
+
+  header.top {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  #menuBtn {
+    align-self: flex-start;
+    margin-bottom: 4px;
+  }
+
+  #pf-welcome {
+    font-size: 1.6rem;   /* slightly smaller */
+    line-height: 1.2;
+  }
+}
 </style>
 
 
