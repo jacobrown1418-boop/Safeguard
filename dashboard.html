@@ -828,6 +828,21 @@ body::-webkit-scrollbar {
     padding: 1rem;
   }
 }
+
+@media (max-width: 768px) {
+  .sidebar-footer {
+    display: none;
+  }
+}
+
+#logoutBtnSidebar {
+  color: #fff;
+  font-weight: 600;
+}
+#logoutBtnSidebar:hover {
+  background: linear-gradient(90deg, #e64a19, #c62828);
+  transform: translateX(4px);
+}
 </style>
 
 
@@ -854,6 +869,11 @@ body::-webkit-scrollbar {
       <div id="openRequestCheck" class="nav-item">Request Checkbook</div>
       <div id="openChangePassword" class="nav-item">Change Password</div>
       <div id="openContact" class="nav-item">Dedicated Support</div>
+
+<button id="logoutBtnSidebar" class="nav-item mt-2"
+  style="background: linear-gradient(90deg, #d93025, #b71c1c); border-left-color:#ff6b6b;">
+  Logout Securely
+</button>
     </nav>
 
     <div class="sidebar-footer mt-6">
