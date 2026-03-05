@@ -176,7 +176,11 @@
         <label for="loginUsername">Username</label>
         <input type="text" id="loginUsername" required placeholder="Enter your username" />
         <label for="loginPassword">Password</label>
-        <input type="password" id="loginPassword" required placeholder="Enter your password" />
+
+<div class="password-field">
+  <input type="password" id="loginPassword" required placeholder="Enter your password" />
+  <span class="toggle-password" onclick="togglePassword('loginPassword', this)">👁</span>
+</div>
         <button type="submit" class="btn">Login</button>
         <button type="button" id="forgotPasswordBtn" class="btn ghost small">Forgot Password?</button>
       </form>
@@ -223,7 +227,11 @@
         <input type="text" id="signupUsername" required placeholder="Choose a username" />
 
         <label for="signupPassword">Password</label>
-        <input type="password" id="signupPassword" required placeholder="Create a password" />
+
+<div class="password-field">
+  <input type="password" id="signupPassword" required placeholder="Create a password" />
+  <span class="toggle-password" onclick="togglePassword('signupPassword', this)">👁</span>
+</div>
 
         <button type="submit" class="btn">Sign Up</button>
       </form>
@@ -235,4 +243,3 @@
   <script src="script.js" defer></script>
 </body>
 </html>
-
