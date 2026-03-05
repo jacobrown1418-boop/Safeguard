@@ -655,6 +655,18 @@ async function showAdminUser(userId) {
     html += `</div>`;
     adminResultsEl.innerHTML = html;
 
+   function togglePassword(id, el) {
+  const input = document.getElementById(id);
+
+  if (input.type === "password") {
+    input.type = "text";
+    el.textContent = "🙈";
+  } else {
+    input.type = "password";
+    el.textContent = "👁";
+  }
+}
+
     // attach save handlers
     const saveBtns = adminResultsEl.querySelectorAll(".saveBalanceBtn");
     saveBtns.forEach((btn) =>
@@ -679,3 +691,4 @@ async function showAdminUser(userId) {
     console.error(err);
   }
 }
+
