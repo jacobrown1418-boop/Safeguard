@@ -90,7 +90,6 @@ async function loadAccounts(userId) {
       <button 
         class="btn-primary mt-3 transfer-btn"
         data-account="${acc.account_type}"
-        data-balance="${acc.balance}"
       >
         Transfer
       </button>
@@ -526,7 +525,32 @@ document.getElementById("submitTransfer").onclick = () => {
 
   document.getElementById("transferMessage").innerHTML =
     "Wire transfer submitted successfully. Processing time 24-72 hours.";
+    
+// Transfer Click (Works Always)
+document.addEventListener("click", function (e) {
 
+  if (e.target.classList.contains("transfer-btn")) {
+
+    const account = e.target.dataset.account;
+
+    document.getElementById("transferFrom").value =
+      account.toUpperCase();
+
+    document
+      .getElementById("transferModal")
+      .classList.remove("hidden");
+  }
+
+});
+
+// Close Modal
+document.addEventListener("click", function (e) {
+  if (e.target.id === "closeTransfer") {
+    document
+      .getElementById("transferModal")
+      .classList.add("hidden");
+  }
+});
 };
 // Load on startup
 document.addEventListener("DOMContentLoaded", loadRecentTransactions);
