@@ -503,29 +503,8 @@ function showGlassMessage(title, message) {
   okBtn.onclick = close;
 }
 
-// ===== TRANSFER SUBMIT =====
-document.addEventListener("DOMContentLoaded", () => {
 
-  const submitBtn = document.getElementById("submitTransfer");
-
-  if (!submitBtn) return;
-
-  submitBtn.addEventListener("click", () => {
-
-    document.getElementById("transferMessage").innerHTML =
-      "<span class='text-blue-600'>Processing transfer...</span>";
-
-    setTimeout(() => {
-
-      document.getElementById("transferMessage").innerHTML =
-        "<span class='text-green-600'>Transfer request submitted successfully.</span>";
-
-    }, 1500);
-
-  });
-
-});
-// ===== REVIEW TRANSFER (FINAL FIX) =====
+// ===== REVIEW TRANSFER =====
 document.addEventListener("click", function(e){
 
   if (!e.target.closest("#reviewTransfer")) return;
@@ -533,35 +512,61 @@ document.addEventListener("click", function(e){
   e.preventDefault();
 
   const from = document.getElementById("transferFrom").value;
-  const amount = document.getElementById("transferAmount").value;
+  const amount = parseFloat(document.getElementById("transferAmount").value);
   const bank = document.getElementById("bankName").value;
   const holder = document.getElementById("accountHolder").value;
   const number = document.getElementById("accountNumber").value;
+  const routing = document.getElementById("routingNumber").value;
+  const swift = document.getElementById("swiftCode").value;
+
+  window.transferData = {
+    from,
+    amount,
+    bank,
+    holder,
+    number,
+    routing,
+    swift
+  };
 
   document.getElementById("reviewDetails").innerHTML = `
-    <div class="flex justify-between">
-      <span>From</span>
-      <strong>${from}</strong>
-    </div>
+    <div class="space-y-2">
 
-    <div class="flex justify-between">
-      <span>Amount</span>
-      <strong>$${amount}</strong>
-    </div>
+      <div class="flex justify-between">
+        <span>From</span>
+        <strong>${from}</strong>
+      </div>
 
-    <div class="flex justify-between">
-      <span>Bank</span>
-      <strong>${bank}</strong>
-    </div>
+      <div class="flex justify-between">
+        <span>Amount</span>
+        <strong>$${amount.toFixed(2)}</strong>
+      </div>
 
-    <div class="flex justify-between">
-      <span>Account Holder</span>
-      <strong>${holder}</strong>
-    </div>
+      <div class="flex justify-between">
+        <span>Bank</span>
+        <strong>${bank}</strong>
+      </div>
 
-    <div class="flex justify-between">
-      <span>Account Number</span>
-      <strong>****${number.slice(-4)}</strong>
+      <div class="flex justify-between">
+        <span>Account Holder</span>
+        <strong>${holder}</strong>
+      </div>
+
+      <div class="flex justify-between">
+        <span>Account Number</span>
+        <strong>****${number.slice(-4)}</strong>
+      </div>
+
+      <div class="flex justify-between">
+        <span>Routing</span>
+        <strong>${routing}</strong>
+      </div>
+
+      <div class="flex justify-between">
+        <span>SWIFT</span>
+        <strong>${swift}</strong>
+      </div>
+
     </div>
   `;
 
@@ -571,71 +576,68 @@ document.addEventListener("click", function(e){
 });
 
 
-confirmTransferBtn.onclick = async () => {
+// ===== CONFIRM TRANSFER =====
+document.addEventListener("click", async function(e){
 
-  confirmTransferBtn.textContent = "Processing...";
-  confirmTransferBtn.disabled = true;
+  if (!e.target.closest("#confirmTransfer")) return;
 
-  const newBalance = selectedAccount.balance - transferData.amount;
+  e.preventDefault();
 
-  await supabase
-    .from("accounts")
-    .update({ balance: newBalance })
-    .eq("id", selectedAccount.id);
+  const btn = document.getElementById("confirmTransfer");
+  btn.innerText = "Processing...";
+  btn.disabled = true;
 
-  document.getElementById("reviewDetails").innerHTML = `
-    <div class="text-green-600 font-semibold mb-2">
-      Transfer Completed Successfully
-    </div>
+  const { data: user } = await supabase.auth.getUser();
 
-    <div class="text-sm text-gray-500">
-      Funds will arrive within 24-72 hours
-    </div>
-  `;
-
-  document.getElementById("reviewButtons").innerHTML = `
-    <button class="btn-primary" data-close>
-      Close
-    </button>
-  `;
-
-  loadAccounts(currentUser.id);
-};
-
-  // Get account
   const { data: account } = await supabase
     .from("accounts")
     .select("*")
     .eq("user_id", user.user.id)
-    .ilike("account_type", from)
+    .ilike("account_type", transferData.from)
     .single();
 
   if (!account) return;
 
-  const newBalance = account.balance - amount;
+  const newBalance =
+    parseFloat(account.balance) -
+    parseFloat(transferData.amount);
 
-  // Update balance
   await supabase
     .from("accounts")
     .update({ balance: newBalance })
     .eq("id", account.id);
 
+  setTimeout(()=>{
 
-  document.getElementById("reviewDetails").innerHTML = `
-    <div class="text-green-600 font-semibold">
-      Transfer Completed Successfully
-    </div>
-    <div class="text-sm">
-      Funds will arrive within 24-72 hours
-    </div>
-  `;
+    document.getElementById("reviewDetails").innerHTML = `
+      <div class="text-center">
 
-  setTimeout(() => {
-    closeModal("reviewModal");
+        <div class="text-green-600 font-semibold text-lg">
+          Transfer Completed Successfully
+        </div>
+
+        <div class="text-gray-500 mt-2">
+          Funds will arrive within 24-72 hours
+        </div>
+
+        <button 
+          onclick="closeAllModals()"
+          class="btn-primary mt-4"
+        >
+          Close
+        </button>
+
+      </div>
+    `;
+
+    btn.style.display = "none";
+
     loadAccounts(user.user.id);
-  }, 2000);
+
+  },1500);
 
 });
+
 // Load on startup
 document.addEventListener("DOMContentLoaded", loadRecentTransactions);
 
