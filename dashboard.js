@@ -519,18 +519,7 @@ document.getElementById("submitTransfer").onclick = () => {
     Processing may take 24‑72 hours.
   `;
 };
-// Transfer Button Click
-document.addEventListener("click", (e) => {
-  if (!e.target.classList.contains("transferBtn")) return;
 
-  const account = e.target.dataset.account;
-  const balance = e.target.dataset.balance;
-
-  document.getElementById("transferFrom").value =
-    account.toUpperCase();
-
-  openModal("transferModal");
-});
 // Load on startup
 document.addEventListener("DOMContentLoaded", loadRecentTransactions);
 
