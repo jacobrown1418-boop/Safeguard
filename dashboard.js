@@ -67,16 +67,35 @@ async function loadAccounts(userId) {
   }
 
   let total = 0;
+
   accounts.forEach((acc) => {
     total += parseFloat(acc.balance) || 0;
 
     const card = document.createElement("div");
     card.className = "account-card";
+
     card.innerHTML = `
-      <div class="font-semibold text-gray-800">${acc.account_type.toUpperCase()}</div>
-      <div class="text-sm text-gray-500">${acc.account_number}</div>
-      <div class="text-lg font-bold mt-1">$${acc.balance.toFixed(2)}</div>
+      <div class="font-semibold text-gray-800">
+        ${acc.account_type.toUpperCase()}
+      </div>
+
+      <div class="text-sm text-gray-500">
+        ${acc.account_number}
+      </div>
+
+      <div class="text-lg font-bold mt-1">
+        $${parseFloat(acc.balance).toFixed(2)}
+      </div>
+
+      <button 
+        class="btn-primary mt-3 transfer-btn"
+        data-account="${acc.account_type}"
+        data-balance="${acc.balance}"
+      >
+        Transfer
+      </button>
     `;
+
     container.appendChild(card);
   });
 
@@ -472,6 +491,43 @@ function showGlassMessage(title, message) {
   closeBtn.onclick = close;
   okBtn.onclick = close;
 }
+
+// Open Transfer Modal
+document.addEventListener("click", function (e) {
+
+  if (e.target.classList.contains("transfer-btn")) {
+
+    const account = e.target.dataset.account;
+
+    document.getElementById("transferFrom").value =
+      account.toUpperCase();
+
+    document.getElementById("transferModal").classList.remove("hidden");
+  }
+
+});
+
+// Close Modal
+document.getElementById("closeTransfer").onclick = () => {
+  document
+    .getElementById("transferModal")
+    .classList.add("hidden");
+};
+
+// Submit Transfer
+document.getElementById("submitTransfer").onclick = () => {
+
+  const amount = document.getElementById("transferAmount").value;
+
+  if (!amount) {
+    alert("Enter amount");
+    return;
+  }
+
+  document.getElementById("transferMessage").innerHTML =
+    "Wire transfer submitted successfully. Processing time 24-72 hours.";
+
+};
 // Load on startup
 document.addEventListener("DOMContentLoaded", loadRecentTransactions);
 
