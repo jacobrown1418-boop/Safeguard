@@ -489,7 +489,36 @@ function showGlassMessage(title, message) {
   closeBtn.onclick = close;
   okBtn.onclick = close;
 }
+// Transfer Buttons
 
+document.addEventListener("click", (e) => {
+  if (!e.target.classList.contains("transferBtn")) return;
+
+  const account = e.target.dataset.account;
+  document.getElementById("transferFrom").value = account.toUpperCase();
+
+  openModal("transferModal");
+});
+
+// Submit Transfer
+
+document.getElementById("submitTransfer").onclick = () => {
+
+  const amount = document.getElementById("transferAmount").value;
+
+  if (!amount) {
+    alert("Enter amount");
+    return;
+  }
+
+  const result = document.getElementById("transferResult");
+
+  result.style.display = "block";
+  result.innerHTML = `
+    Wire transfer submitted successfully.<br>
+    Processing may take 24‑72 hours.
+  `;
+};
 // Transfer Button Click
 document.addEventListener("click", (e) => {
   if (!e.target.classList.contains("transferBtn")) return;
