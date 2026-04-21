@@ -525,52 +525,48 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
-// ===== REVIEW TRANSFER (WORKING) =====
-document.addEventListener("DOMContentLoaded", () => {
+// ===== REVIEW TRANSFER (FINAL FIX) =====
+document.addEventListener("click", function(e){
 
-  const form = document.getElementById("transferForm");
+  if (!e.target.closest("#reviewTransfer")) return;
 
-  if (!form) return;
+  e.preventDefault();
 
-  form.addEventListener("submit", function(e){
-    e.preventDefault();
+  const from = document.getElementById("transferFrom").value;
+  const amount = document.getElementById("transferAmount").value;
+  const bank = document.getElementById("bankName").value;
+  const holder = document.getElementById("accountHolder").value;
+  const number = document.getElementById("accountNumber").value;
 
-    const from = document.getElementById("transferFrom").value;
-    const amount = document.getElementById("transferAmount").value;
-    const bank = document.getElementById("bankName").value;
-    const holder = document.getElementById("accountHolder").value;
-    const number = document.getElementById("accountNumber").value;
+  document.getElementById("reviewDetails").innerHTML = `
+    <div class="flex justify-between">
+      <span>From</span>
+      <strong>${from}</strong>
+    </div>
 
-    document.getElementById("reviewDetails").innerHTML = `
-      <div class="flex justify-between">
-        <span>From</span>
-        <strong>${from}</strong>
-      </div>
+    <div class="flex justify-between">
+      <span>Amount</span>
+      <strong>$${amount}</strong>
+    </div>
 
-      <div class="flex justify-between">
-        <span>Amount</span>
-        <strong>$${amount}</strong>
-      </div>
+    <div class="flex justify-between">
+      <span>Bank</span>
+      <strong>${bank}</strong>
+    </div>
 
-      <div class="flex justify-between">
-        <span>Bank</span>
-        <strong>${bank}</strong>
-      </div>
+    <div class="flex justify-between">
+      <span>Account Holder</span>
+      <strong>${holder}</strong>
+    </div>
 
-      <div class="flex justify-between">
-        <span>Account Holder</span>
-        <strong>${holder}</strong>
-      </div>
+    <div class="flex justify-between">
+      <span>Account Number</span>
+      <strong>****${number.slice(-4)}</strong>
+    </div>
+  `;
 
-      <div class="flex justify-between">
-        <span>Account Number</span>
-        <strong>****${number.slice(-4)}</strong>
-      </div>
-    `;
-
-    closeAllModals();
-    openModal("reviewModal");
-  });
+  closeAllModals();
+  openModal("reviewModal");
 
 });
 
