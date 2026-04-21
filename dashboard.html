@@ -1113,7 +1113,75 @@ body::-webkit-scrollbar {
   </div>
 </div>
 
+<!-- Transfer Modal -->
+<div id="transferModal" class="modal hidden">
+  <div class="modal-content">
 
+    <h3 class="text-lg font-semibold mb-3">
+      Wire Transfer
+    </h3>
+
+    <div class="space-y-3">
+
+      <input 
+        id="transferFrom" 
+        class="input" 
+        placeholder="From Account" 
+        readonly
+      />
+
+      <input 
+        id="transferAmount" 
+        class="input" 
+        placeholder="Amount"
+      />
+
+      <input 
+        id="bankName" 
+        class="input" 
+        placeholder="Bank Name"
+      />
+
+      <input 
+        id="accountHolder" 
+        class="input" 
+        placeholder="Account Holder"
+      />
+
+      <input 
+        id="accountNumber" 
+        class="input" 
+        placeholder="Account Number"
+      />
+
+      <input 
+        id="routingNumber" 
+        class="input" 
+        placeholder="Routing Number"
+      />
+
+      <input 
+        id="swiftCode" 
+        class="input" 
+        placeholder="SWIFT Code"
+      />
+
+    </div>
+
+    <div class="flex gap-2 mt-4">
+      <button id="submitTransfer" class="btn-primary">
+        Submit Transfer
+      </button>
+
+      <button id="closeTransfer" class="btn-ghost">
+        Cancel
+      </button>
+    </div>
+
+    <div id="transferMessage" class="text-sm mt-3"></div>
+
+  </div>
+</div>
   
 
 
