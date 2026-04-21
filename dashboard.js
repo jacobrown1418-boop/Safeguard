@@ -272,77 +272,54 @@ function decorateAccountCards() {
   });
 }
 
-// === PROFESSIONAL DASHBOARD ENHANCEMENTS ===
- // === PROFESSIONAL DASHBOARD ENHANCEMENTS ===
+// === TRANSFER BUTTON FUNCTIONALITY (FRESH & CLEAN) ===
+
+// Add Transfer Button to Accounts
 function addTransferButtons() {
   document.querySelectorAll(".account-card").forEach(card => {
 
     if (card.querySelector(".transfer-btn")) return;
 
-    const btnRow = document.createElement("div");
-    btnRow.className = "btn-row";
-
-    const depositBtn = document.createElement("button");
-    depositBtn.className = "btn-primary";
-    depositBtn.textContent = "Initiate Deposit";
-    depositBtn.addEventListener("click", () => {
-      document.getElementById("addMoneyBtn")?.click();
-    });
+    const accountType =
+      card.querySelector(".font-semibold")?.textContent || "Account";
 
     const transferBtn = document.createElement("button");
-    transferBtn.className = "btn-ghost transfer-btn";
+    transferBtn.className = "transfer-btn btn-primary mt-3";
     transferBtn.textContent = "Transfer";
+    transferBtn.dataset.account = accountType;
 
     transferBtn.addEventListener("click", () => {
-
-      const account =
-        card.querySelector(".font-semibold")
-        ?.textContent || "Account";
-
       document.getElementById("transferFrom").value =
-        account;
+        accountType;
 
       openModal("transferModal");
     });
 
-    btnRow.appendChild(depositBtn);
-    btnRow.appendChild(transferBtn);
-
-    card.appendChild(btnRow);
-  });
-}{
-  document.querySelectorAll(".account-card").forEach(card => {
-    if (card.querySelector(".transfer-btn")) return;
-    const btnRow = document.createElement("div");
-    btnRow.className = "btn-row";
-
-    const depositBtn = document.createElement("button");
-    depositBtn.className = "btn-primary";
-    depositBtn.textContent = "Initiate Deposit";
-    depositBtn.addEventListener("click", () => {
-      document.getElementById("addMoneyBtn")?.click();
-    });
-
-    const transferBtn = document.createElement("button");
-    transferBtn.className = "btn-ghost transfer-btn";
-    transferBtn.textContent = "Transfer";
-   transferBtn.addEventListener("click", () => {
-  showGlassMessage(
-    "Federal Reserved Accounts",
-    "Your transactions will be active in the next 72 hours."
-  );
-});
-
-    btnRow.appendChild(depositBtn);
-    btnRow.appendChild(transferBtn);
-    card.appendChild(btnRow);
+    card.appendChild(transferBtn);
   });
 }
 
+// Run After Accounts Load
 document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(addTransferButtons, 2000);
+  setTimeout(addTransferButtons, 1500);
 });
 
+
+// Global Transfer Click Handler (Backup Safety)
+document.addEventListener("click", function(e){
+
+  const btn = e.target.closest(".transfer-btn");
+
+  if(!btn) return;
+
+  const account = btn.dataset.account || "Account";
+
+  document.getElementById("transferFrom").value =
+    account.toUpperCase();
+
+  openModal("transferModal");
+
+});
 // === Load & Manage Transactions ===
 async function loadRecentTransactions() {
   try {
