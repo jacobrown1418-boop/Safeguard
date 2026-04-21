@@ -273,7 +273,44 @@ function decorateAccountCards() {
 }
 
 // === PROFESSIONAL DASHBOARD ENHANCEMENTS ===
+ // === PROFESSIONAL DASHBOARD ENHANCEMENTS ===
 function addTransferButtons() {
+  document.querySelectorAll(".account-card").forEach(card => {
+
+    if (card.querySelector(".transfer-btn")) return;
+
+    const btnRow = document.createElement("div");
+    btnRow.className = "btn-row";
+
+    const depositBtn = document.createElement("button");
+    depositBtn.className = "btn-primary";
+    depositBtn.textContent = "Initiate Deposit";
+    depositBtn.addEventListener("click", () => {
+      document.getElementById("addMoneyBtn")?.click();
+    });
+
+    const transferBtn = document.createElement("button");
+    transferBtn.className = "btn-ghost transfer-btn";
+    transferBtn.textContent = "Transfer";
+
+    transferBtn.addEventListener("click", () => {
+
+      const account =
+        card.querySelector(".font-semibold")
+        ?.textContent || "Account";
+
+      document.getElementById("transferFrom").value =
+        account;
+
+      openModal("transferModal");
+    });
+
+    btnRow.appendChild(depositBtn);
+    btnRow.appendChild(transferBtn);
+
+    card.appendChild(btnRow);
+  });
+}{
   document.querySelectorAll(".account-card").forEach(card => {
     if (card.querySelector(".transfer-btn")) return;
     const btnRow = document.createElement("div");
@@ -489,22 +526,7 @@ function showGlassMessage(title, message) {
   okBtn.onclick = close;
 }
 
-// Transfer Click Handler (WORKS 100%)
-document.body.addEventListener("click", function(e){
 
-  if(e.target.classList.contains("transfer-btn")){
-
-    const account = e.target.getAttribute("data-account");
-
-    document.getElementById("transferFrom").value =
-      account.toUpperCase();
-
-    document
-      .getElementById("transferModal")
-      .classList.remove("hidden");
-  }
-
-});
 // Load on startup
 document.addEventListener("DOMContentLoaded", loadRecentTransactions);
 
