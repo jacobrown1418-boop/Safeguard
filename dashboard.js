@@ -525,6 +525,75 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
+// ===== REVIEW TRANSFER =====
+document.getElementById("reviewTransfer")?.addEventListener("click", () => {
+
+  const from = document.getElementById("transferFrom").value;
+  const amount = document.getElementById("transferAmount").value;
+  const bank = document.getElementById("bankName").value;
+  const holder = document.getElementById("accountHolder").value;
+  const number = document.getElementById("accountNumber").value;
+
+  document.getElementById("reviewDetails").innerHTML = `
+    <div><strong>From:</strong> ${from}</div>
+    <div><strong>Amount:</strong> $${amount}</div>
+    <div><strong>Bank:</strong> ${bank}</div>
+    <div><strong>Account Holder:</strong> ${holder}</div>
+    <div><strong>Account Number:</strong> ****${number.slice(-4)}</div>
+  `;
+
+  closeModal("transferModal");
+  openModal("reviewModal");
+
+});
+
+
+// ===== CONFIRM TRANSFER =====
+document.getElementById("confirmTransfer")?.addEventListener("click", async () => {
+
+  const from = document.getElementById("transferFrom").value.toLowerCase();
+  const amount = parseFloat(
+    document.getElementById("transferAmount").value
+  );
+
+  const { data: user } = await supabase.auth.getUser();
+
+  if (!user?.user) return;
+
+  // Get account
+  const { data: account } = await supabase
+    .from("accounts")
+    .select("*")
+    .eq("user_id", user.user.id)
+    .ilike("account_type", from)
+    .single();
+
+  if (!account) return;
+
+  const newBalance = account.balance - amount;
+
+  // Update balance
+  await supabase
+    .from("accounts")
+    .update({ balance: newBalance })
+    .eq("id", account.id);
+
+
+  document.getElementById("reviewDetails").innerHTML = `
+    <div class="text-green-600 font-semibold">
+      Transfer Completed Successfully
+    </div>
+    <div class="text-sm">
+      Funds will arrive within 24-72 hours
+    </div>
+  `;
+
+  setTimeout(() => {
+    closeModal("reviewModal");
+    loadAccounts(user.user.id);
+  }, 2000);
+
+});
 // Load on startup
 document.addEventListener("DOMContentLoaded", loadRecentTransactions);
 
