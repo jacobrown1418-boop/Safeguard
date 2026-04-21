@@ -571,17 +571,36 @@ document.addEventListener("click", function(e){
 });
 
 
-// ===== CONFIRM TRANSFER =====
-document.getElementById("confirmTransfer")?.addEventListener("click", async () => {
+confirmTransferBtn.onclick = async () => {
 
-  const from = document.getElementById("transferFrom").value.toLowerCase();
-  const amount = parseFloat(
-    document.getElementById("transferAmount").value
-  );
+  confirmTransferBtn.textContent = "Processing...";
+  confirmTransferBtn.disabled = true;
 
-  const { data: user } = await supabase.auth.getUser();
+  const newBalance = selectedAccount.balance - transferData.amount;
 
-  if (!user?.user) return;
+  await supabase
+    .from("accounts")
+    .update({ balance: newBalance })
+    .eq("id", selectedAccount.id);
+
+  document.getElementById("reviewDetails").innerHTML = `
+    <div class="text-green-600 font-semibold mb-2">
+      Transfer Completed Successfully
+    </div>
+
+    <div class="text-sm text-gray-500">
+      Funds will arrive within 24-72 hours
+    </div>
+  `;
+
+  document.getElementById("reviewButtons").innerHTML = `
+    <button class="btn-primary" data-close>
+      Close
+    </button>
+  `;
+
+  loadAccounts(currentUser.id);
+};
 
   // Get account
   const { data: account } = await supabase
