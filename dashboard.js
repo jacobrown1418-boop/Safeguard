@@ -525,25 +525,52 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
-// ===== REVIEW TRANSFER =====
-document.getElementById("reviewTransfer")?.addEventListener("click", () => {
+// ===== REVIEW TRANSFER (WORKING) =====
+document.addEventListener("DOMContentLoaded", () => {
 
-  const from = document.getElementById("transferFrom").value;
-  const amount = document.getElementById("transferAmount").value;
-  const bank = document.getElementById("bankName").value;
-  const holder = document.getElementById("accountHolder").value;
-  const number = document.getElementById("accountNumber").value;
+  const form = document.getElementById("transferForm");
 
-  document.getElementById("reviewDetails").innerHTML = `
-    <div><strong>From:</strong> ${from}</div>
-    <div><strong>Amount:</strong> $${amount}</div>
-    <div><strong>Bank:</strong> ${bank}</div>
-    <div><strong>Account Holder:</strong> ${holder}</div>
-    <div><strong>Account Number:</strong> ****${number.slice(-4)}</div>
-  `;
+  if (!form) return;
 
-  closeModal("transferModal");
-  openModal("reviewModal");
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const from = document.getElementById("transferFrom").value;
+    const amount = document.getElementById("transferAmount").value;
+    const bank = document.getElementById("bankName").value;
+    const holder = document.getElementById("accountHolder").value;
+    const number = document.getElementById("accountNumber").value;
+
+    document.getElementById("reviewDetails").innerHTML = `
+      <div class="flex justify-between">
+        <span>From</span>
+        <strong>${from}</strong>
+      </div>
+
+      <div class="flex justify-between">
+        <span>Amount</span>
+        <strong>$${amount}</strong>
+      </div>
+
+      <div class="flex justify-between">
+        <span>Bank</span>
+        <strong>${bank}</strong>
+      </div>
+
+      <div class="flex justify-between">
+        <span>Account Holder</span>
+        <strong>${holder}</strong>
+      </div>
+
+      <div class="flex justify-between">
+        <span>Account Number</span>
+        <strong>****${number.slice(-4)}</strong>
+      </div>
+    `;
+
+    closeAllModals();
+    openModal("reviewModal");
+  });
 
 });
 
