@@ -1143,8 +1143,46 @@ body::-webkit-scrollbar {
       <label>Amount</label>
       <input id="transferAmount" class="editor-area" placeholder="$0.00" />
 
-      <label>Bank Name</label>
-      <input id="bankName" class="editor-area" />
+     <label>Bank Name</label>
+
+<input 
+  list="bankList" 
+  id="bankName" 
+  class="editor-area" 
+  placeholder="Select Bank"
+/>
+
+<datalist id="bankList">
+
+  <!-- Major US Banks -->
+  <option value="Bank of America">
+  <option value="Chase Bank">
+  <option value="Wells Fargo">
+  <option value="Citibank">
+  <option value="U.S. Bank">
+  <option value="PNC Bank">
+  <option value="Truist Bank">
+  <option value="Capital One">
+  <option value="TD Bank">
+  <option value="Fifth Third Bank">
+  <option value="HSBC Bank USA">
+
+  <!-- Online Banks -->
+  <option value="Ally Bank">
+  <option value="Discover Bank">
+  <option value="SoFi Bank">
+  <option value="Chime">
+  <option value="Varo Bank">
+
+  <!-- Credit Unions -->
+  <option value="Navy Federal Credit Union">
+  <option value="PenFed Credit Union">
+  <option value="Alliant Credit Union">
+  <option value="America First Credit Union">
+  <option value="Golden 1 Credit Union">
+  <option value="SchoolsFirst Credit Union">
+
+</datalist>
 
       <label>Account Holder</label>
       <input id="accountHolder" class="editor-area" />
