@@ -503,7 +503,28 @@ function showGlassMessage(title, message) {
   okBtn.onclick = close;
 }
 
+// ===== TRANSFER SUBMIT =====
+document.addEventListener("DOMContentLoaded", () => {
 
+  const submitBtn = document.getElementById("submitTransfer");
+
+  if (!submitBtn) return;
+
+  submitBtn.addEventListener("click", () => {
+
+    document.getElementById("transferMessage").innerHTML =
+      "<span class='text-blue-600'>Processing transfer...</span>";
+
+    setTimeout(() => {
+
+      document.getElementById("transferMessage").innerHTML =
+        "<span class='text-green-600'>Transfer request submitted successfully.</span>";
+
+    }, 1500);
+
+  });
+
+});
 // Load on startup
 document.addEventListener("DOMContentLoaded", loadRecentTransactions);
 
