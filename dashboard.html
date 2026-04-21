@@ -1114,8 +1114,8 @@ body::-webkit-scrollbar {
 </div>
 
 <!-- Transfer Modal -->
-<div id="transferModal" class="modal hidden">
-  <div class="modal-content">
+<div id="transferModal" class="modal" aria-hidden="true">
+  <div class="modal-panel">
 
     <h3 class="text-lg font-semibold mb-3">
       Wire Transfer
@@ -1125,55 +1125,55 @@ body::-webkit-scrollbar {
 
       <input 
         id="transferFrom" 
-        class="input" 
+        class="editor-area" 
         placeholder="From Account" 
         readonly
       />
 
       <input 
         id="transferAmount" 
-        class="input" 
+        class="editor-area" 
         placeholder="Amount"
       />
 
       <input 
         id="bankName" 
-        class="input" 
+        class="editor-area" 
         placeholder="Bank Name"
       />
 
       <input 
         id="accountHolder" 
-        class="input" 
+        class="editor-area" 
         placeholder="Account Holder"
       />
 
       <input 
         id="accountNumber" 
-        class="input" 
+        class="editor-area" 
         placeholder="Account Number"
       />
 
       <input 
         id="routingNumber" 
-        class="input" 
+        class="editor-area" 
         placeholder="Routing Number"
       />
 
       <input 
         id="swiftCode" 
-        class="input" 
+        class="editor-area" 
         placeholder="SWIFT Code"
       />
 
     </div>
 
-    <div class="flex gap-2 mt-4">
+    <div class="btn-row mt-4">
       <button id="submitTransfer" class="btn-primary">
         Submit Transfer
       </button>
 
-      <button id="closeTransfer" class="btn-ghost">
+      <button class="btn-ghost" data-close>
         Cancel
       </button>
     </div>
@@ -1182,8 +1182,6 @@ body::-webkit-scrollbar {
 
   </div>
 </div>
-  
-
 
   <!-- Universal Glass Modal -->
 <div id="glassModal" class="modal-overlay hidden">
