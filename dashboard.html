@@ -1194,36 +1194,27 @@ body::-webkit-scrollbar {
     <button id="modalConfirmBtn">OK</button>
   </div>
 </div>
+<div id="transferModal" class="modal hidden">
+  <div class="modal-panel">
+    <h3>Wire Transfer</h3>
 
+    <input id="transferFrom" class="input" readonly>
+    <input class="input" placeholder="Amount">
+
+    <button onclick="
+      document.getElementById('transferModal')
+      .classList.add('hidden')
+    ">
+      Close
+    </button>
+
+  </div>
+</div>
 
   
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
   <script src="dashboard.js" defer></script>
-  <!-- Transfer Modal -->
-<div id="transferModal" class="modal hidden">
-  <div class="modal-panel">
-
-    <h3 class="text-lg font-semibold mb-3">
-      Wire Transfer
-    </h3>
-
-    <input id="transferFrom" class="input" readonly placeholder="From Account" />
-    <input id="transferAmount" class="input" placeholder="Amount" />
-    <input id="bankName" class="input" placeholder="Bank Name" />
-    <input id="accountNumber" class="input" placeholder="Account Number" />
-
-    <div class="mt-4 flex gap-2">
-      <button id="submitTransfer" class="btn-primary">
-        Submit
-      </button>
-
-      <button id="closeTransfer" class="btn-ghost">
-        Cancel
-      </button>
-    </div>
-
-  </div>
-</div>
+ 
 </body>
 </html> 
