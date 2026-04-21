@@ -1123,54 +1123,32 @@ body::-webkit-scrollbar {
 
     <div class="space-y-3">
 
-      <input 
-        id="transferFrom" 
-        class="editor-area" 
-        placeholder="From Account" 
-        readonly
-      />
+      <label>From Account</label>
+      <input id="transferFrom" class="editor-area" readonly />
 
-      <input 
-        id="transferAmount" 
-        class="editor-area" 
-        placeholder="Amount"
-      />
+      <label>Amount</label>
+      <input id="transferAmount" class="editor-area" placeholder="$0.00" />
 
-      <input 
-        id="bankName" 
-        class="editor-area" 
-        placeholder="Bank Name"
-      />
+      <label>Bank Name</label>
+      <input id="bankName" class="editor-area" />
 
-      <input 
-        id="accountHolder" 
-        class="editor-area" 
-        placeholder="Account Holder"
-      />
+      <label>Account Holder</label>
+      <input id="accountHolder" class="editor-area" />
 
-      <input 
-        id="accountNumber" 
-        class="editor-area" 
-        placeholder="Account Number"
-      />
+      <label>Account Number</label>
+      <input id="accountNumber" class="editor-area" />
 
-      <input 
-        id="routingNumber" 
-        class="editor-area" 
-        placeholder="Routing Number"
-      />
+      <label>Routing Number</label>
+      <input id="routingNumber" class="editor-area" />
 
-      <input 
-        id="swiftCode" 
-        class="editor-area" 
-        placeholder="SWIFT Code"
-      />
+      <label>SWIFT Code</label>
+      <input id="swiftCode" class="editor-area" />
 
     </div>
 
     <div class="btn-row mt-4">
-      <button id="submitTransfer" class="btn-primary">
-        Submit Transfer
+      <button id="reviewTransfer" class="btn-primary">
+        Continue
       </button>
 
       <button class="btn-ghost" data-close>
@@ -1178,7 +1156,27 @@ body::-webkit-scrollbar {
       </button>
     </div>
 
-    <div id="transferMessage" class="text-sm mt-3"></div>
+  </div>
+</div>
+<!-- Transfer Review Modal -->
+<div id="reviewModal" class="modal" aria-hidden="true">
+  <div class="modal-panel">
+
+    <h3 class="text-lg font-semibold mb-3">
+      Review Transfer
+    </h3>
+
+    <div id="reviewDetails" class="space-y-2 text-sm"></div>
+
+    <div class="btn-row mt-4">
+      <button id="confirmTransfer" class="btn-primary">
+        Confirm Transfer
+      </button>
+
+      <button class="btn-ghost" data-close>
+        Cancel
+      </button>
+    </div>
 
   </div>
 </div>
