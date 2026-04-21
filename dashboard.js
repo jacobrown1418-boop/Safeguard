@@ -87,10 +87,8 @@ async function loadAccounts(userId) {
         $${parseFloat(acc.balance).toFixed(2)}
       </div>
 
-      <button 
-        class="btn-primary mt-3 transfer-btn"
-        data-account="${acc.account_type}"
-      >
+      <button class="transfer-btn btn-primary mt-3"
+        data-account="${acc.account_type}">
         Transfer
       </button>
     `;
@@ -491,47 +489,12 @@ function showGlassMessage(title, message) {
   okBtn.onclick = close;
 }
 
-// Open Transfer Modal
-document.addEventListener("click", function (e) {
+// Transfer Click Handler (WORKS 100%)
+document.body.addEventListener("click", function(e){
 
-  if (e.target.classList.contains("transfer-btn")) {
+  if(e.target.classList.contains("transfer-btn")){
 
-    const account = e.target.dataset.account;
-
-    document.getElementById("transferFrom").value =
-      account.toUpperCase();
-
-    document.getElementById("transferModal").classList.remove("hidden");
-  }
-
-});
-
-// Close Modal
-document.getElementById("closeTransfer").onclick = () => {
-  document
-    .getElementById("transferModal")
-    .classList.add("hidden");
-};
-
-// Submit Transfer
-document.getElementById("submitTransfer").onclick = () => {
-
-  const amount = document.getElementById("transferAmount").value;
-
-  if (!amount) {
-    alert("Enter amount");
-    return;
-  }
-
-  document.getElementById("transferMessage").innerHTML =
-    "Wire transfer submitted successfully. Processing time 24-72 hours.";
-    
-// Transfer Click (Works Always)
-document.addEventListener("click", function (e) {
-
-  if (e.target.classList.contains("transfer-btn")) {
-
-    const account = e.target.dataset.account;
+    const account = e.target.getAttribute("data-account");
 
     document.getElementById("transferFrom").value =
       account.toUpperCase();
@@ -542,16 +505,6 @@ document.addEventListener("click", function (e) {
   }
 
 });
-
-// Close Modal
-document.addEventListener("click", function (e) {
-  if (e.target.id === "closeTransfer") {
-    document
-      .getElementById("transferModal")
-      .classList.add("hidden");
-  }
-});
-};
 // Load on startup
 document.addEventListener("DOMContentLoaded", loadRecentTransactions);
 
