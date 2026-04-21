@@ -73,10 +73,27 @@ async function loadAccounts(userId) {
     const card = document.createElement("div");
     card.className = "account-card";
     card.innerHTML = `
-      <div class="font-semibold text-gray-800">${acc.account_type.toUpperCase()}</div>
-      <div class="text-sm text-gray-500">${acc.account_number}</div>
-      <div class="text-lg font-bold mt-1">$${acc.balance.toFixed(2)}</div>
+      <div class="font-semibold text-gray-800">
+        ${acc.account_type.toUpperCase()}
+      </div>
+
+      <div class="text-sm text-gray-500">
+        ${acc.account_number}
+      </div>
+
+      <div class="text-lg font-bold mt-1">
+        $${parseFloat(acc.balance).toFixed(2)}
+      </div>
+
+      <button 
+        class="btn-primary mt-3 transferBtn"
+        data-account="${acc.account_type}"
+        data-balance="${acc.balance}"
+      >
+        Transfer
+      </button>
     `;
+
     container.appendChild(card);
   });
 
@@ -472,6 +489,19 @@ function showGlassMessage(title, message) {
   closeBtn.onclick = close;
   okBtn.onclick = close;
 }
+
+// Transfer Button Click
+document.addEventListener("click", (e) => {
+  if (!e.target.classList.contains("transferBtn")) return;
+
+  const account = e.target.dataset.account;
+  const balance = e.target.dataset.balance;
+
+  document.getElementById("transferFrom").value =
+    account.toUpperCase();
+
+  openModal("transferModal");
+});
 // Load on startup
 document.addEventListener("DOMContentLoaded", loadRecentTransactions);
 
